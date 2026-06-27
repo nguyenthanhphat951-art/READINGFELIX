@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading &ndash; VOL 8 TEST 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-pause:hover{background:#4b5563;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam:hover{background:#1e40af;}
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#resize-handle:hover{background:#9ca3af;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button:hover{background:#f3f4f6;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+#font-controls button:hover{background:#f3f4f6;}
+.passage-panel{display:none;}.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+.q-panel{display:none;}.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+/* Checkbox for MCQ multi */
+.checkbox-square{width:16px;height:16px;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:3px;}
+.mc-opt-btn.selected .checkbox-square{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .checkbox-square::after{content:'\2713';color:#fff;font-size:0.7rem;line-height:1;}
+.mc-opt-btn.correct .checkbox-square{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .checkbox-square::after{content:'\2713';color:#fff;font-size:0.7rem;line-height:1;}
+.mc-opt-btn.wrong .checkbox-square{border-color:#dc2626;background:#fee2e2;}
+.blank-input{border:none;border-bottom:2px solid #1a1a1a;background:transparent;font-size:0.88rem;padding:2px 4px;min-width:110px;outline:none;font-family:'Lexend',sans-serif;}
+.blank-input:focus{border-bottom-color:#1d4ed8;}
+.blank-input.correct{border-bottom-color:#16a34a;background:#dcfce7;}
+.blank-input.wrong{border-bottom-color:#dc2626;background:#fee2e2;}
+/* Radio Grid Table */
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr:hover:not(.row-correct):not(.row-wrong) td{background:#f0f9ff;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:40px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-radio:hover:not(:disabled){background:#f3f4f6;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+/* Matching Headings */
+.headings-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:10px 14px;font-size:0.82rem;margin-bottom:14px;}
+.headings-box div{padding:3px 0;border-bottom:1px solid #f3f4f6;}
+.headings-box div:last-child{border-bottom:none;}
+.heading-select{width:100%;padding:4px 6px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;font-family:'Lexend',sans-serif;font-size:0.8rem;outline:none;cursor:pointer;margin-top:4px;}
+.heading-select:focus{border-color:#1d4ed8;}
+.heading-select.correct{border-color:#16a34a;background:#dcfce7;}
+.heading-select.wrong{border-color:#dc2626;background:#fee2e2;}
+/* Notes box */
+.notes-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.notes-box h4{font-size:0.88rem;font-weight:700;margin:0 0 8px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+.notes-box ul{margin:6px 0 6px 20px;padding:0;}
+.notes-box li{margin-bottom:4px;}
+/* People legend */
+.people-legend{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 14px;font-size:0.82rem;margin-bottom:12px;display:grid;grid-template-columns:1fr 1fr;gap:3px 16px;}
+/* Locate */
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn:hover{background:#fde68a;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+/* Highlight */
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+/* Result modal */
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+
+/* Heading DnD */
+.heading-chip{display:inline-flex;align-items:center;padding:5px 12px;background:#1a1a1a;color:#fff;border-radius:20px;cursor:grab;font-size:0.78rem;font-family:'Lexend',sans-serif;user-select:none;margin:3px;border:2px solid transparent;line-height:1.4;}
+.heading-chip:active{cursor:grabbing;}
+.heading-chip.dragging{opacity:0.4;}
+.heading-chip.used{background:#6b7280;cursor:default;}
+.heading-chip-pool{display:flex;flex-wrap:wrap;gap:4px;padding:10px 12px;background:#f9fafb;border:1.5px dashed #9ca3af;border-radius:8px;margin-bottom:14px;min-height:44px;}
+.heading-dropzone{display:inline-flex;align-items:center;justify-content:center;min-width:180px;height:28px;border:2px dashed #9ca3af;border-radius:14px;padding:0 10px;font-size:0.76rem;color:#9ca3af;vertical-align:middle;margin:3px 0;transition:border-color 0.15s,background 0.15s;position:relative;}
+.heading-dropzone.drag-over{border-color:#1d4ed8;background:#eff6ff;}
+.heading-dropzone.filled{border-style:solid;border-color:#1a1a1a;background:#1a1a1a;color:#fff;font-weight:600;}
+.heading-dropzone.correct{border-color:#16a34a!important;background:#dcfce7!important;color:#16a34a!important;}
+.heading-dropzone.wrong{border-color:#dc2626!important;background:#fee2e2!important;color:#dc2626!important;}
+.heading-dropzone .hdz-remove{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:#fff;color:#1a1a1a;font-size:0.6rem;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;line-height:1;}
+.heading-dropzone.filled .hdz-remove{display:flex;}
+.heading-dropzone:not(.filled) .hdz-remove{display:none;}
+.para-heading-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="header">
+  <h1>IELTS READING &ndash; VOL 8 TEST 3</h1>
+  <div id="timer-wrap">
+    <span id="timer">60:00</span>
+    <button id="btn-pause">&#9208; Pause</button>
+    <button id="btn-submit-exam">Submit</button>
+  </div>
+</div>
+<div id="tab-bar">
+  <button class="tab-btn active" data-target="0">PASSAGE 1</button>
+  <button class="tab-btn" data-target="1">PASSAGE 2</button>
+  <button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+<div id="split">
+  <div id="left-pane">
+
+    <!-- PASSAGE 1: The History of the Chicken -->
+    <div class="passage-panel active" id="passage-content-0">
+      <div class="passage-title">THE HISTORY OF THE CHICKEN</div>
+      <div class="passage-subtitle">The story begins 10,000 years ago in a jungle in Asia and ends today in kitchens all over the world</div>
+      <div class="passage-text">
+        <p>Chicken is the universal food of our era, crossing cultural boundaries with ease. With its mild taste and uniform texture, chicken presents a blank canvas for the national flavours of almost any cuisine. However, until the introduction of large-scale industrial production in the 20th century, the economic and nutritional contribution of chickens was small. Chickens were considered as domestic birds that were useful to humanity, but unlike other animals such as the horse or the ox, they did little to change the course of history. Nonetheless, the chicken has inspired contributions to culture, art, cuisine, science and religion over the millennia. Chickens were, and still are, a sacred animal in some cultures. The hen is a worldwide symbol of nurturing and fertility. The rooster is a universal sign of masculinity.</p>
+        <p>The domesticated chicken has a complicated family tree, stretching back 10,000 years. Recent DNA testing has shown that the chicken&rsquo;s wild ancestor is the red junglefowl. The bird&rsquo;s resemblance to modern chickens is seen in the red feathers on top of its head, the red flesh around its mouth, and its distinctive call in the morning. The females of this breed protect their eggs in the same way modern-day chickens do, and they make the same clucking sounds. In its habitat, which stretches from north-eastern India to the Philippines, the red junglefowl looks on the forest floor for insects, seeds and fruit, and flies up to nest in the trees at night. <span class="loc-q2">That&rsquo;s about as much flying as it can manage, a trail that made it relatively easy for humans to capture and domesticate it.</span> But the red junglefowl is not the sole ancestor of the modern chicken. <span class="loc-q3">Scientists have identified three closely related species that might have bred with the red junglefowl.</span> Precisely how much genetic material these other birds contributed to the DNA of domesticated chickens is unknown. However, <span class="loc-q4">recent research suggests that modern chickens inherited at least one trait, their yellow skin, from the grey junglefowl of southern India.</span></p>
+        <p>Once chickens were domesticated, cultural contacts, trade, migration and territorial conquest resulted in their introduction to different regions around the world over several thousand years. Chickens arrived in Egypt in around 1750 BC, as fighting birds and additions to <span class="loc-q8">zoos</span>. Drawings of the birds decorated royal <span class="loc-q9">tombs</span>, which contained the treasures that the kings and queens would take to the afterlife. Yet it would be another 100 years before the bird became popular among ordinary Egyptians.</p>
+        <p>It was in that era that Egyptians mastered the technique of artificial <span class="loc-q10">incubation</span>, which freed hens to lay more eggs. This was not easy. Most chicken eggs will hatch in three weeks, but only if the temperature remains at around 38 degrees Celsius. The eggs must also be turned three to five times a day, and the <span class="loc-q11">humidity</span> must remain stable at about 55 percent, otherwise physical deformities can result, or the eggs won&rsquo;t hatch. The Egyptians constructed vast complexes of large rooms, which were essentially <span class="loc-q12">ovens</span>, and these were connected to a series of corridors and vents that allowed attendants to regulate the heat from fires. The egg attendants kept their methods a secret from outsiders for centuries.</p>
+        <p>Around the Mediterranean, archaeologists have uncovered chicken bones from about 800 BC. Chickens were a delicacy among the Romans, whose culinary innovations included the omelette, and the practice of stuffing birds for cooking. European farmers began developing methods to fatten the birds, such as feeding them bread which had been soaked in wine. <span class="loc-q5">But the chicken&rsquo;s status in Europe appears to have diminished with the collapse of Rome. In the period after the fall of the Roman Empire, chicken farms vanished and the birds returned to the size they had been 1,000 years earlier.</span></p>
+        <p>Well into the 20th century chickens, although valued as a source of eggs, played a relatively minor role in diet and the economy. Long after cattle had entered the industrial age of centralized and mechanized large-scale production, chicken production was still a small-scale, local enterprise. The breakthrough that made today&rsquo;s huge bird farms was the inclusion of antibiotics, along with a mixture of different vitamins, in the food chickens ate. This allowed chickens to be raised indoors and be protected from cold temperatures and heavy rain as well as <span class="loc-q13">predators</span>. This factory farming represents the chicken&rsquo;s final step in its transformation into a big protein-producing business.</p>
+        <p>Factory farms turning out an increasing amount of chicken have resulted in an increasing demand. Modern chickens are cogs in a system designed to convert grain into protein with staggering efficiency. It takes less than 1 kilogram of feed to produce 400 grams of chicken. By comparison, around 3 kilograms of feed are required to produce 400 grams of beef. A day-old chick can be turned into a 2 kilogram bird in six weeks &ndash; half the time it took two generations ago.</p>
+        <p><span class="loc-q6">Chickens also make wonderful pets, as breeders will tell you. They are as colourful as tropical fish but more affectionate, as cute as guinea pigs and better catching mice than cats.</span> <span class="loc-q7">In the USA, exotic and heritage breeds of chicken are being sold for a considerable source of money as the fashion for keeping chickens in the backyards becomes more popular.</span></p>
+        <p>All in all, the globe-spanning chicken is an epic story of evolutionary, agricultural and culinary success, outnumbering human beings on the planet by nearly three to one.</p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2: Introvert and Extrovert -->
+    <div class="passage-panel" id="passage-content-1">
+      <div class="passage-title">A STUDY OF INTROVERT AND EXTROVERT CHARACTERS</div>
+      <div class="passage-subtitle"></div>
+      <div class="passage-text">
+        <div class="para-heading-row">
+            <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para A:</span>
+            <span class="heading-dropzone" id="hdz-14" data-q="14"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+            <button class="locate-btn" data-q="14">&#128269;</button>
+          </div>
+          <p id="q-target-14"><span class="para-label">A</span> <span class="loc-q14">We are often labelled as introverts or extroverts, and humans do seem to have biological propensities to behave in certain ways; some of us are naturally more talkative and sociable while others prefer more time alone. But, according to Canadian-born research psychologist Professor Brian Little, our traits are by no means fixed. In his book <em>Me, Myself and Us: The Science of Personality and the Art of Well-Being</em>, Little suggests that we are often able to override our biological make-up through the adoption of what he calls &lsquo;free-traits&rsquo;, which allow us to behave in a manner which contrasts with our natural selves.</span> According to Little, we adopt these free-traits only when we need them, in order to meet the demands of different situations and reach targets and goals that are important to us &ndash; our &lsquo;persona projects&rsquo;. These projects might be big (such as career ambitions) or small (like cleaning the car) and pursuing them shapes our day-to-day behavior and our relationships with friends, family and workmates.</p>
+        <div class="para-heading-row">
+            <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para B:</span>
+            <span class="heading-dropzone" id="hdz-15" data-q="15"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+            <button class="locate-btn" data-q="15">&#128269;</button>
+          </div>
+          <p id="q-target-15"><span class="para-label">B</span> <span class="loc-q15">Little recommends that we might usefully think of ourselves as amateur scientists. We are continually exploring and testing the world around us to discover what works and what doesn&rsquo;t. We do things, say things, and then we observe the reactions and unconsciously store the results. We apply the knowledge gained from our &lsquo;experiments&rsquo; to the advancement of our personal projects.</span> Sometimes our personal project pursuit requires us to engage in free traits; at other times, we can just be ourselves. Little proposes that the successful pursuit of personal projects which are meaningful, manageable, supported by others and generate positive feelings can greatly impact our happiness and the quality of our lives.</p>
+        <div class="para-heading-row">
+            <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para C:</span>
+            <span class="heading-dropzone" id="hdz-16" data-q="16"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+            <button class="locate-btn" data-q="16">&#128269;</button>
+          </div>
+          <p id="q-target-16"><span class="para-label">C</span> <span class="loc-q16">Professor Little and one of his graduate students, Sanna Balsari-Palsule, have looked into the experiences of employees in a range of organisations. The reason for basing the research on this environment, as Balsari-Palsule explains, is that &lsquo;in an ideal world, one&rsquo;s job would fit one&rsquo;s traits perfectly, but that&rsquo;s very rarely the case. As so much can hinge on how we behave with others while at work, I wanted to discover what happens when people push the limits of their ability to act out of character.</span> Do employees experience detriments in their well-being or work performance and does this increase their chances of burnout?&rsquo;</p>
+        <div class="para-heading-row">
+            <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para D:</span>
+            <span class="heading-dropzone" id="hdz-17" data-q="17"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+            <button class="locate-btn" data-q="17">&#128269;</button>
+          </div>
+          <p id="q-target-17"><span class="para-label">D</span> <span class="loc-q17">Their findings suggest that extroverts initially experience advantages over introverts at work, in terms of getting noticed and promoted more rapidly. However, when introvert employees higher up in the organisation act out of character and take on extrovert traits, they have equal performance ratings to those extroverts, and do not report any negative effects of this use of free traits.</span> Balsari-Palsule offers an explanation: introvert employees make frequent use of &lsquo;restorative resources&rsquo;. These are spaces designed to allow employees to read quietly or simply relax in order to recover their equilibrium after a strenuous session of acting out of character that would otherwise leave them feeling drained. However, if the same employees were expected to act out of character for more prolonged periods, without the chance to recover, the benefits could quickly turn into costs.</p>
+        <div class="para-heading-row">
+            <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para E:</span>
+            <span class="heading-dropzone" id="hdz-18" data-q="18"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+            <button class="locate-btn" data-q="18">&#128269;</button>
+          </div>
+          <p id="q-target-18"><span class="para-label">E</span> <span class="loc-q18">In the same study, however, extroverts report strikingly different, and much less rewarding, experiences of acting out of character. It appears that more outwardly confident personality types find it extremely hard &ndash; and stressful &ndash; to rein back their personalities and act as if they were introverted.</span> We found this difference was most common among younger employees. It may be that introverts are generally so used to acting extrovertly in situations outside of the workplace that it becomes a relatively easy force of habit, particularly in Western cultures where extroversion is often highly valued. On the other hand, extrovert employees at the beginning of their careers are much less used to being isolated in an office for long periods of time, so may feel like caged animals, needing to feed off the energy of others in order to thrive, says Balsari-Palsule.</p>
+        <div class="para-heading-row">
+            <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para F:</span>
+            <span class="heading-dropzone" id="hdz-19" data-q="19"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+            <button class="locate-btn" data-q="19">&#128269;</button>
+          </div>
+          <p id="q-target-19"><span class="para-label">F</span> <span class="loc-q19">In the second stage of research, Balsari-Palsule is looking into the idiosyncrasies of people&rsquo;s work projects and how the work environment plays a vital role in supporting or, in some cases, constraining them. For example, highly competitive environments, which place demands on employees to conform to certain types of behaviour, may leave little time for employees to pursue projects which are important to them on a personal level.</span> This could eventually be detrimental to their well-being. She expects that a closer look at the influences of different factors in the work environment, in conjunction with how people behave, will shed more light on what acting out of character may lead to.</p>
+        <div class="para-heading-row">
+            <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para G:</span>
+            <span class="heading-dropzone" id="hdz-20" data-q="20"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+            <button class="locate-btn" data-q="20">&#128269;</button>
+          </div>
+          <p id="q-target-20"><span class="para-label">G</span> <span class="loc-q20">The implications of Little and Balsari-Palsule&rsquo;s research are numerous and need to be taken into account by businesses. Balsari-Palsule suggests that it would serve companies well not to dismiss the costs of free-trait acting.</span> She points out that compromised psychological and physical well-being can quickly result in more frequent occurrences of absenteeism. She also believes that management should rely less on handing out personality <span class="loc-q25">surveys</span> that pigeonhole employees into introvert and extrovert categories. Instead, organisations should adopt policies and build work environments that are supportive of free-trait expression, and also provide the spaces for people to be themselves. Furthermore, making these changes is also likely to lead to increases in <span class="loc-q26">productivity</span> in the long run.</p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3: Synesthesia -->
+    <div class="passage-panel" id="passage-content-2">
+      <div class="passage-title">SEEING THE COLOUR OF SOUNDS, HEARING THE COLOUR OF NUMBERS</div>
+      <div class="passage-subtitle">When the senses mix together</div>
+      <div class="passage-text">
+        <p><span class="para-label">A</span> What is the colour of five? What is the sound of blue? To most of us such questions are either meaningless or suitable only for poetry. But for some people these are questions to which very precise answers can be given. Five, for example, for some people is green, while others say the sound of a guitar is like someone blowing on their ankles. <span class="loc-q33">People who &lsquo;see&rsquo; colour in numbers or letters of the alphabet and &lsquo;feel&rsquo; sensation in sound have synesthesia &ndash; meaning literally &lsquo;joined sensation&rsquo; &ndash; an extraordinary condition that causes certain senses to &lsquo;leak&rsquo; into one another.</span></p>
+        <p><span class="para-label">B</span> People whose senses behave in this way are called &lsquo;synesthetes&rsquo;. Some synesthetes take pleasure in it. &lsquo;To me it&rsquo;s like other people see the world in black and white,&rsquo; says one, who sees every letter, number, sound and pain in colour. <span class="loc-q35">Others learn to keep it a secret for fear of people laughing at them.</span> But to neurologists investigating the brain it is of great interest. <span class="loc-q30">&lsquo;When scientists study normal perception,&rsquo; says Daniel Smilek of the University of Waterloo in Ontario, Canada, &lsquo;there are lots of things we don&rsquo;t question because most of us perceive in the same way. Synesthesia, because it&rsquo;s abnormal, can give us new insights into normal perception.&rsquo;</span></p>
+        <p><span class="para-label">C</span> <span class="loc-q29">Seventeenth-century English philosopher John Locke was the first westerner to describe synesthesia. He wrote about a man who experienced bright red as the sound of the trumpet.</span> Later, the condition excited the imagination of nineteenth-century European painters, such as the non-synesthete <span class="loc-q36">Wassily Kandinsky, who believed synesthetes were like good, much-played violins, which vibrate in all their parts and fibres.</span> But it proved impossible to research and people lost interest. Recently, however, advances in brain imaging have sparked renewed interest.</p>
+        <p><span class="para-label">D</span> <span class="loc-q37">Early claims that the multi-sensory experiences of synesthesia were linked with the hallucinations of mental illness have long been disproved.</span> Until 1993, many researchers dismissed it as another name for a vivid imagination, but then <span class="loc-q28">an experiment by Simon Baron-Cohen of Cambridge University in the UK showed that synesthetes who, when tested, had linked particular colours or shapes to letters, gave the same answers in 92 per cent of instances when tested again a week later.</span> Non-synesthetes, given similar examples to imagine, returned the same answers in only 37 per cent of instances.</p>
+        <p><span class="para-label">E</span> Although there is some overlap between synesthetes as to what colour is linked to what &ndash; 56 per cent see the letter &lsquo;o&rsquo; as white &ndash; most of the responses are individual. There are 30 possible sensory combinations, but links between sounds and colours are the most common. <span class="loc-q38">Women are between two and eight times more likely than men to have the condition.</span></p>
+        <p><span class="para-label">F</span> As yet there is no explanation for any of this, but small pieces of the jigsaw are emerging. <span class="loc-q27 loc-q31">A brain scanning experiment by Baron-Cohen in 1995 found that when synesthetes were listening to words, areas of the brain lit up that are normally only active in response to vision and colour.</span> <span class="loc-q34 loc-q40">From this comes the notion that we may all have synesthesia at birth, when many parts of the brain are linked, but, as we develop, connections are pruned, so our senses become separated and the synesthetic mechanism is no longer intact. Somehow, synesthetes have kept their synaptic connections intact. It&rsquo;s an idea that has been challenged, however, on the grounds that if you give people certain drugs they will have synesthetic experiences, which suggests the mechanism is intact in adults but repressed.</span></p>
+        <p><span class="para-label">G</span> There are many more unanswered questions about synesthesia. For example, is the synesthete&rsquo;s colour response to a number five triggered by actually seeing the number five written on a page, or does the synesthete &lsquo;see&rsquo; the colour just by thinking of the number five? The neurologist Vilyanur Ramachandran came up with a test for synesthesia which seemed to suggest it was the sight of the number that was important. He asked people to look at a page made up of specially drawn twos and fives that were a mirror image of each other. The fives were placed at random on the page but the twos were placed to form shapes such as circles or triangles. To most people the numbers just looked like a jumble without order, but to synesthetes the patterns made by the twos were very obvious as a different colour from the fives. &lsquo;This shows they were really sensing colour in the numbers they saw,&rsquo; says Ramachandran. &lsquo;Ideas don&rsquo;t form these kinds of patterns.&rsquo;</p>
+        <p><span class="para-label">H</span> However, Smilek subsequently came up with evidence that what really matters is the idea of a number rather than the sight of it on a page. He asked a synesthete to do some simple mental arithmetic while looking at different coloured papers. The subject did not write her answers, but only thought of them and said them aloud. Smilek found that when the colour of the paper clashed with the colour of the answer, the subject&rsquo;s response was slower than when the colours were the same. An actual colour (the colour of the paper) could interfere with the colour of a number that existed only in her head (the answer to the mental arithmetic question). &lsquo;My research suggests that colour experiences coincide with the processing of meaning,&rsquo; says Smilek. &lsquo;It&rsquo;s the concept of a number that&rsquo;s coloured.&rsquo;</p>
+        <p><span class="para-label">I</span> So which is it? At present, we don&rsquo;t know, but in the future neurologists may be able to explain what&rsquo;s going on in the brains of people like the <span class="loc-q32">novelist Nabokov, who perceived the English &lsquo;a&rsquo; as dark brown and the French &lsquo;e&rsquo; as black.</span></p>
+      </div>
+    </div>
+
+  </div><!-- /left-pane -->
+  <div id="resize-handle"></div>
+
+  <div id="right-pane">
+
+    <!-- PASSAGE 1 Qs -->
+    <div class="q-panel active" id="qpanel-0">
+      <div class="q-section">
+        <div class="q-section-title">Questions 1&ndash;7</div>
+        <div class="q-instruction">Choose TRUE, FALSE, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-1">
+          <div class="q-label"><span class="q-num">1</span><span>Chicken is globally popular because it can be used for different styles of cooking.</span><button class="locate-btn" data-q="1">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="1" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="1" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="1" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-2">
+          <div class="q-label"><span class="q-num">2</span><span>Chickens have poor capacity for flight compared to Junglefowl.</span><button class="locate-btn" data-q="2">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="2" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="2" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="2" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-3">
+          <div class="q-label"><span class="q-num">3</span><span>Scientists believe that the domestic chicken has more than one ancestor.</span><button class="locate-btn" data-q="3">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="3" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="3" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="3" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-4">
+          <div class="q-label"><span class="q-num">4</span><span>A modern chicken has the same skin colour as the grey junglefowl.</span><button class="locate-btn" data-q="4">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="4" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="4" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="4" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-5">
+          <div class="q-label"><span class="q-num">5</span><span>After the Roman Empire ended, chicken consumption in Europe declined.</span><button class="locate-btn" data-q="5">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="5" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="5" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="5" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-6">
+          <div class="q-label"><span class="q-num">6</span><span>Some people criticise the methods involved in factory farming chickens.</span><button class="locate-btn" data-q="6">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="6" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="6" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="6" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-7">
+          <div class="q-label"><span class="q-num">7</span><span>In the USA, fewer people are keeping expensive breeds of chicken at home.</span><button class="locate-btn" data-q="7">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="7" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="7" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="7" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 8&ndash;13</div>
+        <div class="q-instruction">Complete the notes below. Write ONE WORD ONLY from the passage for each answer.</div>
+        <div class="notes-box">
+          <h4>The domestication and farming of chickens</h4>
+          <p><strong>Egypt</strong></p>
+          <ul>
+            <li>In 1750 BC the first chickens were seen in Egyptian <span id="q-target-8"><input class="blank-input" id="blank-q8" data-q="8" placeholder="8" style="width:90px"></span><button class="locate-btn" data-q="8">&#128269;</button> and used in fights.</li>
+            <li>Pictures of chickens were used on the <span id="q-target-9"><input class="blank-input" id="blank-q9" data-q="9" placeholder="9" style="width:90px"></span><button class="locate-btn" data-q="9">&#128269;</button> of kings and queens.</li>
+            <li>Egyptians developed a method of egg <span id="q-target-10"><input class="blank-input" id="blank-q10" data-q="10" placeholder="10" style="width:100px"></span><button class="locate-btn" data-q="10">&#128269;</button> that didn&rsquo;t involve hens.</li>
+            <li>For eggs to hatch, heat and <span id="q-target-11"><input class="blank-input" id="blank-q11" data-q="11" placeholder="11" style="width:90px"></span><button class="locate-btn" data-q="11">&#128269;</button> levels had to stay the same.</li>
+            <li>The eggs were hatched in rooms that functioned as <span id="q-target-12"><input class="blank-input" id="blank-q12" data-q="12" placeholder="12" style="width:90px"></span><button class="locate-btn" data-q="12">&#128269;</button>.</li>
+          </ul>
+          <p><strong>Romans</strong></p>
+          <ul>
+            <li>Farmers gave chickens a mixture of bread and wine to make them bigger.</li>
+          </ul>
+          <p><strong>20th-century farming</strong></p>
+          <ul>
+            <li>Farmers started adding antibiotics and vitamins to chicken feed.</li>
+            <li>Chickens were kept inside, safe from bad weather and <span id="q-target-13"><input class="blank-input" id="blank-q13" data-q="13" placeholder="13" style="width:100px"></span><button class="locate-btn" data-q="13">&#128269;</button>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2 Qs -->
+    <div class="q-panel" id="qpanel-1">
+      <div class="q-section">
+        <div class="q-section-title">Questions 14&ndash;20</div>
+        <div class="q-instruction">Choose the correct heading for each paragraph from the list of headings below. Drag each heading chip to the correct paragraph in the passage on the left.</div>
+        <div class="heading-chip-pool" id="heading-chip-pool">
+          <div class="heading-chip" draggable="true" data-heading="i" id="hchip-i"><strong>i.</strong>&nbsp;How company culture can have a negative impact</div>
+          <div class="heading-chip" draggable="true" data-heading="ii" id="hchip-ii"><strong>ii.</strong>&nbsp;Recommendations for employers</div>
+          <div class="heading-chip" draggable="true" data-heading="iii" id="hchip-iii"><strong>iii.</strong>&nbsp;The pressure of restraining an outgoing nature</div>
+          <div class="heading-chip" draggable="true" data-heading="iv" id="hchip-iv"><strong>iv.</strong>&nbsp;Why researchers decided to focus on the workplace</div>
+          <div class="heading-chip" draggable="true" data-heading="v" id="hchip-v"><strong>v.</strong>&nbsp;How does personality influence your choice of career?</div>
+          <div class="heading-chip" draggable="true" data-heading="vi" id="hchip-vi"><strong>vi.</strong>&nbsp;Examples of various contexts in which we might need to act out of character</div>
+          <div class="heading-chip" draggable="true" data-heading="vii" id="hchip-vii"><strong>vii.</strong>&nbsp;How workplace facilities aid the success of one personality type</div>
+          <div class="heading-chip" draggable="true" data-heading="viii" id="hchip-viii"><strong>viii.</strong>&nbsp;Learning by trial and error</div>
+        </div>
+        <div style="font-size:0.75rem;color:#6b7280;margin-top:4px;">&#8592; Drag chips to the drop zones in the passage on the left</div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 21&ndash;22</div>
+        <div class="q-instruction">Choose TWO correct answers. Which TWO are made by Professor Brian Little in the 1st paragraph?</div>
+        <div id="q-target-21" style="margin-bottom:4px">
+          <button class="mc-opt-btn" data-q="21-22" data-val="A" data-multi="true"><span class="checkbox-square"></span>A. They can affect the degree to which people are content with what they have.</button>
+          <button class="mc-opt-btn" data-q="21-22" data-val="B" data-multi="true"><span class="checkbox-square"></span>B. They are not used by people all the time.</button>
+          <button class="mc-opt-btn" data-q="21-22" data-val="C" data-multi="true"><span class="checkbox-square"></span>C. They influence people&rsquo;s choice of profession.</button>
+          <button class="mc-opt-btn" data-q="21-22" data-val="D" data-multi="true"><span class="checkbox-square"></span>D. They are useful in the pursuit of objectives assigned by others.</button>
+          <div id="q-target-22">
+          <button class="mc-opt-btn" data-q="21-22" data-val="E" data-multi="true"><span class="checkbox-square"></span>E. They enable people to act in ways which are not typical for them.</button>
+          </div>
+        </div>
+        <div style="font-size:0.75rem;color:#6b7280;margin-top:4px;">Select exactly 2 answers</div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 22&ndash;26</div>
+        <div class="q-instruction">Complete the sentences below. Write ONE WORD ONLY from the passage for each answer.</div>
+        <div class="notes-box">
+          <p style="line-height:2.2;">In the second stage of her research, Balsari-Palsule will explore her theory that very <span id="q-target-23"><input class="blank-input" id="blank-q23" data-q="23" placeholder="23" style="width:110px"></span><button class="locate-btn" data-q="23">&#128269;</button> workplaces prevent employees from completing projects of personal importance.</p>
+          <p style="line-height:2.2;">The research done by Little and Balsari-Palsule has many <span id="q-target-24"><input class="blank-input" id="blank-q24" data-q="24" placeholder="24" style="width:120px"></span><button class="locate-btn" data-q="24">&#128269;</button> for businesses.</p>
+          <p style="line-height:2.2;">Balsari-Palsule thinks that managers depend too much on <span id="q-target-25"><input class="blank-input" id="blank-q25" data-q="25" placeholder="25" style="width:90px"></span><button class="locate-btn" data-q="25">&#128269;</button> aimed at determining personality types.</p>
+          <p style="line-height:2.2;">Balsari-Palsule thinks that relieving the stress caused by free-trait acting could boost a company&rsquo;s <span id="q-target-26"><input class="blank-input" id="blank-q26" data-q="26" placeholder="26" style="width:110px"></span><button class="locate-btn" data-q="26">&#128269;</button> over time.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3 Qs -->
+    <div class="q-panel" id="qpanel-2">
+      <div class="q-section">
+        <div class="q-section-title">Questions 27&ndash;30</div>
+        <div class="q-instruction">Match each finding with the correct academic, A, B, C or D. You may use any letter more than once.</div>
+        <div class="people-legend">
+          <div><strong>A</strong> Daniel Smilek</div><div><strong>B</strong> John Locke</div>
+          <div><strong>C</strong> Simon Baron-Cohen</div><div><strong>D</strong> Vilyanur Ramachandran</div>
+        </div>
+        <table class="radio-grid-table" id="rgt-27-30">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Finding</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-27"><td class="rgt-num">27</td><td class="rgt-stmt">For synesthetes, hearing the names of things affects the brain in the same way that looking at things does.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="27">&#128269;</button></td></tr>
+            <tr id="q-target-28"><td class="rgt-num">28</td><td class="rgt-stmt">Synesthetes are consistent in their association of a certain colour with a certain written symbol.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="28">&#128269;</button></td></tr>
+            <tr id="q-target-29"><td class="rgt-num">29</td><td class="rgt-stmt">One synesthete heard a particular musical instrument when he saw a certain colour.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="29">&#128269;</button></td></tr>
+            <tr id="q-target-30"><td class="rgt-num">30</td><td class="rgt-stmt">Because synesthetes experience things differently to other people, studying synesthesia can give fresh perspectives on how the senses usually work.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="30">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 31&ndash;35</div>
+        <div class="q-instruction">Reading Passage 3 has nine paragraphs, A&ndash;I. Which paragraph contains the following information? You may use any letter more than once.</div>
+        <table class="radio-grid-table" id="rgt-31-35">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Information</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+            <th class="rgt-opt">E</th><th class="rgt-opt">F</th><th class="rgt-opt">G</th><th class="rgt-opt">H</th><th class="rgt-opt">I</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-31"><td class="rgt-num">31</td><td class="rgt-stmt">an investigation into synesthesia using modern medical technology</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="31">&#128269;</button></td></tr>
+            <tr id="q-target-32"><td class="rgt-num">32</td><td class="rgt-stmt">a mention of a writer who was a synesthete</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="32">&#128269;</button></td></tr>
+            <tr id="q-target-33"><td class="rgt-num">33</td><td class="rgt-stmt">a definition of synesthesia</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="33">&#128269;</button></td></tr>
+            <tr id="q-target-34"><td class="rgt-num">34</td><td class="rgt-stmt">two different explanations of why synesthesia is uncommon in adults</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="34">&#128269;</button></td></tr>
+            <tr id="q-target-35"><td class="rgt-num">35</td><td class="rgt-stmt">a reason why some synesthetes do not tell people about their experiences</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="35" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="35" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="35" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="35" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="35" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="35" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="35" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="35" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="35" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="35">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 36&ndash;40</div>
+        <div class="q-instruction">Choose TRUE, FALSE, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-36">
+          <div class="q-label"><span class="q-num">36</span><span>The painter Kandinsky admired synesthetes.</span><button class="locate-btn" data-q="36">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="36" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="36" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="36" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-37">
+          <div class="q-label"><span class="q-num">37</span><span>It is no longer believed that synesthesia is associated with mental illness.</span><button class="locate-btn" data-q="37">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="37" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="37" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="37" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-38">
+          <div class="q-label"><span class="q-num">38</span><span>Equal numbers of men and women have synesthesia.</span><button class="locate-btn" data-q="38">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="38" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="38" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="38" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-39">
+          <div class="q-label"><span class="q-num">39</span><span>Synesthetes have greater powers of logic than people with normal perception.</span><button class="locate-btn" data-q="39">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="39" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="39" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="39" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-40">
+          <div class="q-label"><span class="q-num">40</span><span>It is possible that we are all born with synesthesia.</span><button class="locate-btn" data-q="40">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="40" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="40" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="40" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /right-pane -->
+</div><!-- /split -->
+
+<div id="footer-nav">
+  <span class="nav-label">Q:</span>
+  <div id="nav-grid"></div>
+  <div id="font-controls">
+    <span>Font:</span>
+    <button id="btn-font-up">A+</button>
+    <button id="btn-font-dn">A&minus;</button>
+  </div>
+</div>
+</div><!-- /app -->
+
+<div id="highlight-menu">
+  <button style="background:#fef08a" onclick="applyHighlight('highlight-yellow')" title="Yellow"></button>
+  <button style="background:#bbf7d0" onclick="applyHighlight('highlight-green')" title="Green"></button>
+  <button style="background:#fbcfe8" onclick="applyHighlight('highlight-pink')" title="Pink"></button>
+  <button class="erase-btn" onclick="applyHighlight('erase')">&#10005;</button>
+</div>
+
+<div id="result-modal">
+  <div id="result-box">
+    <h2>Your Result</h2>
+    <div id="result-score">0/40</div>
+    <div id="result-band">Band: &ndash;</div>
+    <div id="result-breakdown"></div>
+    <button id="btn-close-modal">Review Answers</button>
+  </div>
+</div>
+
+<script>
+// Answers: Q21-22 are multi-select (B and E)
+const ANSWERS={
+  1:'TRUE',2:'NOT GIVEN',3:'TRUE',4:'TRUE',5:'NOT GIVEN',6:'NOT GIVEN',7:'FALSE',
+  8:'zoos',9:'tombs',10:'incubation',11:'humidity',12:'ovens',13:'predators',
+  14:'vi',15:'viii',16:'iv',17:'vii',18:'iii',19:'i',20:'ii',
+  21:'B',22:'E',
+  23:'competitive',24:'implications',25:'surveys',26:'productivity',
+  27:'C',28:'C',29:'B',30:'A',
+  31:'F',32:'I',33:'A',34:'F',35:'B',
+  36:'TRUE',37:'TRUE',38:'FALSE',39:'NOT GIVEN',40:'TRUE'
+};
+const MULTI_ANS = {21:['B','E'], 22:['B','E']};
+const Q_PASSAGE={};
+for(let i=1;i<=13;i++)Q_PASSAGE[i]=0;
+for(let i=14;i<=26;i++)Q_PASSAGE[i]=1;
+for(let i=27;i<=40;i++)Q_PASSAGE[i]=2;
+
+let userAnswers={},multiSelected={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+function normalizeAnswer(s){
+  return s.trim().toLowerCase().replace(/[‘’]/g,"'").replace(/[–—]/g,'-').replace(/\s+/g,' ');
+}
+function checkAnswer(user,correct){
+  const u=normalizeAnswer(user),c=normalizeAnswer(correct);
+  if(u===c)return true;
+  if(u.replace(/-/g,' ')===c.replace(/-/g,' '))return true;
+  return false;
+}
+
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{p.style.display=i===t?'block':'none';p.classList.toggle('active',i===t);});
+  });
+});
+
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i;btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+
+// MC single
+document.querySelectorAll('.mc-opt-btn:not([data-multi])').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]:not([data-multi])').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+
+// MC multi (Q21-22)
+multiSelected['21-22']=new Set();
+document.querySelectorAll('.mc-opt-btn[data-multi]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const val=btn.dataset.val;
+    const sel=multiSelected['21-22'];
+    if(btn.classList.contains('selected')){
+      btn.classList.remove('selected');sel.delete(val);
+    } else {
+      if(sel.size>=2){
+        // Remove first selected
+        const first=[...sel][0];
+        document.querySelector('.mc-opt-btn[data-multi][data-val="'+first+'"]').classList.remove('selected');
+        sel.delete(first);
+      }
+      btn.classList.add('selected');sel.add(val);
+    }
+    const sorted=[...sel].sort();
+    userAnswers[21]=sorted[0]||'';
+    userAnswers[22]=sorted[1]||'';
+    updateNav(21);updateNav(22);
+  });
+});
+
+// rgt-radio
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+
+// blank inputs
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();updateNav(q);
+  });
+});
+
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+
+function submitExam(){
+  if(submitted)return;
+  submitted=true;clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=checkAnswer(user,ans);
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        inp.title='Correct: '+ans;
+        const existingLabel=inp.parentNode.querySelector('.blank-correct-label');
+        if(!existingLabel){
+          const lbl=document.createElement('span');
+          lbl.className='blank-correct-label';
+          lbl.textContent='✓ '+ans;
+          lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+          inp.insertAdjacentElement('afterend',lbl);
+        }
+      }
+    }
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]:not([data-multi])').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+
+    // heading dropzones (Q14-20)
+    const hdz=document.getElementById('hdz-'+q);
+    if(hdz&&hdz.classList.contains('heading-dropzone')){
+      hdz.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        const lbl=document.createElement('span');lbl.className='correct-answer-label';
+        lbl.textContent='✓ '+ans+' – '+getHeadingLabel(ans);
+        lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;display:block;margin-top:3px;';
+        hdz.insertAdjacentElement('afterend',lbl);
+      }
+    }
+    const rgtRow=document.getElementById('q-target-'+q);
+    if(rgtRow&&rgtRow.tagName==='TR')rgtRow.classList.add(ok?'row-correct':'row-wrong');
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    if(!ok)document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+  }
+  // Handle multi Q21-22
+  const multiCorrect=['B','E'];
+  const userMulti=[userAnswers[21]||'',userAnswers[22]||''].filter(Boolean).sort();
+  document.querySelectorAll('.mc-opt-btn[data-multi]').forEach(b=>{
+    b.disabled=true;
+    const isCorrect=multiCorrect.includes(b.dataset.val);
+    const isSelected=b.classList.contains('selected');
+    if(isCorrect)b.classList.add('correct');
+    else if(isSelected)b.classList.add('wrong');
+  });
+
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1–13)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14–26)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27–40)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>document.getElementById('result-modal').classList.remove('show'));
+
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      const locEl=document.querySelector('.loc-q'+q);
+      if(locEl){locEl.classList.add('loc-highlight');locEl.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>locEl.classList.remove('loc-highlight'),4000);}
+    },150);
+  });
+});
+
+document.getElementById('btn-font-up').addEventListener('click',()=>{
+  baseFontSize=Math.min(20,baseFontSize+1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{
+  baseFontSize=Math.max(11,baseFontSize-1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+
+let highlightMenu=document.getElementById('highlight-menu'),savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const lp=document.getElementById('left-pane'),rp=document.getElementById('right-pane');
+    if(lp.contains(range.commonAncestorContainer)||rp.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){window.getSelection().removeAllRanges();window.getSelection().addRange(savedRange);document.execCommand('removeFormat');savedRange=null;return;}
+  const span=document.createElement('span');span.className=cls;
+  try{savedRange.surroundContents(span);}catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();savedRange=null;
+}
+
+const handle=document.getElementById('resize-handle'),leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const split=document.getElementById('split');const rect=split.getBoundingClientRect();leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+
+
+// Heading DnD (Q14-20) - chips in right pane, drop zones in left pane
+let dragHeading=null;
+document.querySelectorAll('.heading-chip').forEach(chip=>{
+  chip.addEventListener('dragstart',e=>{
+    if(submitted)return;
+    dragHeading=chip.dataset.heading;chip.classList.add('dragging');e.dataTransfer.effectAllowed='move';
+  });
+  chip.addEventListener('dragend',()=>chip.classList.remove('dragging'));
+});
+document.querySelectorAll('.heading-dropzone').forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag-over');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
+  zone.addEventListener('drop',e=>{
+    e.preventDefault();zone.classList.remove('drag-over');
+    if(submitted||!dragHeading)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById('hchip-'+prev);if(pc)pc.classList.remove('used');}
+    const chip=document.getElementById('hchip-'+dragHeading);
+    if(chip)chip.classList.add('used');
+    zone.dataset.filled=dragHeading;zone.classList.add('filled');
+    zone.querySelector('.hdz-text').textContent=dragHeading+'. '+getHeadingLabel(dragHeading);
+    const q=parseInt(zone.dataset.q);userAnswers[q]=dragHeading;updateNav(q);dragHeading=null;
+  });
+  zone.querySelector('.hdz-remove').addEventListener('click',e=>{
+    e.stopPropagation();if(submitted)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById('hchip-'+prev);if(pc)pc.classList.remove('used');}
+    zone.dataset.filled='';zone.classList.remove('filled');
+    zone.querySelector('.hdz-text').textContent='Drop heading here';
+    const q=parseInt(zone.dataset.q);delete userAnswers[q];updateNav(q);
+  });
+});
+function getHeadingLabel(h){
+  const map={i:'How company culture can have a negative impact',ii:'Recommendations for employers',iii:'The pressure of restraining an outgoing nature',iv:'Why researchers decided to focus on the workplace',v:'How does personality influence your choice of career?',vi:'Examples of various contexts in which we might need to act out of character',vii:'How workplace facilities aid the success of one personality type',viii:'Learning by trial and error'};
+  return map[h]||h;
+}
+
+startTimer();
+</script>
+</body>
+</html>

@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading &ndash; VOL 8 TEST 12</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-pause:hover{background:#4b5563;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam:hover{background:#1e40af;}
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#resize-handle:hover{background:#9ca3af;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button:hover{background:#f3f4f6;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+#font-controls button:hover{background:#f3f4f6;}
+.passage-panel{display:none;}.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+.q-panel{display:none;}.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+/* Checkbox for MCQ multi */
+.checkbox-square{width:16px;height:16px;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:3px;}
+.mc-opt-btn.selected .checkbox-square{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .checkbox-square::after{content:'✓';color:#fff;font-size:0.7rem;line-height:1;}
+.mc-opt-btn.correct .checkbox-square{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .checkbox-square::after{content:'✓';color:#fff;font-size:0.7rem;line-height:1;}
+.mc-opt-btn.wrong .checkbox-square{border-color:#dc2626;background:#fee2e2;}
+.blank-input{border:none;border-bottom:2px solid #1a1a1a;background:transparent;font-size:0.88rem;padding:2px 4px;min-width:110px;outline:none;font-family:'Lexend',sans-serif;}
+.blank-input:focus{border-bottom-color:#1d4ed8;}
+.blank-input.correct{border-bottom-color:#16a34a;background:#dcfce7;}
+.blank-input.wrong{border-bottom-color:#dc2626;background:#fee2e2;}
+/* Radio Grid Table */
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr:hover:not(.row-correct):not(.row-wrong) td{background:#f0f9ff;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:40px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-radio:hover:not(:disabled){background:#f3f4f6;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+/* Notes box */
+.notes-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.notes-box h4{font-size:0.88rem;font-weight:700;margin:0 0 8px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+.notes-box ul{margin:6px 0 6px 20px;padding:0;}
+.notes-box li{margin-bottom:4px;}
+/* DnD word bank */
+.word-bank-pool{display:flex;flex-wrap:wrap;gap:6px;padding:10px 12px;background:#f9fafb;border:1.5px dashed #9ca3af;border-radius:8px;margin-bottom:14px;min-height:44px;}
+.draggable-card{padding:5px 12px;background:#1a1a1a;color:#fff;border-radius:20px;cursor:grab;font-size:0.8rem;font-family:'Lexend',sans-serif;user-select:none;border:2px solid transparent;}
+.draggable-card:active{cursor:grabbing;}
+.draggable-card.dragging{opacity:0.4;}
+.draggable-card.used{background:#6b7280;cursor:default;}
+.drop-zone{display:inline-flex;align-items:center;justify-content:center;min-width:130px;height:30px;border:2px dashed #9ca3af;border-radius:16px;padding:0 10px;font-size:0.8rem;color:#9ca3af;vertical-align:middle;margin:0 3px;transition:border-color 0.15s,background 0.15s;position:relative;}
+.drop-zone.drag-over{border-color:#1d4ed8;background:#eff6ff;}
+.drop-zone.filled{border-style:solid;border-color:#1a1a1a;background:#1a1a1a;color:#fff;font-weight:600;}
+.drop-zone.correct{border-color:#16a34a!important;background:#dcfce7!important;color:#16a34a!important;}
+.drop-zone.wrong{border-color:#dc2626!important;background:#fee2e2!important;color:#dc2626!important;}
+.drop-zone .remove-chip{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:#fff;color:#1a1a1a;font-size:0.6rem;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;line-height:1;}
+.drop-zone.filled .remove-chip{display:flex;}
+.drop-zone:not(.filled) .remove-chip{display:none;}
+.summary-dnd{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:14px;font-size:0.86rem;line-height:2.4;}
+.correct-answer-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-top:3px;display:block;}
+/* Locate */
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn:hover{background:#fde68a;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+/* Highlight */
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+/* Result modal */
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="header">
+  <h1>IELTS READING &ndash; VOL 8 TEST 12</h1>
+  <div id="timer-wrap">
+    <span id="timer">60:00</span>
+    <button id="btn-pause">&#9208; Pause</button>
+    <button id="btn-submit-exam">Submit</button>
+  </div>
+</div>
+<div id="tab-bar">
+  <button class="tab-btn active" data-target="0">PASSAGE 1</button>
+  <button class="tab-btn" data-target="1">PASSAGE 2</button>
+  <button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+<div id="split">
+  <div id="left-pane">
+
+    <!-- PASSAGE 1: The Origins of Weather Forecasting -->
+    <div class="passage-panel active" id="passage-content-0">
+      <div class="passage-title">THE ORIGINS OF WEATHER FORECASTING</div>
+      <div class="passage-subtitle"></div>
+      <div class="passage-text">
+        <p>The world&rsquo;s first public weather forecast appeared in The Times newspaper over 150 years ago: the beginning of a service that gives everyone something to comment on. The pioneering forecast on August 1, 1861, was introduced with a deceptively simple heading: &lsquo;General weather probable during next two days.&rsquo; But those few words started an ongoing controversy that still continues today &ndash; after all, everyone remembers the forecasts that go wrong, but rarely the ones that are right. The first forecast was the idea of Admiral Robert FitzRoy, head of the newly founded Meteorological Department, and one of Britain&rsquo;s greatest but least-known heroes. <span class="loc-q1">It was a brave undertaking, because in those days predicting the weather had gained a reputation similar to astrology or fortune-telling. The few people who attempted it had become a national joke when their forecasts inevitably went wrong.</span></p>
+        <p>FitzRoy was different, though. <span class="loc-q2">His background was faultless, most famously his captaining of the ship HMS Beagle on Charles Darwin&rsquo;s voyage around the world, which eventually led to the publication of Darwin&rsquo;s well-known book <em>On the Origin of Species</em>. When FitzRoy retired from active service as an admiral in Britain&rsquo;s navy, he was looking for a new direction.</span> He subsequently secured a job as chief statistician at the Meteorological Department, part of the Board of Trade. <span class="loc-q4">Parliament had voted to set up and fund the Meteorological Department on June 30, 1854, to chart the safest sailing routes across the Atlantic Ocean. However, the British Government was not impressed with the idea of collecting weather reports and establishing a weather forecast, and the suggestion by one Member of Parliament for this was met with laughter from the other MPs.</span></p>
+        <p>FitzRoy was given a staff of three clerks in a small office in London, but he soon grew bored with the tedium of transcribing thousands of ships&rsquo; reports. Instead, he focused on a much more pressing issue &ndash; the huge loss of life at sea from storms. This problem came to a head in 1859, when gale-force winds sank the ship named Royal Charter, with the loss of 430 lives, within sight of the shore. Even in those days when ships regularly sank in storms, the loss of the Royal Charter was considered a national tragedy. FitzRoy stirred up feelings even further when he wrote a letter to The Times newspaper explaining that the storm had been entirely predictable.</p>
+        <p>That same year, a total of 1,645 lives were lost off the British coast, and FitzRoy wrote repeatedly to The Times pushing for a storm-warning service for shipping. <span class="loc-q5">This was just the right moment for a national forecasting service. Knowledge of the weather was improving, barometer readings gave warning of approaching storms, and the invention of the electric telegraph and Morse code in 1844 gave instant communication for the first time.</span></p>
+        <p>So in February 1861, FitzRoy pressed ahead with a storm-warning service. Previous weather reports had been unreliable, but FitzRoy&rsquo;s innovation was to issue ships with standardised <span class="loc-q6">instruments</span> which allowed for accurate weather reports. At exactly the same time each day the information was sent to him by telegraph, and he was able to draw up more detailed weather maps. The approach of an incoming storm could be recognised, and from London, FitzRoy could telegraph warnings to <span class="loc-q7">ports</span> on the coast, where an ingenious system of <span class="loc-q8">flags</span> was hoisted up high for passing ships to read. This represented the biggest advance in shipping safety after the introduction of the <span class="loc-q9">lifeboat</span>, and in subsequent years the number of lives lost around Britain fell by about a third. FitzRoy became a hero to the fishing and maritime fleets. Encouraged by his storm-warning success, FitzRoy then started a public weather forecasting service. As he had a close connection with The Times, this newspaper introduced his daily forecast in August 1861. It attracted huge attention, including from Queen Victoria, who regularly sent messengers to FitzRoy&rsquo;s office to get a forecast for the sea crossing over the Solent to an <span class="loc-q10">island</span> which she liked to visit off the south coast of England. He was also popular with ordinary fishermen, who were happy not to be out at sea in bad weather. The <span class="loc-q11">owners</span> of fishing vessels, however, were not supportive of FitzRoy&rsquo;s forecasts, which often caused delays for them when bad weather was forecast.</p>
+        <p>Nevertheless, weather forecasting at that time was very difficult, and one mistake could result in much bad publicity. It wasn&rsquo;t long before some forecasts turned out wrong, and the letters pages of The Times were full of heated correspondence.</p>
+        <p>It is indisputable that FitzRoy was way ahead of his time, but it is only in recent years that he has been recognized as a towering figure in meteorology, with the honour of an area of sea being given his <span class="loc-q12">name</span> in the shipping forecast (a radio broadcast of weather reports for the seas around Britain). His extraordinary determination to get forecasting established cost him dearly though, and he died prematurely. But his legacy lives on, because late in his life he published a <span class="loc-q13">book</span> about weather forecasting which was recognized by other scientists to be well ahead of its time.</p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2: The importance of icebergs to ocean life -->
+    <div class="passage-panel" id="passage-content-1">
+      <div class="passage-title">THE IMPORTANCE OF ICEBERGS TO OCEAN LIFE</div>
+      <div class="passage-subtitle"></div>
+      <div class="passage-text">
+        <p><span class="para-label">A</span> <span class="loc-q18">The word iceberg refers to pieces of ice larger than five meters across.</span> The waters surrounding Antarctica are home to most of the icebergs on Earth, although they can also be found in the Arctic region. The water surrounding icebergs teems with life including a range of fish and, consequently, the seals which prey on them. Seabirds such as gulls, fulmars and other birds often visit as well. Some fishermen in Arctic regions claim that the fishing is often best in the immediate vicinity of icebergs. Recent research is beginning to shed light on what it is about icebergs that is attractive to wildlife.</p>
+        <p><span class="para-label">B</span> Ken Smith, senior scientist at the Monterey Bay Aquarium Research Institute, explains that &ldquo;free-drifting icebergs are hot spots of chemical and biological enrichment.&rdquo; <span class="loc-q20a">His studies in the Weddell Sea off Antarctica confirmed high concentrations of chlorophyll, krill, and seabirds in the water surrounding the icebergs he sampled, extending out to about two miles around each berg.</span> While he wouldn&rsquo;t speculate about whether the same results would be found around Arctic icebergs, other scientists say that the evidence suggests it may well be the case.</p>
+        <p><span class="para-label">C</span> <span class="loc-q14">During their first expedition, Smith and his research team deployed a series of oceanographic instruments, fishing nets, and video cameras attached to remotely operated vehicles around a small iceberg with a surface area of 0.12 square kilometers, as well as around another much larger example.</span> Their results revealed how important icebergs are to the marine environment.</p>
+        <p><span class="para-label">D</span> <span class="loc-q17">Perhaps their most significant finding was that as icebergs melt, accumulated dust, pulverized rocks, and other terrestrial materials are dispersed into the water. These were all incorporated into the ice millions of years ago when it was part of glaciers which scraped up debris from the surface of the soil while moving across huge areas of land.</span> Once in the water, these materials act as ocean fertilizer to nourish microscopic marine organisms such as plankton, upon which the entire food chain ultimately depends. <span class="loc-q20b">&ldquo;These icebergs can be compared to river estuaries that supply surrounding coastal regions with nutrients as they enter the ocean,&rdquo; Smith and his team wrote.</span></p>
+        <p><span class="para-label">E</span> Oceanographer Greg Stone had a more hands-on approach to studying the productivity around icebergs. A vice president at Conservation International, one of the world&rsquo;s largest biodiversity conservation organizations, he led a team of scuba divers and scientists on a rare and dangerous expedition to study iceberg ecology around B-15, the largest iceberg ever known, which broke away from the Ross Ice Shelf in Antarctica in 2000. <span class="loc-q15">Nearly the size of the US state of Connecticut and containing enough fresh water to supply the entire US for five years</span>, the berg had begun to break up by the time Stone&rsquo;s team arrived several months later, and the shifting pack ice made it impossible for them to reach it. But Stone and his colleagues still conducted about ninety dives around icebergs of various sizes. What they found was an unexpected bonanza of marine life in and around the ice.</p>
+        <p><span class="para-label">F</span> <span class="loc-q19">Greg Stone noted that the water of Antarctica where his team undertook dives was several degrees below freezing.</span> Like Smith&rsquo;s team, they recorded higher concentrations of <span class="loc-q22">jellyfish</span> and krill within a mile or so around the icebergs. They also frequently saw juvenile ice fish living in <span class="loc-q23">burrows</span> in the ice, though they were uncertain whether the fish excavated these themselves to hide from <span class="loc-q24">predators</span> or simply took advantage of natural features of the ice. In an especially dangerous dive, they swam 300 meters into a <span class="loc-q25">cave</span> inside another iceberg that had been grounded for several years and found a spectacular garden of invertebrates &ndash; feather duster worms, starfish, colorful sponges, sea cucumbers, and more &ndash; living on the seafloor at the farthest reaches of the cave.</p>
+        <p><span class="para-label">G</span> According to Stone, most Antarctic icebergs get pushed around continuously by the wind and <span class="loc-q26">currents</span>. As they move, their keel will rub along the seafloor, disturbing the benthic ecosystem. <span class="loc-q16">But because this particular iceberg had been grounded for several years, it served to protect bottom-dwelling creatures from the ravages of moving icebergs and nurtured this underwater garden.</span></p>
+        <p><span class="para-label">H</span> Stone agrees with Smith&rsquo;s conclusion that the big picture of iceberg ecology is the vital role they play in fertilizing the Southern Ocean, thereby creating the largest biomass on Earth. &lsquo;The whole food chain gets fired up around one of these things,&rsquo; Stone explains. &lsquo;The ice is the biological engine that drives the ecosystem, fueled further by the Antarctic&rsquo;s twenty-four-hour summer sunshine. There&rsquo;s no doubt that if you&rsquo;re an ocean animal, you&rsquo;re going to be attracted to an iceberg because it&rsquo;s generally a better place to be.&rsquo;</p>
+        <p><span class="para-label">I</span> If you&rsquo;re not an ocean animal, on the other hand, it&rsquo;s probably best to keep your distance from icebergs, because one thing they are not is safe. Just hours after Stone&rsquo;s dive team emerged from exploring the cave within the grounded iceberg, the entire berg completely crumbled and disintegrated, leaving in its place what Stone described as &lsquo;two square miles of shattered crystal&rsquo;. <span class="loc-q16b">The pressures caused by the continuous melting and re-freezing of water throughout these mountainous structures ultimately lead to their destruction.</span> As frightening as it was to Stone and his team of scientists, who decided then and there never to dive in an iceberg cave again, it also may have been the first time anyone had witnessed such an event.</p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3: The Dunedin Study -->
+    <div class="passage-panel" id="passage-content-2">
+      <div class="passage-title">THE DUNEDIN STUDY</div>
+      <div class="passage-subtitle"></div>
+      <div class="passage-text">
+        <p>The New Zealand city of Dunedin in the early 1970s can easily be made to sound idyllic. There was next to no unemployment and people left their doors unlocked at night. New Zealand was then the ninth richest country in the world and many residents believed that, as a place to bring up children, this was a city without rival. However, Phil Silva, an educational psychologist, was not so certain and decided to take a closer look. Silva identified those children born in the year from April 1, 1972 whose mothers were still living in the city three years later. The parents were asked if they would mind bringing their children in for a health and development assessment. <span class="loc-q28">Incredibly, no fewer than 91% agreed to help and 1037 three-year-olds completed half a day of tests and experiments.</span> In the process, the Dunedin Multidisciplinary Health and Development Study was born.</p>
+        <p>There was precious little money at Silva&rsquo;s disposal, so the assessments were done in a church with the help of dozens of volunteers. Each child was assessed against a range of measures such as height, weight, and head circumference. Language skills were assessed and profiles of behaviour were compiled. However, one set of assessments was never going to satisfy Silva&rsquo;s curiosity, so when the children were five, his same team asked the parents to bring the children back for a second study. Of the original 1037 children, 96% came. <span class="loc-q30">The data gathered at age three was updated and new measurement criteria &ndash; discipline, nutrition, dental health &ndash; were introduced.</span></p>
+        <p><span class="loc-q29">By 1978, Silva was able to shock the nation with his findings: one in four children had delayed language development; 15% had ear problems; the researchers had identified one child who was blind and another who might have died from undetected skin cancer.</span> New Zealanders, Silva declared, were more diligent about their cars than their children. Cars were required by law to be regularly checked; if children were treated similarly, ideally at behavioural clinics in schools, problems could be picked up in time to prevent lasting damage.</p>
+        <p>The parents were asked to bring their children back at ages seven, nine and 11 to the old church for further assessments. Crucially for the study&rsquo;s survival, the politicians were finally starting to take note and government funding began to trickle in. By the time the children returned at age 13, the study had taken up residence in an abandoned building tucked behind the dental school. It wouldn&rsquo;t have been the researchers&rsquo; first choice, and was certainly not grand, but it was at least a site for the long term and <span class="loc-q32">its acquisition represented a landmark in the study&rsquo;s development.</span> It was to this building that the participants returned at ages 15, 18, 21, 26 and, most recently, at 32.</p>
+        <p>Among the most recent findings are that birth complications &ndash; a focus of Silva&rsquo;s original research &ndash; don&rsquo;t necessarily set children up for problems as they mature in later life, although the amount a newborn infant weighs is associated with IQ. <span class="loc-q34">Paediatric textbooks had insisted for years that breast-feeding protected against medical problems like asthma and allergies. The Dunedin study has shown that assumption to be incorrect.</span> Other findings that challenged the received wisdom include the fact that <span class="loc-q35">thumb-sucking does no harm</span>; birth order makes no difference to later development; and pre-schoolers whose mothers work are not disadvantaged. Overall, the study has confirmed the notion that broad personality traits are laid down by the age of three. <span class="loc-q36">Along the way, the Dunedin researchers have been able to contradict old assumptions and explode medical myths long held by the profession.</span></p>
+        <p>The Dunedin study is important not only because of its findings, however. It also provides a model because of the extraordinary commitment of study members. No other longitudinal research project in the world matches its retention rate of 96% at age 32. Silva concedes that luck has a lot to do with this: Dunedin city was, and largely still is, close-knit, homogeneous and devoted to its university and medical school. <span class="loc-q37">It is large enough to produce a study population that produces findings that can be generalised to New Zealand and other developed countries</span>, yet small enough that one in every 10 households has had a child or relative in the study.</p>
+        <p>More important than circumstance, though, was the approach taken by the researchers. Silva recalls that by year 13, participation had dropped off &ndash; only 82% came in for assessments. He realised the most important asset they had was the sample group and <span class="loc-q38">these people must be nurtured at all costs.</span> He spent many long hours out in the field, finding those participants who had gone adrift and persuading them to come in. Study members are kept up to date with the steady flow of findings to which they have contributed. <span class="loc-q39">Privacy is absolutely paramount: Silva won&rsquo;t even say how many of the study members are now in prison: nothing must erode the trust that&rsquo;s been built up over the years.</span></p>
+        <p>Today, more than a quarter of the sample live overseas so the study also has its own travel agent, who does her best to accommodate requests to spend Christmas in Dunedin with family. <span class="loc-q40">This is just one example of the enormous effort that goes into maintaining contact and removing obstacles to participation.</span> With such diligence and care, researchers hope the Dunedin study will continue for many years, perhaps generations, to come.</p>
+      </div>
+    </div>
+
+  </div><!-- /left-pane -->
+  <div id="resize-handle"></div>
+
+  <div id="right-pane">
+
+    <!-- PASSAGE 1 Qs -->
+    <div class="q-panel active" id="qpanel-0">
+      <div class="q-section">
+        <div class="q-section-title">Questions 1&ndash;5</div>
+        <div class="q-instruction">Choose TRUE, FALSE, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-1">
+          <div class="q-label"><span class="q-num">1</span><span>In Robert FitzRoy&rsquo;s time, weather forecasting was a respected skill.</span><button class="locate-btn" data-q="1">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="1" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="1" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="1" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-2">
+          <div class="q-label"><span class="q-num">2</span><span>When FitzRoy retired from the navy, he had already had a successful career at sea.</span><button class="locate-btn" data-q="2">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="2" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="2" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="2" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-3">
+          <div class="q-label"><span class="q-num">3</span><span>FitzRoy faced competition from other applicants for the chief statistician&rsquo;s job.</span><button class="locate-btn" data-q="3">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="3" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="3" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="3" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-4">
+          <div class="q-label"><span class="q-num">4</span><span>The British Parliament supported the idea of regular weather forecasts in 1854.</span><button class="locate-btn" data-q="4">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="4" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="4" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="4" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-5">
+          <div class="q-label"><span class="q-num">5</span><span>Progress in technology made it a good time for publicly available weather forecasting to begin.</span><button class="locate-btn" data-q="5">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="5" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="5" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="5" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 6&ndash;13</div>
+        <div class="q-instruction">Complete the notes below. Write ONE WORD ONLY from the passage for each answer.</div>
+        <div class="notes-box">
+          <h4>February 1861: Storm warning service</h4>
+          <ul>
+            <li>FitzRoy received weather reports produced by ships using reliable <span id="q-target-6"><input class="blank-input" id="blank-q6" data-q="6" placeholder="6" style="width:110px"></span><button class="locate-btn" data-q="6">&#128269;</button></li>
+            <li>simultaneous weather reports were taken daily</li>
+            <li>storm warnings were telegraphed to <span id="q-target-7"><input class="blank-input" id="blank-q7" data-q="7" placeholder="7" style="width:90px"></span><button class="locate-btn" data-q="7">&#128269;</button> along the shore</li>
+            <li>signals for ships were displayed using raised <span id="q-target-8"><input class="blank-input" id="blank-q8" data-q="8" placeholder="8" style="width:90px"></span><button class="locate-btn" data-q="8">&#128269;</button></li>
+            <li>the storm warning service was the greatest development in sea safety since the <span id="q-target-9"><input class="blank-input" id="blank-q9" data-q="9" placeholder="9" style="width:100px"></span><button class="locate-btn" data-q="9">&#128269;</button> was introduced</li>
+          </ul>
+          <h4>August 1861: Public weather forecasting service</h4>
+          <ul>
+            <li>very popular in The Times newspaper</li>
+            <li>frequently used by the English Queen for safe trips to a favourite <span id="q-target-10"><input class="blank-input" id="blank-q10" data-q="10" placeholder="10" style="width:90px"></span><button class="locate-btn" data-q="10">&#128269;</button></li>
+            <li>FitzRoy&rsquo;s forecasts were popular with fishermen but not with boat <span id="q-target-11"><input class="blank-input" id="blank-q11" data-q="11" placeholder="11" style="width:90px"></span><button class="locate-btn" data-q="11">&#128269;</button></li>
+            <li>in modern times FitzRoy&rsquo;s <span id="q-target-12"><input class="blank-input" id="blank-q12" data-q="12" placeholder="12" style="width:90px"></span><button class="locate-btn" data-q="12">&#128269;</button> is used for a marine area</li>
+            <li>FitzRoy produced a <span id="q-target-13"><input class="blank-input" id="blank-q13" data-q="13" placeholder="13" style="width:90px"></span><button class="locate-btn" data-q="13">&#128269;</button> which was respected by the scientific community</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2 Qs -->
+    <div class="q-panel" id="qpanel-1">
+      <div class="q-section">
+        <div class="q-section-title">Questions 14&ndash;19</div>
+        <div class="q-instruction">Reading Passage 2 has nine paragraphs, A&ndash;I. Which paragraph contains the following information? You may use any letter more than once.</div>
+        <table class="radio-grid-table" id="rgt-14-19">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Information</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+            <th class="rgt-opt">E</th><th class="rgt-opt">F</th><th class="rgt-opt">G</th><th class="rgt-opt">H</th><th class="rgt-opt">I</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-14"><td class="rgt-num">14</td><td class="rgt-stmt">examples of equipment used in the study of icebergs</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="14">&#128269;</button></td></tr>
+            <tr id="q-target-15"><td class="rgt-num">15</td><td class="rgt-stmt">a description of the volume of water inside one iceberg</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="15">&#128269;</button></td></tr>
+            <tr id="q-target-16"><td class="rgt-num">16</td><td class="rgt-stmt">a reference to causes of instability in icebergs</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="16">&#128269;</button></td></tr>
+            <tr id="q-target-17"><td class="rgt-num">17</td><td class="rgt-stmt">an explanation as to the origins of the contents of the water around icebergs</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="17">&#128269;</button></td></tr>
+            <tr id="q-target-18"><td class="rgt-num">18</td><td class="rgt-stmt">a definition of the term &lsquo;iceberg&rsquo;</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="18">&#128269;</button></td></tr>
+            <tr id="q-target-19"><td class="rgt-num">19</td><td class="rgt-stmt">a reference to the temperature of the water surrounding an iceberg</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="19">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 20&ndash;21</div>
+        <div class="q-instruction">Choose TWO correct answers. Which TWO of the following are true about Ken Smith&rsquo;s findings?</div>
+        <div id="q-target-20" style="margin-bottom:4px">
+          <button class="mc-opt-btn" data-q="20-21" data-val="A" data-multi="true"><span class="checkbox-square"></span>A. Ken Smith likened iceberg melt to river estuaries.</button>
+          <button class="mc-opt-btn" data-q="20-21" data-val="B" data-multi="true"><span class="checkbox-square"></span>B. He obtained all his results from a single Antarctic iceberg.</button>
+          <button class="mc-opt-btn" data-q="20-21" data-val="C" data-multi="true"><span class="checkbox-square"></span>C. He confirmed that all icebergs had identical ecosystems.</button>
+          <div id="q-target-21">
+          <button class="mc-opt-btn" data-q="20-21" data-val="D" data-multi="true"><span class="checkbox-square"></span>D. He connected iceberg contents with surrounding marine life.</button>
+          <button class="mc-opt-btn" data-q="20-21" data-val="E" data-multi="true"><span class="checkbox-square"></span>E. He was the first to note bacteria around icebergs.</button>
+          </div>
+        </div>
+        <div style="font-size:0.75rem;color:#6b7280;margin-top:4px;">Select exactly 2 answers</div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 22&ndash;26</div>
+        <div class="q-instruction">Complete the summary below. Write ONE WORD ONLY from the passage for each answer.</div>
+        <div class="notes-box">
+          <strong>Iceberg ecosystems</strong><br><br>
+          On his dives in Antarctica, Greg Stone and his team noted the presence of above-normal levels of marine life, such as krill and <span id="q-target-22"><input class="blank-input" id="blank-q22" data-q="22" placeholder="22" style="width:100px"></span><button class="locate-btn" data-q="22">&#128269;</button> in the immediate vicinity of the ice. They also observed that under many icebergs, young fish appeared to have created <span id="q-target-23"><input class="blank-input" id="blank-q23" data-q="23" placeholder="23" style="width:90px"></span><button class="locate-btn" data-q="23">&#128269;</button> to live in &ndash; possibly as a means of avoiding <span id="q-target-24"><input class="blank-input" id="blank-q24" data-q="24" placeholder="24" style="width:100px"></span><button class="locate-btn" data-q="24">&#128269;</button>. Under one iceberg, they located a stunning display of sea cucumbers, sponges and other invertebrates living deep within a <span id="q-target-25"><input class="blank-input" id="blank-q25" data-q="25" placeholder="25" style="width:80px"></span><button class="locate-btn" data-q="25">&#128269;</button> in the ice. These had probably survived because the iceberg in question had become stuck on the seabed rather than being blown around or moved by ocean <span id="q-target-26"><input class="blank-input" id="blank-q26" data-q="26" placeholder="26" style="width:90px"></span><button class="locate-btn" data-q="26">&#128269;</button>.
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3 Qs -->
+    <div class="q-panel" id="qpanel-2">
+      <div class="q-section">
+        <div class="q-section-title">Questions 27&ndash;32</div>
+        <div class="q-instruction">Choose the correct answer.</div>
+        <div class="q-item" id="q-target-27">
+          <div class="q-label"><span class="q-num">27</span><span>What does the writer say about Dunedin in the 1970s?</span><button class="locate-btn" data-q="27">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="27" data-val="A"><span class="radio-circle"></span>A. It was the safest city in the country.</button>
+          <button class="mc-opt-btn" data-q="27" data-val="B"><span class="radio-circle"></span>B. It was less prosperous than other cities.</button>
+          <button class="mc-opt-btn" data-q="27" data-val="C"><span class="radio-circle"></span>C. Many people were frustrated that they could not find a job.</button>
+          <button class="mc-opt-btn" data-q="27" data-val="D"><span class="radio-circle"></span>D. It was wealthy and seen as an ideal place to raise children.</button>
+        </div>
+        <div class="q-item" id="q-target-28">
+          <div class="q-label"><span class="q-num">28</span><span>What did the writer find surprising about Phil Silva&rsquo;s original study?</span><button class="locate-btn" data-q="28">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="28" data-val="A"><span class="radio-circle"></span>A. That the study was held in a church.</button>
+          <button class="mc-opt-btn" data-q="28" data-val="B"><span class="radio-circle"></span>B. That the tests took half a day.</button>
+          <button class="mc-opt-btn" data-q="28" data-val="C"><span class="radio-circle"></span>C. That 91% of parents agreed to help.</button>
+          <button class="mc-opt-btn" data-q="28" data-val="D"><span class="radio-circle"></span>D. That the study used volunteers.</button>
+        </div>
+        <div class="q-item" id="q-target-29">
+          <div class="q-label"><span class="q-num">29</span><span>What was Silva&rsquo;s main finding in 1978?</span><button class="locate-btn" data-q="29">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="29" data-val="A"><span class="radio-circle"></span>A. Children had excellent language.</button>
+          <button class="mc-opt-btn" data-q="29" data-val="B"><span class="radio-circle"></span>B. Many children had developmental problems.</button>
+          <button class="mc-opt-btn" data-q="29" data-val="C"><span class="radio-circle"></span>C. No children had ear problems.</button>
+          <button class="mc-opt-btn" data-q="29" data-val="D"><span class="radio-circle"></span>D. All children were healthy.</button>
+        </div>
+        <div class="q-item" id="q-target-30">
+          <div class="q-label"><span class="q-num">30</span><span>What was different about the first and second studies?</span><button class="locate-btn" data-q="30">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="30" data-val="A"><span class="radio-circle"></span>A. The sample group was smaller in the first study.</button>
+          <button class="mc-opt-btn" data-q="30" data-val="B"><span class="radio-circle"></span>B. The second study produced conflicting results.</button>
+          <button class="mc-opt-btn" data-q="30" data-val="C"><span class="radio-circle"></span>C. Helpers were not used in the second study.</button>
+          <button class="mc-opt-btn" data-q="30" data-val="D"><span class="radio-circle"></span>D. The second study collected additional types of information.</button>
+        </div>
+        <div class="q-item" id="q-target-31">
+          <div class="q-label"><span class="q-num">31</span><span>What problem did Silva face when conducting the original study?</span><button class="locate-btn" data-q="31">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="31" data-val="A"><span class="radio-circle"></span>A. A shortage of helpers.</button>
+          <button class="mc-opt-btn" data-q="31" data-val="B"><span class="radio-circle"></span>B. A lack of available funding.</button>
+          <button class="mc-opt-btn" data-q="31" data-val="C"><span class="radio-circle"></span>C. The bad behaviour of some children.</button>
+          <button class="mc-opt-btn" data-q="31" data-val="D"><span class="radio-circle"></span>D. The poor language skills of the participants.</button>
+        </div>
+        <div class="q-item" id="q-target-32">
+          <div class="q-label"><span class="q-num">32</span><span>Why does the writer mention the new building in the fourth paragraph?</span><button class="locate-btn" data-q="32">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="32" data-val="A"><span class="radio-circle"></span>A. To show how generous project funding had become.</button>
+          <button class="mc-opt-btn" data-q="32" data-val="B"><span class="radio-circle"></span>B. To show that the study was being taken seriously.</button>
+          <button class="mc-opt-btn" data-q="32" data-val="C"><span class="radio-circle"></span>C. To emphasise the temporary nature of the facilities.</button>
+          <button class="mc-opt-btn" data-q="32" data-val="D"><span class="radio-circle"></span>D. To highlight that the children disliked the site.</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 33&ndash;36</div>
+        <div class="q-instruction">Choose YES, NO, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-33">
+          <div class="q-label"><span class="q-num">33</span><span>Recent results suggest that intellectual development and birth weight are linked.</span><button class="locate-btn" data-q="33">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="33" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="33" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="33" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-34">
+          <div class="q-label"><span class="q-num">34</span><span>Medical textbooks used to claim that breast-fed children were more intelligent.</span><button class="locate-btn" data-q="34">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="34" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="34" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="34" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-35">
+          <div class="q-label"><span class="q-num">35</span><span>Children who suck their thumbs are prone to developmental problems.</span><button class="locate-btn" data-q="35">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="35" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="35" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="35" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-36">
+          <div class="q-label"><span class="q-num">36</span><span>The findings of the Dunedin study have challenged some doctors&rsquo; preconceptions.</span><button class="locate-btn" data-q="36">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="36" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="36" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="36" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 37&ndash;40</div>
+        <div class="q-instruction">Complete the summary below. Drag each phrase to the correct gap.</div>
+        <div class="word-bank-pool" id="word-bank-pool">
+          <div class="draggable-card" draggable="true" data-word="A" id="card-A">A &ndash; generalisable research</div>
+          <div class="draggable-card" draggable="true" data-word="B" id="card-B">B &ndash; study members</div>
+          <div class="draggable-card" draggable="true" data-word="C" id="card-C">C &ndash; government funding</div>
+          <div class="draggable-card" draggable="true" data-word="D" id="card-D">D &ndash; assessments</div>
+          <div class="draggable-card" draggable="true" data-word="E" id="card-E">E &ndash; loyalty</div>
+          <div class="draggable-card" draggable="true" data-word="F" id="card-F">F &ndash; barriers to involvement</div>
+          <div class="draggable-card" draggable="true" data-word="G" id="card-G">G &ndash; confidentiality</div>
+          <div class="draggable-card" draggable="true" data-word="H" id="card-H">H &ndash; results</div>
+        </div>
+        <div class="summary-dnd">
+          <strong>A model study</strong><br><br>
+          The success of the Dunedin project has been put down to two principal factors: good fortune and Phil Silva&rsquo;s methodology. The demographics of Dunedin mean that residents feel committed to the study, and that it also provides
+          <span class="drop-zone" id="q-target-37" data-q="37"><span class="dz-text">37</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="37">&#128269;</button>
+          that can be applied both nationally and internationally, but even more important was Silva&rsquo;s conviction that the
+          <span class="drop-zone" id="q-target-38" data-q="38"><span class="dz-text">38</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="38">&#128269;</button>
+          must be looked after; nothing should be done to threaten the study&rsquo;s
+          <span class="drop-zone" id="q-target-39" data-q="39"><span class="dz-text">39</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="39">&#128269;</button>
+          and as a result Silva is cautious when questioned, and a lot of work is done to minimise
+          <span class="drop-zone" id="q-target-40" data-q="40"><span class="dz-text">40</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="40">&#128269;</button>
+          in order to ensure that the study continues into the future.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /right-pane -->
+</div><!-- /split -->
+
+<div id="footer-nav">
+  <span class="nav-label">Q:</span>
+  <div id="nav-grid"></div>
+  <div id="font-controls">
+    <span>Font:</span>
+    <button id="btn-font-up">A+</button>
+    <button id="btn-font-dn">A&minus;</button>
+  </div>
+</div>
+</div><!-- /app -->
+
+<div id="highlight-menu">
+  <button style="background:#fef08a" onclick="applyHighlight('highlight-yellow')" title="Yellow"></button>
+  <button style="background:#bbf7d0" onclick="applyHighlight('highlight-green')" title="Green"></button>
+  <button style="background:#fbcfe8" onclick="applyHighlight('highlight-pink')" title="Pink"></button>
+  <button class="erase-btn" onclick="applyHighlight('erase')">&#10005;</button>
+</div>
+
+<div id="result-modal">
+  <div id="result-box">
+    <h2>Your Result</h2>
+    <div id="result-score">0/40</div>
+    <div id="result-band">Band: &ndash;</div>
+    <div id="result-breakdown"></div>
+    <button id="btn-close-modal">Review Answers</button>
+  </div>
+</div>
+
+<script>
+const ANSWERS={
+  1:'FALSE',2:'FALSE',3:'NOT GIVEN',4:'NOT GIVEN',5:'NOT GIVEN',
+  6:'instruments',7:'ports',8:'flags',9:'lifeboat',10:'island',11:'owners',12:'name',13:'book',
+  14:'E',15:'E',16:'I',17:'D',18:'A',19:'F',
+  20:'A',21:'D',
+  22:'jellyfish',23:'burrows',24:'predators',25:'cave',26:'currents',
+  27:'D',28:'C',29:'B',30:'D',31:'B',32:'B',
+  33:'YES',34:'NOT GIVEN',35:'NO',36:'YES',
+  37:'A',38:'B',39:'G',40:'F'
+};
+const MULTI_ANS={20:['A','D'],21:['A','D']};
+const Q_PASSAGE={};
+for(let i=1;i<=13;i++)Q_PASSAGE[i]=0;
+for(let i=14;i<=26;i++)Q_PASSAGE[i]=1;
+for(let i=27;i<=40;i++)Q_PASSAGE[i]=2;
+
+let userAnswers={},multiSelected={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+function normalizeAnswer(s){
+  return s.trim().toLowerCase().replace(/[‘’]/g,"'").replace(/[–—]/g,'-').replace(/\s+/g,' ');
+}
+function checkAnswer(user,correct){
+  const u=normalizeAnswer(user),c=normalizeAnswer(correct);
+  if(u===c)return true;
+  if(u.replace(/-/g,' ')===c.replace(/-/g,' '))return true;
+  return false;
+}
+function getWordLabel(w){
+  const map={A:'generalisable research',B:'study members',C:'government funding',D:'assessments',E:'loyalty',F:'barriers to involvement',G:'confidentiality',H:'results'};
+  return map[w]||w;
+}
+
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{p.style.display=i===t?'block':'none';p.classList.toggle('active',i===t);});
+  });
+});
+
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i;btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+
+// MC single
+document.querySelectorAll('.mc-opt-btn:not([data-multi])').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]:not([data-multi])').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+
+// MC multi (Q20-21: choose 2)
+multiSelected['20-21']=new Set();
+document.querySelectorAll('.mc-opt-btn[data-multi]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const val=btn.dataset.val;
+    const sel=multiSelected['20-21'];
+    if(btn.classList.contains('selected')){
+      btn.classList.remove('selected');sel.delete(val);
+    } else {
+      if(sel.size>=2){
+        const first=[...sel][0];
+        document.querySelector('.mc-opt-btn[data-multi][data-val="'+first+'"]').classList.remove('selected');
+        sel.delete(first);
+      }
+      btn.classList.add('selected');sel.add(val);
+    }
+    const sorted=[...sel].sort();
+    userAnswers[20]=sorted[0]||'';
+    userAnswers[21]=sorted[1]||'';
+    updateNav(20);updateNav(21);
+  });
+});
+
+// rgt-radio
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+
+// blank inputs
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();updateNav(q);
+  });
+});
+
+// Drag & Drop
+let dragWord=null;
+document.querySelectorAll('.draggable-card').forEach(card=>{
+  card.addEventListener('dragstart',e=>{
+    if(submitted)return;
+    dragWord=card.dataset.word;card.classList.add('dragging');e.dataTransfer.effectAllowed='move';
+  });
+  card.addEventListener('dragend',()=>card.classList.remove('dragging'));
+});
+document.querySelectorAll('.drop-zone').forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag-over');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
+  zone.addEventListener('drop',e=>{
+    e.preventDefault();zone.classList.remove('drag-over');
+    if(submitted||!dragWord)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById('card-'+prev);if(pc)pc.classList.remove('used');}
+    const card=document.getElementById('card-'+dragWord);
+    if(card)card.classList.add('used');
+    zone.dataset.filled=dragWord;zone.classList.add('filled');
+    zone.querySelector('.dz-text').textContent=dragWord+' – '+getWordLabel(dragWord);
+    const q=parseInt(zone.dataset.q);userAnswers[q]=dragWord;updateNav(q);dragWord=null;
+  });
+  zone.querySelector('.remove-chip').addEventListener('click',e=>{
+    e.stopPropagation();if(submitted)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById('card-'+prev);if(pc)pc.classList.remove('used');}
+    zone.dataset.filled='';zone.classList.remove('filled');
+    zone.querySelector('.dz-text').textContent=zone.dataset.q;
+    const q=parseInt(zone.dataset.q);delete userAnswers[q];updateNav(q);
+  });
+});
+
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+function submitExam(){
+  if(submitted)return;
+  submitted=true;clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=checkAnswer(user,ans);
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        inp.title='Correct: '+ans;
+        // Show correct answer label
+        const existingLabel=inp.parentNode.querySelector('.blank-correct-label');
+        if(!existingLabel){
+          const lbl=document.createElement('span');
+          lbl.className='blank-correct-label';
+          lbl.textContent='✓ '+ans;
+          lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+          inp.insertAdjacentElement('afterend',lbl);
+        }
+      }
+    }
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]:not([data-multi])').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    const rgtRow=document.getElementById('q-target-'+q);
+    if(rgtRow&&rgtRow.tagName==='TR')rgtRow.classList.add(ok?'row-correct':'row-wrong');
+    const dz=document.getElementById('q-target-'+q);
+    if(dz&&dz.classList.contains('drop-zone')){
+      dz.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        const lbl=document.createElement('span');lbl.className='correct-answer-label';
+        lbl.textContent='✓ '+ans+' – '+getWordLabel(ans);
+        dz.insertAdjacentElement('afterend',lbl);
+      }
+    }
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    if(!ok)document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+  }
+  // Handle multi Q20-21
+  const multiCorrect=['A','D'];
+  document.querySelectorAll('.mc-opt-btn[data-multi]').forEach(b=>{
+    b.disabled=true;
+    const isCorrect=multiCorrect.includes(b.dataset.val);
+    const isSelected=b.classList.contains('selected');
+    if(isCorrect)b.classList.add('correct');
+    else if(isSelected)b.classList.add('wrong');
+  });
+  document.querySelectorAll('.draggable-card').forEach(c=>c.setAttribute('draggable','false'));
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1–13)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14–26)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27–40)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>document.getElementById('result-modal').classList.remove('show'));
+
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      const locEl=document.querySelector('.loc-q'+q);
+      if(locEl){locEl.classList.add('loc-highlight');locEl.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>locEl.classList.remove('loc-highlight'),4000);}
+    },150);
+  });
+});
+
+document.getElementById('btn-font-up').addEventListener('click',()=>{
+  baseFontSize=Math.min(20,baseFontSize+1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{
+  baseFontSize=Math.max(11,baseFontSize-1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+
+let highlightMenu=document.getElementById('highlight-menu'),savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const lp=document.getElementById('left-pane'),rp=document.getElementById('right-pane');
+    if(lp.contains(range.commonAncestorContainer)||rp.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){window.getSelection().removeAllRanges();window.getSelection().addRange(savedRange);document.execCommand('removeFormat');savedRange=null;return;}
+  const span=document.createElement('span');span.className=cls;
+  try{savedRange.surroundContents(span);}catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();savedRange=null;
+}
+
+const handle=document.getElementById('resize-handle'),leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const split=document.getElementById('split');const rect=split.getBoundingClientRect();leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+
+startTimer();
+</script>
+</body>
+</html>

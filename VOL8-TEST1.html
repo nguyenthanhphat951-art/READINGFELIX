@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading – VOL 8 TEST 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-pause:hover{background:#4b5563;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam:hover{background:#1e40af;}
+
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#resize-handle:hover{background:#9ca3af;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button:hover{background:#f3f4f6;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+#font-controls button:hover{background:#f3f4f6;}
+
+/* Passage */
+.passage-panel{display:none;}
+.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+
+/* Questions */
+.q-panel{display:none;}
+.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+
+/* MC buttons */
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+
+/* Blank inputs */
+.blank-input{border:none;border-bottom:2px solid #1a1a1a;background:transparent;font-size:0.88rem;padding:2px 4px;min-width:110px;outline:none;font-family:'Lexend',sans-serif;}
+.blank-input:focus{border-bottom-color:#1d4ed8;}
+.blank-input.correct{border-bottom-color:#16a34a;background:#dcfce7;}
+.blank-input.wrong{border-bottom-color:#dc2626;background:#fee2e2;}
+
+/* ── Radio-in-box matching (Q14-22) ── */
+.match-box{border:1.5px solid #e5e7eb;border-radius:8px;padding:12px 14px;margin-bottom:12px;background:#fff;}
+.match-box-header{font-size:0.82rem;font-weight:700;margin-bottom:8px;display:flex;align-items:flex-start;gap:6px;}
+.match-options{display:flex;flex-wrap:wrap;gap:6px;}
+.match-radio-btn{display:flex;align-items:center;gap:6px;padding:5px 10px;border:1.5px solid #d1d5db;border-radius:20px;cursor:pointer;font-size:0.8rem;background:#fff;font-family:'Lexend',sans-serif;white-space:nowrap;}
+.match-radio-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.match-radio-btn.selected{border-color:#1a1a1a;background:#1a1a1a;color:#fff;font-weight:600;}
+.match-radio-btn.correct{border-color:#16a34a!important;background:#16a34a!important;color:#fff!important;}
+.match-radio-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;color:#dc2626!important;}
+.match-radio-btn:disabled{cursor:default;}
+.match-radio-dot{width:14px;height:14px;border-radius:50%;border:2px solid currentColor;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.match-radio-btn.selected .match-radio-dot::after{content:'';width:5px;height:5px;border-radius:50%;background:#fff;}
+.match-radio-btn.correct .match-radio-dot::after{content:'';width:5px;height:5px;border-radius:50%;background:#fff;}
+
+/* People legend */
+.people-legend{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 14px;font-size:0.82rem;margin-bottom:12px;display:grid;grid-template-columns:1fr 1fr;gap:3px 16px;}
+
+/* ── Drag & Drop (Q32-36) ── */
+.word-bank-pool{display:flex;flex-wrap:wrap;gap:6px;padding:10px 12px;background:#f9fafb;border:1.5px dashed #9ca3af;border-radius:8px;margin-bottom:14px;min-height:44px;}
+.draggable-card{padding:5px 12px;background:#1a1a1a;color:#fff;border-radius:20px;cursor:grab;font-size:0.8rem;font-family:'Lexend',sans-serif;user-select:none;border:2px solid transparent;}
+.draggable-card:active{cursor:grabbing;}
+.draggable-card.dragging{opacity:0.4;}
+.draggable-card.used{background:#6b7280;cursor:default;}
+.drop-zone{display:inline-flex;align-items:center;justify-content:center;min-width:110px;height:30px;border:2px dashed #9ca3af;border-radius:16px;padding:0 10px;font-size:0.8rem;color:#9ca3af;vertical-align:middle;margin:0 3px;transition:border-color 0.15s,background 0.15s;position:relative;}
+.drop-zone.drag-over{border-color:#1d4ed8;background:#eff6ff;}
+.drop-zone.filled{border-style:solid;border-color:#1a1a1a;background:#1a1a1a;color:#fff;font-weight:600;}
+.drop-zone.correct{border-color:#16a34a!important;background:#dcfce7!important;color:#16a34a!important;}
+.drop-zone.wrong{border-color:#dc2626!important;background:#fee2e2!important;color:#dc2626!important;}
+.drop-zone .remove-chip{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:#fff;color:#1a1a1a;font-size:0.6rem;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;line-height:1;}
+.drop-zone.filled .remove-chip{display:flex;}
+.drop-zone:not(.filled) .remove-chip{display:none;}
+.summary-dnd{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:14px;font-size:0.86rem;line-height:2.4;}
+
+/* Completion table */
+.completion-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0;}
+.completion-table th{background:#374151;color:#fff;padding:6px 10px;}
+.completion-table td{padding:8px 10px;border:1px solid #e5e7eb;vertical-align:middle;line-height:1.9;}
+.completion-table tr:nth-child(even) td{background:#f9fafb;}
+
+/* Summary box */
+.summary-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:14px;font-size:0.85rem;line-height:2.2;}
+
+/* Locate */
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn:hover{background:#fde68a;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+
+/* Highlight */
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+
+/* Result modal */
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+
+/* ── Radio Grid Table (Q14-22) ── */
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr:hover:not(.row-correct):not(.row-wrong) td{background:#f0f9ff;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:44px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-radio:hover:not(:disabled){background:#f3f4f6;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+.correct-answer-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-top:3px;display:block;}
+</style>
+</head>
+<body>
+<div id="app">
+
+<div id="header">
+  <h1>IELTS READING &ndash; VOL 8 TEST 1</h1>
+  <div id="timer-wrap">
+    <span id="timer">60:00</span>
+    <button id="btn-pause">&#9208; Pause</button>
+    <button id="btn-submit-exam">Submit</button>
+  </div>
+</div>
+
+<div id="tab-bar">
+  <button class="tab-btn active" data-target="0">PASSAGE 1</button>
+  <button class="tab-btn" data-target="1">PASSAGE 2</button>
+  <button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+
+<div id="split">
+  <div id="left-pane">
+
+    <!-- PASSAGE 1 -->
+    <div class="passage-panel active" id="passage-content-0">
+      <div class="passage-title">STEAM ACROSS THE WATER</div>
+      <div class="passage-subtitle">A look at the early history of boats powered by steam</div>
+      <div class="passage-text">
+        <p>During the 1600s, very early in the development of steam engines, inventive spirits like the Frenchman Denis Papin dreamed of &ndash; and experimented with &ndash; boats driven by steam, rather than by the wind or human effort, but many decades passed before those visions became reality.</p>
+        <p>Englishman Jonathan Hulls took out patents on a steamboat in 1736, but it was to be driven by a Newcomen engine, which was heavy and therefore <span class="loc-q1">inefficient</span>, and would never be a success. In 1763, William Henry, an American, put a Watt steam engine in a boat, but it sank. Nearly 20 years later, in the 1780s, a steam-powered paddle-wheeler managed to last fifteen minutes against the current on the River Saone in France, but lacked the <span class="loc-q2">endurance</span> for longer trips. Developments elsewhere included a boat driven by a steam-powered water-jet and able to do six kilometres per hour. However, all these steamboats were either too slow or too expensive to run. For example, American John Fitch successfully trialled his first steamboat in 1787, but although he tried a number of designs and solved many <span class="loc-q3">technical</span> challenges &ndash; one of his boats could even travel at 13 km/h &ndash; he could never convince sceptics that steamboats would pay.</p>
+        <p>The 19th century came before real success could be claimed. In Scotland in 1802, Lord Dundas launched the steamboat <em>Charlotte Dundas</em>, which was driven by a paddle wheel and had an improved engine designed by William Symington. Barges, some weighing as much as 70 tonnes, were towed by this steamboat 30 kilometres along the Forth and Clyde Canal to Glasgow, Scotland&rsquo;s second city. Soon after, success came to American Robert Fulton, whose countrymen called him &lsquo;the father of the steamboat&rsquo;. Inspired by news of the <em>Charlotte Dundas</em>, Fulton ran steamboat trials on the River Seine, in an attempt to attract French support for his <span class="loc-q4">submarine</span> <em>Nautilus</em>. He later imported a Boulton-Watt steam engine and built a boat to use it in. In 1807, the <em><span class="loc-q5">Clermont</span></em> began a scheduled passenger steamboat service between New York and Albany, 250 kilometres up the Hudson River, taking 30 hours for the trip. Within few years, steamers were running on the St Lawrence River in Canada and would soon appear on other rivers and lakes, including the Mississippi River, a most famous venue for the paddle-wheelers.</p>
+        <p>Back in Scotland, Fulton&rsquo;s ideas inspired Henry Bell, who launched his <em>Comet</em> in 1812 on the Clyde between Glasgow and Greenock. Inside a decade, dozens of steamboats were to be seen on the rivers, lochs and canals of Scotland, carrying <span class="loc-q6">cargo</span> and occasionally passengers. The age of steamboats had come.</p>
+        <p>Once steamboats were carrying passengers and industrial goods along the inland waterways and sheltered coastlines of Europe, North America and elsewhere, the challenge became to send steamboats onto the open ocean, such as across the Atlantic Ocean, between Europe and the US. <span class="loc-q7">Travelling under steam power alone would require engines to use less coal so the ship could stay at sea for several weeks.</span> <span class="loc-q8">In order to provide a reliable service, it was also necessary to replace paddle wheels as a source of power with something less affected by the rolling of the ship.</span></p>
+        <p><span class="loc-q9">Without waiting for such breakthroughs, crossings under a combination of steam and sail got underway in 1819 with the American ship Savannah.</span> A regular service took another two decades and introduced the famous name of Cunard. Securing the British government contract for the mail service across the Atlantic, Samuel Cunard established a shipping line in 1840, soon carrying passengers as well, and offering guaranteed sailing dates. Cunard&rsquo;s first ships used a sail-steam combination, but the era of the passenger liner, using steam alone, was getting close.</p>
+        <p>When it came to building the ships, the versatile British engineer Isambard Kingdom Brunel set the pace. <span class="loc-q10">Brunel, brilliant and daring, had already built the Great Western Railway. He created ever bigger ships &ndash; faster, more luxurious and comfortable for passengers.</span> The Great Western, launched in 1838, was 70 metres long and crossed from Bristol to New York in just fifteen days. The largest paddle steamer ever built was Brunel&rsquo;s Great Eastern. Ultimately too expensive to run as a passenger ship, it was leased to lay the first submarine telegraph cable from Europe to America. <span class="loc-q11 loc-q12">His 1853 Great Britain, nearly 100 metres long and luxuriously appointed, was the first ocean-going steamship made of iron, and the first to use the underwater screw propeller for powering movement in place of paddle wheels.</span> The idea of the screw had been around since the experiments of the American John Stevens in 1803, but only in 1838 did a large steamer use one, the riverboat Archimedes built by Francis Pettit Smith. Later ships had twin screws for reliability.</p>
+        <p><span class="loc-q13">In many modern ships, steam turbines have replaced engines with pistons, with fuel oil instead of coal to fire the boilers.</span> Diesel engines keep others moving. The largest ships afloat now would dwarf Brunel&rsquo;s Great Eastern (launched in 1860); the Atlantic can be crossed in only four days. But in whatever form, the ever-evolving descendants of the original visions of Denis Papin and Robert Fulton continue to travel the seas in vast numbers.</p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2 -->
+    <div class="passage-panel" id="passage-content-1">
+      <div class="passage-title">IQ SCORES</div>
+      <div class="passage-subtitle">How they are changing and what the changes mean</div>
+      <div class="passage-text">
+        <p><span class="para-label">A</span> <span class="loc-q21">Studies from numerous countries suggest that IQ scores have been rising fast since at least the 1950s &ndash; enough to mean that someone with an IQ classed as average at that time could be labelled as having low intelligence today. However, psychologists disagree about what the upward trend in scores really means. Some researchers argue that people are not getting more intelligent overall, but just getting better at a particular sort of problem solving. Others say they have found echoes of rising IQ scores in &lsquo;real world&rsquo; measures of intelligence. To confuse things still more, there are hints that the trend may be about to grind to a halt.</span></p>
+        <p><span class="para-label">B</span> James Flynn, a professor of political science, first showed that IQ scores were rising in the <span class="loc-q23">mid-1980s</span>, and became famous after others dubbed the pattern he had observed the &lsquo;Flynn effect&rsquo;. In a landmark paper he made detailed comparisons across fourteen countries of trends in the results of tests that measure reasoning power. Overall, these showed a real growth in scores of up to 25 points in a generation. To find out more, Flynn went on to look at scores for each type of reasoning that IQ tests set out to measure, such as verbal, numerical and visuo-spatial. <span class="loc-q20">This last test category usually includes &lsquo;<span class="loc-q24">Raven&rsquo;s matrices</span>&rsquo; &ndash; sequential patterns with one piece missing. The candidate has to choose, from a set of alternatives, which shape to put in the empty space.</span> When Flynn took a closer look at the scores, the pattern was clear. The strongest gains in almost every case were on Raven&rsquo;s matrices and similar tests, while <span class="loc-q25">verbal</span> and arithmetical scores showed more modest rises. Since presenting his original paper, Flynn has looked at data from further <span class="loc-q26">countries</span> and found the same upward trend, with the same skills responsible for most of the increase.</p>
+        <p><span class="para-label">C</span> Flynn feels that his eponymous effect is meaningful, but does not interpret it as evidence that people are becoming cleverer. Our grandparents were not retarded and we are not geniuses, he says. More likely we have simply developed the skills and habits of mind that make us better at solving abstract problems, and &ndash; just as importantly &ndash; we take such problems seriously. <span class="loc-q14">Flynn believes that demands of visuo-spatial abilities have grown because of TV, computers and cars, and also that in societies where intelligence has become something people focus on excessively, abstract problem-solving skills develop faster than other skills.</span></p>
+        <p><span class="para-label">D</span> Others have different views about what might account for the increase in IQ scores. <span class="loc-q18">John Rust of the University of London suggests that it is not just an increase in visuo-spatial activities that is pushing up IQ scores. He believes that there are several factors, including the fact that, in more complex societies, people have to think harder to find solutions to problems they face.</span> <span class="loc-q17">He also points out that if just one mind grasps a new concept, such as Einstein and the theory of relativity, it may then be easier for society in general to think in a more complex way.</span> Others, such as experimental psychologist Robert Howard, argue that <span class="loc-q16">overall intelligence really has risen, helped by better nutrition, smaller families, wider access to education and other environmental changes.</span></p>
+        <p><span class="para-label">E</span> Howard&rsquo;s latest research has sent him on a different line of enquiry. Controversially, he now believes that the rise in IQ scores might have peaked in industrialised countries. To support this view, he cites data from Denmark. <span class="loc-q19">The Danish military still summons virtually all young men before a draft board to identify who is suitable to do military service. Since 1957, all 17-year-olds there have taken exactly the same qualifying IQ tests &ndash; including ones similar to Raven&rsquo;s matrices.</span> Candidates must also be able to answer verbal questions such as &lsquo;Sun is to day as Moon is to ?&rsquo;, and number-series questions such as &lsquo;2, 3, 5, 8, ?&rsquo;. Results in these tests have been carefully analysed by Thomas Teasdale, a neuropsychologist. He found that during the 1960s and &lsquo;70s, scores showed gains on a scale similar to those of other countries, but by the 1990s the rate of improvement had slowed right down to about one IQ point over the decade. Furthermore, the scores were improving only on the visuo-spatial questions; verbal and numerical performance was flattening out. Most intriguingly, however, scores from 1999 onwards show an overall downturn. <span class="loc-q15">One explanation might be that there is some absolute ceiling to people&rsquo;s abilities to perform these tasks, no matter how much the prevailing culture encourages them. However, as Teasdale points out, if such a ceiling had been reached, the test results should show scores pushing against it rather than actually falling.</span></p>
+        <p><span class="para-label">F</span> Flynn is keeping a close eye on the findings, but is not jumping to conclusions until data from other countries is available. <span class="loc-q22">However, he does wonder whether the conditions leading to dramatic improvements in mental ability disappear as societies become more prosperous. He points out that in human history, prosperity often led to decadence, and argues that the case of ancient Rome can be viewed as an illustration of this.</span></p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3 -->
+    <div class="passage-panel" id="passage-content-2">
+      <div class="passage-title">PRACTICAL LEARNING IN CLASSROOM</div>
+      <div class="passage-subtitle">A teacher describes a case study involving middle school students and traditional earthen architecture</div>
+      <div class="passage-text">
+        <p><span class="para-label">A</span> The way we think about architecture in schools has come a long way. Once, studying architecture in the art class meant learning to appreciate great buildings art-history style, through slide presentations. In recent years, though, <span class="loc-q27">the American Institute of Architects has fostered the idea that the process of architectural design, not just the appreciation of architecture, is a beneficial aspect of the art curriculum</span> (Sadler, 1989).</p>
+        <p><span class="para-label">B</span> The value of architectural design is that it is the concrete training ground for a broadly applicable creative process. Architectural training can help people design structures to meet needs. It can help farmers design crop rotations to meet needs. Furthermore, it provides hands-on experiences that reinforce learning in various other subjects, from math to social studies.</p>
+        <p><span class="para-label">C</span> In the ongoing dialogue about architecture in the middle school art curriculum, many believe students should actually build the structures they design in their courses. <span class="loc-q28">Although the technology and expertise required of modern architecture can prohibit students from actually realizing their designs, traditional architectural materials and methods remain quite accessible to the art classroom.</span> <span class="loc-q37">Traditional architectural materials, such as earth, clay and straw, are cheap, easy to work with and readily available.</span> Further, when students participate in the construction or preservation of a traditional earthen structure in their local community, they engage in a form of experiential learning and they are motivated to invest in the project. This is evident in a case study of an adobe* conservation project with middle school students in the town of Zuni, New Mexico, in the Southwestern United States.</p>
+        <p><span class="para-label">D</span> Traditional architecture reaches back to preindustrial America, when local resources and cultures produced structures in styles unique to each region. In New Mexico, examples of hand-built earthen structures still abound. The region has seen some decline in traditional architecture as industrialization has brought new building codes and materials; however, the traditional, non-industrial home, either preserved from earlier generations or newly built, remains in use. Traditional building materials and the land that supplies them are so accessible that handcrafting a house still remains feasible.</p>
+        <p><span class="para-label">E</span> Thus, with no technical expertise and little cost, middle school students can participate in the construction or preservation of a traditional earthen structure. During the project, a student will get to know the materials, understand the chemistry, solve problems, work with classmates, and <span class="loc-q39">exercise muscles</span>. The student can apply knowledge of design principles and the creative process while participating in a cooperative effort. <span class="loc-q29">But most significantly, this type of project-based activity motivates students to invest intellectually and emotionally in the outcome.</span></p>
+        <p><span class="para-label">F</span> The town of Zuni, where I taught art, was surrounded by adobe construction, new and old. <span class="loc-q32">Behind our main high school building there was a one-room adobe structure which was once used for teaching. Now it served as a place where old furniture could be kept.</span> I sent my class home with the oral history assignment to ask their family, friends and neighbors questions to find out about that building. From their research we compiled a sketchy history: it began as a kindergarten classroom; it later became an art classroom; now it was full of broken desks.</p>
+        <p><span class="para-label">G</span> <span class="loc-q33">The building&rsquo;s design kept it relatively warm in the winter, even without heating, due to its broad south face, and it stayed cool in the summer due to its spacious, ventilated attic and massive earthen walls. Because of this, my students agreed it was worth preserving and were enthusiastic about helping.</span> Preservationist Shalie Gasper arrived in the fall to help with an assessment of the building&rsquo;s needs. She recommended replacing the stucco** that encased the original adobe walls with a traditional mud plaster. <span class="loc-q34">She showed us where to find local supplies of sand and clay soil for the plaster mix.</span> We began work on the stucco removal in late fall. The next spring the students were ready to replaster. <span class="loc-q35">To teach the traditional skills, Gasper and other local specialists joined us.</span> <span class="loc-q36">They gave my class three full mornings of intensive workshops on history and preservation as well as mud-plastering technique</span>, and the building got a new coat of traditional mud plaster.</p>
+        <p><span class="para-label">H</span> <span class="loc-q30">Small design-and-build projects such as this can be seen through to the finish when working with earth in the art curriculum. A simple landscape feature such as a wall, entryway, or arch can draw students into important aspects of design that involve the structure&rsquo;s interaction with people, the surrounding landscape, and natural elements. The same project may provide an opportunity to focus on the chemistry of soil or the structural dynamics of construction. Design goals might guide students to involve traditional forms, consider formal aspects, or integrate math skills of measuring and estimating.</span></p>
+        <p><span class="para-label">I</span> During our traditional architecture unit, the students realized that something old and almost forgotten is valuable and worth preserving. <span class="loc-q31">Many others in the community and around the country share this renewal of interest in traditional earthen technologies. It is the connection to a cultural heritage that interests some; the quality of living within massive, natural walls that attracts others; or for others, the sustainability of the process and the minimal energy spent in construction.</span> The value of adobe in general is becoming more and more known, but little has been said about its value in the art curriculum until now. This experiment in adobe conservation with middle school students convinced me that traditional architecture deserves a place in the regular curriculum.</p>
+        <p style="font-size:0.78rem;color:#6b7280;margin-top:16px;"><em>*adobe: a mixture of mud and straw that is made into bricks and used for building</em><br><em>**stucco: fine plaster used for coating wall surfaces</em></p>
+      </div>
+    </div>
+
+  </div><!-- /left-pane -->
+  <div id="resize-handle"></div>
+
+  <div id="right-pane">
+
+    <!-- PASSAGE 1 Qs -->
+    <div class="q-panel active" id="qpanel-0">
+      <div class="q-section">
+        <div class="q-section-title">Questions 1&ndash;6</div>
+        <div class="q-instruction">Complete the table below. Write ONE WORD ONLY from the passage for each answer.</div>
+        <table class="completion-table">
+          <thead><tr><th>Date</th><th>Event</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1600s</strong></td><td>Early inventors like Papin started to develop boats that relied on steam instead of manpower or wind.</td></tr>
+            <tr><td><strong>1730s</strong></td><td>The engine of Jonathan Hulls&rsquo; steamboat was <span id="q-target-1"><input class="blank-input" id="blank-q1" data-q="1" placeholder="1" style="width:100px"></span><button class="locate-btn" data-q="1">&#128269; Locate</button> due to its weight.</td></tr>
+            <tr><td><strong>1780s</strong></td><td>
+              &bull; A French paddle steamer did not have the <span id="q-target-2"><input class="blank-input" id="blank-q2" data-q="2" placeholder="2" style="width:100px"></span><button class="locate-btn" data-q="2">&#128269; Locate</button> to keep going for more than a quarter of an hour.<br>
+              &bull; John Fitch overcame a number of <span id="q-target-3"><input class="blank-input" id="blank-q3" data-q="3" placeholder="3" style="width:100px"></span><button class="locate-btn" data-q="3">&#128269; Locate</button> problems with his steamboat designs.
+            </td></tr>
+            <tr><td><strong>Early 1800s</strong></td><td>
+              &bull; The Charlotte Dundas pulled barges to Glasgow.<br>
+              &bull; In France, Fulton used a steamboat to try to raise interest in a <span id="q-target-4"><input class="blank-input" id="blank-q4" data-q="4" placeholder="4" style="width:100px"></span><button class="locate-btn" data-q="4">&#128269; Locate</button><br>
+              &bull; Passengers in the US began to be carried regularly by a steamboat called the <span id="q-target-5"><input class="blank-input" id="blank-q5" data-q="5" placeholder="5" style="width:100px"></span><button class="locate-btn" data-q="5">&#128269; Locate</button>
+            </td></tr>
+            <tr><td><strong>1812 onwards</strong></td><td>&bull; In Scotland, steamboats transported some passengers, but mostly <span id="q-target-6"><input class="blank-input" id="blank-q6" data-q="6" placeholder="6" style="width:100px"></span><button class="locate-btn" data-q="6">&#128269; Locate</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="q-section">
+        <div class="q-section-title">Questions 7&ndash;13</div>
+        <div class="q-instruction">Choose TRUE, FALSE, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-7">
+          <div class="q-label"><span class="q-num">7</span><span>For steamboats to cross the Atlantic Ocean, engines which used fuel economically were needed.</span><button class="locate-btn" data-q="7">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="7" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="7" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="7" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-8">
+          <div class="q-label"><span class="q-num">8</span><span>Using paddle wheels guaranteed reliability on ocean crossings.</span><button class="locate-btn" data-q="8">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="8" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="8" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="8" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-9">
+          <div class="q-label"><span class="q-num">9</span><span>The <em>Savannah</em> was much faster than a regular paddle steamer.</span><button class="locate-btn" data-q="9">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="9" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="9" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="9" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-10">
+          <div class="q-label"><span class="q-num">10</span><span>Brunel preferred designing railways to steamships.</span><button class="locate-btn" data-q="10">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="10" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="10" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="10" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-11">
+          <div class="q-label"><span class="q-num">11</span><span>The <em>Great Britain</em> had more than one innovative feature.</span><button class="locate-btn" data-q="11">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="11" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="11" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="11" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-12">
+          <div class="q-label"><span class="q-num">12</span><span>The design of the riverboat <em>Archimedes</em> was widely admired.</span><button class="locate-btn" data-q="12">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="12" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="12" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="12" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-13">
+          <div class="q-label"><span class="q-num">13</span><span>Modern ships that cross the Atlantic use the same energy source as the early steamships.</span><button class="locate-btn" data-q="13">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="13" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="13" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="13" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2 Qs -->
+    <div class="q-panel" id="qpanel-1">
+      <div class="q-section">
+        <div class="q-section-title">Questions 14&ndash;18</div>
+        <div class="q-instruction">Match each statement with the correct person A&ndash;D. You may use any letter more than once.</div>
+        <div class="people-legend">
+          <div><strong>A.</strong> James Flynn</div><div><strong>B.</strong> John Rust</div>
+          <div><strong>C.</strong> Robert Howard</div><div><strong>D.</strong> Thomas Teasdale</div>
+        </div>
+                <!-- Q14-18 radio grid -->
+        <div style="overflow-x:auto;">
+        <table class="radio-grid-table" id="rgt-14-18">
+          <thead>
+            <tr>
+              <th class="rgt-num">#</th>
+              <th class="rgt-stmt">Statement</th>
+              <th class="rgt-opt">A<br><span style="font-weight:400;font-size:0.72rem;">James Flynn</span></th>
+              <th class="rgt-opt">B<br><span style="font-weight:400;font-size:0.72rem;">John Rust</span></th>
+              <th class="rgt-opt">C<br><span style="font-weight:400;font-size:0.72rem;">Robert Howard</span></th>
+              <th class="rgt-opt">D<br><span style="font-weight:400;font-size:0.72rem;">Thomas Teasdale</span></th>
+              <th class="rgt-loc"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="q-target-14">
+              <td class="rgt-num">14</td>
+              <td class="rgt-stmt">Modern technology has influenced some aspects of human intelligence.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn visible" data-q="14" style="display:none">&#128269;</button></td>
+            </tr>
+            <tr id="q-target-15">
+              <td class="rgt-num">15</td>
+              <td class="rgt-stmt">IQ scores may not have attained their natural limit.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="15">&#128269;</button></td>
+            </tr>
+            <tr id="q-target-16">
+              <td class="rgt-num">16</td>
+              <td class="rgt-stmt">Improved diet has a positive effect on mental powers.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="16">&#128269;</button></td>
+            </tr>
+            <tr id="q-target-17">
+              <td class="rgt-num">17</td>
+              <td class="rgt-stmt">Exceptional individuals can have an impact on collective intelligence.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="17">&#128269;</button></td>
+            </tr>
+            <tr id="q-target-18">
+              <td class="rgt-num">18</td>
+              <td class="rgt-stmt">As societies become more sophisticated the need for problem-solving skills increases.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="18">&#128269;</button></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+        <!-- Q19-22 radio grid -->
+        <div style="overflow-x:auto;">
+        <table class="radio-grid-table" id="rgt-19-22">
+          <thead>
+            <tr>
+              <th class="rgt-num">#</th>
+              <th class="rgt-stmt">Information</th>
+              <th class="rgt-opt">A</th>
+              <th class="rgt-opt">B</th>
+              <th class="rgt-opt">C</th>
+              <th class="rgt-opt">D</th>
+              <th class="rgt-opt">E</th>
+              <th class="rgt-opt">F</th>
+              <th class="rgt-loc"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="q-target-19">
+              <td class="rgt-num">19</td>
+              <td class="rgt-stmt">an account of a selection procedure involving a particular group of people</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="19">&#128269;</button></td>
+            </tr>
+            <tr id="q-target-20">
+              <td class="rgt-num">20</td>
+              <td class="rgt-stmt">a description of one component of a visuo-spatial test</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="20">&#128269;</button></td>
+            </tr>
+            <tr id="q-target-21">
+              <td class="rgt-num">21</td>
+              <td class="rgt-stmt">an overview of the different interpretations of IQ score trends</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="21">&#128269;</button></td>
+            </tr>
+            <tr id="q-target-22">
+              <td class="rgt-num">22</td>
+              <td class="rgt-stmt">an example of the negative effect affluence may have on IQ trends</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="22">&#128269;</button></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+</div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 23&ndash;26</div>
+        <div class="q-instruction">Complete the summary. Write NO MORE THAN TWO WORDS AND/OR A NUMBER from the passage for each answer.</div>
+        <div class="summary-box">
+          <strong>James Flynn</strong><br>
+          During the <span id="q-target-23"><input class="blank-input" id="blank-q23" data-q="23" placeholder="23" style="width:110px"></span><button class="locate-btn" data-q="23">&#128269; Locate</button>, James Flynn conducted research showing that IQ scores were increasing. Flynn then analysed specific kinds of reasoning ability separately. He found that tests called <span id="q-target-24"><input class="blank-input" id="blank-q24" data-q="24" placeholder="24" style="width:150px"></span><button class="locate-btn" data-q="24">&#128269; Locate</button> which measured visuo-spatial skills, accounted for the biggest score increases, whereas scores in numerical and <span id="q-target-25"><input class="blank-input" id="blank-q25" data-q="25" placeholder="25" style="width:90px"></span><button class="locate-btn" data-q="25">&#128269; Locate</button> components rose less steeply. Results from research in other <span id="q-target-26"><input class="blank-input" id="blank-q26" data-q="26" placeholder="26" style="width:90px"></span><button class="locate-btn" data-q="26">&#128269; Locate</button> which Flynn has examined more recently, are consistent with his earlier findings.
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3 Qs -->
+    <div class="q-panel" id="qpanel-2">
+      <div class="q-section">
+        <div class="q-section-title">Questions 27&ndash;31</div>
+        <div class="q-instruction">Choose the correct answer.</div>
+        <div class="q-item" id="q-target-27">
+          <div class="q-label"><span class="q-num">27</span><span>What education initiative does the American Institute of Architects currently promote?</span><button class="locate-btn" data-q="27">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="27" data-val="A"><span class="radio-circle"></span>A. multimedia presentation of information in classrooms</button>
+          <button class="mc-opt-btn" data-q="27" data-val="B"><span class="radio-circle"></span>B. the study of monumental buildings throughout history</button>
+          <button class="mc-opt-btn" data-q="27" data-val="C"><span class="radio-circle"></span>C. the practice of designing architectural structures</button>
+          <button class="mc-opt-btn" data-q="27" data-val="D"><span class="radio-circle"></span>D. processes to add more art classes in schools</button>
+        </div>
+        <div class="q-item" id="q-target-28">
+          <div class="q-label"><span class="q-num">28</span><span>In the third paragraph, what problem with teaching architecture on art courses does the writer note?</span><button class="locate-btn" data-q="28">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="28" data-val="A"><span class="radio-circle"></span>A. Technology-based courses are unavailable.</button>
+          <button class="mc-opt-btn" data-q="28" data-val="B"><span class="radio-circle"></span>B. Students cannot always construct their designs.</button>
+          <button class="mc-opt-btn" data-q="28" data-val="C"><span class="radio-circle"></span>C. The curriculum is too traditional.</button>
+          <button class="mc-opt-btn" data-q="28" data-val="D"><span class="radio-circle"></span>D. Students lack motivation.</button>
+        </div>
+        <div class="q-item" id="q-target-29">
+          <div class="q-label"><span class="q-num">29</span><span>What is the greatest benefit for students that the writer sees in a traditional architecture project?</span><button class="locate-btn" data-q="29">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="29" data-val="A"><span class="radio-circle"></span>A. personal connection to the end result</button>
+          <button class="mc-opt-btn" data-q="29" data-val="B"><span class="radio-circle"></span>B. participation in a cooperative project</button>
+          <button class="mc-opt-btn" data-q="29" data-val="C"><span class="radio-circle"></span>C. building of problem-solving skills</button>
+          <button class="mc-opt-btn" data-q="29" data-val="D"><span class="radio-circle"></span>D. conservation of a traditional building</button>
+        </div>
+        <div class="q-item" id="q-target-30">
+          <div class="q-label"><span class="q-num">30</span><span>What is the purpose of the eighth paragraph?</span><button class="locate-btn" data-q="30">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="30" data-val="A"><span class="radio-circle"></span>A. to explain why it is important that projects be small</button>
+          <button class="mc-opt-btn" data-q="30" data-val="B"><span class="radio-circle"></span>B. to outline the multiple skills involved in one project</button>
+          <button class="mc-opt-btn" data-q="30" data-val="C"><span class="radio-circle"></span>C. to discuss strategies for connecting content areas</button>
+          <button class="mc-opt-btn" data-q="30" data-val="D"><span class="radio-circle"></span>D. to propose suggestions for traditional earth projects</button>
+        </div>
+        <div class="q-item" id="q-target-31">
+          <div class="q-label"><span class="q-num">31</span><span>What does the writer say about traditional building and the general population?</span><button class="locate-btn" data-q="31">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="31" data-val="A"><span class="radio-circle"></span>A. Earthen architecture is becoming a profitable business.</button>
+          <button class="mc-opt-btn" data-q="31" data-val="B"><span class="radio-circle"></span>B. Earthen architecture is less feasible in some areas of the country.</button>
+          <button class="mc-opt-btn" data-q="31" data-val="C"><span class="radio-circle"></span>C. Interest in earthen architecture varies from region to region.</button>
+          <button class="mc-opt-btn" data-q="31" data-val="D"><span class="radio-circle"></span>D. People are attracted to earthen architecture for different reasons.</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 32&ndash;36</div>
+        <div class="q-instruction">Complete the summary using the list of words A&ndash;H. Drag each word to the correct gap.</div>
+        <!-- Word bank pool -->
+        <div class="word-bank-pool" id="word-bank-pool">
+          <div class="draggable-card" draggable="true" data-word="A" id="card-A">A &ndash; experts</div>
+          <div class="draggable-card" draggable="true" data-word="B" id="card-B">B &ndash; location</div>
+          <div class="draggable-card" draggable="true" data-word="C" id="card-C">C &ndash; design</div>
+          <div class="draggable-card" draggable="true" data-word="D" id="card-D">D &ndash; storage</div>
+          <div class="draggable-card" draggable="true" data-word="E" id="card-E">E &ndash; students</div>
+          <div class="draggable-card" draggable="true" data-word="F" id="card-F">F &ndash; resources</div>
+          <div class="draggable-card" draggable="true" data-word="G" id="card-G">G &ndash; training</div>
+          <div class="draggable-card" draggable="true" data-word="H" id="card-H">H &ndash; businesses</div>
+        </div>
+        <div class="summary-dnd">
+          <strong>The Zuni earthen architecture project</strong><br><br>
+          The students in Zuni chose to renovate an old building which was being used for
+          <span class="drop-zone" id="q-target-32" data-q="32"><span class="dz-text">32</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="32">&#128269; Locate</button>.
+          They came to an agreement that the building was worthy of rehabilitation based on its functional
+          <span class="drop-zone" id="q-target-33" data-q="33"><span class="dz-text">33</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="33">&#128269; Locate</button>.
+          At the beginning of the project, students were given the task to discover the history of the building through interviews with local residents. Through the course of the project, they learned where to locate
+          <span class="drop-zone" id="q-target-34" data-q="34"><span class="dz-text">34</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="34">&#128269; Locate</button>
+          for the project. They also worked closely with a number of
+          <span class="drop-zone" id="q-target-35" data-q="35"><span class="dz-text">35</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="35">&#128269; Locate</button>
+          on each step of the project. During the project, students were also given
+          <span class="drop-zone" id="q-target-36" data-q="36"><span class="dz-text">36</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="36">&#128269; Locate</button>
+          to build useful skills.
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 37&ndash;40</div>
+        <div class="q-instruction">Choose YES, NO, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-37">
+          <div class="q-label"><span class="q-num">37</span><span>The price of materials is one drawback to using traditional architecture.</span><button class="locate-btn" data-q="37">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="37" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="37" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="37" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-38">
+          <div class="q-label"><span class="q-num">38</span><span>Earthen structures can easily be built in all regions of the U.S.</span><button class="locate-btn" data-q="38">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="38" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="38" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="38" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-39">
+          <div class="q-label"><span class="q-num">39</span><span>Working with a traditional earthen structure can have physical benefits.</span><button class="locate-btn" data-q="39">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="39" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="39" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="39" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-40">
+          <div class="q-label"><span class="q-num">40</span><span>A traditional architecture curriculum is best suited to middle school level students.</span><button class="locate-btn" data-q="40">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="40" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="40" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="40" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /right-pane -->
+</div><!-- /split -->
+
+<div id="footer-nav">
+  <span class="nav-label">Q:</span>
+  <div id="nav-grid"></div>
+  <div id="font-controls">
+    <span>Font:</span>
+    <button id="btn-font-up">A+</button>
+    <button id="btn-font-dn">A&minus;</button>
+  </div>
+</div>
+
+</div><!-- /app -->
+
+<div id="highlight-menu">
+  <button style="background:#fef08a" onclick="applyHighlight('highlight-yellow')" title="Yellow"></button>
+  <button style="background:#bbf7d0" onclick="applyHighlight('highlight-green')" title="Green"></button>
+  <button style="background:#fbcfe8" onclick="applyHighlight('highlight-pink')" title="Pink"></button>
+  <button class="erase-btn" onclick="applyHighlight('erase')">&#10005;</button>
+</div>
+
+<div id="result-modal">
+  <div id="result-box">
+    <h2>Your Result</h2>
+    <div id="result-score">0/40</div>
+    <div id="result-band">Band: &ndash;</div>
+    <div id="result-breakdown"></div>
+    <button id="btn-close-modal">Review Answers</button>
+  </div>
+</div>
+
+<script>
+const ANSWERS={
+  1:'inefficient',2:'endurance',3:'technical',4:'submarine',5:'Clermont',6:'cargo',
+  7:'TRUE',8:'FALSE',9:'NOT GIVEN',10:'NOT GIVEN',11:'TRUE',12:'NOT GIVEN',13:'FALSE',
+  14:'A',15:'D',16:'C',17:'B',18:'B',
+  19:'E',20:'B',21:'A',22:'F',
+  23:'mid-1980s',24:"Raven's matrices",25:'verbal',26:'countries',
+  27:'C',28:'B',29:'A',30:'B',31:'D',
+  32:'D',33:'C',34:'F',35:'A',36:'G',
+  37:'NO',38:'NOT GIVEN',39:'YES',40:'NOT GIVEN'
+};
+const Q_PASSAGE={};
+for(let i=1;i<=13;i++)Q_PASSAGE[i]=0;
+for(let i=14;i<=26;i++)Q_PASSAGE[i]=1;
+for(let i=27;i<=40;i++)Q_PASSAGE[i]=2;
+
+let userAnswers={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+// Timer
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{
+      p.style.display=i===t?'block':'none';
+      p.classList.toggle('active',i===t);
+    });
+  });
+});
+
+// Nav grid
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i; btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');
+        setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+
+// Radio grid table buttons (Q14-22)
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    userAnswers[q]=btn.dataset.val;
+    updateNav(q);
+  });
+});
+
+// MC buttons
+document.querySelectorAll('.mc-opt-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    userAnswers[q]=btn.dataset.val;
+    updateNav(q);
+  });
+});
+
+// Match radio buttons (Q14-22)
+document.querySelectorAll('.match-radio-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.match-radio-btn[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    userAnswers[q]=btn.dataset.val;
+    updateNav(q);
+  });
+});
+
+// Blank inputs (Q1-6, Q23-26)
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();
+    updateNav(q);
+  });
+});
+
+// ── Drag & Drop (Q32-36) ──
+let dragWord=null;
+document.querySelectorAll('.draggable-card').forEach(card=>{
+  card.addEventListener('dragstart',e=>{
+    if(submitted)return;
+    dragWord=card.dataset.word;
+    card.classList.add('dragging');
+    e.dataTransfer.effectAllowed='move';
+  });
+  card.addEventListener('dragend',()=>card.classList.remove('dragging'));
+});
+
+document.querySelectorAll('.drop-zone').forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag-over');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
+  zone.addEventListener('drop',e=>{
+    e.preventDefault();
+    zone.classList.remove('drag-over');
+    if(submitted||!dragWord)return;
+    // Return previous word to pool if any
+    const prev=zone.dataset.filled;
+    if(prev){
+      const prevCard=document.getElementById('card-'+prev);
+      if(prevCard)prevCard.classList.remove('used');
+    }
+    // Fill zone
+    const card=document.getElementById('card-'+dragWord);
+    if(card)card.classList.add('used');
+    zone.dataset.filled=dragWord;
+    zone.classList.add('filled');
+    zone.querySelector('.dz-text').textContent=dragWord+' \u2013 '+getWordLabel(dragWord);
+    const q=parseInt(zone.dataset.q);
+    userAnswers[q]=dragWord;
+    updateNav(q);
+    dragWord=null;
+  });
+  // Remove chip click
+  zone.querySelector('.remove-chip').addEventListener('click',e=>{
+    e.stopPropagation();
+    if(submitted)return;
+    const prev=zone.dataset.filled;
+    if(prev){
+      const prevCard=document.getElementById('card-'+prev);
+      if(prevCard)prevCard.classList.remove('used');
+    }
+    zone.dataset.filled='';
+    zone.classList.remove('filled');
+    zone.querySelector('.dz-text').textContent=zone.dataset.q;
+    const q=parseInt(zone.dataset.q);
+    delete userAnswers[q];
+    updateNav(q);
+  });
+});
+
+function getWordLabel(w){
+  const map={A:'experts',B:'location',C:'design',D:'storage',E:'students',F:'resources',G:'training',H:'businesses'};
+  return map[w]||w;
+}
+
+// ── Submit ──
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+function submitExam(){
+  if(submitted)return;
+  submitted=true;
+  clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=user.toLowerCase()===ans.toLowerCase();
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    // blank inputs
+    const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        inp.title='Correct: '+ans;
+        // Show correct answer label
+        const existingLabel=inp.parentNode.querySelector('.blank-correct-label');
+        if(!existingLabel){
+          const lbl=document.createElement('span');
+          lbl.className='blank-correct-label';
+          lbl.textContent='✓ '+ans;
+          lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+          inp.insertAdjacentElement('afterend',lbl);
+        }
+      }
+    }
+    // mc buttons
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    // match radio buttons
+    document.querySelectorAll('.match-radio-btn[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    // drop zones
+    const dz=document.getElementById('q-target-'+q);
+    if(dz&&dz.classList.contains('drop-zone')){
+      dz.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        dz.title='Correct: '+ans;
+        const lbl=document.createElement('span');
+        lbl.className='correct-answer-label';
+        lbl.textContent='✓ '+ans+' – '+getWordLabel(ans);
+        dz.insertAdjacentElement('afterend',lbl);
+      }
+    }
+    // nav
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    // locate btn
+    if(!ok){
+      document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+    }
+  }
+  // Disable drag
+  document.querySelectorAll('.draggable-card').forEach(c=>c.setAttribute('draggable','false'));
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1\u201313)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14\u201326)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27\u201340)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>{
+  document.getElementById('result-modal').classList.remove('show');
+});
+
+// ── Locate ──
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      // Try specific loc span first
+      const locEl=document.querySelector('.loc-q'+q);
+      if(locEl){
+        locEl.classList.add('loc-highlight');
+        locEl.scrollIntoView({behavior:'smooth',block:'center'});
+        setTimeout(()=>locEl.classList.remove('loc-highlight'),4000);
+      } else {
+        // Fallback: scroll left pane to top of passage
+        document.getElementById('left-pane').scrollTop=0;
+      }
+    },150);
+  });
+});
+
+// ── Font size ──
+document.getElementById('btn-font-up').addEventListener('click',()=>{
+  baseFontSize=Math.min(20,baseFontSize+1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{
+  baseFontSize=Math.max(11,baseFontSize-1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+
+// ── Highlight (both panes) ──
+let highlightMenu=document.getElementById('highlight-menu');
+let savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const leftPane=document.getElementById('left-pane');
+    const rightPane=document.getElementById('right-pane');
+    if(leftPane.contains(range.commonAncestorContainer)||rightPane.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';
+  savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(savedRange);
+    document.execCommand('removeFormat');
+    savedRange=null;return;
+  }
+  const span=document.createElement('span');
+  span.className=cls;
+  try{savedRange.surroundContents(span);}
+  catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();
+  savedRange=null;
+}
+
+// ── Resize ──
+const handle=document.getElementById('resize-handle');
+const leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{
+  if(!isResizing)return;
+  const split=document.getElementById('split');
+  const rect=split.getBoundingClientRect();
+  leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';
+});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+
+startTimer();
+</script>
+</body>
+</html>

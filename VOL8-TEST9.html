@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading &ndash; VOL 8 TEST 9</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-pause:hover{background:#4b5563;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam:hover{background:#1e40af;}
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#resize-handle:hover{background:#9ca3af;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button:hover{background:#f3f4f6;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+#font-controls button:hover{background:#f3f4f6;}
+.passage-panel{display:none;}.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+.q-panel{display:none;}.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.blank-input{border:none;border-bottom:2px solid #1a1a1a;background:transparent;font-size:0.88rem;padding:2px 4px;min-width:110px;outline:none;font-family:'Lexend',sans-serif;}
+.blank-input:focus{border-bottom-color:#1d4ed8;}
+.blank-input.correct{border-bottom-color:#16a34a;background:#dcfce7;}
+.blank-input.wrong{border-bottom-color:#dc2626;background:#fee2e2;}
+/* Radio Grid Table */
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr:hover:not(.row-correct):not(.row-wrong) td{background:#f0f9ff;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:40px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-radio:hover:not(:disabled){background:#f3f4f6;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+/* Endings box */
+.endings-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:10px 14px;font-size:0.82rem;margin-bottom:12px;}
+.endings-box div{padding:3px 0;border-bottom:1px solid #f3f4f6;}
+.endings-box div:last-child{border-bottom:none;}
+/* Notes box */
+.notes-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.notes-box h4{font-size:0.88rem;font-weight:700;margin:0 0 8px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+.notes-box ul{margin:6px 0 6px 20px;padding:0;}
+.notes-box li{margin-bottom:4px;}
+/* People legend */
+.people-legend{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 14px;font-size:0.82rem;margin-bottom:12px;display:grid;grid-template-columns:1fr 1fr;gap:3px 16px;}
+/* Locate */
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn:hover{background:#fde68a;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+/* Highlight */
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+/* Result modal */
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="header">
+  <h1>IELTS READING &ndash; VOL 8 TEST 9</h1>
+  <div id="timer-wrap">
+    <span id="timer">60:00</span>
+    <button id="btn-pause">&#9208; Pause</button>
+    <button id="btn-submit-exam">Submit</button>
+  </div>
+</div>
+<div id="tab-bar">
+  <button class="tab-btn active" data-target="0">PASSAGE 1</button>
+  <button class="tab-btn" data-target="1">PASSAGE 2</button>
+  <button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+<div id="split">
+  <div id="left-pane">
+
+    <!-- PASSAGE 1: The Whale Goes to Court -->
+    <div class="passage-panel active" id="passage-content-0">
+      <div class="passage-title">THE WHALE GOES TO COURT</div>
+      <div class="passage-subtitle">A remarkable legal drama in the U.S.A.</div>
+      <div class="passage-text">
+        <p><span class="loc-q1">In 1818 a whale became the subject of a controversial court case in New York City. The case involved an old law requiring those who sold fish oil to pay a fee in order to have their barrels inspected by city officials, and certified.</span> However, an oil merchant named Samuel Judd refused to pay the inspection fee on three barrels of oil, claiming that no inspection was necessary because it was whale oil, and whales were not fish. The state disagreed, and so a date was set for a court to decide not a point of law, but the answer to a more fundamental question: is a whale a fish?</p>
+        <p><span class="loc-q4">As simple as that question may appear today, the answer was far from obvious in the early nineteenth century. Indeed, the public debate in New York sparked off by the trial was sensational.</span> At stake was nothing less than what most regarded as the order of nature. <span class="loc-q5">According to the commonly accepted scheme of things, if an animal was not a beast or a bird, it was a fish, regardless of whether it breathed air or suckled its young. For as long as anyone could remember, all non-human creatures had been organised according to the categories of birds, beasts and fish.</span> For the average person the answer seemed perfectly obvious: whales swam in the sea and therefore they were fish.</p>
+        <p>Against this traditional framework stood the new Linnaean system of classification, which sought to introduce more scientific values into the classification of living things. <span class="loc-q7">Barely half a century old in 1818, the Linnaean system controversially classified whales as mammals because they shared two mammalian characteristics: they were warm-blooded and breathed air.</span></p>
+        <p>So the trial began in December 1818. Judd&rsquo;s defence lawyers chose as their star witness one of New York&rsquo;s most prominent figures, the congressman Samuel Mitchill. Referred to as a &lsquo;living encyclopaedia&rsquo; and a &lsquo;walking library&rsquo;, Mitchill was a renowned natural history <span class="loc-q8">lecturer</span> at the College of Physicians and Surgeons who liked to dare his students to test his knowledge of the natural world. &lsquo;Show me the fin, and I will name the fish,&rsquo; he boasted. Scientifically, it was an open-and-shut case, and Judd&rsquo;s defence lawyers believed they only had to do one simple thing to win the trial: insist that it be decided by biology alone. Mitchill seemed fully qualified for this role.</p>
+        <p>But this is where the case becomes interesting, and is the reason why the trial of the whale is not some dusty nineteenth-century obscurity. For rather than debate Mitchill on his area of expertise, lawyers for the New York City fish-oil inspectors chose a different tack. Lead counsel William Sampson turned the trial into a contest between scientific learning and common sense, by asking plain-spoken <span class="loc-q9">whalers</span> to make their case before the jury.</p>
+        <p>The crux of Sampson&rsquo;s case was the trial&rsquo;s implication with regard to humans, should Judd be found not guilty. Sampson told jury members that if they accepted Mitchill&rsquo;s testimony on whales, they were obliged to accept a lower place for their own kind in the natural order. As a result, Mitchill&rsquo;s day in court did not go smoothly, not least because he was forced to acknowledge serious disputes among his peers regarding exactly how to classify biological organisms. Sampson then took aim at Mitchill himself and what he represented: privileged aristocrats from the scientific community who had lost touch with reality. The smooth-talking Sampson then claimed Mitchill&rsquo;s beliefs had their origin in <span class="loc-q10">Europe</span> &ndash; something he rightly judged would infuriate the citizens of always-independent New York. This revolutionary new thinking, Sampson argued, was something that honest working New Yorkers could do without. No longer was this a case about barrels of oil, but the proper place of scientific knowledge in the U.S.A.</p>
+        <p>Ultimately, what won the case for Samuel Judd were not Mitchill&rsquo;s scientific arguments, but testimony from a different sphere altogether. In New York&rsquo;s markets, the <span class="loc-q11">merchants</span> implicitly understood that whale oil and fish oil were not the same: whale oil could be used as a <span class="loc-q12">fuel</span> for lamps because it could be burned without giving off smoke; fish oil, on the other hand, was nasty, impure stuff used primarily in tanning leather. In the end it was this testimony that led to Judd&rsquo;s victory.</p>
+        <p>The trial of the whale still has relevance today, when the court of public opinion remains easily swayed by sceptics. The 1818 trial was really about this question: who gets to decide on the place of the natural world in the human world &ndash; scientific experts or public opinion? Whether the issue today is the effects of human activity on the <span class="loc-q13">climate</span> of this planet, or one of many other contemporary topics, the legacy of Judd&rsquo;s case continues to be of relevance.</p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2: Herbal Medicine -->
+    <div class="passage-panel" id="passage-content-1">
+      <div class="passage-title">HERBAL MEDICINE</div>
+      <div class="passage-subtitle"></div>
+      <div class="passage-text">
+        <p><span class="para-label">A</span> There is an age-old practice of harvesting plants and herbs in their natural environment for use as medicines. And today there is huge potential for New Zealand to develop a herb industry based on the excellent growing conditions and expertise there, according to <span class="loc-q25">Phil Rasmussen, a pharmacist and medical herbalist.</span> <span class="loc-q15">Take arnica for example, a popular pharmaceutical herb used to treat bruises and joint problems. Traditionally collected by Romanian communities in Europe, it is now in high demand worldwide as interest develops in the capabilities of the small alpine plant.</span> A 2008 report for the Plant and Food Research organization concluded that New Zealand has a good opportunity to cultivate arnica flowers and roots for the international markets. However, <span class="loc-q23">the initiative was stopped in its tracks when the government abruptly halted funding for the research programmer. It was an unjustified move, according to agronomist Malcolm Douglas, based on a number of inaccurate views about weed invasion.</span></p>
+        <p><span class="para-label">B</span> The history of herbal medicines in New Zealand has long featured disagreements of this sort. For the early Maori people the original inhabitants of New Zealand the forest was well stocked with edible plants that were an obvious source of nutrition, but that were taken for the relief of <span class="loc-q18">pain</span> as well. While the earliest European doctors in New Zealand relied on imported dried herbs, many were keen to include native plants in their practices: in his <span class="loc-q19">book</span> published in 1891, herbalist James Neil described manuka and koromiko as among New Zealand&rsquo;s most valuable herbs. Despite its popularity among some, however, herbalism continued to have its detractor. In 1907 Neil, president of the then very young New Zealand Association of Medical Herbalists (NZAMH), petitioned parliament for legal status for herbalists, but he was unsuccessful. The Evening Post newspaper perhaps summed up the opposing position by claiming that herbalism &lsquo;is obsolete&rsquo;.</p>
+        <p><span class="para-label">C</span> In fact, traditional Maori medicine faced a more determined challenge. In 1908 the government passed a controversial <span class="loc-q20">law</span> that had the effect of restricting traditional herbal practice, or pushing it underground. Then for a brief period in the mid-20th century, herbal medicine was largely ignored, shunned by the majority of the medical profession, and absent from medical school curricula. But a centuries-old tradition was not going to disappear so easily, and in the 1980s the NZAMH was revived, and it became possible to complete a <span class="loc-q21">course</span> in herbal medicine at several polytechnics around the country. However, the problem remained of how to connect the culture of plant-based medicine with conventional scientific thinking in order to promote herbal use within the general population. For many years, the limited evidence there was that herbal medicines worked was undermined by lack of interest among general practitioners and within the scientific community.</p>
+        <p><span class="para-label">D</span> Today, the ideas of herbalists in the 1980s &ndash; eat a varied diet, include lots of fresh fruit and vegetables, recognise stress &ndash; are completely accepted by the medical establishment and widely practiced in society as a whole. <span class="loc-q14">Natural health products are big sellers in pharmacies, and global pharmaceutical companies are buying up natural supplement brands or developing their own.</span></p>
+        <p><span class="para-label">E</span> What&rsquo;s more, according to Rasmussen, robust clinical trials show that herbal medicine is generally safe &ndash; safer than most drugs. <span class="loc-q17">&lsquo;It doesn&rsquo;t do everything,&rsquo; he says, &lsquo;but there&rsquo;s a lot it does do, particularly in terms of preventative health care.&rsquo;</span> One significant issue for today&rsquo;s export-oriented herbal medicine producers is the question of how to guarantee standards for consumers in different countries. In other words, there is the need for some form of globally recognised system of documentation. Rasmussen&rsquo;s range of extracts are produced under the Good Manufacturing Practice (GMP) scheme, which is respected around the world. So too is the range produced by <span class="loc-q26">Sandra Clair, who says that such assurance is expensive but necessary if you want to export herbal remedies to the rest of the world.</span> Moves to launch a joint Australia-New Zealand agency to regulate herbal remedies under a single, streamlined licensing process have recently been revived, after being abandoned in 2007 through lack of support in parliament.</p>
+        <p><span class="para-label">F</span> There are those in the industry who support further regulation still. <span class="loc-q22">According to Rasmussen, some herbs should require a prescription from a suitably qualified medical herbalist or doctor.</span> For example, consumers shouldn&rsquo;t be able to go to their local supermarket and buy St John&rsquo;s Wort, according to Rasmussen, because it can interact in harmful ways with at least ten pharmaceutical drugs. Isla Burgess, who is part of the International Research Group for the Conservation of Medicinal Plants, agrees that tighter regulation is necessary, but for a different reason. <span class="loc-q24">&lsquo;More than 400,000 tonnes of medicinal and aromatic plants are traded in the world each year,&rsquo; says Burgess. &lsquo;The great majority of these are harvested from the wild, so they each have an impact on their local ecosystem.&rsquo;</span> She gives the example of elm trees in the USA ringbarked and stripped for the growing market for a product called &lsquo;slippery elm&rsquo;: this endangered tree should be protected. <span class="loc-q16">But others argue that more regulation would be prohibitively expensive for all but the largest manufacturers &ndash; a change, cautions Clair, that would probably put some local companies out of business.</span></p>
+        <p>So, for the time being at least, it seems that the topic of herbal medicines will continue to provoke debate.</p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3: Science in the kitchen -->
+    <div class="passage-panel" id="passage-content-2">
+      <div class="passage-title">SCIENCE IN THE KITCHEN</div>
+      <div class="passage-subtitle">Chefs are bringing a new standard of experimentation and precision to their cooking.</div>
+      <div class="passage-text">
+        <p>There is a recent movement in the world of food, in which chefs are collaborating with scientists to teach themselves the chemistry and physics of cuisine. Even academics are getting excited about the results. <span class="loc-q36">Colin Osborne of the Royal Society of Chemistry in London is enthusiastic: &ldquo;Chefs are using unusual methods to produce exciting dishes that would be impossible without modern science,&rdquo; he says.</span> <span class="loc-q27 loc-q28">You may wonder what&rsquo;s wrong with long established culinary traditions. The fact is, many culturally ingrained cooking methods are less than perfect.</span> Osborne gives the example of the common belief that frying meat seals in moisture, while researchers who weighed the meat actually found that moisture is lost in the process. Another example is the age old technique of adding salt when boiling vegetables to raise the water&rsquo;s boiling point, thus cooking the vegetables faster. In fact, the amount of salt typically added does not raise the temperature significantly &ndash; or improve the flavour, since only a minuscule amount is absorbed.</p>
+        <p><span class="loc-q37">Herv&eacute; This, director of the Molecular Gastronomy team at the French National Institute for Agricultural Research, spends much of his time trying to disprove culinary old wives&rsquo; tales. He is empirically testing traditional beliefs about cooking and disproving the more absurd, tackling such questions as whether it&rsquo;s better to add vinaigrette to potato salad while the potatoes are still hot. &ldquo;The first modern chemists used kitchen equipment to do their experiments,&rdquo; Herv&eacute; This explains. &ldquo;Since then, chemistry has undergone massive changes &ndash; but cooking methods have remained largely as they were in the Middle Ages.&rdquo;</span></p>
+        <p>&ldquo;It&rsquo;s seriously important work,&rdquo; says Peter Barham, a physicist at Bristol University. &ldquo;If you understand what&rsquo;s going on in cooking, you&rsquo;ll be better equipped to improve it.&rdquo; <span class="loc-q33">Barham contends that it&rsquo;s difficult to get consistent results from cookery books, because recipes are typically poorly written. In stark contrast, he notes, scientific papers are subject to peer review, whereby experts pore over experiments to ensure they can be accurately reproduced.</span></p>
+        <p>Barham also collaborates with leading British chef Heston Blumenthal, proprietor of The Fat Duck, a restaurant in the south of England. <span class="loc-q29">The restaurant is widely regarded as one of the best in the world, serving delightfully unexpected dishes such as nitro scrambled egg and bacon ice cream.</span></p>
+        <p>When Simon Campbell of the Royal Society of Chemistry bestowed an honorary fellowship on Blumenthal for creative applications of science to cooking, he said: &ldquo;The scientific community admires and respects the research that Mr Blumenthal has performed to harness cuisine to science. Through his inquisitive and innovative approach to food he has underlined spectacularly how chemistry permeates all aspects of texture, taste and smell.&rdquo;</p>
+        <p>Although some dishes sound gimmicky, this innovative approach to cooking is paying off. <span class="loc-q30">El Bulli in Catalonia, Spain &ndash; directed by chef Ferran Adri&agrave; &ndash; is another leading restaurant thus enthusiastically engaging with scientific techniques. It closes for six months of the year (to allow six months for research and development), yet is rumoured to be booked out for an entire year in advance.</span></p>
+        <p>Such restaurants are part of the movement known as &lsquo;molecular gastronomy&rsquo;, an expression coined by physicist Nicholas Kurti, working in collaboration with Herv&eacute; This. <span class="loc-q34">Kurti once quipped that &ldquo;it is a sad reflection that we know the temperature inside the stars better than the temperature inside a souffl&eacute;*.&rdquo;</span> <span class="loc-q38">Kurti and Herv&eacute; This devised the expression &lsquo;molecular gastronomy&rsquo; during the 1980s to denote the science of culinary transformations and eating phenomena, and differentiate it from food science.</span></p>
+        <p><span class="loc-q39">&ldquo;Twenty years ago the worlds of science and cooking were neatly compartmentalised,&rdquo; agrees author Harold McGee, a top food science writer. &ldquo;There was food science: an applied science mainly concerned with understanding the materials and processes of industrial manufacturing. And there was the world of domestic and restaurant cooking, traditional crafts that had never attracted much scientific attention.&rdquo;</span></p>
+        <p>A lot has changed in the two decades since he published his influential book on the topic. In a revised edition, McGee says the book was &ldquo;riding a rising wave of general interest in food, a wave that grew and grew, and knocked down the barriers between science and cooking, especially in the last decade. Science has found its way into the kitchen, and cooking into laboratories.&rdquo;</p>
+        <p>So what does the future hold? <span class="loc-q35 loc-q40">Rachel Edwards Stuart is a graduate PhD student who is studying some remarkable food additives, including modified cellulose gels that solidify on heating and melt again as they are cooled. The idea is to make dishes that develop different flavours as they are eaten. Her other project is creating drinks that change flavour.</span></p>
+        <p>&ldquo;The concept came from Roald Dahl&rsquo;s children&rsquo;s book <em>Charlie and the Chocolate Factory</em>, where Willy Wonka makes a bubble gum that is a whole meal in one sweet,&rdquo; she says. Unfortunately, Edwards Stuart was unable to say more, due to a confidentiality agreement with the restaurant for which she conducts her research.</p>
+        <p>While Herv&eacute; This, Blumenthal and Edwards Stuart are the pioneers, the next phase will be to bring science into kitchens at home. Already there are books that provide an insight into the wondrous chemistry that turns humble ingredients into cuisine. And as the movement grows it will not be long before we see laboratory test tubes, flasks and maybe the odd centrifuge on sale next to carving knives, rolling pins and pressure cookers.</p>
+        <p style="font-size:0.78rem;color:#6b7280;margin-top:12px;"><em>*souffl&eacute;: A French dish made using beaten eggs</em></p>
+      </div>
+    </div>
+
+  </div><!-- /left-pane -->
+  <div id="resize-handle"></div>
+
+  <div id="right-pane">
+
+    <!-- PASSAGE 1 Qs -->
+    <div class="q-panel active" id="qpanel-0">
+      <div class="q-section">
+        <div class="q-section-title">Questions 1&ndash;7</div>
+        <div class="q-instruction">Choose TRUE, FALSE, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-1">
+          <div class="q-label"><span class="q-num">1</span><span>An inspection fee on fish oil was introduced in New York in 1818.</span><button class="locate-btn" data-q="1">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="1" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="1" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="1" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-2">
+          <div class="q-label"><span class="q-num">2</span><span>Samuel Judd argued that the inspection fee should exclude whale oil.</span><button class="locate-btn" data-q="2">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="2" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="2" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="2" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-3">
+          <div class="q-label"><span class="q-num">3</span><span>Judd had been in trouble with city officials before the inspection fee disagreement.</span><button class="locate-btn" data-q="3">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="3" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="3" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="3" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-4">
+          <div class="q-label"><span class="q-num">4</span><span>Many New Yorkers were interested in the court case at the time.</span><button class="locate-btn" data-q="4">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="4" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="4" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="4" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-5">
+          <div class="q-label"><span class="q-num">5</span><span>Traditionally, non-human creatures had been classified in one of three groups.</span><button class="locate-btn" data-q="5">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="5" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="5" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="5" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-6">
+          <div class="q-label"><span class="q-num">6</span><span>Generally speaking, ordinary people thought fish were the lowest form of life.</span><button class="locate-btn" data-q="6">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="6" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="6" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="6" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-7">
+          <div class="q-label"><span class="q-num">7</span><span>Whales were excluded from the Linnaean system in 1818.</span><button class="locate-btn" data-q="7">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="7" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="7" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="7" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 8&ndash;13</div>
+        <div class="q-instruction">Complete the notes below. Write ONE WORD ONLY from the text for each answer.</div>
+        <div class="notes-box">
+          <h4>The Trial of December 1818</h4>
+          <p><strong>The Personalities</strong></p>
+          <ul>
+            <li>Samuel Mitchill worked as a congressman and a <span id="q-target-8"><input class="blank-input" id="blank-q8" data-q="8" placeholder="8" style="width:100px"></span><button class="locate-btn" data-q="8">&#128269;</button>.</li>
+            <li>The defence wanted Mitchill to present the biology of the case.</li>
+            <li>William Sampson called <span id="q-target-9"><input class="blank-input" id="blank-q9" data-q="9" placeholder="9" style="width:100px"></span><button class="locate-btn" data-q="9">&#128269;</button> as witnesses in order to appeal to the common sense of the jury.</li>
+          </ul>
+          <p><strong>The Arguments</strong></p>
+          <ul>
+            <li>Sampson&rsquo;s case was based on the consequences for humans if Judd won.</li>
+            <li>Mitchill admitted that scientists had disputes about classification.</li>
+            <li>New Yorkers disliked Mitchill because his ideas came from <span id="q-target-10"><input class="blank-input" id="blank-q10" data-q="10" placeholder="10" style="width:90px"></span><button class="locate-btn" data-q="10">&#128269;</button>.</li>
+          </ul>
+          <p><strong>Conclusions</strong></p>
+          <ul>
+            <li>In the end it was statements from local <span id="q-target-11"><input class="blank-input" id="blank-q11" data-q="11" placeholder="11" style="width:100px"></span><button class="locate-btn" data-q="11">&#128269;</button>, not Mitchill&rsquo;s testimony, which helped Judd win.</li>
+            <li>Whale oil made a good <span id="q-target-12"><input class="blank-input" id="blank-q12" data-q="12" placeholder="12" style="width:90px"></span><button class="locate-btn" data-q="12">&#128269;</button> because it was clean.</li>
+            <li>Judd&rsquo;s case is relevant today, e.g. in the debate about Earth&rsquo;s <span id="q-target-13"><input class="blank-input" id="blank-q13" data-q="13" placeholder="13" style="width:90px"></span><button class="locate-btn" data-q="13">&#128269;</button>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2 Qs -->
+    <div class="q-panel" id="qpanel-1">
+      <div class="q-section">
+        <div class="q-section-title">Questions 14&ndash;17</div>
+        <div class="q-instruction">Which paragraph contains the following information? You may use any letter more than once.</div>
+        <table class="radio-grid-table" id="rgt-14-17">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Information</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th>
+            <th class="rgt-opt">D</th><th class="rgt-opt">E</th><th class="rgt-opt">F</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-14"><td class="rgt-num">14</td><td class="rgt-stmt">a reference to the interest shown by large corporations in herbal remedies</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="14">&#128269;</button></td></tr>
+            <tr id="q-target-15"><td class="rgt-num">15</td><td class="rgt-stmt">examples of the uses of one particular herbal medicine</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="15">&#128269;</button></td></tr>
+            <tr id="q-target-16"><td class="rgt-num">16</td><td class="rgt-stmt">a warning that small companies cannot afford stricter controls of the herbal medicine industry</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="16">&#128269;</button></td></tr>
+            <tr id="q-target-17"><td class="rgt-num">17</td><td class="rgt-stmt">a statement by one expert about the effectiveness and limitations of herbal medicines</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="17">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 18&ndash;21</div>
+        <div class="q-instruction">Complete the summary below. Write ONE WORD ONLY from the passage for each answer.</div>
+        <div class="notes-box">
+          <strong>The history of herbal medicines in New Zealand</strong><br><br>
+          Originally, the Maori people consumed plants to help deal with <span id="q-target-18"><input class="blank-input" id="blank-q18" data-q="18" placeholder="18" style="width:90px"></span><button class="locate-btn" data-q="18">&#128269;</button> and also as food. When Europeans settled in the country, a <span id="q-target-19"><input class="blank-input" id="blank-q19" data-q="19" placeholder="19" style="width:90px"></span><button class="locate-btn" data-q="19">&#128269;</button> by James Neil showed that some of them also recognized the medicinal value of native plants. However, criticism of herbal medicine appeared in one newspaper in 1907. The following year, the use of herbal medicines was made more difficult because of a new <span id="q-target-20"><input class="blank-input" id="blank-q20" data-q="20" placeholder="20" style="width:80px"></span><button class="locate-btn" data-q="20">&#128269;</button>, and for a time in the mid-20th century, they were largely ignored. Then, in the 1980s, a number of institutions started offering a <span id="q-target-21"><input class="blank-input" id="blank-q21" data-q="21" placeholder="21" style="width:90px"></span><button class="locate-btn" data-q="21">&#128269;</button> in the subject, although for many years there was still little evidence to support their use because doctors and academics were not interested.
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 22&ndash;26</div>
+        <div class="q-instruction">Match each statement with the correct person, A, B, C or D. You may use any letter more than once.</div>
+        <div class="people-legend">
+          <div><strong>A</strong> Phil Rasmussen</div><div><strong>B</strong> Malcolm Douglas</div>
+          <div><strong>C</strong> Sandra Clair</div><div><strong>D</strong> Isla Burgess</div>
+        </div>
+        <table class="radio-grid-table" id="rgt-22-26">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Statement</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-22"><td class="rgt-num">22</td><td class="rgt-stmt">There ought to be restrictions on where you can buy some herbal medicines.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="22">&#128269;</button></td></tr>
+            <tr id="q-target-23"><td class="rgt-num">23</td><td class="rgt-stmt">The authorities stopped supporting one project without a good reason.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="23">&#128269;</button></td></tr>
+            <tr id="q-target-24"><td class="rgt-num">24</td><td class="rgt-stmt">The herbal medicine industry has an effect on the environment where some plant-based medicines are found.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="24">&#128269;</button></td></tr>
+            <tr id="q-target-25"><td class="rgt-num">25</td><td class="rgt-stmt">New Zealand has the human resources and natural environment to grow herbs commercially.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="25">&#128269;</button></td></tr>
+            <tr id="q-target-26"><td class="rgt-num">26</td><td class="rgt-stmt">It is essential for herbal medicines to have international certification, despite the cost.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="26">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3 Qs -->
+    <div class="q-panel" id="qpanel-2">
+      <div class="q-section">
+        <div class="q-section-title">Questions 27&ndash;31</div>
+        <div class="q-instruction">Choose YES, NO, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-27">
+          <div class="q-label"><span class="q-num">27</span><span>Scientists and chefs have a long established history of working together.</span><button class="locate-btn" data-q="27">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="27" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="27" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="27" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-28">
+          <div class="q-label"><span class="q-num">28</span><span>Traditional ways of cooking tend to be supported by modern scientific research.</span><button class="locate-btn" data-q="28">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="28" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="28" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="28" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-29">
+          <div class="q-label"><span class="q-num">29</span><span>The food produced by Heston Blumenthal at The Fat Duck is unconventional.</span><button class="locate-btn" data-q="29">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="29" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="29" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="29" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-30">
+          <div class="q-label"><span class="q-num">30</span><span>El Bulli is the most popular restaurant of its kind in Spain.</span><button class="locate-btn" data-q="30">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="30" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="30" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="30" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-31">
+          <div class="q-label"><span class="q-num">31</span><span>McGee has plans to open his own restaurant.</span><button class="locate-btn" data-q="31">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="31" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="31" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="31" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 32&ndash;35</div>
+        <div class="q-instruction">Choose the correct answer.</div>
+        <div class="q-item" id="q-target-32">
+          <div class="q-label"><span class="q-num">32</span><span>The purpose of Herv&eacute; This&rsquo;s research is to</span><button class="locate-btn" data-q="32">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="32" data-val="A"><span class="radio-circle"></span>A. determine how chemistry has influenced modern cooking.</button>
+          <button class="mc-opt-btn" data-q="32" data-val="B"><span class="radio-circle"></span>B. provide a scientific basis for traditional cooking methods.</button>
+          <button class="mc-opt-btn" data-q="32" data-val="C"><span class="radio-circle"></span>C. show that long held beliefs about cooking are wrong.</button>
+          <button class="mc-opt-btn" data-q="32" data-val="D"><span class="radio-circle"></span>D. offer practical advice to those who cook at home.</button>
+        </div>
+        <div class="q-item" id="q-target-33">
+          <div class="q-label"><span class="q-num">33</span><span>According to Peter Barham, one difference between cookery books and scientific papers is that</span><button class="locate-btn" data-q="33">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="33" data-val="A"><span class="radio-circle"></span>A. scientific papers are checked by more people.</button>
+          <button class="mc-opt-btn" data-q="33" data-val="B"><span class="radio-circle"></span>B. the writers of cookery books need not be qualified.</button>
+          <button class="mc-opt-btn" data-q="33" data-val="C"><span class="radio-circle"></span>C. the language used in scientific papers is more complicated.</button>
+          <button class="mc-opt-btn" data-q="33" data-val="D"><span class="radio-circle"></span>D. recipe writers can profit more financially than scientific writers.</button>
+        </div>
+        <div class="q-item" id="q-target-34">
+          <div class="q-label"><span class="q-num">34</span><span>Nicholas Kurti referred to a souffl&eacute; in order to</span><button class="locate-btn" data-q="34">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="34" data-val="A"><span class="radio-circle"></span>A. give an example of a dish that can easily be ruined by excess heat.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="B"><span class="radio-circle"></span>B. highlight the inadequacy of scientific research into cooking.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="C"><span class="radio-circle"></span>C. show that cooking is similar to other scientific processes.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="D"><span class="radio-circle"></span>D. confess his own limitations as a cook.</button>
+        </div>
+        <div class="q-item" id="q-target-35">
+          <div class="q-label"><span class="q-num">35</span><span>One aspect of Rachel Edwards Stuart&rsquo;s research involves</span><button class="locate-btn" data-q="35">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="35" data-val="A"><span class="radio-circle"></span>A. matching solid food to complementary liquids.</button>
+          <button class="mc-opt-btn" data-q="35" data-val="B"><span class="radio-circle"></span>B. determining which tastes appeal to young people.</button>
+          <button class="mc-opt-btn" data-q="35" data-val="C"><span class="radio-circle"></span>C. studying how food changes form in certain conditions.</button>
+          <button class="mc-opt-btn" data-q="35" data-val="D"><span class="radio-circle"></span>D. evaluating the risk of damage from using preservatives in food.</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 36&ndash;40</div>
+        <div class="q-instruction">Complete each sentence with the correct ending, A&ndash;H, below.</div>
+        <div class="endings-box">
+          <div><strong>A</strong> there used to be a clear division between cooking and science.</div>
+          <div><strong>B</strong> well established cooking traditions have come back into fashion.</div>
+          <div><strong>C</strong> cooking has failed to keep pace with scientific developments.</div>
+          <div><strong>D</strong> an imaginary invention inspired scientific research.</div>
+          <div><strong>E</strong> science has helped cooks make meals that would otherwise be unachievable.</div>
+          <div><strong>F</strong> an award was given to acknowledge work in scientific gastronomy.</div>
+          <div><strong>G</strong> there is new terminology to describe the study of culinary reactions.</div>
+          <div><strong>H</strong> the home cook is not able to achieve the same level of innovation as a professional chef.</div>
+        </div>
+        <table class="radio-grid-table" id="rgt-36-40">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Sentence beginning</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+            <th class="rgt-opt">E</th><th class="rgt-opt">F</th><th class="rgt-opt">G</th><th class="rgt-opt">H</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-36"><td class="rgt-num">36</td><td class="rgt-stmt">Colin Osborne explains that&hellip;</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="36" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="36" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="36" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="36" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="36" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="36" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="36" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="36" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="36">&#128269;</button></td></tr>
+            <tr id="q-target-37"><td class="rgt-num">37</td><td class="rgt-stmt">Herv&eacute; This&rsquo;s research has led him to the view that&hellip;</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="37" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="37" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="37" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="37" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="37" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="37" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="37" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="37" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="37">&#128269;</button></td></tr>
+            <tr id="q-target-38"><td class="rgt-num">38</td><td class="rgt-stmt">Thanks to the joint effort of Nicholas Kurti and Herv&eacute; This,&hellip;</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="38" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="38" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="38" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="38" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="38" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="38" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="38" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="38" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="38">&#128269;</button></td></tr>
+            <tr id="q-target-39"><td class="rgt-num">39</td><td class="rgt-stmt">Food writer Harold McGee says that&hellip;</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="39" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="39" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="39" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="39" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="39" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="39" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="39" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="39" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="39">&#128269;</button></td></tr>
+            <tr id="q-target-40"><td class="rgt-num">40</td><td class="rgt-stmt">Rachel Edwards Stuart gives an example of a case where&hellip;</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="40" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="40" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="40" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="40" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="40" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="40" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="40" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="40" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="40">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /right-pane -->
+</div><!-- /split -->
+
+<div id="footer-nav">
+  <span class="nav-label">Q:</span>
+  <div id="nav-grid"></div>
+  <div id="font-controls">
+    <span>Font:</span>
+    <button id="btn-font-up">A+</button>
+    <button id="btn-font-dn">A&minus;</button>
+  </div>
+</div>
+</div><!-- /app -->
+
+<div id="highlight-menu">
+  <button style="background:#fef08a" onclick="applyHighlight('highlight-yellow')" title="Yellow"></button>
+  <button style="background:#bbf7d0" onclick="applyHighlight('highlight-green')" title="Green"></button>
+  <button style="background:#fbcfe8" onclick="applyHighlight('highlight-pink')" title="Pink"></button>
+  <button class="erase-btn" onclick="applyHighlight('erase')">&#10005;</button>
+</div>
+
+<div id="result-modal">
+  <div id="result-box">
+    <h2>Your Result</h2>
+    <div id="result-score">0/40</div>
+    <div id="result-band">Band: &ndash;</div>
+    <div id="result-breakdown"></div>
+    <button id="btn-close-modal">Review Answers</button>
+  </div>
+</div>
+
+<script>
+const ANSWERS={
+  1:'FALSE',2:'TRUE',3:'NOT GIVEN',4:'TRUE',5:'TRUE',6:'NOT GIVEN',7:'FALSE',
+  8:'lecturer',9:'whalers',10:'Europe',11:'merchants',12:'fuel',13:'climate',
+  14:'D',15:'A',16:'F',17:'E',
+  18:'pain',19:'book',20:'law',21:'course',
+  22:'A',23:'B',24:'D',25:'A',26:'C',
+  27:'NO',28:'NO',29:'YES',30:'NOT GIVEN',31:'NOT GIVEN',
+  32:'C',33:'A',34:'B',35:'C',
+  36:'E',37:'C',38:'G',39:'A',40:'D'
+};
+const Q_PASSAGE={};
+for(let i=1;i<=13;i++)Q_PASSAGE[i]=0;
+for(let i=14;i<=26;i++)Q_PASSAGE[i]=1;
+for(let i=27;i<=40;i++)Q_PASSAGE[i]=2;
+
+let userAnswers={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+function normalizeAnswer(s){
+  return s.trim().toLowerCase().replace(/[‘’]/g,"'").replace(/[–—]/g,'-').replace(/\s+/g,' ');
+}
+function checkAnswer(user,correct){
+  const u=normalizeAnswer(user),c=normalizeAnswer(correct);
+  if(u===c)return true;
+  if(u.replace(/-/g,' ')===c.replace(/-/g,' '))return true;
+  return false;
+}
+
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{p.style.display=i===t?'block':'none';p.classList.toggle('active',i===t);});
+  });
+});
+
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i;btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+
+document.querySelectorAll('.mc-opt-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();updateNav(q);
+  });
+});
+
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+function submitExam(){
+  if(submitted)return;
+  submitted=true;clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=checkAnswer(user,ans);
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        inp.title='Correct: '+ans;
+        // Show correct answer label
+        const existingLabel=inp.parentNode.querySelector('.blank-correct-label');
+        if(!existingLabel){
+          const lbl=document.createElement('span');
+          lbl.className='blank-correct-label';
+          lbl.textContent='✓ '+ans;
+          lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+          inp.insertAdjacentElement('afterend',lbl);
+        }
+      }
+    }
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    const rgtRow=document.getElementById('q-target-'+q);
+    if(rgtRow&&rgtRow.tagName==='TR')rgtRow.classList.add(ok?'row-correct':'row-wrong');
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    if(!ok)document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+  }
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1–13)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14–26)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27–40)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>document.getElementById('result-modal').classList.remove('show'));
+
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      const locEl=document.querySelector('.loc-q'+q);
+      if(locEl){locEl.classList.add('loc-highlight');locEl.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>locEl.classList.remove('loc-highlight'),4000);}
+    },150);
+  });
+});
+
+document.getElementById('btn-font-up').addEventListener('click',()=>{
+  baseFontSize=Math.min(20,baseFontSize+1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{
+  baseFontSize=Math.max(11,baseFontSize-1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+
+let highlightMenu=document.getElementById('highlight-menu'),savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const lp=document.getElementById('left-pane'),rp=document.getElementById('right-pane');
+    if(lp.contains(range.commonAncestorContainer)||rp.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){window.getSelection().removeAllRanges();window.getSelection().addRange(savedRange);document.execCommand('removeFormat');savedRange=null;return;}
+  const span=document.createElement('span');span.className=cls;
+  try{savedRange.surroundContents(span);}catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();savedRange=null;
+}
+
+const handle=document.getElementById('resize-handle'),leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const split=document.getElementById('split');const rect=split.getBoundingClientRect();leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+
+startTimer();
+</script>
+</body>
+</html>

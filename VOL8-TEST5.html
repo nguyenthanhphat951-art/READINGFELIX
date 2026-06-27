@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading &ndash; VOL 8 TEST 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-pause:hover{background:#4b5563;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam:hover{background:#1e40af;}
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#resize-handle:hover{background:#9ca3af;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button:hover{background:#f3f4f6;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+#font-controls button:hover{background:#f3f4f6;}
+.passage-panel{display:none;}.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+.para-heading{font-weight:700;font-size:0.88rem;color:#374151;margin-bottom:4px;}
+.q-panel{display:none;}.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.blank-input{border:none;border-bottom:2px solid #1a1a1a;background:transparent;font-size:0.88rem;padding:2px 4px;min-width:110px;outline:none;font-family:'Lexend',sans-serif;}
+.blank-input:focus{border-bottom-color:#1d4ed8;}
+.blank-input.correct{border-bottom-color:#16a34a;background:#dcfce7;}
+.blank-input.wrong{border-bottom-color:#dc2626;background:#fee2e2;}
+.blank-input-wide{min-width:150px;}
+/* Radio Grid Table */
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr:hover:not(.row-correct):not(.row-wrong) td{background:#f0f9ff;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:40px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-radio:hover:not(:disabled){background:#f3f4f6;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+/* Headings box */
+.headings-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:10px 14px;font-size:0.82rem;margin-bottom:14px;}
+.headings-box div{padding:3px 0;border-bottom:1px solid #f3f4f6;}
+.headings-box div:last-child{border-bottom:none;}
+/* People legend */
+.people-legend{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 14px;font-size:0.82rem;margin-bottom:12px;display:grid;grid-template-columns:1fr 1fr;gap:3px 16px;}
+/* Notes box */
+.notes-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+/* Sentence endings */
+.endings-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:10px 14px;font-size:0.82rem;margin-bottom:12px;}
+.endings-box div{padding:3px 0;border-bottom:1px solid #f3f4f6;}
+.endings-box div:last-child{border-bottom:none;}
+.sentence-item{margin-bottom:12px;font-size:0.86rem;line-height:1.9;}
+/* Locate */
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn:hover{background:#fde68a;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+/* Highlight */
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+/* Result modal */
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+
+/* Heading DnD */
+.heading-chip{display:inline-flex;align-items:center;padding:5px 12px;background:#1a1a1a;color:#fff;border-radius:20px;cursor:grab;font-size:0.78rem;font-family:'Lexend',sans-serif;user-select:none;margin:3px;border:2px solid transparent;line-height:1.4;}
+.heading-chip:active{cursor:grabbing;}
+.heading-chip.dragging{opacity:0.4;}
+.heading-chip.used{background:#6b7280;cursor:default;}
+.heading-chip-pool{display:flex;flex-wrap:wrap;gap:4px;padding:10px 12px;background:#f9fafb;border:1.5px dashed #9ca3af;border-radius:8px;margin-bottom:14px;min-height:44px;}
+.heading-dropzone{display:inline-flex;align-items:center;justify-content:center;min-width:180px;height:28px;border:2px dashed #9ca3af;border-radius:14px;padding:0 10px;font-size:0.76rem;color:#9ca3af;vertical-align:middle;margin:3px 0;transition:border-color 0.15s,background 0.15s;position:relative;}
+.heading-dropzone.drag-over{border-color:#1d4ed8;background:#eff6ff;}
+.heading-dropzone.filled{border-style:solid;border-color:#1a1a1a;background:#1a1a1a;color:#fff;font-weight:600;}
+.heading-dropzone.correct{border-color:#16a34a!important;background:#dcfce7!important;color:#16a34a!important;}
+.heading-dropzone.wrong{border-color:#dc2626!important;background:#fee2e2!important;color:#dc2626!important;}
+.heading-dropzone .hdz-remove{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:#fff;color:#1a1a1a;font-size:0.6rem;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;line-height:1;}
+.heading-dropzone.filled .hdz-remove{display:flex;}
+.heading-dropzone:not(.filled) .hdz-remove{display:none;}
+.para-heading-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="header">
+  <h1>IELTS READING &ndash; VOL 8 TEST 5</h1>
+  <div id="timer-wrap">
+    <span id="timer">60:00</span>
+    <button id="btn-pause">&#9208; Pause</button>
+    <button id="btn-submit-exam">Submit</button>
+  </div>
+</div>
+<div id="tab-bar">
+  <button class="tab-btn active" data-target="0">PASSAGE 1</button>
+  <button class="tab-btn" data-target="1">PASSAGE 2</button>
+  <button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+<div id="split">
+  <div id="left-pane">
+
+    <!-- PASSAGE 1: Western Immigration of Canada -->
+    <div class="passage-panel active" id="passage-content-0">
+      <div class="passage-title">WESTERN IMMIGRATION OF CANADA</div>
+      <div class="passage-subtitle"></div>
+      <div class="passage-text">
+        <p><span class="para-heading">ix Demand of western immigration</span><br>
+        By the mid-1870s Canada wanted an immigrant population of agricultural settlers established in the West. No urban centres existed on the prairies in the 1870s, and rural settlement was the focus of the federal government&rsquo;s attention. The western rural settlement was desired, as it would provide <span class="loc-q8">homesteads</span> for the sons and daughters of eastern farmers, as eastern agricultural land filled to capacity. As well, eastern farmers and politicians viewed western Canada, with its broad expanses of unpopulated land, as a prime location for expanding Canada&rsquo;s <span class="loc-q9">agricultural output</span>, especially in terms of <span class="loc-q10">wheat</span> production to serve the markets of eastern Canada.</p>
+        <p><div class="para-heading-row">
+            <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 1:</span>
+            <span class="heading-dropzone" id="hdz-1-1" data-q="1"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+            <button class="locate-btn" data-q="1">&#128269;</button>
+          </div>
+          <span id="q-target-1" class="para-heading loc-q1">1 [Government&rsquo;s safeguard in the West]</span><br>
+        To bolster Canada&rsquo;s population and agricultural output, the federal government took steps to secure western land. The Dominion of Canada purchased Rupert&rsquo;s Land from the Hudson&rsquo;s Bay <span class="loc-q11">Company</span> in 1870. In 1872, the federal government enacted the Dominion Lands Act. This act enabled settlers to acquire 160 acres of free land, as long as settlers remained on their land for a period of three years, made certain minor improvements to the land, and paid a $10.00 registration fee. The Canadian government also created a Mounted <span class="loc-q12">Police Force</span> in 1873. The Mounties journeyed west to secure the area for future settlers. By 1876 the NWMP had established themselves in the West. The major posts included Swan River, Fort Saskatchewan, Fort Calgary, Fort Walsh and Fort Macleod. All of these initiatives attracted a number of Eastern-Canadian settlers, as well as European and American immigrants, to Canada&rsquo;s West, and particularly to the area of Manitoba.</p>
+        <p><div class="para-heading-row">
+            <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 2:</span>
+            <span class="heading-dropzone" id="hdz-1-2" data-q="2"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+            <button class="locate-btn" data-q="2">&#128269;</button>
+          </div>
+          <span id="q-target-2" class="para-heading loc-q2">2 [Built-up to the new infrastructure]</span><br>
+        The surest way to protect Canadian territory, and to achieve the secondary goal for joining British Columbia to the rest of the country, was to import large numbers of Eastern Canadian and British settlers. Settling the West also made imperative the building of a <span class="loc-q13">transcontinental railway</span>. The railway would work to create an east-west economy, in which western Canada would feed the growing urban industrial population of the east, and in return become a market for eastern Canadian manufactured goods.</p>
+        <p><div class="para-heading-row">
+            <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 3:</span>
+            <span class="heading-dropzone" id="hdz-1-3" data-q="3"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+            <button class="locate-btn" data-q="3">&#128269;</button>
+          </div>
+          <span id="q-target-3" class="para-heading loc-q3">3 [Early major urban development of the West]</span><br>
+        Winnipeg became the metropolis of the West during this period. Winnipeg&rsquo;s growth before 1900 was the result of a combination of land speculation, growth of housing starts, and the federal government&rsquo;s solution in 1881 of Winnipeg as a major stop along the CPR. This decision culminated in a land boom between 1881 and 1883 which resulted in the transformation of hamlets like Portage la Prairie and Brandon into towns, and a large increase in Manitoba&rsquo;s population. Soon, Winnipeg stood at the junction of three transcontinental railway lines which employed thousands in rail yards. Winnipeg also became the major processor of agricultural products for the surrounding hinterland.</p>
+        <p><div class="para-heading-row">
+            <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 4:</span>
+            <span class="heading-dropzone" id="hdz-1-4" data-q="4"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+            <button class="locate-btn" data-q="4">&#128269;</button>
+          </div>
+          <span id="q-target-4" class="para-heading loc-q4">4 [Ethnics and language make-up]</span><br>
+        The majority of settlers to Winnipeg, and the surrounding countryside, during this early period, were primarily Protestant English-speaking settlers from Ontario and the British Isles. These settlers established Winnipeg upon a British-Ontarian ethos which came to dominate the society&rsquo;s social, political, and economic spirit. This British-Ontarian ethnic homogeneity, however, did not last very long. Increasing numbers of foreign immigrants, especially from Austria-Hungary and Ukraine soon added a new ethnic element to the recent British, the older First Nation M&eacute;tis, and Selkirk&rsquo;s settler population base. Settling the West with (in particular) Eastern Canadians and British immigrant offered the advantage of safeguarding the 49th parallel from the threat of American take-over, had not the Minnesota legislature passed a resolution which provided for the annexation of the Red River district. The Red River in 1870 was the most important settlement on the Canadian prairies. It contained 11,963 inhabitants of whom 9,700 were M&eacute;tis and First Nations. But neighbouring Minnesota already had a population of over 100,000.</p>
+        <p><div class="para-heading-row">
+            <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 5:</span>
+            <span class="heading-dropzone" id="hdz-1-5" data-q="5"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+            <button class="locate-btn" data-q="5">&#128269;</button>
+          </div>
+          <span id="q-target-5" class="para-heading loc-q5">5 [Not all would stay in Canada forever]</span><br>
+        Not all of the settlers who came to western Canada in the 1880s, however, desired to remain there. In the 1870s and 1880s, economic depression kept the value of Canada&rsquo;s staple exports low, which discouraged many from permanent settlement in the West. Countries including Brazil, Argentina, Australia, New Zealand and the United States competed with Canada for immigrants. Many immigrants and thousands of Canadians chose to settle in the accessible and attractive American frontier. Canada before 1891 has been called &ldquo;a huge demographic railway station&rdquo; where thousands of men, women, and children were constantly going and coming, and where the number of departures invariably exceeded that of arrivals.</p>
+        <p><div class="para-heading-row">
+            <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 6:</span>
+            <span class="heading-dropzone" id="hdz-1-6" data-q="6"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+            <button class="locate-btn" data-q="6">&#128269;</button>
+          </div>
+          <span id="q-target-6" class="para-heading loc-q6">6 [Pursuing a pure life]</span><br>
+        By 1891 Eastern Canada had its share of both large urban centres and problems associated with city life. While the booming economic centres of Toronto and Montreal were complete with electricity and telephones in the cities&rsquo; wealthiest areas by the turn of the century, slum conditions characterised the poorest areas like the district known as &lsquo;the Ward&rsquo; in Toronto. Chickens and pigs ran through the streets; privy buckets spilled onto backyards and lanes creating cesspools in urban slums. These same social reformers believed that rural living, in stark contrast to urban, would lead to a healthy, moral, and charitable way of life. Social reformers praised the ability of fresh air, hard work, and open spaces for &lsquo;Canadianizing&rsquo; immigrants. Agricultural pursuits were seen as especially fitting for attaining this &lsquo;moral&rsquo; and family-oriented way of life, in opposition to the single male-dominated atmosphere of the cities. Certainly, agriculture played an important part in the Canadian economy in 1891. One-third of the workforce worked on farms.</p>
+        <p><div class="para-heading-row">
+            <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 7:</span>
+            <span class="heading-dropzone" id="hdz-1-7" data-q="7"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+            <button class="locate-btn" data-q="7">&#128269;</button>
+          </div>
+          <span id="q-target-7" class="para-heading loc-q7">7 [Advertising of Western Canada]</span><br>
+        The Canadian government presented Canada&rsquo;s attractions to potential overseas migrants in several ways. The government offered free or cheap land to potential agriculturists. As well, the government established agents and/or agencies for the purpose of attracting emigrants overseas. Assisted passage schemes, bonuses and commissions to agents and settlers and pamphlets also attracted some immigrants to Canada. The most influential form of attracting others to Canada, however, remained the letters home written by emigrants already in Canada. Letters from trusted friends and family members. Letters home often contained exaggerations of the &lsquo;wonder of the new world.&rsquo; Migrant workers and settlers already in Canada did not want to disappoint, or worry, their family and friends at home. Embellished tales of good fortune and happiness often succeeded in encouraging others to come.</p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2: Why don't we sleep? -->
+    <div class="passage-panel" id="passage-content-1">
+      <div class="passage-title">WHY DON&rsquo;T WE SLEEP?</div>
+      <div class="passage-subtitle"></div>
+      <div class="passage-text">
+        <p><span class="para-label">A</span> <span class="loc-q14">Fifty-six million <span class="loc-q14b">prescriptions</span> for sleeping medication were handed out by doctors in America last year.</span> Yet remarkably little is being done to understand insomnia&rsquo;s root causes. Socially and economically, the undertreatment of sleeplessness is hugely expensive. The Institute of Medicine, an independent scientific advisory group, estimates nearly 20 percent of all major <span class="loc-q15">accidents</span> on the road are associated with driver sleepiness. The loss in terms of <span class="loc-q16">productivity</span> within the workplace is even higher, costing billions. Then there are the softer costs which remain unmeasured but still exist; for example, the damaged relationships with others. If other medical problems were causing such widespread harm, governments would act, but US authorities contribute only about $230 million a year for the funding of sleep research, comparable to the amount that the manufacturers of popular sleeping pills spent in three months on advertising. Currently most medical school students get no more than four hours of <span class="loc-q17">training</span> on sleep disorders; some get none.</p>
+        <p><span class="para-label">B</span> <span class="loc-q21">If we don&rsquo;t know why we can&rsquo;t sleep, it&rsquo;s in part because we don&rsquo;t really know why we need to sleep in the first place. We know that we divide it between periods of deep-wave sleep and rapid eye movement (REM) sleep, when the brain is as active as when we&rsquo;re awake, but our voluntary muscles are paralyzed. We know that all mammals sleep, and that there are some insects and reptiles that only half sleep, in order to remain aware of their environment and predators.</span></p>
+        <p><span class="para-label">C</span> <span class="loc-q20">The predominant theory of sleep is that the brain demands it. Recently, researchers at Harvard, led by Robert Stickgold, tested undergraduates on various aptitude tests, allowed them to nap, then tested them again. They found that those who had engaged in REM sleep subsequently performed better in pattern recognition tasks, such as grammar, while those who slept deeply were better at memorization.</span></p>
+        <p><span class="para-label">D</span> <span class="loc-q22">Such studies suggest that memory consolidation may be one function of sleep. Giulio Tononi, a sleep researcher at the University of Wisconsin, published an interesting twist on this theory a few years ago. His study showed that the sleeping brain seems to delete redundant or unnecessary synapses or connections. So the purpose of sleep may be to help us remember what&rsquo;s important, by letting us forget what&rsquo;s not.</span></p>
+        <p><span class="para-label">E</span> <span class="loc-q19">Sleep is likely to have physiological purposes too. Some researchers have found that sleep deprivation impedes wound healing in rats, and others have suggested that sleep helps boost the immune system and control infection.</span> But these studies are not conclusive. At Stanford University, <span class="loc-q24">William Dement, co-founder of the Stanford Sleep Medicine Center, explains what he knows after 50 years of research, about the reason we sleep. &lsquo;As far as I know,&rsquo; he said, &lsquo;the only reason we need to sleep that is really, really solid is because we get sleepy.&rsquo;</span></p>
+        <p><span class="para-label">F</span> The Stanford clinic does more than 3,000 overnight sleep studies a year. Their main diagnostic tool is the polysomnogram, the main element of which is the electroencephalograph (EEG), which captures the electrical output from a patient&rsquo;s brain. As the EEG records a person&rsquo;s sleep patterns, the polysomnogram technicians also measure body temperature, muscle activity, eye movement, and breathing. Then they look over the data for signs of abnormal sleep. When a person has narcolepsy, for instance, they plunge from wakefulness into REM sleep without any intermediate steps. However, <span class="loc-q25">Clete Kushida, the clinic director, told me he can spot most people&rsquo;s sleep problems right at the intake interview. &lsquo;There are those who cannot keep their eyes open, and those who just speak of their exhaustion but don&rsquo;t actually fall asleep. The former often have sleep apnea where they stop breathing. The latter have true insomnia.&rsquo;</span></p>
+        <p><span class="para-label">G</span> <span class="loc-q23">In sleep apnea, muscle relaxation allows the soft tissue of the throat to close, shutting off the sleeper&rsquo;s air passage. When the brain realizes it is not getting oxygen, it sends a signal to the body to wake up. The sleeper awakes, inhales, and sleep returns.</span> Apnea is a serious problem but only indirectly a sleep disease. True insomniacs are people who either can&rsquo;t get to, or can&rsquo;t stay asleep for any evident reason.</p>
+        <p><span class="para-label">H</span> <span class="loc-q18">While apnea can be treated with a device that forces air down the sleeper&rsquo;s throat to keep the airways open, the treatment of classic insomnia is not so clear cut. Acupuncture may help. It has long had this role in Asian medicine and is being studied at the University of Pittsburgh sleep center now.</span> Typically in the US, insomnia is treated in two ways. First come the sleeping pills. Though safer than they once were, they can still lead to psychological addiction. &lsquo;Many users complain that their sleeping-pill sleep seems different, and they feel unfocussed on waking. Sleeping pills are not a natural way to sleep,&rsquo; points out Charles Czeisler, director of the Harvard Health and Safety Group.</p>
+        <p><span class="para-label">I</span> The second step in treating insomniacs is usually cognitive behavioral therapy (CBT). In CBT, a psychologist teaches insomniacs to think about sleep problems as manageable, and to practice good &lsquo;sleep hygiene&rsquo;: sleep in a dark room, go to bed only when you are sleepy, don&rsquo;t exercise beforehand. Studies have shown that CBT is more effective than sleeping pills at treating long-term insomnia, but many sufferers aren&rsquo;t convinced. <span class="loc-q26">&lsquo;Some people continue in my experience to struggle,&rsquo; says John Winkelman, another sleep center director. &lsquo;They&rsquo;re not super-satisfied with their sleep.&rsquo;</span></p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3: Understanding Symbols -->
+    <div class="passage-panel" id="passage-content-2">
+      <div class="passage-title">UNDERSTANDING SYMBOLS</div>
+      <div class="passage-subtitle">Judy DeLoache describes her research into the difficulties children experience with symbols</div>
+      <div class="passage-text">
+        <p><span class="para-label">A</span> <span class="loc-q27 loc-q36">About 20 years ago I had one of those wonderful moments when research takes an unexpected but fruitful turn. I had been studying toddler memory and was beginning a new experiment with two-and-a-half- and three-year-olds. For the project, I had built a model of a room that was in my laboratory. The real space contained basic furniture such as a couch and table. The miniature version was as similar as possible to its larger counterpart: the furniture was the same shape and material and was arranged in the same position. For the study, a child watched as we hid a miniature toy &ndash; a plastic dog we called Little Snoopy* &ndash; in the model. We then encouraged the child to find &lsquo;Big Snoopy&rsquo;, a large version of the toy &lsquo;hiding in the same place in his big room.&rsquo;</span></p>
+        <p><span class="para-label">B</span> <span class="loc-q28">The three-year-olds were very successful. After they observed the small toy being placed behind the miniature couch, they ran into the room and found the large toy behind the real couch. But the two-and-a-half-year-olds failed abysmally. They cheerfully ran into the room to retrieve the large toy, but most had no idea where to look, even though they remembered where the tiny toy was hidden in the miniature room and could readily find it there.</span></p>
+        <p><span class="para-label">C</span> Their failure to use what they knew about the model to draw an inference about the real room indicated that they did not appreciate the relation between the model and the room. I realised my memory study was instead a study of symbolic understanding and that the children&rsquo;s failure might be telling us something about how and when children acquire the ability to understand that one object stands for another.</p>
+        <p><span class="para-label">D</span> <span class="loc-q29">The first type of symbolic object that infants and young children master is the picture. No symbols seem simpler to adults, but infants initially find pictures perplexing. The problem stems from the duality inherent in all symbolic objects: they are real in themselves and also representations of something else.</span> A few years ago I became intrigued by anecdotes suggesting that infants do not appreciate this duality &ndash; stories of a baby trying to pick up a depicted toy or fit a foot into a photograph of a shoe. We assumed such behaviour would be rare and therefore difficult to study.</p>
+        <p><span class="para-label">E</span> <span class="loc-q33">Fortunately we were wrong. We began testing infants&rsquo; understanding of pictures by putting a book of highly realistic colour photographs of individual objects in front of nine-month-olds. To our surprise, every child in the study reached out to feel or scratch the pictures.</span> The confusion seems to be conceptual not perceptual. Infants can perfectly well perceive the difference between objects and pictures and given the choice they will choose the real thing. But they do not yet fully understand what pictures are and how they differ from real objects. However, when depicted objects bear little resemblance to the real thing &ndash; as in a black and white drawing &ndash; infants rarely explore them. By 18 months, babies have come to appreciate that a picture merely represents an object; instead of manipulating the paper, they point to pictures and name objects. Nevertheless, it takes several years for the nature of pictures to be completely understood.</p>
+        <p><span class="para-label">F</span> Studies have shown that, until the age of four, many children think that turning a picture of a bowl of popcorn upside down will result in the depicted popcorn falling out of the bowl.</p>
+        <p><span class="para-label">G</span> Pictures are not the only source of confusion for very young children. In a third experiment, we brought a group of toddlers (18- to 30-month-old children) into a room containing a child&rsquo;s slide, a chair, and a toddler-sized car. The children played with these for a while. Then we secretly replaced each object with an identical miniature version. <span class="loc-q30 loc-q34">Most children attempted to perform the same actions with the miniature items that they had with the larger ones. Some tried to sit on the chair, others attempted to climb into the car. Interestingly, most of the children showed little or no reaction to their failed attempts.</span> We think this probably reflects the fact that toddlers&rsquo; daily lives are full of unsuccessful attempts to do one thing or another. This confusion has implications for educational practice. Teachers everywhere use blocks or other objects to represent numerical quantity. However, if young children do not understand the relation between an object and what it represents, this could be counterproductive. <span class="loc-q35">To demonstrate this, we taught six- and seven-year-olds a difficult subtraction problem using blocks.</span></p>
+        <p><span class="para-label">H</span> <span class="loc-q31 loc-q35b">We taught an identical comparison group the same concept, but using pencil and paper. Both groups learned to solve the problems equally well, but the group using blocks took three times as long to do so.</span></p>
+        <p><span class="para-label">I</span> Dual representation also comes into play in many children&rsquo;s books. Modern children&rsquo;s books are often 3D, with features that encourage children to interact directly with the book itself, for example flaps that can be lifted to reveal pictures. Graduate student Cynthia Chong and I reasoned that these features might distract children from the information. Accordingly, we used different types of books to teach letters to 30-month-old children. One was a simple old-fashioned alphabet book with each letter accompanied by an appropriate picture. The other was a 3-D version. <span class="loc-q32">The children using the traditional book subsequently recognised more letters than those using the 3-D book.</span></p>
+        <p><span class="para-label">J</span> Presumably, the children could concentrate more easily with the plain 2-D book, whereas with the other one they were distracted by the 3-D activities. Less may be more when it comes to educational books for young children.</p>
+        <p style="font-size:0.78rem;color:#6b7280;margin-top:12px;"><em>*Little Snoopy: a toy dog character</em></p>
+      </div>
+    </div>
+
+  </div><!-- /left-pane -->
+  <div id="resize-handle"></div>
+
+  <div id="right-pane">
+
+    <!-- PASSAGE 1 Qs -->
+    <div class="q-panel active" id="qpanel-0">
+      <div class="q-section">
+        <div class="q-section-title">Questions 1&ndash;7</div>
+        <div class="q-instruction">Choose the correct heading for each paragraph from the list of headings below. Drag each heading chip to the correct paragraph in the passage on the left.</div>
+        <div class="heading-chip-pool" id="heading-chip-pool-1">
+          <div class="heading-chip" draggable="true" data-heading="i" id="hchip-1-i"><strong>i.</strong>&nbsp;Not all would stay in Canada forever</div>
+          <div class="heading-chip" draggable="true" data-heading="ii" id="hchip-1-ii"><strong>ii.</strong>&nbsp;Government&rsquo;s safeguard in the West</div>
+          <div class="heading-chip" draggable="true" data-heading="iii" id="hchip-1-iii"><strong>iii.</strong>&nbsp;Eastern Canada is full</div>
+          <div class="heading-chip" draggable="true" data-heading="iv" id="hchip-1-iv"><strong>iv.</strong>&nbsp;Built-up to the new infrastructure</div>
+          <div class="heading-chip" draggable="true" data-heading="v" id="hchip-1-v"><strong>v.</strong>&nbsp;An exclusive British domination in Ontario established ever since</div>
+          <div class="heading-chip" draggable="true" data-heading="vi" id="hchip-1-vi"><strong>vi.</strong>&nbsp;Ethnics and language make-up</div>
+          <div class="heading-chip" draggable="true" data-heading="vii" id="hchip-1-vii"><strong>vii.</strong>&nbsp;Pursuing a pure life</div>
+          <div class="heading-chip" draggable="true" data-heading="viii" id="hchip-1-viii"><strong>viii.</strong>&nbsp;Police recruited from mid-class families</div>
+          <div class="heading-chip" draggable="true" data-heading="ix" id="hchip-1-ix"><strong>ix.</strong>&nbsp;Demand of western immigration</div>
+          <div class="heading-chip" draggable="true" data-heading="x" id="hchip-1-x"><strong>x.</strong>&nbsp;Early major urban development of the West</div>
+          <div class="heading-chip" draggable="true" data-heading="xi" id="hchip-1-xi"><strong>xi.</strong>&nbsp;Attracting urban environment</div>
+          <div class="heading-chip" draggable="true" data-heading="xii" id="hchip-1-xii"><strong>xii.</strong>&nbsp;Advertising of Western Canada</div>
+        </div>
+        <div style="font-size:0.75rem;color:#6b7280;margin-top:4px;">&#8592; Drag chips to the drop zones in the passage on the left</div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 8&ndash;13</div>
+        <div class="q-instruction">Complete the following summary. Using NO MORE THAN TWO WORDS from the Reading Passage for each answer.</div>
+        <div class="notes-box">
+          With the saturation of Eastern Canada, the Western rural area would supply <span id="q-target-8"><input class="blank-input blank-input-wide" id="blank-q8" data-q="8" placeholder="8" style="width:110px"></span><button class="locate-btn" data-q="8">&#128269;</button> for the descendants of easterners. Politicians also declared that Western has got potential to increase <span id="q-target-9"><input class="blank-input blank-input-wide" id="blank-q9" data-q="9" placeholder="9" style="width:150px"></span><button class="locate-btn" data-q="9">&#128269;</button> of Canada according to <span id="q-target-10"><input class="blank-input" id="blank-q10" data-q="10" placeholder="10" style="width:80px"></span><button class="locate-btn" data-q="10">&#128269;</button> crop that consumed in the East. The federal government started to prepare and made it happen. First, the government bought land from a private <span id="q-target-11"><input class="blank-input" id="blank-q11" data-q="11" placeholder="11" style="width:100px"></span><button class="locate-btn" data-q="11">&#128269;</button>, and legally offered a certain area to people who stayed for a qualifying period of time. Then, mounted <span id="q-target-12"><input class="blank-input blank-input-wide" id="blank-q12" data-q="12" placeholder="12" style="width:120px"></span><button class="locate-btn" data-q="12">&#128269;</button> was found to secure the land. However, the best way to protect citizens was to build a <span id="q-target-13"><input class="blank-input blank-input-wide" id="blank-q13" data-q="13" placeholder="13" style="width:170px"></span><button class="locate-btn" data-q="13">&#128269;</button> to transport the migrants and goods between the West and the East.
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2 Qs -->
+    <div class="q-panel" id="qpanel-1">
+      <div class="q-section">
+        <div class="q-section-title">Questions 14&ndash;17</div>
+        <div class="q-instruction">Complete the summary below. Write ONE WORD ONLY from the passage for each answer.</div>
+        <div class="notes-box">
+          <strong>Insomnia in the USA</strong><br><br>
+          Last year the high number of <span id="q-target-14"><input class="blank-input" id="blank-q14" data-q="14" placeholder="14" style="width:120px"></span><button class="locate-btn" data-q="14">&#128269;</button> doctors gave their patients highlights the fact that insomnia is a serious issue in the USA. It is evidently responsible for a number of serious traffic <span id="q-target-15"><input class="blank-input" id="blank-q15" data-q="15" placeholder="15" style="width:100px"></span><button class="locate-btn" data-q="15">&#128269;</button> and has a considerable effect on company <span id="q-target-16"><input class="blank-input" id="blank-q16" data-q="16" placeholder="16" style="width:110px"></span><button class="locate-btn" data-q="16">&#128269;</button>. A lack of sleep can also have a harmful effect on different relationships, although there are no statistics on this.<br><br>
+          Unfortunately, there is insufficient official funding given to research into sleep problems, and the <span id="q-target-17"><input class="blank-input" id="blank-q17" data-q="17" placeholder="17" style="width:100px"></span><button class="locate-btn" data-q="17">&#128269;</button> given at medical school is also insufficient to deal with insomnia.
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 18&ndash;23</div>
+        <div class="q-instruction">Reading Passage 2 has nine paragraphs, A&ndash;I. Which paragraph contains the following information? You may use any letter more than once.</div>
+        <table class="radio-grid-table" id="rgt-18-23">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Information</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+            <th class="rgt-opt">E</th><th class="rgt-opt">F</th><th class="rgt-opt">G</th><th class="rgt-opt">H</th><th class="rgt-opt">I</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-18"><td class="rgt-num">18</td><td class="rgt-stmt">a mention of different cultural approaches to dealing with insomnia</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="18">&#128269;</button></td></tr>
+            <tr id="q-target-19"><td class="rgt-num">19</td><td class="rgt-stmt">indications that sleep has a positive effect on health</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="19">&#128269;</button></td></tr>
+            <tr id="q-target-20"><td class="rgt-num">20</td><td class="rgt-stmt">the effects of different kinds of sleep on mental performance</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="20">&#128269;</button></td></tr>
+            <tr id="q-target-21"><td class="rgt-num">21</td><td class="rgt-stmt">reasons why various species of animal sleep in different ways</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="21">&#128269;</button></td></tr>
+            <tr id="q-target-22"><td class="rgt-num">22</td><td class="rgt-stmt">the suggestion that sleep allows us to get rid of insignificant information</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="22">&#128269;</button></td></tr>
+            <tr id="q-target-23"><td class="rgt-num">23</td><td class="rgt-stmt">a description of how the brain responds when a person stops breathing</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="23">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 24&ndash;26</div>
+        <div class="q-instruction">Match each statement with the correct person, A&ndash;E. You may use any letter more than once.</div>
+        <div class="people-legend">
+          <div><strong>A</strong> Giulio Tononi</div><div><strong>B</strong> William Dement</div>
+          <div><strong>C</strong> Clete Kushida</div><div><strong>D</strong> Charles Czeisler</div>
+          <div><strong>E</strong> John Winkelman</div>
+        </div>
+        <table class="radio-grid-table" id="rgt-24-26">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Statement</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th><th class="rgt-opt">E</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-24"><td class="rgt-num">24</td><td class="rgt-stmt">Research tells us that we sleep as reaction to our body&rsquo;s signals.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="24">&#128269;</button></td></tr>
+            <tr id="q-target-25"><td class="rgt-num">25</td><td class="rgt-stmt">People suffering from insomnia are easily recognizable.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="25">&#128269;</button></td></tr>
+            <tr id="q-target-26"><td class="rgt-num">26</td><td class="rgt-stmt">Therapy does not always enable people to achieve good quality sleep.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="26">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3 Qs -->
+    <div class="q-panel" id="qpanel-2">
+      <div class="q-section">
+        <div class="q-section-title">Questions 27&ndash;32</div>
+        <div class="q-instruction">Choose the correct answer.</div>
+        <div class="q-item" id="q-target-27">
+          <div class="q-label"><span class="q-num">27</span><span>In the first paragraph, what did the children in the experiment have to do?</span><button class="locate-btn" data-q="27">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="27" data-val="A"><span class="radio-circle"></span>A. spot the differences between a real room and a smaller version</button>
+          <button class="mc-opt-btn" data-q="27" data-val="B"><span class="radio-circle"></span>B. make a copy of a life-sized room using small furniture</button>
+          <button class="mc-opt-btn" data-q="27" data-val="C"><span class="radio-circle"></span>C. hide a large toy in a tiny room</button>
+          <button class="mc-opt-btn" data-q="27" data-val="D"><span class="radio-circle"></span>D. locate a toy in a life-sized room</button>
+        </div>
+        <div class="q-item" id="q-target-28">
+          <div class="q-label"><span class="q-num">28</span><span>What was the result of the first experiment?</span><button class="locate-btn" data-q="28">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="28" data-val="A"><span class="radio-circle"></span>A. Both two-and-a-half- and three-year-olds completed the task successfully.</button>
+          <button class="mc-opt-btn" data-q="28" data-val="B"><span class="radio-circle"></span>B. Three-year-olds could mentally relate the two rooms they had been shown.</button>
+          <button class="mc-opt-btn" data-q="28" data-val="C"><span class="radio-circle"></span>C. Two-and-a-half-year-olds could relate more closely to the toys as symbols.</button>
+          <button class="mc-opt-btn" data-q="28" data-val="D"><span class="radio-circle"></span>D. Two-and-a-half-year-olds had poorer memory than three-year-olds.</button>
+        </div>
+        <div class="q-item" id="q-target-29">
+          <div class="q-label"><span class="q-num">29</span><span>In the fourth paragraph, what does the writer say about children and pictures?</span><button class="locate-btn" data-q="29">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="29" data-val="A"><span class="radio-circle"></span>A. Infants are unable to understand that pictures serve a double purpose.</button>
+          <button class="mc-opt-btn" data-q="29" data-val="B"><span class="radio-circle"></span>B. Young children may understand pictures more readily than adults.</button>
+          <button class="mc-opt-btn" data-q="29" data-val="C"><span class="radio-circle"></span>C. Infants can understand that a picture of food cannot be eaten.</button>
+          <button class="mc-opt-btn" data-q="29" data-val="D"><span class="radio-circle"></span>D. Adults should encourage children to look at pictures from an early age.</button>
+        </div>
+        <div class="q-item" id="q-target-30">
+          <div class="q-label"><span class="q-num">30</span><span>In the third experiment, what did the writer notice about the reactions of the toddlers?</span><button class="locate-btn" data-q="30">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="30" data-val="A"><span class="radio-circle"></span>A. They often behaved in an unpredictable way.</button>
+          <button class="mc-opt-btn" data-q="30" data-val="B"><span class="radio-circle"></span>B. They were only comfortable performing very familiar tasks.</button>
+          <button class="mc-opt-btn" data-q="30" data-val="C"><span class="radio-circle"></span>C. They became frustrated when they could not achieve a task.</button>
+          <button class="mc-opt-btn" data-q="30" data-val="D"><span class="radio-circle"></span>D. They behaved the same whether they were successful or not.</button>
+        </div>
+        <div class="q-item" id="q-target-31">
+          <div class="q-label"><span class="q-num">31</span><span>What did the experiment involving a mathematical problem suggest about children&rsquo;s learning?</span><button class="locate-btn" data-q="31">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="31" data-val="A"><span class="radio-circle"></span>A. Children are able to understand complex concepts at an early age.</button>
+          <button class="mc-opt-btn" data-q="31" data-val="B"><span class="radio-circle"></span>B. Children younger than seven cannot learn using pencil and paper alone.</button>
+          <button class="mc-opt-btn" data-q="31" data-val="C"><span class="radio-circle"></span>C. Using blocks can make it harder for children to learn new concepts.</button>
+          <button class="mc-opt-btn" data-q="31" data-val="D"><span class="radio-circle"></span>D. Teachers should try using blocks to teach mathematics to lower level students.</button>
+        </div>
+        <div class="q-item" id="q-target-32">
+          <div class="q-label"><span class="q-num">32</span><span>What does Deloache conclude about the results of her and Chong&rsquo;s experiment?</span><button class="locate-btn" data-q="32">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="32" data-val="A"><span class="radio-circle"></span>A. Children&rsquo;s books should be more interactive.</button>
+          <button class="mc-opt-btn" data-q="32" data-val="B"><span class="radio-circle"></span>B. 2-D books should contain realistic images.</button>
+          <button class="mc-opt-btn" data-q="32" data-val="C"><span class="radio-circle"></span>C. Simpler books may be better learning tools.</button>
+          <button class="mc-opt-btn" data-q="32" data-val="D"><span class="radio-circle"></span>D. 3-D books help weaker students to progress.</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 33&ndash;35</div>
+        <div class="q-instruction">Complete each sentence with the correct ending, A&ndash;F, below.</div>
+        <div class="endings-box">
+          <div><strong>A</strong> that a three-year-old may still expect an image to perform a real task.</div>
+          <div><strong>B</strong> how quickly children can learn the alphabet.</div>
+          <div><strong>C</strong> the best age for children to begin school.</div>
+          <div><strong>D</strong> the effectiveness of symbolic objects as teaching tools.</div>
+          <div><strong>E</strong> whether young children are puzzled by pictures.</div>
+          <div><strong>F</strong> that young children expect tiny objects to function in the same way as life-sized ones.</div>
+        </div>
+        <table class="radio-grid-table" id="rgt-33-35">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Sentence beginning</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th>
+            <th class="rgt-opt">D</th><th class="rgt-opt">E</th><th class="rgt-opt">F</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-33"><td class="rgt-num">33</td><td class="rgt-stmt">The test involving 9-month-old babies attempted to find out</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="33">&#128269;</button></td></tr>
+            <tr id="q-target-34"><td class="rgt-num">34</td><td class="rgt-stmt">The third experiment revealed</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="34">&#128269;</button></td></tr>
+            <tr id="q-target-35"><td class="rgt-num">35</td><td class="rgt-stmt">The maths experiment was designed to assess</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="35" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="35" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="35" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="35" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="35" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="35" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="35">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 36&ndash;40</div>
+        <div class="q-instruction">Choose YES, NO, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-36">
+          <div class="q-label"><span class="q-num">36</span><span>The results of the first experiment revealed unexpected information.</span><button class="locate-btn" data-q="36">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="36" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="36" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="36" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-37">
+          <div class="q-label"><span class="q-num">37</span><span>Infants react the same way to both drawings and photographs.</span><button class="locate-btn" data-q="37">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="37" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="37" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="37" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-38">
+          <div class="q-label"><span class="q-num">38</span><span>Toddlers are used to failing in many of the tasks they try to perform.</span><button class="locate-btn" data-q="38">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="38" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="38" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="38" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-39">
+          <div class="q-label"><span class="q-num">39</span><span>The confusion of symbols and real objects has little significance for educational practice.</span><button class="locate-btn" data-q="39">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="39" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="39" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="39" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-40">
+          <div class="q-label"><span class="q-num">40</span><span>Children enjoy reading 3-D books more than 2-D books.</span><button class="locate-btn" data-q="40">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="40" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="40" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="40" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /right-pane -->
+</div><!-- /split -->
+
+<div id="footer-nav">
+  <span class="nav-label">Q:</span>
+  <div id="nav-grid"></div>
+  <div id="font-controls">
+    <span>Font:</span>
+    <button id="btn-font-up">A+</button>
+    <button id="btn-font-dn">A&minus;</button>
+  </div>
+</div>
+</div><!-- /app -->
+
+<div id="highlight-menu">
+  <button style="background:#fef08a" onclick="applyHighlight('highlight-yellow')" title="Yellow"></button>
+  <button style="background:#bbf7d0" onclick="applyHighlight('highlight-green')" title="Green"></button>
+  <button style="background:#fbcfe8" onclick="applyHighlight('highlight-pink')" title="Pink"></button>
+  <button class="erase-btn" onclick="applyHighlight('erase')">&#10005;</button>
+</div>
+
+<div id="result-modal">
+  <div id="result-box">
+    <h2>Your Result</h2>
+    <div id="result-score">0/40</div>
+    <div id="result-band">Band: &ndash;</div>
+    <div id="result-breakdown"></div>
+    <button id="btn-close-modal">Review Answers</button>
+  </div>
+</div>
+
+<script>
+const ANSWERS={
+  1:'ii',2:'iv',3:'x',4:'vi',5:'i',6:'vii',7:'xii',
+  8:'homesteads',9:'agricultural output',10:'wheat',11:'company',12:'Police Force',13:'transcontinental railway',
+  14:'prescriptions',15:'accidents',16:'productivity',17:'training',
+  18:'H',19:'E',20:'C',21:'B',22:'D',23:'G',
+  24:'B',25:'C',26:'E',
+  27:'D',28:'B',29:'A',30:'D',31:'C',32:'C',
+  33:'E',34:'F',35:'D',
+  36:'YES',37:'NO',38:'NOT GIVEN',39:'NO',40:'NOT GIVEN'
+};
+const Q_PASSAGE={};
+for(let i=1;i<=13;i++)Q_PASSAGE[i]=0;
+for(let i=14;i<=26;i++)Q_PASSAGE[i]=1;
+for(let i=27;i<=40;i++)Q_PASSAGE[i]=2;
+
+let userAnswers={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+function normalizeAnswer(s){
+  return s.trim().toLowerCase().replace(/[‘’]/g,"'").replace(/[–—]/g,'-').replace(/\s+/g,' ');
+}
+function checkAnswer(user,correct){
+  const u=normalizeAnswer(user),c=normalizeAnswer(correct);
+  if(u===c)return true;
+  if(u.replace(/-/g,' ')===c.replace(/-/g,' '))return true;
+  return false;
+}
+
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{p.style.display=i===t?'block':'none';p.classList.toggle('active',i===t);});
+  });
+});
+
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i;btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+
+document.querySelectorAll('.mc-opt-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();updateNav(q);
+  });
+});
+
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+function submitExam(){
+  if(submitted)return;
+  submitted=true;clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=checkAnswer(user,ans);
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        inp.title='Correct: '+ans;
+        // Show correct answer label
+        const existingLabel=inp.parentNode.querySelector('.blank-correct-label');
+        if(!existingLabel){
+          const lbl=document.createElement('span');
+          lbl.className='blank-correct-label';
+          lbl.textContent='✓ '+ans;
+          lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+          inp.insertAdjacentElement('afterend',lbl);
+        }
+      }
+    }
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+
+    // heading dropzones
+    const hdz=document.querySelector('.heading-dropzone[data-q="'+q+'"]');
+    if(hdz){
+      hdz.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        const existLbl=hdz.parentNode.querySelector('.hdz-correct-label');
+        if(!existLbl){
+          const lbl=document.createElement('span');lbl.className='hdz-correct-label';
+          lbl.textContent='✓ '+ans;
+          lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+          hdz.insertAdjacentElement('afterend',lbl);
+        }
+      }
+    }
+    const rgtRow=document.getElementById('q-target-'+q);
+    if(rgtRow&&rgtRow.tagName==='TR')rgtRow.classList.add(ok?'row-correct':'row-wrong');
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    if(!ok)document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+  }
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1–13)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14–26)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27–40)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>document.getElementById('result-modal').classList.remove('show'));
+
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      const locEl=document.querySelector('.loc-q'+q);
+      if(locEl){locEl.classList.add('loc-highlight');locEl.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>locEl.classList.remove('loc-highlight'),4000);}
+    },150);
+  });
+});
+
+document.getElementById('btn-font-up').addEventListener('click',()=>{
+  baseFontSize=Math.min(20,baseFontSize+1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{
+  baseFontSize=Math.max(11,baseFontSize-1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+
+let highlightMenu=document.getElementById('highlight-menu'),savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const lp=document.getElementById('left-pane'),rp=document.getElementById('right-pane');
+    if(lp.contains(range.commonAncestorContainer)||rp.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){window.getSelection().removeAllRanges();window.getSelection().addRange(savedRange);document.execCommand('removeFormat');savedRange=null;return;}
+  const span=document.createElement('span');span.className=cls;
+  try{savedRange.surroundContents(span);}catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();savedRange=null;
+}
+
+const handle=document.getElementById('resize-handle'),leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const split=document.getElementById('split');const rect=split.getBoundingClientRect();leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+
+
+// Heading DnD (Matching Headings)
+let dragHeadingData=null;
+document.querySelectorAll('.heading-chip').forEach(chip=>{
+  chip.addEventListener('dragstart',e=>{
+    if(submitted)return;
+    dragHeadingData={heading:chip.dataset.heading,chipId:chip.id};
+    chip.classList.add('dragging');e.dataTransfer.effectAllowed='move';
+  });
+  chip.addEventListener('dragend',()=>chip.classList.remove('dragging'));
+});
+document.querySelectorAll('.heading-dropzone').forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag-over');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
+  zone.addEventListener('drop',e=>{
+    e.preventDefault();zone.classList.remove('drag-over');
+    if(submitted||!dragHeadingData)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById(prev);if(pc)pc.classList.remove('used');}
+    const chip=document.getElementById(dragHeadingData.chipId);
+    if(chip)chip.classList.add('used');
+    zone.dataset.filled=dragHeadingData.chipId;
+    zone.dataset.heading=dragHeadingData.heading;
+    zone.classList.add('filled');
+    zone.querySelector('.hdz-text').textContent=dragHeadingData.heading+'. '+getHeadingText(dragHeadingData.chipId,dragHeadingData.heading);
+    const q=parseInt(zone.dataset.q);userAnswers[q]=dragHeadingData.heading;updateNav(q);dragHeadingData=null;
+  });
+  zone.querySelector('.hdz-remove').addEventListener('click',e=>{
+    e.stopPropagation();if(submitted)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById(prev);if(pc)pc.classList.remove('used');}
+    zone.dataset.filled='';zone.dataset.heading='';zone.classList.remove('filled');
+    zone.querySelector('.hdz-text').textContent='Drop heading here';
+    const q=parseInt(zone.dataset.q);delete userAnswers[q];updateNav(q);
+  });
+});
+function getHeadingText(chipId,heading){
+  const chip=document.getElementById(chipId);
+  if(chip){
+    const txt=chip.textContent.replace(/^[ivxlcdm]+\.\s*/i,'').trim();
+    return txt;
+  }
+  return heading;
+}
+
+startTimer();
+</script>
+</body>
+</html>

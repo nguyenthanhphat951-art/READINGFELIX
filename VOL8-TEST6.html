@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading &ndash; VOL 8 TEST 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-pause:hover{background:#4b5563;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam:hover{background:#1e40af;}
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#resize-handle:hover{background:#9ca3af;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button:hover{background:#f3f4f6;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+#font-controls button:hover{background:#f3f4f6;}
+.passage-panel{display:none;}.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+.q-panel{display:none;}.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+/* Radio Grid Table */
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr:hover:not(.row-correct):not(.row-wrong) td{background:#f0f9ff;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:40px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-radio:hover:not(:disabled){background:#f3f4f6;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+/* Endings box */
+.endings-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:10px 14px;font-size:0.82rem;margin-bottom:12px;}
+.endings-box div{padding:3px 0;border-bottom:1px solid #f3f4f6;}
+.endings-box div:last-child{border-bottom:none;}
+/* Notes box */
+.notes-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+/* People legend */
+.people-legend{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 14px;font-size:0.82rem;margin-bottom:12px;display:grid;grid-template-columns:1fr 1fr;gap:3px 16px;}
+/* Locate */
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn:hover{background:#fde68a;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+/* Highlight */
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+/* Result modal */
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="header">
+  <h1>IELTS READING &ndash; VOL 8 TEST 6</h1>
+  <div id="timer-wrap">
+    <span id="timer">60:00</span>
+    <button id="btn-pause">&#9208; Pause</button>
+    <button id="btn-submit-exam">Submit</button>
+  </div>
+</div>
+<div id="tab-bar">
+  <button class="tab-btn active" data-target="0">PASSAGE 1</button>
+  <button class="tab-btn" data-target="1">PASSAGE 2</button>
+  <button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+<div id="split">
+  <div id="left-pane">
+
+    <!-- PASSAGE 1: Optimism and Health -->
+    <div class="passage-panel active" id="passage-content-0">
+      <div class="passage-title">OPTIMISM AND HEALTH</div>
+      <div class="passage-subtitle">John Nash examines the link between optimism and good health</div>
+      <div class="passage-text">
+        <p>Medical studies are concluding that optimists really do have something to be cheerful about. Coincidental links between Optimism and improved general health have been found by researchers. Recently, a Yale University psychologists&rsquo; study of 660 volunteers aged 50 and above was published. It found that <span class="loc-q1">thinking positively about ageing adds an average of seven years to a person&rsquo;s life.</span> The team, led by Dr Becca Levy, suggests that having an optimistic attitude can bolster the will to live, though they admit that they cannot explain it fully.</p>
+        <p>Another American research team, however, says they have identified a physical mechanism behind the phenomenon. Their eight-year study of <span class="loc-q2">670 men</span> aged about 63 found that the optimists had significantly better <span class="loc-q3">lung function</span> than men who were more pessimistic. This is the first study to show such a link. The research team at Brigham &amp; Women&rsquo;s Hospital and Harvard Medical School believes that attitude somehow strengthens the <span class="loc-q4">immune system</span>, and that adopting a more positive outlook may reverse physical decline. &lsquo;Preliminary studies on <span class="loc-q5">heart patients</span> suggest that by changing a person&rsquo;s outlook, you can improve their mortality risk,&rsquo; says Dr Rosalind Wright.</p>
+        <p><span class="loc-q6 loc-q11">The role of optimism in good health has long been noted but often sidelined. Sigmund Freud, the influential psychologist, equated optimism with ignorance, and from 1970 to 2000 there were 46,000 psychology papers on depression and only 40 on joy.</span></p>
+        <p>Part of that negativity may be blamed on optimists themselves. <span class="loc-q7">They are not necessarily fun to have around, says Brice Pitt, the Emeritus Professor of the Psychiatry of Old Age at Imperial College, London. &lsquo;Optimists tend to be insufferable people. Always jolly, always up, and, frankly, they have a hopelessly rosy outlook&rsquo; he says. &lsquo;Depressive people see things as they really are, and that is a disadvantage from an evolutionary point of view. Optimism is a piece of evolutionary equipment that has carried us a long way through millennia of setbacks.&rsquo;</span></p>
+        <p>Studies show that optimists do better than pessimists in work, school and sports: suffer less depression, achieve more goals, respond better to stress and fight disease better. <span class="loc-q13">Among people aged from their mid-nineties into their hundreds, researchers generally fail to find consistencies in diet or exercise (and some still smoke).</span> What the super-aged do tend to share, however, is a positive, optimistic outlook.</p>
+        <p>Toshihiko Maruta, of the Mayo Institute, headed an earlier American medical study to find a link between optimism and longevity. Her study found that optimists live about 19 per cent longer than people with grim outlooks. &lsquo;It tells us that mind and body are linked and that attitude has an impact on the final outcome: death,&rsquo; she says. That simple message might have far more effect than exhortations to eat fresh fruit and warnings to stay out of the sun.</p>
+        <p>Despite the benefits of unprecedented material wealth, the World Health Organisation estimates that depression is soon to become the second leading cause of disability. Popular wisdom blames this on our frenetically busy society. <span class="loc-q8">According to social forecasters at the Henley Centre, while people in developed countries are 65 per cent better off financially today than they were 15 years ago, there is no evidence that they are any more content with their lives. While much of this is down to the perception among many of being rushed and pressured for time and space, it is the perception not the reality that counts, they say.</span></p>
+        <p>The Henley researchers found that if people think they have enough time, space or money, they feel more relaxed about life, regardless of how much of these things they actually have. &lsquo;In terms of money, some of the people who &ldquo;feel&rdquo; wealthiest, and some of those who &ldquo;feel&rdquo; poorest, actually have almost the same amount of money at their disposal. Their attitudes and behaviour patterns, however, are different from one another,&rsquo; says Chad Wallens, a researcher.</p>
+        <p>Few studies have tried to ascertain the proportion of optimists in the world. But <span class="loc-q9">a 1995 nationwide survey conducted in the USA for the American magazine Adweek found that about half the population counted themselves as optimists, with women slightly more apt than men (53 per cent versus 48 per cent) to identify themselves thus. That attitude drops, however, to less than a third of people between the ages of 55 and 64</span>, which supports research showing that men, in particular, tend to become more irritable as they get older. <span class="loc-q10">Lynn Myers, a psychotherapist, points out, however, that too much optimism can be a bad thing: &lsquo;You can be what is called a cock-eyed optimist, the sort of person who smokes but is convinced they will never get lung cancer.&rsquo;</span> Curiously, though, the Brigham &amp; Women&rsquo;s Hospital study found that that optimism was linked to improved lung function even after smoking was taken into account.</p>
+        <p>Myers is sceptical about whether there is a simple way that people can become optimistic in order to improve their health chances. &lsquo;I certainly would not suggest that there is anything like &ldquo;six easy lessons to change your outlook&rdquo;. But if you can lower your anxiety levels, it tends to make you more optimistic. Conversely, people who are highly anxious tend to be pessimistic,&rsquo; she says.</p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2: New Technology in NZ Health Service -->
+    <div class="passage-panel" id="passage-content-1">
+      <div class="passage-title">NEW TECHNOLOGY IN NEW ZEALAND&rsquo;S HEALTH SERVICE</div>
+      <div class="passage-subtitle"></div>
+      <div class="passage-text">
+        <p><span class="para-label">A</span> <span class="loc-q17">At some time in their lives, nearly all New Zealanders will have to attend an after-hours clinic following an emergency or accident.</span> On entering the consulting room, the patient is faced with a barrage of questions. The first ones relate to the current episode, and are followed by more general enquiries. Do you have any allergies? Are you on any medications? And so on. But imagine a different scenario. The patient walks into the consulting room and there on the healthcare professional&rsquo;s computer screen is his or her medical record in its entirety &ndash; allergies, medications, test results and everything else. To some, it&rsquo;s amazing that this isn&rsquo;t happening already. After all, individuals can track their bank accounts, phone records and countless other transactions online, so why can&rsquo;t they track their health? <span class="loc-q20">Ian McCrae, Orion Health&rsquo;s CEO, says that it&rsquo;s understandable if health often falls behind other sectors in its adoption of information technology (IT). It might be, he argues, because of concerns about patient privacy, but also because health care is just so complicated.</span></p>
+        <p><span class="para-label">B</span> The irony is, <span class="loc-q15">New Zealand started out being ahead of the game. The backbone of any health IT system is having a unique identifier for each patient, and New Zealand&rsquo;s national health index (NHI) number system was introduced in 1993, before most other countries in the world.</span> Innovation then slowed for some years, but in 2011 <span class="loc-q18">the earthquake in Canterbury, which affected thousands of people, was a catalyst for health IT in that region of the country. Suddenly, many people couldn&rsquo;t be seen by their usual doctor and many health records were inaccessible. An existing plan for an electronic shared record was fast-tracked, and within six months a basic system, HealthOne, was up and running.</span> By 2013, clinicians in the hospital emergency department were able to see all relevant medical information about patients. Dr. Nigel Millar, Chief Medical Officer for the Canterbury region, says within days doctors were telling him the information had already revolutionised the way they worked.</p>
+        <p><span class="para-label">C</span> This idea, known as a &lsquo;patient portal&rsquo;, is now in operation in other parts of the country, including the capital Wellington. With a mobile app patients can remain connected to their patient portal on their mobile device, allowing for added flexibility. However, there&rsquo;s a lot of complacency in medicine, according to Dr. Richard Medlicott. <span class="loc-q22">He says that innovative IT systems have the potential to radically change health care delivery, because they will free doctors from routine administrative tasks and instead allow them to focus on diagnosis and patient care, which is where their skills are really needed.</span> But he admits there is some way to go in the adoption of shared care records, and also in changing the mindset of some doctors who are resistant to change. <span class="loc-q14">A good example of technology in use comes from Australia, where the National Home Doctor Service has brought back a service that was becoming infrequent &ndash; the home visit. The after hours service uses an app to arrange an on-call doctor who will visit patients at home to provide on-the-spot healthcare.</span></p>
+        <p><span class="para-label">D</span> A key part of the health IT picture is maintaining a dialogue and exchange of ideas between healthcare professionals, according to Kate Reid, a director at Orion Health. <span class="loc-q21">Reid says this is critical, but it&rsquo;s not easy because there are so many different agencies that are sometimes in competition.</span> Another issue, Reid says, is that <span class="loc-q16">there are many information systems that are being trialled today. However, these trials are not big enough to determine if they could ever work at a national level.</span> One area where cooperation in health IT really could deliver benefits is in disease prevention and early intervention, says Reid. &lsquo;We&rsquo;ve got innovations and technology that could be reaching at-risk people right now,&rsquo; she argues, but the infrastructure is not in place to allow funding to be shifted from treatment to prevention. Scott Arrol, CEO of New Zealand Health IT, says that advances are coming, they&rsquo;re just not arriving as fast as everybody would like.</p>
+        <p><span class="para-label">E</span> While IT is extremely important to a functioning health system, there are other areas where New Zealand technologies are improving health care. Dr. Hong Sheng Chiong, for example, has adapted a smartphone camera for medical use. The examination kit combines a phone adapter and app, allowing users to examine the <span class="loc-q23">eye</span> with minimal training. Another innovation is the Clever MedKit, an intelligent first aid kit. It separates different items like band-aids and ice packs and orders replacements when necessary, making it particularly helpful in today&rsquo;s busy <span class="loc-q24">offices</span>. In a separate field, the use of pre-made ceramic fittings which can be placed over a broken <span class="loc-q25">tooth</span> in a single sitting reduces the cost of treatment. Dr. Adam Doudney came up with the idea before it was developed by researchers at the technology company Rhondium. Another idea is the Silhouette system, which offers a way to easily monitor wounds. It allows practitioners to detect small differences in wound <span class="loc-q26">size</span> by collecting accurate images and data. Finally, the Auckland Bioengineering Institute is helping those wishing to keep fit or rehabilitate from injury. When placed on the body their special sensor moves with the wearer and measures the amount of movement, before the data is transmitted to the user&rsquo;s mobile or tablet. It&rsquo;ll be fascinating to see how these and other technologies transform medicine over the years to come.</p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3: Game Theory -->
+    <div class="passage-panel" id="passage-content-2">
+      <div class="passage-title">GAME THEORY</div>
+      <div class="passage-subtitle">Computer software that models human behaviour can make forecasts, outsmart rivals, and transform negotiations</div>
+      <div class="passage-text">
+        <p><span class="para-label">A</span> <span class="loc-q27">According to game theory, our chances of success in negotiations are based on the choices of others. Computer models have been developed to work out how events will unfold as people and organizations act in what they perceive to be their own best interests. Numerical values are placed on the goals, motivations, and influence of players, and likely options are considered. Game theory software then evaluates the ability of each of those players to influence others, and hence predicts the course of events.</span></p>
+        <p><span class="para-label">B</span> Although many individuals would feel uncomfortable having a computer make decisions for them, many organizations run such computer simulations for law firms, companies, and governments. But feeding software with accurate data on all the players involved is especially tricky for political matters. <span class="loc-q28">Reinier van Oosten of Decide, a Dutch firm that models political negotiations, notes that predictions may become unreliable when people unexpectedly give in to &lsquo;non-rational&rsquo; emotions such as hatred, rather than pursuing what is apparently in their best interests. However, sorting out people&rsquo;s motivations is much easier when making money is the main object.</span> Accordingly, modeling behavior using game theory is proving especially useful when applied to economics.</p>
+        <p><span class="para-label">C</span> Using game theory software to model auctions can be very lucrative. Consulting firms are entering the market to help clients design profitable auctions, or to win them less expensively. In 2006, in the run-up to an online auction of radio-spectrum licenses by America&rsquo;s Federal Communications Commission, Dr Paul Milgrom, a consultant and Stanford University professor in the United States, customized his game theory software to assist a consortium of bidders. <span class="loc-q33">He was apprehensive at first, but the result was a triumph.</span> When the auction began, Milgrom&rsquo;s software tracked competitors&rsquo; bids to estimate their budgets for the 1,132 licenses on offer. Crucially, <span class="loc-q37">the software estimated the secret values bidders placed on specific licenses and determined that certain big licenses were being overvalued.</span> <span class="loc-q29">Milgrom&rsquo;s clients were then directed to obtain a collection of smaller, less expensive licenses instead.</span> Two of his clients paid about a third less than their competitors for an equivalent amount of spectrum, saving almost $1.2 billion. Such a saving makes one wonder why everyone isn&rsquo;t using game theory software. And, if they were, how would that affect the game?</p>
+        <p><span class="para-label">D</span> PA Consulting, a British firm, designs models for software based on game theory to help its clients solve specific problems in areas from pharmaceuticals to the production of television shows. British government agencies have asked PA Consulting to build models to test scenarios that address how many of a type of business should be allowed to operate in a particular area. A simple example: if two competing ice-cream sellers share a long beach, they will set up stalls back-to-back in the middle and stay put, explains Dr Stephen Black, a modeler for PA. Unfortunately for potential customers at the far ends of the beach, each seller prevents the other from relocating &ndash; no other spot would be closer to more people. Introduce a third seller, however, and the stifling equilibrium is broken as relocations and pricing changes energize the market. <span class="loc-q30 loc-q38">By studying a chain of events such as this, software designers can assess the effect of change and see the patterns in possible outcomes that may occur. As a result, the use of modeling makes clients more inclined to look at future repercussions when making business decisions, Black says.</span></p>
+        <p><span class="para-label">E</span> Where is all this heading? Alongside the increasingly elaborate modeling software, there are also efforts to develop software that can assist in negotiation and mediation. Two decades ago, Dr Clara Ponsati, a Spanish academic, came up with a clever idea. She accepted that, as negotiators everywhere know, the first side to disclose the maximum amount that it is willing to pay loses considerable bargaining power. Without leverage, it can be pushed backward in the bargaining process by a clever opponent. But if neither side reveals the concessions it is prepared to make, negotiations can become very slow or collapse. However, difficult negotiations can often be pushed along by neutral mediators, especially if they are entrusted with the secret bottom lines of all parties. Ponsati&rsquo;s idea was that if a human mediator was not trusted, affordable, or available, a computer could do the job instead. Negotiating parties would update the software with the confidential information on their bargaining positions after each round of talks. Once positions on both sides were no longer mutually exclusive, the software would be used to split the difference and propose an agreement. <span class="loc-q31 loc-q40">Ponsati, now head of the Institute of Economic Analysis at the Autonomous University of Barcelona in Spain, says such &ldquo;mediation machines&rdquo; could be employed to push negotiations forward by unlocking information that would otherwise be withheld from an opponent.</span></p>
+        <p><span class="para-label">F</span> Could mediation which has been achieved using software based on game theory spread from auction bids and utility pricing to resolving political and military disputes? <span class="loc-q32">Today&rsquo;s game theory software is not yet sufficiently advanced to mediate between warring countries.</span> But one day opponents on the brink of war might be tempted to use it to exchange information without having to engage in conflict. According to some game theorists, opponents could learn how a war would turn out, skip the fighting, and strike a deal. Over-optimistic, perhaps &ndash; but game theorists do have rather an impressive track record when it comes to predicting the future.</p>
+      </div>
+    </div>
+
+  </div><!-- /left-pane -->
+  <div id="resize-handle"></div>
+
+  <div id="right-pane">
+
+    <!-- PASSAGE 1 Qs -->
+    <div class="q-panel active" id="qpanel-0">
+      <div class="q-section">
+        <div class="q-section-title">Questions 1&ndash;5</div>
+        <div class="q-instruction">Complete the summary below. Write NO MORE THAN TWO WORDS from the passage for each answer.</div>
+        <div class="notes-box">
+          Studies at Yale University have shown that a positive attitude can lengthen someone&rsquo;s lifespan by approximately <span id="q-target-1"><input class="blank-input" id="blank-q1" data-q="1" placeholder="1" style="width:100px"></span><button class="locate-btn" data-q="1">&#128269;</button>. Another US research team claims to have found a physical reason why this happens. As a result of an eight-year study on <span id="q-target-2"><input class="blank-input" id="blank-q2" data-q="2" placeholder="2" style="width:70px"></span><button class="locate-btn" data-q="2">&#128269;</button> male subjects of a certain age, they have noted differences in the <span id="q-target-3"><input class="blank-input" id="blank-q3" data-q="3" placeholder="3" style="width:130px"></span><button class="locate-btn" data-q="3">&#128269;</button> among positive and negative thinkers. This discovery has led them to conclude that positive thinking makes the body&rsquo;s entire <span id="q-target-4"><input class="blank-input" id="blank-q4" data-q="4" placeholder="4" style="width:130px"></span><button class="locate-btn" data-q="4">&#128269;</button> stronger, which, in turn, reduces ageing. Rosana Wright cites some early research on <span id="q-target-5"><input class="blank-input" id="blank-q5" data-q="5" placeholder="5" style="width:120px"></span><button class="locate-btn" data-q="5">&#128269;</button> in support of this view.
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 6&ndash;10</div>
+        <div class="q-instruction">Complete each sentence with the correct ending, A&ndash;H, below.</div>
+        <div class="endings-box">
+          <div><strong>A</strong> optimists have an unrealistic view of life.</div>
+          <div><strong>B</strong> long life is also linked to diet and exercise.</div>
+          <div><strong>C</strong> excessive optimism may have negative consequences.</div>
+          <div><strong>D</strong> optimism has not been considered a worthy research topic.</div>
+          <div><strong>E</strong> a hectic lifestyle can lead to poor health.</div>
+          <div><strong>F</strong> happiness is not linked to material comfort.</div>
+          <div><strong>G</strong> levels of optimism can decrease with age.</div>
+          <div><strong>H</strong> optimists can have a positive effect on pessimists.</div>
+        </div>
+        <table class="radio-grid-table" id="rgt-6-10">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Sentence beginning</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+            <th class="rgt-opt">E</th><th class="rgt-opt">F</th><th class="rgt-opt">G</th><th class="rgt-opt">H</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-6"><td class="rgt-num">6</td><td class="rgt-stmt">The writer&rsquo;s reference to Sigmund Freud illustrates the point that</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="6" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="6" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="6" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="6" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="6" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="6" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="6" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="6" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="6">&#128269;</button></td></tr>
+            <tr id="q-target-7"><td class="rgt-num">7</td><td class="rgt-stmt">According to Brice Pitt of Imperial College, London,</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="7" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="7" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="7" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="7" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="7" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="7" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="7" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="7" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="7">&#128269;</button></td></tr>
+            <tr id="q-target-8"><td class="rgt-num">8</td><td class="rgt-stmt">Researchers at the Henley Centre have shown that</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="8" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="8" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="8" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="8" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="8" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="8" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="8" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="8" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="8">&#128269;</button></td></tr>
+            <tr id="q-target-9"><td class="rgt-num">9</td><td class="rgt-stmt">The 1995 Adweek Survey found that across the USA</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="9" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="9" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="9" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="9" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="9" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="9" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="9" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="9" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="9">&#128269;</button></td></tr>
+            <tr id="q-target-10"><td class="rgt-num">10</td><td class="rgt-stmt">The psychotherapist Lynn Myers suggests that</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="10" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="10" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="10" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="10" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="10" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="10" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="10" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="10" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="10">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 11&ndash;13</div>
+        <div class="q-instruction">Choose YES, NO, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-11">
+          <div class="q-label"><span class="q-num">11</span><span>It has been known for some time that there is a link between optimism and good health.</span><button class="locate-btn" data-q="11">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="11" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="11" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="11" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-12">
+          <div class="q-label"><span class="q-num">12</span><span>Optimists have better personal relationships with others than pessimists.</span><button class="locate-btn" data-q="12">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="12" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="12" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="12" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-13">
+          <div class="q-label"><span class="q-num">13</span><span>People who live to be over ninety-five are known to take the same amount of regular exercise.</span><button class="locate-btn" data-q="13">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="13" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="13" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="13" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2 Qs -->
+    <div class="q-panel" id="qpanel-1">
+      <div class="q-section">
+        <div class="q-section-title">Questions 14&ndash;18</div>
+        <div class="q-instruction">Reading Passage 2 has five paragraphs, A&ndash;E. Which paragraph contains the following information? You may use any letter more than once.</div>
+        <table class="radio-grid-table" id="rgt-14-18">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Information</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th><th class="rgt-opt">E</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-14"><td class="rgt-num">14</td><td class="rgt-stmt">reference to a medical practice that became less common but is now being used more frequently in one country</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="14">&#128269;</button></td></tr>
+            <tr id="q-target-15"><td class="rgt-num">15</td><td class="rgt-stmt">reference to a health management scheme in New Zealand that was more advanced than those used in other nations</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="15">&#128269;</button></td></tr>
+            <tr id="q-target-16"><td class="rgt-num">16</td><td class="rgt-stmt">the claim that some of the information systems being tested in the health sector are only on a small scale</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="16">&#128269;</button></td></tr>
+            <tr id="q-target-17"><td class="rgt-num">17</td><td class="rgt-stmt">reference to the fact that most people in New Zealand will experience an urgent medical situation at some point</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="17">&#128269;</button></td></tr>
+            <tr id="q-target-18"><td class="rgt-num">18</td><td class="rgt-stmt">mention of a dramatic event that led to improved use of health information technology in one part of New Zealand</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="18">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 19&ndash;22</div>
+        <div class="q-instruction">Match each statement with the correct person, A&ndash;E. You may use any letter more than once.</div>
+        <div class="people-legend">
+          <div><strong>A.</strong> Ian McCrae</div><div><strong>B.</strong> Nigel Millar</div>
+          <div><strong>C.</strong> Richard Medlicott</div><div><strong>D.</strong> Kate Reid</div>
+          <div><strong>E.</strong> Scott Arrol</div>
+        </div>
+        <table class="radio-grid-table" id="rgt-19-22">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Statement</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th><th class="rgt-opt">E</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-19"><td class="rgt-num">19</td><td class="rgt-stmt">Money should be invested in technology that attempts to stop people becoming sick, rather than caring for them once they are sick.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="19">&#128269;</button></td></tr>
+            <tr id="q-target-20"><td class="rgt-num">20</td><td class="rgt-stmt">There are good reasons why healthcare does not make more use of technology to manage patient information.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="20">&#128269;</button></td></tr>
+            <tr id="q-target-21"><td class="rgt-num">21</td><td class="rgt-stmt">Health professionals need to communicate and work together, even if they have different interests.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="21">&#128269;</button></td></tr>
+            <tr id="q-target-22"><td class="rgt-num">22</td><td class="rgt-stmt">New technologies will enable healthcare professionals to concentrate on the most important aspects of their work.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="22">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 23&ndash;26</div>
+        <div class="q-instruction">Complete the summary below. Write ONE WORD ONLY from the passage for each answer.</div>
+        <div class="notes-box">
+          <strong>Other Health Technologies</strong><br><br>
+          Apart from IT, New Zealand scientists have made good progress with other types of medical technology. Dr Chiong has designed a camera so that doctors can look into a patient&rsquo;s <span id="q-target-23"><input class="blank-input" id="blank-q23" data-q="23" placeholder="23" style="width:80px"></span><button class="locate-btn" data-q="23">&#128269;</button>. Clever MedKit provides everyday medical supplies for use in <span id="q-target-24"><input class="blank-input" id="blank-q24" data-q="24" placeholder="24" style="width:90px"></span><button class="locate-btn" data-q="24">&#128269;</button> and ensures stocks are always up-to-date. Meanwhile, the cost of repairing a <span id="q-target-25"><input class="blank-input" id="blank-q25" data-q="25" placeholder="25" style="width:80px"></span><button class="locate-btn" data-q="25">&#128269;</button> is likely to be reduced thanks to Dr Adam Doudney, whose idea was developed by researchers at Rhondium. Another breakthrough is that changes in the <span id="q-target-26"><input class="blank-input" id="blank-q26" data-q="26" placeholder="26" style="width:80px"></span><button class="locate-btn" data-q="26">&#128269;</button> of wounds can now be recorded more accurately because of the new Silhouette system. Lastly, a new type of sensor developed by the Auckland Bioengineering Institute can assist fitness and recovery.
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3 Qs -->
+    <div class="q-panel" id="qpanel-2">
+      <div class="q-section">
+        <div class="q-section-title">Questions 27&ndash;31</div>
+        <div class="q-instruction">Choose the correct answer.</div>
+        <div class="q-item" id="q-target-27">
+          <div class="q-label"><span class="q-num">27</span><span>What does the writer suggest about game theory software in the first paragraph?</span><button class="locate-btn" data-q="27">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="27" data-val="A"><span class="radio-circle"></span>A. Traditional negotiating practices should be used to supplement the software.</button>
+          <button class="mc-opt-btn" data-q="27" data-val="B"><span class="radio-circle"></span>B. Success of the software depends on the accuracy of the assigned values.</button>
+          <button class="mc-opt-btn" data-q="27" data-val="C"><span class="radio-circle"></span>C. This software anticipates the outcome of future events.</button>
+          <button class="mc-opt-btn" data-q="27" data-val="D"><span class="radio-circle"></span>D. Future business negotiations will be dominated by this software.</button>
+        </div>
+        <div class="q-item" id="q-target-28">
+          <div class="q-label"><span class="q-num">28</span><span>Reinier van Oosten says predicting what people will do works best if</span><button class="locate-btn" data-q="28">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="28" data-val="A"><span class="radio-circle"></span>A. participants are honest about how they feel.</button>
+          <button class="mc-opt-btn" data-q="28" data-val="B"><span class="radio-circle"></span>B. there is a good understanding of the client&rsquo;s culture.</button>
+          <button class="mc-opt-btn" data-q="28" data-val="C"><span class="radio-circle"></span>C. people strongly dislike the other party.</button>
+          <button class="mc-opt-btn" data-q="28" data-val="D"><span class="radio-circle"></span>D. profit is the primary motivator.</button>
+        </div>
+        <div class="q-item" id="q-target-29">
+          <div class="q-label"><span class="q-num">29</span><span>After using game theory software in 2006, Dr Milgrom instructed his clients to</span><button class="locate-btn" data-q="29">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="29" data-val="A"><span class="radio-circle"></span>A. buy big licenses.</button>
+          <button class="mc-opt-btn" data-q="29" data-val="B"><span class="radio-circle"></span>B. negotiate with the other parties directly.</button>
+          <button class="mc-opt-btn" data-q="29" data-val="C"><span class="radio-circle"></span>C. make one big offer at the end of the auction.</button>
+          <button class="mc-opt-btn" data-q="29" data-val="D"><span class="radio-circle"></span>D. purchase a mix of licenses.</button>
+        </div>
+        <div class="q-item" id="q-target-30">
+          <div class="q-label"><span class="q-num">30</span><span>The writer refers to Stephen Black&rsquo;s ice-cream seller example in order to</span><button class="locate-btn" data-q="30">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="30" data-val="A"><span class="radio-circle"></span>A. show the impact new competitors have on business.</button>
+          <button class="mc-opt-btn" data-q="30" data-val="B"><span class="radio-circle"></span>B. highlight the importance of location on business success.</button>
+          <button class="mc-opt-btn" data-q="30" data-val="C"><span class="radio-circle"></span>C. demonstrate that businesses must follow a strategy.</button>
+          <button class="mc-opt-btn" data-q="30" data-val="D"><span class="radio-circle"></span>D. clarify how pricing affects sales.</button>
+        </div>
+        <div class="q-item" id="q-target-31">
+          <div class="q-label"><span class="q-num">31</span><span>Ponsati believes business negotiations are more likely to progress if</span><button class="locate-btn" data-q="31">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="31" data-val="A"><span class="radio-circle"></span>A. a solution is proposed by one of the interested parties.</button>
+          <button class="mc-opt-btn" data-q="31" data-val="B"><span class="radio-circle"></span>B. mediators or computers take over the bargaining process.</button>
+          <button class="mc-opt-btn" data-q="31" data-val="C"><span class="radio-circle"></span>C. both parties follow the rules of negotiating.</button>
+          <button class="mc-opt-btn" data-q="31" data-val="D"><span class="radio-circle"></span>D. sufficient time is allowed for the bargaining process.</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 32&ndash;35</div>
+        <div class="q-instruction">Choose YES, NO, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-32">
+          <div class="q-label"><span class="q-num">32</span><span>Game theory software may be unhelpful when dealing with political issues.</span><button class="locate-btn" data-q="32">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="32" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="32" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="32" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-33">
+          <div class="q-label"><span class="q-num">33</span><span>Dr Milgrom was confident about applying his software to an auction in 2006.</span><button class="locate-btn" data-q="33">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="33" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="33" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="33" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-34">
+          <div class="q-label"><span class="q-num">34</span><span>Dr Ponsati believes &lsquo;mediation machines&rsquo; are an inappropriate method of negotiation in areas other than business.</span><button class="locate-btn" data-q="34">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="34" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="34" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="34" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-35">
+          <div class="q-label"><span class="q-num">35</span><span>Military organizations refuse to accept that software based on game theory could prevent wars.</span><button class="locate-btn" data-q="35">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="35" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="35" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="35" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 36&ndash;40</div>
+        <div class="q-instruction">Complete each sentence with the correct ending, A&ndash;F, below.</div>
+        <div class="endings-box">
+          <div><strong>A</strong> something is thought to be worth more than it really is.</div>
+          <div><strong>B</strong> discussions between the parties begin to break down.</div>
+          <div><strong>C</strong> too much information is given to the other parties early on.</div>
+          <div><strong>D</strong> businesses consider possible future developments.</div>
+          <div><strong>E</strong> people allow their feelings to influence decisions.</div>
+          <div><strong>F</strong> a solution requires face-to-face negotiation.</div>
+        </div>
+        <table class="radio-grid-table" id="rgt-36-40">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Sentence beginning</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th>
+            <th class="rgt-opt">D</th><th class="rgt-opt">E</th><th class="rgt-opt">F</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-36"><td class="rgt-num">36</td><td class="rgt-stmt">According to Reinier van Oosten, game theory software fails when</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="36" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="36" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="36" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="36" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="36" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="36" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="36">&#128269;</button></td></tr>
+            <tr id="q-target-37"><td class="rgt-num">37</td><td class="rgt-stmt">Dr Milgrom&rsquo;s software is successful in detecting if</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="37" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="37" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="37" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="37" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="37" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="37" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="37">&#128269;</button></td></tr>
+            <tr id="q-target-38"><td class="rgt-num">38</td><td class="rgt-stmt">Dr Black&rsquo;s game theory software is a helpful tool when</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="38" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="38" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="38" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="38" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="38" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="38" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="38">&#128269;</button></td></tr>
+            <tr id="q-target-39"><td class="rgt-num">39</td><td class="rgt-stmt">According to Dr Ponsati, negotiators fall behind if</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="39" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="39" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="39" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="39" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="39" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="39" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="39">&#128269;</button></td></tr>
+            <tr id="q-target-40"><td class="rgt-num">40</td><td class="rgt-stmt">Dr Ponsati&rsquo;s mediation machine is useful when</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="40" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="40" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="40" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="40" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="40" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="40" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="40">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /right-pane -->
+</div><!-- /split -->
+
+<div id="footer-nav">
+  <span class="nav-label">Q:</span>
+  <div id="nav-grid"></div>
+  <div id="font-controls">
+    <span>Font:</span>
+    <button id="btn-font-up">A+</button>
+    <button id="btn-font-dn">A&minus;</button>
+  </div>
+</div>
+</div><!-- /app -->
+
+<div id="highlight-menu">
+  <button style="background:#fef08a" onclick="applyHighlight('highlight-yellow')" title="Yellow"></button>
+  <button style="background:#bbf7d0" onclick="applyHighlight('highlight-green')" title="Green"></button>
+  <button style="background:#fbcfe8" onclick="applyHighlight('highlight-pink')" title="Pink"></button>
+  <button class="erase-btn" onclick="applyHighlight('erase')">&#10005;</button>
+</div>
+
+<div id="result-modal">
+  <div id="result-box">
+    <h2>Your Result</h2>
+    <div id="result-score">0/40</div>
+    <div id="result-band">Band: &ndash;</div>
+    <div id="result-breakdown"></div>
+    <button id="btn-close-modal">Review Answers</button>
+  </div>
+</div>
+
+<script>
+const ANSWERS={
+  1:'7 years',2:'670',3:'lung function',4:'immune system',5:'heart patients',
+  6:'D',7:'A',8:'F',9:'G',10:'C',
+  11:'YES',12:'NOT GIVEN',13:'NO',
+  14:'C',15:'B',16:'D',17:'A',18:'B',
+  19:'D',20:'A',21:'D',22:'C',
+  23:'eye',24:'offices',25:'tooth',26:'size',
+  27:'C',28:'D',29:'D',30:'A',31:'B',
+  32:'NOT GIVEN',33:'NO',34:'NOT GIVEN',35:'NOT GIVEN',
+  36:'E',37:'A',38:'D',39:'C',40:'B'
+};
+const Q_PASSAGE={};
+for(let i=1;i<=13;i++)Q_PASSAGE[i]=0;
+for(let i=14;i<=26;i++)Q_PASSAGE[i]=1;
+for(let i=27;i<=40;i++)Q_PASSAGE[i]=2;
+
+let userAnswers={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+function normalizeAnswer(s){
+  return s.trim().toLowerCase().replace(/[‘’]/g,"'").replace(/[–—]/g,'-').replace(/\s+/g,' ');
+}
+function checkAnswer(user,correct){
+  const u=normalizeAnswer(user),c=normalizeAnswer(correct);
+  if(u===c)return true;
+  if(u.replace(/-/g,' ')===c.replace(/-/g,' '))return true;
+  // Accept "7 years" or "seven years"
+  if(c==='7 years'&&(u==='seven years'||u==='7 years'))return true;
+  return false;
+}
+
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{p.style.display=i===t?'block':'none';p.classList.toggle('active',i===t);});
+  });
+});
+
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i;btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+
+document.querySelectorAll('.mc-opt-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();updateNav(q);
+  });
+});
+
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+function submitExam(){
+  if(submitted)return;
+  submitted=true;clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=checkAnswer(user,ans);
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        inp.title='Correct: '+ans;
+        // Show correct answer label
+        const existingLabel=inp.parentNode.querySelector('.blank-correct-label');
+        if(!existingLabel){
+          const lbl=document.createElement('span');
+          lbl.className='blank-correct-label';
+          lbl.textContent='✓ '+ans;
+          lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+          inp.insertAdjacentElement('afterend',lbl);
+        }
+      }
+    }
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    const rgtRow=document.getElementById('q-target-'+q);
+    if(rgtRow&&rgtRow.tagName==='TR')rgtRow.classList.add(ok?'row-correct':'row-wrong');
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    if(!ok)document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+  }
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1–13)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14–26)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27–40)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>document.getElementById('result-modal').classList.remove('show'));
+
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      const locEl=document.querySelector('.loc-q'+q);
+      if(locEl){locEl.classList.add('loc-highlight');locEl.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>locEl.classList.remove('loc-highlight'),4000);}
+    },150);
+  });
+});
+
+document.getElementById('btn-font-up').addEventListener('click',()=>{
+  baseFontSize=Math.min(20,baseFontSize+1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{
+  baseFontSize=Math.max(11,baseFontSize-1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+
+let highlightMenu=document.getElementById('highlight-menu'),savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const lp=document.getElementById('left-pane'),rp=document.getElementById('right-pane');
+    if(lp.contains(range.commonAncestorContainer)||rp.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){window.getSelection().removeAllRanges();window.getSelection().addRange(savedRange);document.execCommand('removeFormat');savedRange=null;return;}
+  const span=document.createElement('span');span.className=cls;
+  try{savedRange.surroundContents(span);}catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();savedRange=null;
+}
+
+const handle=document.getElementById('resize-handle'),leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const split=document.getElementById('split');const rect=split.getBoundingClientRect();leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+
+startTimer();
+</script>
+</body>
+</html>

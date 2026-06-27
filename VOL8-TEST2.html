@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading &ndash; VOL 8 TEST 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-pause:hover{background:#4b5563;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam:hover{background:#1e40af;}
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#resize-handle:hover{background:#9ca3af;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button:hover{background:#f3f4f6;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+#font-controls button:hover{background:#f3f4f6;}
+.passage-panel{display:none;}.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+.q-panel{display:none;}.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.blank-input{border:none;border-bottom:2px solid #1a1a1a;background:transparent;font-size:0.88rem;padding:2px 4px;min-width:110px;outline:none;font-family:'Lexend',sans-serif;}
+.blank-input:focus{border-bottom-color:#1d4ed8;}
+.blank-input.correct{border-bottom-color:#16a34a;background:#dcfce7;}
+.blank-input.wrong{border-bottom-color:#dc2626;background:#fee2e2;}
+.blank-input-wide{min-width:150px;}
+/* Radio Grid Table */
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr:hover:not(.row-correct):not(.row-wrong) td{background:#f0f9ff;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:40px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-radio:hover:not(:disabled){background:#f3f4f6;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+/* People legend */
+.people-legend{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 14px;font-size:0.82rem;margin-bottom:12px;display:grid;grid-template-columns:1fr 1fr;gap:3px 16px;}
+/* Ideas box */
+.ideas-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:10px 14px;font-size:0.82rem;margin-bottom:12px;}
+.ideas-box div{padding:2px 0;}
+/* Notes completion */
+.notes-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.notes-box h4{font-size:0.88rem;font-weight:700;margin:0 0 8px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+.notes-box ul{margin:6px 0 6px 20px;padding:0;}
+.notes-box li{margin-bottom:4px;}
+/* Sentence completion */
+.sentence-item{margin-bottom:10px;font-size:0.86rem;line-height:1.9;}
+/* Locate */
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn:hover{background:#fde68a;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+/* Highlight */
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+/* Result modal */
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+.correct-answer-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-top:3px;display:block;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="header">
+  <h1>IELTS READING &ndash; VOL 8 TEST 2</h1>
+  <div id="timer-wrap">
+    <span id="timer">60:00</span>
+    <button id="btn-pause">&#9208; Pause</button>
+    <button id="btn-submit-exam">Submit</button>
+  </div>
+</div>
+<div id="tab-bar">
+  <button class="tab-btn active" data-target="0">PASSAGE 1</button>
+  <button class="tab-btn" data-target="1">PASSAGE 2</button>
+  <button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+<div id="split">
+  <div id="left-pane">
+
+    <!-- PASSAGE 1 -->
+    <div class="passage-panel active" id="passage-content-0">
+      <div class="passage-title">AUSTRALIA&rsquo;S CANE TOAD PROBLEM</div>
+      <div class="passage-subtitle">Australia to control pests has itself become a pest</div>
+      <div class="passage-text">
+        <p><span class="para-label">A</span> In the north of Australia there are many sugar cane plantations, which early in the 20th century were being damaged by a particular pest. This was a species of <span class="loc-q1">beetle</span> whose larvae, the infant form of the beetle, live underground in the soil in the sugar cane fields. The sugar cane plants were weakened or died because their <span class="loc-q2">roots</span> were eaten by the larvae. This had serious economic consequences for sugar cane farmers. Modern pesticides were not developed until the 1940s, so farmers had to use what was available at the time. Chemicals like arsenic and copper were used, but these were not only <span class="loc-q3">expensive</span> but also stayed in the environment and were poisonous to people, plants and animals. It was generally acknowledged by government, farmers and scientists that cheaper and safer methods of pest control had to be found.</p>
+        <p><span class="para-label">B</span> A promising replacement for copper and arsenic was the use of biological control. Farmers already used some forms of biological pest control in the form of predatory and parasitic wasps and flies, insect-eating birds, and plants from different regions or countries to control pests. Common practice was to release these introduced agents into new environments, the expectation being that they would destroy resident pests. Some species of toad already had successful records as agents of biological control in gardens. For example, in 19th-century France toads were sold to <span class="loc-q4">gardeners</span> at markets in Paris to eat insect pests in their gardens. In the early 20th century French sugar cane farmers first took giant toads from South America to control pests in their Caribbean sugar cane plantations. Although there is no evidence that these toads did help to control pests, sugar cane scientists then carried some of these toads from Jamaica and Barbados to Puerto Rico and from there to Hawaii.</p>
+        <p><span class="para-label">C</span> The idea of biological control of pests was not new to Australia. For example, in 1926 there had been a highly successful prevention of the increase of the exotic prickly-pear cactus by the introduction of a <span class="loc-q5">moth</span> from Argentina. This success added strength to the argument that biological control was the answer to the sugar cane industry&rsquo;s pest problems. Accordingly, in the early 1930s a decision was taken to introduce the giant South American toads, which in Australia are now commonly called cane toads, into Australian sugar cane plantations.</p>
+        <p><span class="para-label">D</span> In 1935, an Australian entomologist brought 101 cane toads from <span class="loc-q6">Hawaii</span> and released them in sugar cane plantations in the north of Australia. However, over the following years it became clear that the cane toads were a <span class="loc-q7">failure</span>. There was a fatal flaw in the plan to use them as a form of biological control. This was that earthbound cane toads were expected to eat the mostly flying adult beetles in order to eliminate the soil-dwelling beetle larvae that ate the roots of the cane sugar plants. This, of course, cane toads could not do.</p>
+        <p><span class="para-label">E</span> <span class="loc-q10">Prior to their introduction in Australia, there had been very few opponents and only one made his views public. He was a retired former Chief Entomologist from the state government of New South Wales named Walter Froggatt. He forecast that cane toads might become as great a pest in Australia as rabbits. However, Froggatt&rsquo;s peers rebuked him and eminent scientists branded his views &lsquo;decidedly pessimistic&rsquo;.</span> It is estimated that today as many as a hundred million cane toads form a toxic infestation which is slowly spreading throughout the land.</p>
+        <p><span class="para-label">F</span> Cane toads are large, heavily built amphibians. Average-sized adults are 10&ndash;15 cm long and weigh more than a kilo. They have large swellings on each shoulder from which they squirt poison when they are threatened. This venom contains 14 different chemicals, but they do not appear to be harmful to humans as no-one has died in Australia from cane toad poison. <span class="loc-q12">Until recently there was no understanding of the toxicity of cane toad poison, but it is now clear that freshwater crocodiles, goannas (large lizards) and dingoes (wild dogs) have died after eating cane toads.</span> Cane toads compete with native Australian fauna for food, and eat the eggs and young of ground-nesting birds. <span class="loc-q13">As their numbers increase, they are taking over more and more of the land where native Australian fauna live.</span></p>
+        <p><span class="para-label">G</span> The lesson that can be learned from the introduction of cane toads is important. <span class="loc-q8">It is wrong to think that such an awful biological event could not be repeated. In this instance, the catalyst was the overwhelming consensus of support for introducing cane toads to Australia. The error was that there was little or no testing of these biological agents before they were introduced to see what unplanned effects they might have on the environment.</span></p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2 -->
+    <div class="passage-panel" id="passage-content-1">
+      <div class="passage-title">FARMERS</div>
+      <div class="passage-subtitle">An iconic chain store in New Zealand reaches a milestone</div>
+      <div class="passage-text">
+        <p><span class="para-label">A</span> The chain of stores known as Farmers began one hundred years ago as a <span class="loc-q19">mail order</span> company. Today the Farmers chain employs 3,500 staff across 58 branches making it the most venerable institution of its type in New Zealand. &lsquo;Coming to Farmers once a week has become woven into the fabric of New Zealand culture,&rsquo; says business historian <span class="loc-q23">Ian Hunter</span>. By 1960, one in every ten people had an account with the company. It was not only a shop but also hosted the largest annual parade in the country, the Santa parade each Christmas time. Gary Blumenthal, whose family have been customers for three generations, understands well the role Farmers have played in New Zealand culture. &lsquo;We were on holiday in Auckland,&rsquo; he explains, &lsquo;and I decided that the lookout tower on top of the Farmers building would be a unique place to fit the ring on my new fianc&eacute;e&rsquo;s finger.&rsquo; The couple has been married for 50 years.</p>
+        <p><span class="para-label">B</span> Farmers&rsquo; longevity can be attributed to the philosophy fostered by Robert Laidlaw, the Scottish immigrant who established the business. Right from the outset, Laidlaw guaranteed customer satisfaction, and those who were not entirely happy with a purchase would receive a full refund with no questions asked. <span class="loc-q16">This was certainly the first time such a guarantee had been made by a New Zealand retailer and was probably one of the first worldwide.</span> Laidlaw believed that the scheme could work if he ensured that every product sold was of the highest quality relative to its price.</p>
+        <p><span class="para-label">C</span> Another important aspect of the Farmers&rsquo; philosophy was to internationalize the New Zealand market. By the time the Hobson Street store opened in 1920 in order to sell directly to customers for the first time, Laidlaw had established <span class="loc-q20">buying offices</span> in New York and London so as to offer his customers the latest designs. This was a bold move in those days and won Farmers a devoted following. It&rsquo;s also true that whoever you speak to regarding Farmers in the early years, whether managers or workers, they all emphasize how the company represented a <span class="loc-q21">large family</span>. Everyone employed by Laidlaw felt they were building something that would ultimately be to the benefit of the whole country. For example, to mark the centenary celebrations, 58 Farmers&rsquo; stores around the country announced the neighborhood charities they would raise funds for &ndash; everything from guide dog services to volunteer fire brigades will benefit.</p>
+        <p><span class="para-label">D</span> Farmers has always had a heart, according to former board chairman <span class="loc-q24">Rawdon Busfield</span>. &lsquo;One day I was in the Hobson Street store and a woman came in with two small children &ndash; they didn&rsquo;t have a lot of money, you could tell. That week we had a special on, a big bar of chocolate for a shilling... But the boy only had a penny. I took the penny and gave him the chocolate.&rsquo; However, not everything has stayed the same. Farmers was once home to genteel tea rooms, children&rsquo;s playgrounds, and an annual <span class="loc-q22">sale</span> to celebrate the birthday of Hector the Parrot &ndash; who came to embody the store in the eyes of many shoppers and who died, aged 131, in the 1970s. You could buy houses from Farmers, and its saddle factory supplied the armed forces. In fact, although the company has grown considerably over the years, <span class="loc-q15">today it sells a narrower assortment of products than in the past.</span></p>
+        <p><span class="para-label">E</span> Walk through a Farmers store today and you&rsquo;ll see big changes. <span class="loc-q18">Its most recent branch in the suburb of Albany is filled with bright lights and big brands.</span> The branch sells cosmetics from 16 different international companies and buys from approximately 500 suppliers, of which about 30 percent are locally owned. &lsquo;Eight or ten years ago,&rsquo; says current chief executive <span class="loc-q25">Rod McDermott</span>, &lsquo;lots of brands wouldn&rsquo;t partner with us. We weren&rsquo;t in trouble as such, but we could have been doing much better because we were focused too much on price and not on fashion. The reorientation of the last decade has seen a great improvement.&rsquo;</p>
+        <p><span class="para-label">F</span> Farmers almost didn&rsquo;t pull through one economic crisis. In the mid-1980s, business was booming and the company had stores throughout the country. Then, with sales topping $375 million, <span class="loc-q14">it was taken over by Chase Corporation.</span> <span class="loc-q26">Lincoln Laidlaw</span>, the son of the company&rsquo;s founder, remembers the dark days following the stock market crash of 1987 and the collapse of the Chase Corporation. &lsquo;The business was being divided up,&rsquo; he says, &lsquo;and I believe that the original culture of the store was dispelled and it hasn&rsquo;t been recovered. That&rsquo;s a shame, but the business is still strong.&rsquo; For a few turbulent years the stores were controlled first by a consortium of Australian banks, and later a local corporation. In 2003, it went back into &lsquo;family&rsquo; ownership with the purchase by the James Pascoe Group owned by an established New Zealand retail family. Brand power has made Farmers profitable again, according to McDermott. &lsquo;And now we&rsquo;re becoming the brand we used to be... It&rsquo;s like the rebirth of an icon.&rsquo;</p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3 -->
+    <div class="passage-panel" id="passage-content-2">
+      <div class="passage-title">LIFE ON MARS?</div>
+      <div class="passage-subtitle"></div>
+      <div class="passage-text">
+        <p><span class="para-label">A</span> When scientists began observing Mars with their first primitive telescopes, they assumed from the start that the planet was peopled. The 18th-century astronomer William Herschel, noting the seasons and atmosphere of Mars, declared that &lsquo;its inhabitants enjoy a situation similar to our own&rsquo;. A century later, astronomers asserted that they could detect canals running across the Martian landscape. <span class="loc-q31">These canals, argued US scientist Percival Lowell, had been built by technologically advanced Martians to transport water from the poles to the equator of their drying world. &lsquo;Martian folk are possessed of inventions of which we have not dreamed,&rsquo; he argued.</span></p>
+        <p><span class="para-label">B</span> The vision of an advanced culture trapped on a drying world was taken up by the British writer H.G. Wells in 1898 in his masterpiece <em>The War of the Worlds</em>, in which Earth is subjected to a pitiless invasion from a race of hideous Martians armed with poison gas and heat rays. Martians became synonymous with grotesque, threatening aliens, at least as far as the public was concerned. Scientists were more restrained, but still supported the idea that the planet might support relatively complex life forms.</p>
+        <p><span class="para-label">C</span> Then, in the late 1960s, rocket science changed our image of Mars forever. The US Mariner probes swept past Mars and sent back pictures, not of a world covered in vegetation, as many scientists still expected, but of vistas of cratered, arid deserts. Finally, in 1975, two huge US probes settled on the Martian surface and began a series of experiments aimed at pinpointing, once and for all, the existence of air-breathing organisms. None were found, for the Viking probes landed in areas as dead as the Sahara Desert. All that was sent back were images of a bleak, boulder-strewn terrain. Mars was declared officially dead &ndash; for a while.</p>
+        <p><span class="para-label">D</span> Since that time, two critical pieces of evidence have been found on Earth which support the idea that Mars has life. <span class="loc-q27">The first is known as ALH84001, a meteorite that was blasted into space when a large body struck Mars 15 million years ago and which spiralled across the solar system to crash into the Antarctic.</span> Analysis carried out by NASA scientist Imre Friedmann showed that the meteorite contained elements identical to those found on Mars by the Viking probes, and revealed chains of crystals similar to those created by earthbound bacteria. Friedmann believes that these could only have been created by living organisms. Others, however, argue that the crystals could have been laid down by simple chemical processes. A second area of support for the idea that living organisms could survive Mars&rsquo;s harshness has been provided by the study of extremophiles, bacteria that have been found in increasingly hostile landscapes on Earth &ndash; acid lakes, for example, and volcanoes.</p>
+        <p><span class="para-label">E</span> In the past few years, astronomers have become convinced that the Martian surface, although hostile and arid today, was once lush and welcoming. Images sent back by recent probes such as the Mars Global Surveyor have revealed dried-up riverbeds and old estuaries. Rivers poured into ancient seas, it appears, and rain swept the sodden terrain. Then catastrophe struck. <span class="loc-q29">Mars lost its magnetic field several billion years ago, explains British astronomer Paul Murdin. &lsquo;Earth retained one, and it protects our atmosphere. Without that protection, Mars&rsquo;s gases and water boiled off.&rsquo; That is why they are so different today.</span></p>
+        <p><span class="para-label">F</span> The discovery of signs of water on Mars has changed everything. Some researchers believe that water from underground reservoirs still gushes through Martian valleys as occasional flash floods bubble to the surface. In the 1990s, the Mars Odyssey probe began to map the chemical make-up of the Mars soil, and discovered that much of the ground in the southern hemisphere of Mars is mixed with large quantities of ice. <span class="loc-q30">And where there is ice, there is likely to be liquid water, probably underneath. &lsquo;There are huge underground reservoirs on Mars,&rsquo; says Marcello Coradini, head of planetary exploration for the European Space Agency. &lsquo;I am now convinced of that.&rsquo;</span></p>
+        <p><span class="para-label">G</span> <span class="loc-q28">Current projects are hoping to clarify the question of the presence of water once and for all. These are aimed at conducting experiments to detect the presence of a substance called carbon 13 in soil and rock samples on Mars; this would be, according to some researchers, an unequivocal indicator of the presence of living organisms, past or present.</span></p>
+        <p><span class="para-label">H</span> But would the presence of a few Martian organisms alter our world view in any significant way? Professor Juan P&eacute;rez Mercader of Madrid&rsquo;s Centre for Astrobiology in Spain believes that it would. &lsquo;For a start, we will be able to find out if Martian organisms have DNA, the golden molecule that controls the replication of earthly creatures.&rsquo; If there is no DNA, that would show that Martian biology is quite unlike Earth&rsquo;s, and that on two planets, side by side in the same solar system, life evolved independently. <span class="loc-q32">If DNA is located, it would mean that life on Mars and on Earth may spring from the same source.</span> &lsquo;If organisms can pop up that easily, our chances of finding intelligent versions elsewhere in the universe will look extremely good,&rsquo; P&eacute;rez Mercader states. The discovery of any evidence of living organisms on Mars would also mean renewed purpose for manned space flight projects.</p>
+      </div>
+    </div>
+
+  </div><!-- /left-pane -->
+  <div id="resize-handle"></div>
+
+  <div id="right-pane">
+
+    <!-- PASSAGE 1 Qs -->
+    <div class="q-panel active" id="qpanel-0">
+      <div class="q-section">
+        <div class="q-section-title">Questions 1&ndash;7</div>
+        <div class="q-instruction">Complete the table below. Write ONE WORD ONLY from the passage for each answer.</div>
+        <div class="notes-box">
+          <h4>Pest control</h4>
+          <p><strong>Early 20th-century problems in Australia</strong></p>
+          <p>The larvae of a type of <span id="q-target-1"><input class="blank-input" id="blank-q1" data-q="1" placeholder="1" style="width:100px"></span><button class="locate-btn" data-q="1">&#128269;</button> were a serious pest in sugar cane fields.</p>
+          <p>Its larvae ate the <span id="q-target-2"><input class="blank-input" id="blank-q2" data-q="2" placeholder="2" style="width:100px"></span><button class="locate-btn" data-q="2">&#128269;</button> of the plant.</p>
+          <p>Chemical pesticides were unsatisfactory because they were:</p>
+          <ul>
+            <li>poisonous</li>
+            <li><span id="q-target-3"><input class="blank-input" id="blank-q3" data-q="3" placeholder="3" style="width:100px"></span><button class="locate-btn" data-q="3">&#128269;</button></li>
+            <li>difficult to remove from the ground</li>
+          </ul>
+          <p><strong>Experiences with biological pest control</strong></p>
+          <p>The use of insects, plants and birds was widespread.</p>
+          <p>In the 19th century French <span id="q-target-4"><input class="blank-input" id="blank-q4" data-q="4" placeholder="4" style="width:100px"></span><button class="locate-btn" data-q="4">&#128269;</button> used toads.</p>
+          <p>In Australia a <span id="q-target-5"><input class="blank-input" id="blank-q5" data-q="5" placeholder="5" style="width:100px"></span><button class="locate-btn" data-q="5">&#128269;</button> stopped the spread of prickly-pear cactus.</p>
+          <p>Cane toads were brought to Australia from <span id="q-target-6"><input class="blank-input" id="blank-q6" data-q="6" placeholder="6" style="width:100px"></span><button class="locate-btn" data-q="6">&#128269;</button>.</p>
+          <p>Cane toads proved to be a <span id="q-target-7"><input class="blank-input" id="blank-q7" data-q="7" placeholder="7" style="width:100px"></span><button class="locate-btn" data-q="7">&#128269;</button> as pest control.</p>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 8&ndash;13</div>
+        <div class="q-instruction">Choose TRUE, FALSE, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-8">
+          <div class="q-label"><span class="q-num">8</span><span>The outcome of the introduction of cane toads was immediately obvious.</span><button class="locate-btn" data-q="8">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="8" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="8" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="8" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-9">
+          <div class="q-label"><span class="q-num">9</span><span>Rabbits were introduced to Australia to control weeds.</span><button class="locate-btn" data-q="9">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="9" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="9" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="9" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-10">
+          <div class="q-label"><span class="q-num">10</span><span>Walter Froggatt was criticized for his efforts to stop the introduction of the cane toad to Australia.</span><button class="locate-btn" data-q="10">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="10" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="10" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="10" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-11">
+          <div class="q-label"><span class="q-num">11</span><span>The average size of cane toads has increased since their introduction.</span><button class="locate-btn" data-q="11">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="11" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="11" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="11" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-12">
+          <div class="q-label"><span class="q-num">12</span><span>Australian animals can eat cane toads safely.</span><button class="locate-btn" data-q="12">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="12" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="12" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="12" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-13">
+          <div class="q-label"><span class="q-num">13</span><span>In many places cane toads are gaining control of the habitats of Australian fauna.</span><button class="locate-btn" data-q="13">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="13" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="13" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="13" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2 Qs -->
+    <div class="q-panel" id="qpanel-1">
+      <div class="q-section">
+        <div class="q-section-title">Questions 14&ndash;18</div>
+        <div class="q-instruction">Reading Passage 2 has six paragraphs, A&ndash;F. Which paragraph contains the following information? Choose the correct letter, A&ndash;F.</div>
+        <table class="radio-grid-table" id="rgt-14-18">
+          <thead><tr>
+            <th class="rgt-num">#</th>
+            <th class="rgt-stmt">Information</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th>
+            <th class="rgt-opt">D</th><th class="rgt-opt">E</th><th class="rgt-opt">F</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-14"><td class="rgt-num">14</td><td class="rgt-stmt">a mention of the company being sold</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="14">&#128269;</button></td></tr>
+            <tr id="q-target-15"><td class="rgt-num">15</td><td class="rgt-stmt">a reference to how the range of goods for sale has become more limited</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="15">&#128269;</button></td></tr>
+            <tr id="q-target-16"><td class="rgt-num">16</td><td class="rgt-stmt">an example of an innovative offer made by the company&rsquo;s founder</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="16">&#128269;</button></td></tr>
+            <tr id="q-target-17"><td class="rgt-num">17</td><td class="rgt-stmt">a description of a romantic event on the shop&rsquo;s roof</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="17">&#128269;</button></td></tr>
+            <tr id="q-target-18"><td class="rgt-num">18</td><td class="rgt-stmt">a description of the latest store in the chain</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="18">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 19&ndash;22</div>
+        <div class="q-instruction">Complete the sentences below. Write NO MORE THAN TWO WORDS from the passage for each answer.</div>
+        <div class="notes-box">
+          <p class="sentence-item">Farmers were set up as a/an <span id="q-target-19"><input class="blank-input blank-input-wide" id="blank-q19" data-q="19" placeholder="19" style="width:130px"></span><button class="locate-btn" data-q="19">&#128269;</button> business before it became a chain.</p>
+          <p class="sentence-item">Robert Laidlaw set up <span id="q-target-20"><input class="blank-input blank-input-wide" id="blank-q20" data-q="20" placeholder="20" style="width:130px"></span><button class="locate-btn" data-q="20">&#128269;</button> overseas so he could sell up-to-date fashions.</p>
+          <p class="sentence-item">According to employees, Farmers were like a/an <span id="q-target-21"><input class="blank-input blank-input-wide" id="blank-q21" data-q="21" placeholder="21" style="width:130px"></span><button class="locate-btn" data-q="21">&#128269;</button></p>
+          <p class="sentence-item">Farmers held a/an <span id="q-target-22"><input class="blank-input blank-input-wide" id="blank-q22" data-q="22" placeholder="22" style="width:100px"></span><button class="locate-btn" data-q="22">&#128269;</button> once a year in honour of the company&rsquo;s famous pet.</p>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 23&ndash;26</div>
+        <div class="q-instruction">Match each person with the correct idea, A&ndash;F. Choose the correct letter, A&ndash;F.</div>
+        <div class="ideas-box">
+          <div><strong>A</strong> The character of the company has changed for the worse</div>
+          <div><strong>B</strong> The store is selling more local products than in the past</div>
+          <div><strong>C</strong> The company believes in offering lower prices than their competitors</div>
+          <div><strong>D</strong> The staff has always believed in generosity</div>
+          <div><strong>E</strong> The store is an integral part of the local way of life</div>
+          <div><strong>F</strong> The store needed to change its approach to business</div>
+        </div>
+        <table class="radio-grid-table" id="rgt-23-26">
+          <thead><tr>
+            <th class="rgt-num">#</th>
+            <th class="rgt-stmt">Person</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th>
+            <th class="rgt-opt">D</th><th class="rgt-opt">E</th><th class="rgt-opt">F</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-23"><td class="rgt-num">23</td><td class="rgt-stmt">Ian Hunter</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="23">&#128269;</button></td></tr>
+            <tr id="q-target-24"><td class="rgt-num">24</td><td class="rgt-stmt">Rawdon Busfield</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="24">&#128269;</button></td></tr>
+            <tr id="q-target-25"><td class="rgt-num">25</td><td class="rgt-stmt">Rod McDermott</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="25">&#128269;</button></td></tr>
+            <tr id="q-target-26"><td class="rgt-num">26</td><td class="rgt-stmt">Lincoln Laidlaw</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="26">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3 Qs -->
+    <div class="q-panel" id="qpanel-2">
+      <div class="q-section">
+        <div class="q-section-title">Questions 27&ndash;32</div>
+        <div class="q-instruction">Reading Passage 3 has eight paragraphs, A&ndash;H. Which paragraph contains the following information? Choose the correct letter, A&ndash;H.</div>
+        <table class="radio-grid-table" id="rgt-27-32">
+          <thead><tr>
+            <th class="rgt-num">#</th>
+            <th class="rgt-stmt">Information</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+            <th class="rgt-opt">E</th><th class="rgt-opt">F</th><th class="rgt-opt">G</th><th class="rgt-opt">H</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-27"><td class="rgt-num">27</td><td class="rgt-stmt">evidence that a rock found on Earth originated on Mars</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="27">&#128269;</button></td></tr>
+            <tr id="q-target-28"><td class="rgt-num">28</td><td class="rgt-stmt">a plan to analyse material on Mars</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="28">&#128269;</button></td></tr>
+            <tr id="q-target-29"><td class="rgt-num">29</td><td class="rgt-stmt">the reason Mars is no longer similar to Earth</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="29">&#128269;</button></td></tr>
+            <tr id="q-target-30"><td class="rgt-num">30</td><td class="rgt-stmt">an observation suggesting that there is currently water on Mars</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="30">&#128269;</button></td></tr>
+            <tr id="q-target-31"><td class="rgt-num">31</td><td class="rgt-stmt">a claim that construction had taken place on Mars</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="31">&#128269;</button></td></tr>
+            <tr id="q-target-32"><td class="rgt-num">32</td><td class="rgt-stmt">a possibility that humans and Martians could share the same origins</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="32">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 33&ndash;36</div>
+        <div class="q-instruction">Choose the correct answer.</div>
+        <div class="q-item" id="q-target-33">
+          <div class="q-label"><span class="q-num">33</span><span>The 18th-century astronomer William Herschel believed that</span><button class="locate-btn" data-q="33">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="33" data-val="A"><span class="radio-circle"></span>A. the Martians were physically similar to humans.</button>
+          <button class="mc-opt-btn" data-q="33" data-val="B"><span class="radio-circle"></span>B. the Martian environment resembled that of Earth.</button>
+          <button class="mc-opt-btn" data-q="33" data-val="C"><span class="radio-circle"></span>C. members of the Martian race were extremely primitive.</button>
+          <button class="mc-opt-btn" data-q="33" data-val="D"><span class="radio-circle"></span>D. the climatic conditions on Mars were very dry.</button>
+        </div>
+        <div class="q-item" id="q-target-34">
+          <div class="q-label"><span class="q-num">34</span><span>At the end of the 19th century, the public&rsquo;s ideas about Martians changed because of</span><button class="locate-btn" data-q="34">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="34" data-val="A"><span class="radio-circle"></span>A. scientific discussion.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="B"><span class="radio-circle"></span>B. media reports.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="C"><span class="radio-circle"></span>C. a work of literature.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="D"><span class="radio-circle"></span>D. a magazine illustration.</button>
+        </div>
+        <div class="q-item" id="q-target-35">
+          <div class="q-label"><span class="q-num">35</span><span>What does the writer say happened in the 1960s?</span><button class="locate-btn" data-q="35">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="35" data-val="A"><span class="radio-circle"></span>A. The appearance of some regions of Mars changed.</button>
+          <button class="mc-opt-btn" data-q="35" data-val="B"><span class="radio-circle"></span>B. Evidence of organisms was found on Mars.</button>
+          <button class="mc-opt-btn" data-q="35" data-val="C"><span class="radio-circle"></span>C. The Martian atmosphere was tested scientifically.</button>
+          <button class="mc-opt-btn" data-q="35" data-val="D"><span class="radio-circle"></span>D. Earlier beliefs about Mars were disproven.</button>
+        </div>
+        <div class="q-item" id="q-target-36">
+          <div class="q-label"><span class="q-num">36</span><span>The study of extremophiles suggests that</span><button class="locate-btn" data-q="36">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="36" data-val="A"><span class="radio-circle"></span>A. organisms can survive on Mars.</button>
+          <button class="mc-opt-btn" data-q="36" data-val="B"><span class="radio-circle"></span>B. organisms on Earth are like those found on Mars.</button>
+          <button class="mc-opt-btn" data-q="36" data-val="C"><span class="radio-circle"></span>C. Martian conditions resemble those in Earth&rsquo;s volcanoes.</button>
+          <button class="mc-opt-btn" data-q="36" data-val="D"><span class="radio-circle"></span>D. Martian crystals can survive acid conditions.</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 37&ndash;40</div>
+        <div class="q-instruction">Choose YES, NO, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-37">
+          <div class="q-label"><span class="q-num">37</span><span>Lowell believed that Martian technology was more developed than human technology.</span><button class="locate-btn" data-q="37">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="37" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="37" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="37" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-38">
+          <div class="q-label"><span class="q-num">38</span><span>Information gained from Viking probes remains unchallenged.</span><button class="locate-btn" data-q="38">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="38" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="38" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="38" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-39">
+          <div class="q-label"><span class="q-num">39</span><span>There is evidence that there has been significant climate change on Mars.</span><button class="locate-btn" data-q="39">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="39" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="39" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="39" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-40">
+          <div class="q-label"><span class="q-num">40</span><span>Spanish scientists plan to launch space probes if DNA is found on Mars.</span><button class="locate-btn" data-q="40">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="40" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="40" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="40" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /right-pane -->
+</div><!-- /split -->
+
+<div id="footer-nav">
+  <span class="nav-label">Q:</span>
+  <div id="nav-grid"></div>
+  <div id="font-controls">
+    <span>Font:</span>
+    <button id="btn-font-up">A+</button>
+    <button id="btn-font-dn">A&minus;</button>
+  </div>
+</div>
+</div><!-- /app -->
+
+<div id="highlight-menu">
+  <button style="background:#fef08a" onclick="applyHighlight('highlight-yellow')" title="Yellow"></button>
+  <button style="background:#bbf7d0" onclick="applyHighlight('highlight-green')" title="Green"></button>
+  <button style="background:#fbcfe8" onclick="applyHighlight('highlight-pink')" title="Pink"></button>
+  <button class="erase-btn" onclick="applyHighlight('erase')">&#10005;</button>
+</div>
+
+<div id="result-modal">
+  <div id="result-box">
+    <h2>Your Result</h2>
+    <div id="result-score">0/40</div>
+    <div id="result-band">Band: &ndash;</div>
+    <div id="result-breakdown"></div>
+    <button id="btn-close-modal">Review Answers</button>
+  </div>
+</div>
+
+<script>
+const ANSWERS={
+  1:'beetle',2:'roots',3:'expensive',4:'gardeners',5:'moth',6:'Hawaii',7:'failure',
+  8:'FALSE',9:'NOT GIVEN',10:'TRUE',11:'NOT GIVEN',12:'FALSE',13:'TRUE',
+  14:'F',15:'D',16:'B',17:'A',18:'E',
+  19:'mail order',20:'buy offices',21:'large family',22:'sale',
+  23:'E',24:'D',25:'F',26:'A',
+  27:'D',28:'G',29:'E',30:'F',31:'A',32:'H',
+  33:'B',34:'C',35:'D',36:'A',
+  37:'YES',38:'NO',39:'YES',40:'NOT GIVEN'
+};
+const Q_PASSAGE={};
+for(let i=1;i<=13;i++)Q_PASSAGE[i]=0;
+for(let i=14;i<=26;i++)Q_PASSAGE[i]=1;
+for(let i=27;i<=40;i++)Q_PASSAGE[i]=2;
+
+let userAnswers={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+function normalizeAnswer(s){
+  return s.trim().toLowerCase().replace(/[‘’]/g,"'").replace(/[–—]/g,'-').replace(/\s+/g,' ');
+}
+function checkAnswer(user,correct){
+  const u=normalizeAnswer(user), c=normalizeAnswer(correct);
+  if(u===c)return true;
+  if(u.replace(/-/g,' ')===c.replace(/-/g,' '))return true;
+  if(u.replace(/\s/g,'-')===c.replace(/\s/g,'-'))return true;
+  const cp=c.split(' ');
+  if(cp.length===2&&/^[a-h]$/.test(cp[0])&&(u===cp[0]||u===cp[1]))return true;
+  return false;
+}
+
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{p.style.display=i===t?'block':'none';p.classList.toggle('active',i===t);});
+  });
+});
+
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i;btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+
+document.querySelectorAll('.mc-opt-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();updateNav(q);
+  });
+});
+
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+function submitExam(){
+  if(submitted)return;
+  submitted=true;clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=checkAnswer(user,ans);
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        inp.title='Correct: '+ans;
+        // Show correct answer label
+        const existingLabel=inp.parentNode.querySelector('.blank-correct-label');
+        if(!existingLabel){
+          const lbl=document.createElement('span');
+          lbl.className='blank-correct-label';
+          lbl.textContent='✓ '+ans;
+          lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+          inp.insertAdjacentElement('afterend',lbl);
+        }
+      }
+    }
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    const rgtRow=document.getElementById('q-target-'+q);
+    if(rgtRow&&rgtRow.tagName==='TR')rgtRow.classList.add(ok?'row-correct':'row-wrong');
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    if(!ok)document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+  }
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1–13)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14–26)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27–40)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>document.getElementById('result-modal').classList.remove('show'));
+
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      const locEl=document.querySelector('.loc-q'+q);
+      if(locEl){locEl.classList.add('loc-highlight');locEl.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>locEl.classList.remove('loc-highlight'),4000);}
+    },150);
+  });
+});
+
+document.getElementById('btn-font-up').addEventListener('click',()=>{
+  baseFontSize=Math.min(20,baseFontSize+1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{
+  baseFontSize=Math.max(11,baseFontSize-1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+
+let highlightMenu=document.getElementById('highlight-menu'),savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const lp=document.getElementById('left-pane'),rp=document.getElementById('right-pane');
+    if(lp.contains(range.commonAncestorContainer)||rp.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){window.getSelection().removeAllRanges();window.getSelection().addRange(savedRange);document.execCommand('removeFormat');savedRange=null;return;}
+  const span=document.createElement('span');span.className=cls;
+  try{savedRange.surroundContents(span);}catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();savedRange=null;
+}
+
+const handle=document.getElementById('resize-handle'),leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const split=document.getElementById('split');const rect=split.getBoundingClientRect();leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+
+startTimer();
+</script>
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading &ndash; VOL 8 Library</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Lexend',sans-serif;background:#0f0f0f;color:#fff;min-height:100vh;}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);padding:60px 24px 48px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(99,102,241,0.15) 0%,transparent 70%);}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(99,102,241,0.2);border:1px solid rgba(99,102,241,0.4);border-radius:20px;padding:6px 16px;font-size:0.78rem;font-weight:600;color:#a5b4fc;margin-bottom:20px;letter-spacing:0.05em;}
+.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:-0.02em;line-height:1.1;margin-bottom:12px;}
+.hero h1 span{background:linear-gradient(135deg,#6366f1,#8b5cf6,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero p{font-size:1rem;color:#94a3b8;max-width:500px;margin:0 auto 32px;line-height:1.6;}
+.hero-stats{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;}
+.stat{text-align:center;}
+.stat-num{font-size:2rem;font-weight:800;color:#6366f1;}
+.stat-label{font-size:0.75rem;color:#64748b;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;}
+
+/* Main */
+.container{max-width:1100px;margin:0 auto;padding:48px 24px;}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:28px;}
+.section-header h2{font-size:1.3rem;font-weight:700;}
+.section-header .line{flex:1;height:1px;background:linear-gradient(to right,#374151,transparent);}
+
+/* Grid */
+.tests-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+
+/* Card */
+.test-card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:16px;padding:20px;cursor:pointer;transition:all 0.2s;text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;}
+.test-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(99,102,241,0.05),transparent);opacity:0;transition:opacity 0.2s;}
+.test-card:hover{border-color:#6366f1;transform:translateY(-2px);box-shadow:0 8px 32px rgba(99,102,241,0.15);}
+.test-card:hover::before{opacity:1;}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.test-num{font-size:1.4rem;font-weight:800;color:#6366f1;}
+.test-badge{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:4px 10px;font-size:0.72rem;font-weight:600;color:#94a3b8;}
+.card-title{font-size:0.88rem;font-weight:600;color:#e2e8f0;margin-bottom:4px;line-height:1.4;}
+.card-subtitle{font-size:0.78rem;color:#64748b;margin-bottom:14px;line-height:1.4;}
+.card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px;}
+.tag{background:#0f172a;border:1px solid #1e293b;border-radius:6px;padding:3px 8px;font-size:0.7rem;color:#94a3b8;font-weight:500;}
+.tag.special{background:rgba(99,102,241,0.1);border-color:rgba(99,102,241,0.3);color:#a5b4fc;}
+.card-footer{display:flex;align-items:center;justify-content:space-between;}
+.q-count{font-size:0.75rem;color:#64748b;}
+.open-btn{display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:'Lexend',sans-serif;transition:opacity 0.15s;}
+.open-btn:hover{opacity:0.9;}
+.open-btn svg{width:14px;height:14px;}
+
+/* Missing badge */
+.test-card.missing{opacity:0.4;cursor:not-allowed;}
+.test-card.missing:hover{transform:none;box-shadow:none;border-color:#2a2a2a;}
+
+/* Footer */
+.footer{text-align:center;padding:40px 24px;color:#374151;font-size:0.8rem;border-top:1px solid #1a1a1a;}
+.footer span{color:#6366f1;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    IELTS Reading Practice
+  </div>
+  <h1>VOL 8 <span>Test Library</span></h1>
+  <p>Complete IELTS Academic Reading tests with interactive questions, timer, highlight tools, and instant scoring.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">11</div><div class="stat-label">Tests</div></div>
+    <div class="stat"><div class="stat-num">440</div><div class="stat-label">Questions</div></div>
+    <div class="stat"><div class="stat-num">33</div><div class="stat-label">Passages</div></div>
+    <div class="stat"><div class="stat-num">60</div><div class="stat-label">Min / Test</div></div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="section-header">
+    <h2>All Tests</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="tests-grid">
+
+    <!-- TEST 1 -->
+    <a href="VOL8-TEST1.html" class="test-card">
+      <div class="card-header">
+        <div class="test-num">TEST 1</div>
+        <div class="test-badge">40 Questions</div>
+      </div>
+      <div class="card-title">Steam Across the Water &bull; IQ Scores &bull; Practical Learning</div>
+      <div class="card-subtitle">Steamboat history &bull; Flynn Effect &bull; Adobe architecture</div>
+      <div class="card-tags">
+        <span class="tag">Completion</span>
+        <span class="tag">TRUE/FALSE/NG</span>
+        <span class="tag">Matching Names</span>
+        <span class="tag special">Drag &amp; Drop</span>
+        <span class="tag">MCQ</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
+        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </a>
+
+    <!-- TEST 2 -->
+    <a href="VOL8-TEST2.html" class="test-card">
+      <div class="card-header">
+        <div class="test-num">TEST 2</div>
+        <div class="test-badge">40 Questions</div>
+      </div>
+      <div class="card-title">Australia&rsquo;s Cane Toad &bull; Farmers NZ &bull; Life on Mars?</div>
+      <div class="card-subtitle">Biological control &bull; NZ chain store &bull; Mars exploration</div>
+      <div class="card-tags">
+        <span class="tag">Completion</span>
+        <span class="tag">TRUE/FALSE/NG</span>
+        <span class="tag special">Matching Grid</span>
+        <span class="tag">Sentence Completion</span>
+        <span class="tag">MCQ</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
+        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </a>
+
+    <!-- TEST 3 -->
+    <a href="VOL8-TEST3.html" class="test-card">
+      <div class="card-header">
+        <div class="test-num">TEST 3</div>
+        <div class="test-badge">40 Questions</div>
+      </div>
+      <div class="card-title">History of the Chicken &bull; Introvert/Extrovert &bull; Synesthesia</div>
+      <div class="card-subtitle">Chicken domestication &bull; Workplace personality &bull; Mixed senses</div>
+      <div class="card-tags">
+        <span class="tag">TRUE/FALSE/NG</span>
+        <span class="tag">Completion</span>
+        <span class="tag special">Matching Headings</span>
+        <span class="tag special">MCQ Choose TWO</span>
+        <span class="tag">Matching Para</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
+        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </a>
+
+    <!-- TEST 4 -->
+    <a href="VOL8-TEST4.html" class="test-card">
+      <div class="card-header">
+        <div class="test-num">TEST 4</div>
+        <div class="test-badge">40 Questions</div>
+      </div>
+      <div class="card-title">The Pixar Story &bull; Mechanical Friend &bull; Peopling of Patagonia</div>
+      <div class="card-subtitle">Pixar animation &bull; Children &amp; robots &bull; Human migration</div>
+      <div class="card-tags">
+        <span class="tag">TRUE/FALSE/NG</span>
+        <span class="tag">Completion</span>
+        <span class="tag">Matching Para</span>
+        <span class="tag">Matching Names</span>
+        <span class="tag special">DnD A&ndash;J</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
+        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </a>
+
+    <!-- TEST 5 -->
+    <a href="VOL8-TEST5.html" class="test-card">
+      <div class="card-header">
+        <div class="test-num">TEST 5</div>
+        <div class="test-badge">40 Questions</div>
+      </div>
+      <div class="card-title">Western Immigration &bull; Why Don&rsquo;t We Sleep? &bull; Understanding Symbols</div>
+      <div class="card-subtitle">Canada settlement &bull; Insomnia research &bull; Children &amp; symbols</div>
+      <div class="card-tags">
+        <span class="tag special">Matching Headings i&ndash;xii</span>
+        <span class="tag">Completion</span>
+        <span class="tag">Matching Para</span>
+        <span class="tag special">Sentence Endings</span>
+        <span class="tag">MCQ</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
+        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </a>
+
+    <!-- TEST 6 - MISSING -->
+    <div class="test-card missing">
+      <div class="card-header">
+        <div class="test-num" style="color:#374151">TEST 6</div>
+        <div class="test-badge" style="color:#374151;border-color:#1a1a1a">Not Available</div>
+      </div>
+      <div class="card-title" style="color:#374151">Not included in source file</div>
+      <div class="card-subtitle" style="color:#374151">TEST 6 data is missing from VOL 8.md</div>
+      <div class="card-tags">
+        <span class="tag" style="color:#374151;border-color:#1a1a1a">N/A</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count" style="color:#374151">Unavailable</span>
+      </div>
+    </div>
+
+    <!-- TEST 7 -->
+    <a href="VOL8-TEST7.html" class="test-card">
+      <div class="card-header">
+        <div class="test-num">TEST 7</div>
+        <div class="test-badge">40 Questions</div>
+      </div>
+      <div class="card-title">William Gilbert &bull; Multi-tasking &bull; Benefits of Music</div>
+      <div class="card-subtitle">Magnetism &amp; electricity &bull; Brain &amp; attention &bull; Instrument learning</div>
+      <div class="card-tags">
+        <span class="tag special">Matching Headings i&ndash;x</span>
+        <span class="tag">TRUE/FALSE/NG</span>
+        <span class="tag special">MCQ Choose THREE</span>
+        <span class="tag">Matching Names</span>
+        <span class="tag special">Sentence Endings</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
+        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </a>
+
+    <!-- TEST 8 -->
+    <a href="VOL8-TEST8.html" class="test-card">
+      <div class="card-header">
+        <div class="test-num">TEST 8</div>
+        <div class="test-badge">40 Questions</div>
+      </div>
+      <div class="card-title">Jethro Tull &bull; Internal Body Clock &bull; Origin of Language</div>
+      <div class="card-subtitle">Agricultural revolution &bull; Circadian rhythms &bull; Proto-language</div>
+      <div class="card-tags">
+        <span class="tag special">Diagram Labelling</span>
+        <span class="tag">Completion</span>
+        <span class="tag">Matching Para</span>
+        <span class="tag special">MCQ Choose TWO &times;2</span>
+        <span class="tag special">MCQ Choose THREE</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
+        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </a>
+
+    <!-- TEST 9 -->
+    <a href="VOL8-TEST9.html" class="test-card">
+      <div class="card-header">
+        <div class="test-num">TEST 9</div>
+        <div class="test-badge">40 Questions</div>
+      </div>
+      <div class="card-title">The Whale Goes to Court &bull; Herbal Medicine &bull; Science in the Kitchen</div>
+      <div class="card-subtitle">1818 legal drama &bull; NZ herbal industry &bull; Molecular gastronomy</div>
+      <div class="card-tags">
+        <span class="tag">TRUE/FALSE/NG</span>
+        <span class="tag">Completion</span>
+        <span class="tag">Matching Para</span>
+        <span class="tag">Matching Names</span>
+        <span class="tag special">Sentence Endings A&ndash;H</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
+        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </a>
+
+    <!-- TEST 10 -->
+    <a href="VOL8-TEST10.html" class="test-card">
+      <div class="card-header">
+        <div class="test-num">TEST 10</div>
+        <div class="test-badge">40 Questions</div>
+      </div>
+      <div class="card-title">Origins of Weather Forecasting &bull; Icebergs &bull; The Dunedin Study</div>
+      <div class="card-subtitle">FitzRoy &amp; forecasting &bull; Antarctic ecology &bull; NZ longitudinal study</div>
+      <div class="card-tags">
+        <span class="tag">TRUE/FALSE/NG</span>
+        <span class="tag">Completion</span>
+        <span class="tag">Matching Para A&ndash;I</span>
+        <span class="tag special">MCQ Choose TWO</span>
+        <span class="tag special">DnD Word Bank</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
+        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </a>
+
+    <!-- TEST 11 -->
+    <a href="VOL8-TEST11.html" class="test-card">
+      <div class="card-header">
+        <div class="test-num">TEST 11</div>
+        <div class="test-badge">40 Questions</div>
+      </div>
+      <div class="card-title">Candles &bull; Carbon Footprints &bull; The Science of Shopping</div>
+      <div class="card-subtitle">Candle history &bull; LCA methods &bull; Supermarket psychology</div>
+      <div class="card-tags">
+        <span class="tag">TRUE/FALSE/NG</span>
+        <span class="tag">Completion</span>
+        <span class="tag">Matching Para A&ndash;G</span>
+        <span class="tag special">MCQ Choose TWO &times;2</span>
+        <span class="tag special">DnD A&ndash;I</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
+        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </a>
+
+    <!-- TEST 12 -->
+    <a href="VOL8-TEST12.html" class="test-card">
+      <div class="card-header">
+        <div class="test-num">TEST 12</div>
+        <div class="test-badge">40 Questions</div>
+      </div>
+      <div class="card-title">Origins of Weather Forecasting &bull; Icebergs &bull; The Dunedin Study</div>
+      <div class="card-subtitle">FitzRoy &amp; forecasting &bull; Antarctic ecology &bull; NZ longitudinal study</div>
+      <div class="card-tags">
+        <span class="tag">TRUE/FALSE/NG</span>
+        <span class="tag">Completion</span>
+        <span class="tag">Matching Para A&ndash;I</span>
+        <span class="tag special">MCQ Choose TWO</span>
+        <span class="tag special">DnD Word Bank</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
+        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Features section -->
+  <div style="margin-top:56px;">
+    <div class="section-header">
+      <h2>Features</h2>
+      <div class="line"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;">
+      <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:16px;">
+        <div style="font-size:1.5rem;margin-bottom:8px;">&#9201;</div>
+        <div style="font-weight:600;font-size:0.88rem;margin-bottom:4px;">60-Minute Timer</div>
+        <div style="font-size:0.78rem;color:#64748b;">Pause/resume, auto-submit when time runs out</div>
+      </div>
+      <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:16px;">
+        <div style="font-size:1.5rem;margin-bottom:8px;">&#128269;</div>
+        <div style="font-weight:600;font-size:0.88rem;margin-bottom:4px;">Locate Answer</div>
+        <div style="font-size:0.78rem;color:#64748b;">Highlights the relevant passage text after submission</div>
+      </div>
+      <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:16px;">
+        <div style="font-size:1.5rem;margin-bottom:8px;">&#128396;</div>
+        <div style="font-weight:600;font-size:0.88rem;margin-bottom:4px;">3-Color Highlight</div>
+        <div style="font-size:0.78rem;color:#64748b;">Yellow, green, pink &mdash; works in both panes</div>
+      </div>
+      <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:16px;">
+        <div style="font-size:1.5rem;margin-bottom:8px;">&#127919;</div>
+        <div style="font-weight:600;font-size:0.88rem;margin-bottom:4px;">Instant Scoring</div>
+        <div style="font-size:0.78rem;color:#64748b;">Score/40 + IELTS band estimate per test</div>
+      </div>
+      <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:16px;">
+        <div style="font-size:1.5rem;margin-bottom:8px;">&#128241;</div>
+        <div style="font-weight:600;font-size:0.88rem;margin-bottom:4px;">Split-Screen Layout</div>
+        <div style="font-size:0.78rem;color:#64748b;">Resizable passage &amp; question panes</div>
+      </div>
+      <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:16px;">
+        <div style="font-size:1.5rem;margin-bottom:8px;">&#128293;</div>
+        <div style="font-weight:600;font-size:0.88rem;margin-bottom:4px;">All Question Types</div>
+        <div style="font-size:0.78rem;color:#64748b;">Drag &amp; drop, matching grids, multi-select &amp; more</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Built with &hearts; &bull; IELTS Reading VOL 8 &bull; <span>11 Tests &bull; 440 Questions</span>
+</div>
+
+</body>
+</html>
