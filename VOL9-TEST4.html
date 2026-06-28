@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading &ndash; VOL 9 TEST 4</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-pause:hover{background:#4b5563;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam:hover{background:#1e40af;}
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#resize-handle:hover{background:#9ca3af;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button:hover{background:#f3f4f6;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+#font-controls button:hover{background:#f3f4f6;}
+.passage-panel{display:none;}.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+.q-panel{display:none;}.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.blank-input{border:none;border-bottom:2px solid #1a1a1a;background:transparent;font-size:0.88rem;padding:2px 4px;min-width:110px;outline:none;font-family:'Lexend',sans-serif;}
+.blank-input:focus{border-bottom-color:#1d4ed8;}
+.blank-input.correct{border-bottom-color:#16a34a;background:#dcfce7;}
+.blank-input.wrong{border-bottom-color:#dc2626;background:#fee2e2;}
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr:hover:not(.row-correct):not(.row-wrong) td{background:#f0f9ff;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:36px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-radio:hover:not(:disabled){background:#f3f4f6;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+.notes-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.summary-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.4;margin-bottom:12px;}
+.word-bank{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 14px;font-size:0.82rem;margin-bottom:12px;}
+.word-bank div{padding:2px 0;}
+/* Sentence endings */
+.endings-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:10px 14px;font-size:0.82rem;margin-bottom:12px;}
+.endings-box div{padding:3px 0;border-bottom:1px solid #f3f4f6;}
+.endings-box div:last-child{border-bottom:none;}
+.sentence-item{margin-bottom:12px;font-size:0.86rem;line-height:1.9;}
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn:hover{background:#fde68a;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+.blank-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="header">
+  <h1>IELTS READING &ndash; VOL 9 TEST 4</h1>
+  <div id="timer-wrap">
+    <span id="timer">60:00</span>
+    <button id="btn-pause">&#9208; Pause</button>
+    <button id="btn-submit-exam">Submit</button>
+  </div>
+</div>
+<div id="tab-bar">
+  <button class="tab-btn active" data-target="0">PASSAGE 1</button>
+  <button class="tab-btn" data-target="1">PASSAGE 2</button>
+  <button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+<div id="split">
+  <div id="left-pane">
+
+    <!-- PASSAGE 1: Traditional Farming in Zambia -->
+    <div class="passage-panel active" id="passage-content-0">
+      <div class="passage-title">TRADITIONAL FARMING IN ZAMBIA&rsquo;S LUAPULA PROVINCE</div>
+      <div class="passage-subtitle"></div>
+      <div class="passage-text">
+        <p>By tradition, land in Luapula Province is not owned by individuals but, as in many other parts of Africa, is allocated by the headman or headwoman of a village to people of either sex according to <span class="loc-q1">need</span>. Since land is generally prepared by hand, a single family group cannot take on a very large area, so land has not been a limiting resource over large parts of the province. However, that situation has already changed near the main towns, and there has long been a scarcity of land for cultivation in the river valley. In both these areas, registered ownership patterns are becoming prevalent.</p>
+        <p>Most of the traditional cropping in Luapula Province is based on citemene, a system whereby crops are grown on the <span class="loc-q2">ashes</span> of tree branches. As a rule, entire trees are pollarded (pollarding: removing the tops of tree branches) rather than felled, so that they can regenerate. Branches are cut over an area of land of varying size early in the dry season and then stacked to dry out. The wood is fired before the onset of the rains, and in the first year, the area is planted with the African cereal called finger millet. The grain of this crop is used to brew local drinks such as cipumu, which contributes several vitamins of the B complex to people&rsquo;s diets. Cipumu is also used in cementing reciprocal working relationships.</p>
+        <p>During the second year, and possibly for a few years more, the area is planted with various combinations of annuals such as maize, pumpkins, sweet potatoes, groundnuts, beans, and various leafy vegetables, grown with a certain amount of rotation. The diverse sequence ends with the vegetable <span class="loc-q3">cassava</span>, which is often planted next to the last but one crop before this is harvested.</p>
+        <p>Richards (1969) observed that the practice of citemene entails a definite division of labour; men and women perform different tasks. The men stake out plots in an unobtrusive manner, since it is considered provocative towards one&rsquo;s neighbours to mark boundaries in an explicit way. The dangerous work of felling branches is also the men&rsquo;s province: Branches are then stacked by women and fired by men. Women and men cooperate in the planting work, but the harvesting is always done by women.</p>
+        <p>At the beginning of the citemene cycle, little weeding is necessary, since the firing of the branches effectively destroys weeds, but as the cycle progresses, weeds increase, and nutrients eventually become depleted to a point where further effort with annual crops is not worthwhile. At this point, cassava is planted, since it can produce a crop on soil that is almost exhausted. Thereafter, the plot is abandoned, and a new area is pollarded for the next cycle.</p>
+        <p>When forest is not available, a situation which is increasingly the case nowadays, a series of <span class="loc-q4">ridges</span> is built, in which combinations of maize, beans, groundnuts, and sweet potatoes are then planted, usually followed by cassava. These plots are normally tended by women and provide subsistence.</p>
+        <p>Where their roots have year-round access to water, mango, guava, and oil-palm trees are often grown around <span class="loc-q5">houses</span>, forming a traditional agro-forestry system, and some of the fruit from these is sold by the roadside or in local markets. In addition, local varieties of rice are sometimes planted in waterlogged ground during the rainy season.</p>
+        <p><span class="loc-q6 loc-q9">Fishing has always been a far more remunerative activity in Luapula than crop husbandry. It provides a much-needed protein supplement to the diet, as well as being the one substantial source of cash. Much fish is dried for sale to areas away from the main waterways.</span> The Mweru and Bangweulu Lake Basins are the main areas of year-round fishing, but the Luapula River is also exploited during the latter part of the dry season. Several previously abundant and desirable species have all but disappeared from Lake Mweru, apparently due to overfishing.</p>
+        <p>Regarding animal husbandry, only small numbers of cattle or <span class="loc-q8">oxen</span> are kept in the province owing to the prevalence of the tsetse fly. The resulting absence of animal power for pulling machinery greatly limits people&rsquo;s ability to plough and cultivate land: a married couple can rarely manage to prepare an area of more than half a hectare by hand-hoeing. However, most people keep freely roaming chickens and <span class="loc-q7">goats</span>. These act as a reserve for bartering, but may also be occasionally slaughtered for ceremonies or for entertaining important visitors. These animals are not a standard part of most people&rsquo;s diet.</p>
+        <p><span class="loc-q10">Until recently, citemene has been an ingenious system for providing seasonal, high-quality cereals and vegetables in regions of acidic, heavily leached soils.</span> Nutritionally, the most serious deficiency has been that of protein. However, this could be alleviated when fish were available, provided that cultivators lived near the valley or could find a source of dried fish. The citemene/fishing system was well adapted to the ecology of the woodland regions and sustainable for long periods, but only as long as human population densities stayed at low levels.</p>
+        <p><span class="loc-q12 loc-q13">Although population densities are still much lower today than in many other parts of the world, neither the fisheries nor the woodlands of Luapula are capable, with unmodified traditional practices, of supporting the expanding population in a sustainable manner. For instance, even in a normal season, diets suffer from a lack of energy, protein, vitamins, and minerals. It will therefore be necessary in the future to intensify and diversify productive systems.</span></p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2: Babies cry in their mother tongue -->
+    <div class="passage-panel" id="passage-content-1">
+      <div class="passage-title">BABIES CRY IN THEIR MOTHER TONGUE</div>
+      <div class="passage-subtitle">A newborn baby&rsquo;s cry may sound the same to the ears of sleep-deprived parents the world over but, say scientists, comparisons of babies a few days old show that the cry of a newborn shares similarities with the language its parents speak.</div>
+      <div class="passage-text">
+        <p><span class="para-label">A</span> <span class="loc-q18">It is already known that human foetuses become attentive listeners in the final trimester of pregnancy. &lsquo;The mother&rsquo;s voice in particular is sensed early on,&rsquo; explains Professor Amelia Finlayson of the Institute for Human Cognitive and Brain Sciences in Leipzig. &lsquo;Human foetuses perceive information filtered at around 400 hertz, but they cannot hear the actual words. <span class="loc-q18">It is a bit like holding your head under water when someone is talking next to the bath.</span>&rsquo;</span></p>
+        <p><span class="para-label">B</span> <span class="loc-q17 loc-q25">Finlayson&rsquo;s research indicates that newborn babies probably cannot distinguish between the accents of Welsh and Northern Scottish people or between Low German and Upper Bavarian, but they can recognise major differences in the intonation patterns of their respective mother tongues. The Leipzig researchers showed that in an earlier experiment, by means of physiological studies of babies of three to four months of age. For that study, <span class="loc-q17">the babies had hoods with electrodes put on their heads, and had recordings of different intonation patterns played to them.</span> The children&rsquo;s <span class="loc-q25">brainwaves</span> reacted to the differences even when they were asleep.</span></p>
+        <p><span class="para-label">C</span> <span class="loc-q26">At the same time, Doctor Katya Williams of the University of Wurzburg first suggested in her PhD thesis that babies&rsquo; crying might be a stage in their linguistic development. Said Williams: &lsquo;It used to be thought that a baby&rsquo;s cry was just a <span class="loc-q26b">signal</span> of alarm to call its mother. This assumption was corrected when we noticed that the cries are not the same from week to week. What biological purpose would that have? If a fire siren sounded different every day, we would not even recognise it!&rsquo;</span></p>
+        <p><span class="para-label">D</span> <span class="loc-q14">The question thus presented itself as to whether babies&rsquo; cries already showed the intonation patterns of their different mother tongues. To study this, the Leipzig brain researchers and the &lsquo;screaming researchers&rsquo; of the University of Wurzburg worked in collaboration with their colleagues at the Laboratory of Cognitive Sciences and Linguistics, at the Ecole Normale Superieure in Paris, to devise a new experiment.</span> <span class="loc-q15">German and French babies were selected for the comparison because the differences in the intonation shapes of these two mother tongues are particularly pronounced.</span> For example, the German word Papa is Papa in French.</p>
+        <p><span class="para-label">E</span> <span class="loc-q15">These three research groups made a comparison of recordings of 60 healthy newborns aged between two and five days old: 30 infants born into French-speaking families and 30 born into German-speaking families.</span> Whenever the babies were hungry or thirsty or simply wanted their mothers and announced the fact by crying, the researchers were at the ready with their microphones and recorded their complaints. More than 20 hours of recordings of babies&rsquo; crying were then fed into a computer for the purpose of analysis.</p>
+        <p><span class="para-label">F</span> <span class="loc-q16 loc-q19">The amazing result, published in the journal <em>Modern Biology</em>, is that just a few days after birth, babies use the acoustic input they perceive in the uterus to adapt their linguistic production to their target mother tongue. The melody of the German babies&rsquo; screams usually began loudly and at a high pitch and then followed a downward curve, while the French babies more often screamed with a rising melody contour. Thus, they reproduce precisely the intonation patterns that are characteristic of their respective mother tongues. This proves, says the team of researchers, that babies&rsquo; cries are attempts to communicate specifically with their mothers. &lsquo;Newborns are probably highly motivated to imitate their mother&rsquo;s behaviour in order to attract her and foster bonding and therefore physical nourishment,&rsquo; they wrote.</span></p>
+        <p><span class="para-label">G</span> <span class="loc-q21">Furthermore, the findings are consistent with the hypothesis that linguistic development does not just begin from the age of nine to ten months, with the first babbling resembling language such as &lsquo;mam-mam-mam&rsquo; or &lsquo;ba-ba-ba&rsquo;, but with the very first sounds that babies produce. &lsquo;We are born to learn language. And that starts right away,&rsquo; says Dr Katya Williams.</span> Dr Williams&rsquo; colleague, Mr Walter Meade, discovered that this initial sensitivity to the melodic features of language assists infants to subsequently learn their mother tongue. &lsquo;The melodic patterns practised in crying are building blocks for eventual sound production, such as gurgling and babbling, right up to the first <span class="loc-q24">words</span> and sentences,&rsquo; says Meade.</p>
+        <p><span class="para-label">H</span> <span class="loc-q22">The results also demonstrated once again how language distinguishes human infants from all other primates. According to Williams, among baby chimpanzees, the &lsquo;crying melody&rsquo; is closely associated with the build-up and reduction of pressure in the lungs, and is not generated by a mental process.</span> &lsquo;In comparison with the sounds of other primates, the cries of a newborn human baby display a fantastic repertoire of melodic and rhythmic variations,&rsquo; she adds. &lsquo;Our babies are expert vocalists in comparison with all the other animals. Could that offer some small consolation for nerve-wracked parents?&rsquo;</p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3: Ancient Rome -->
+    <div class="passage-panel" id="passage-content-2">
+      <div class="passage-title">ANCIENT ROME: ARCHAEOLOGISTS ARE TRYING TO UNDERSTAND MORE ABOUT THE EARLY HISTORY OF THE CITY</div>
+      <div class="passage-subtitle"></div>
+      <div class="passage-text">
+        <p><span class="loc-q27 loc-q28 loc-q29 loc-q30 loc-q31">From ancient times to the present, <span class="loc-q27">historians have asked the question: How and why did an ordinary little town in central Italy grow so much bigger</span> than any other in the ancient Mediterranean and come to control such a huge empire? During the first century BCE, Roman writers themselves began systematically to study the earlier centuries of their city and their empire. Yet these historians had little more direct evidence of the earliest phases of Rome&rsquo;s history than modern writers have, and in some ways perhaps not as much, as there were no surviving documents or archives. Their &lsquo;histories&rsquo; about the foundation of ancient Rome tell us a good deal about how the Romans saw their city, their values, and their failings. However, they tell us very little indeed about what they claim to inform us about: that is, what earliest Rome was actually like. <span class="loc-q31">One fact is obvious. <span class="loc-q31">Rome was already a very old city by 63 BCE, the birth date of its first emperor.</span></span> But how exactly are we to access reliable information about the origins of Rome?</span></p>
+        <p>One way of doing this is by turning away from the histories of Roman writers and seeking out clues in the <span class="loc-q37">Latin language</span>, or in later Roman institutions that might point back to features of earliest Rome. Much more tangible, however, is the evidence of archaeology. Dig down deep in the city of Rome, below the visible ancient monuments, and a few traces of a much earlier settlement or settlements remain. Beneath the <span class="loc-q38">Forum</span> itself (an ancient marketplace at the centre of the city) lie the remains of an early cemetery, which caused tremendous excitement when they were first unearthed at the start of the 20th century. Cemeteries imply the existence of a community, and traces of that are presumably to be found in the groups of huts whose faint outlines have been detected under various parts of the later city, including on the Palatine (the centremost of the seven hills on which Rome is built). We have little idea of the nature of these huts beyond their construction in wood, clay, and thatch, and still less of the lifestyle they supported. But we can fill in some of the gaps if we look just outside Rome. <span class="loc-q33 loc-q39"><span class="loc-q33">One of the best preserved and most carefully excavated of these early structures was found at Fidenae</span>, a few miles north of the city, in the 1980s. It is a rectangular building, some six by five metres, made of <span class="loc-q39b">wood and rammed earth</span> &ndash; a construction method still utilised up to the present day &ndash; with a simple porch around it, formed by the overhanging roof. Inside was a central hearth, some large pottery storage jars, and traces of predictable foodstuffs and domestic animals.</span></p>
+        <p>There are vivid glimpses of human and other life here; the question is, what do those glimpses add up to? The archaeological remains certainly demonstrate that there is a long and rich prehistory behind the ancient Rome we can still see, but quite how long that prehistory is is another matter.</p>
+        <p><span class="loc-q34">Part of the problem is the conditions of excavation in the city itself. The site of Rome has been so intensively built on for centuries that we find these traces of early occupation only in spots that happen not to have been disturbed. <span class="loc-q34">The foundations dug in the first and second centuries CE for the vast marble temples of the forum obliterated much of what then lay beneath the surface; the cellars of grand Renaissance houses cut through even more ancient remains</span> in other parts of the city.</span> So we have tiny snapshots, never the big picture. This is archaeology at its most difficult, and &ndash; although new fragments of evidence emerge all the time &ndash; its interpretation, and reinterpretation is almost always contested and often controversial. For example, there is an ongoing debate about whether the small pieces of wattle and daub found in excavations in the Forum in the mid-20th century indicate that there was an early hut settlement there too, or whether they were inadvertently introduced as part of the rubble used a few centuries later to provide a new raised surface for the area. It has to be said that this place, though fine for a cemetery, would have been rather damp and marshy for a village.</p>
+        <p><span class="loc-q35 loc-q40">Precise dating is even more contentious. It cannot be stressed enough that there is no certain independent date for any of the archaeological material from earliest Rome or the area around, and that arguments still rage about the age of almost every major find. It has taken decades of work over the past century or so &ndash; using such diagnostics as the existence of wheel-made pottery (assumed to be later than handmade), the occasional presence on graves of <span class="loc-q40">Greek ceramics</span> (whose dating is better, but still not perfectly understood) and careful comparison from site to site &ndash; to produce a rough chronological scheme covering the period from around 1000 to 600 BCE.</span></p>
+        <p><span class="loc-q36">On that basis, the earliest burials in Rome would have been around 1000 BCE, and the earliest known settlements around 750&ndash;700 BCE. But even these dates are far from certain. Recent scientific methods &ndash; including radiocarbon dating, which calculates the age of any organic material &ndash; have suggested that they are all too &lsquo;young&rsquo;, by as much as a hundred years. The building at Fidenae, for example, was dated around the middle of the eighth century BCE according to traditional archaeological criteria, but that is pushed back to around the end of the ninth century BCE if we follow radiocarbon analysis. If anything, Rome appears to be getting older.</span></p>
+      </div>
+    </div>
+
+  </div><!-- /left-pane -->
+  <div id="resize-handle"></div>
+
+  <div id="right-pane">
+
+    <!-- PASSAGE 1 Qs -->
+    <div class="q-panel active" id="qpanel-0">
+      <div class="q-section">
+        <div class="q-section-title">Questions 1&ndash;5</div>
+        <div class="q-instruction">Complete the sentences below. Write NO MORE THAN THREE WORDS from the passage for each answer.</div>
+        <div class="notes-box">
+          <p>In Luapula Province, land has traditionally been given to people on the basis of <span id="q-target-1"><input class="blank-input" id="blank-q1" data-q="1" placeholder="1" style="width:70px"></span><button class="locate-btn" data-q="1">&#128269;</button>.</p>
+          <p>The citemene system involves planting crops in the <span id="q-target-2"><input class="blank-input" id="blank-q2" data-q="2" placeholder="2" style="width:70px"></span><button class="locate-btn" data-q="2">&#128269;</button> of wood.</p>
+          <p>In the citemene system <span id="q-target-3"><input class="blank-input" id="blank-q3" data-q="3" placeholder="3" style="width:90px"></span><button class="locate-btn" data-q="3">&#128269;</button> is the last crop to be planted.</p>
+          <p>In areas without trees, crops are planted in a <span id="q-target-4"><input class="blank-input" id="blank-q4" data-q="4" placeholder="4" style="width:80px"></span><button class="locate-btn" data-q="4">&#128269;</button>.</p>
+          <p>If conditions are right, fruit trees may be planted near <span id="q-target-5"><input class="blank-input" id="blank-q5" data-q="5" placeholder="5" style="width:80px"></span><button class="locate-btn" data-q="5">&#128269;</button>.</p>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 6&ndash;9</div>
+        <div class="q-instruction">Match each statement with the correct animal, A, B or C. You may use any letter more than once.</div>
+        <div class="word-bank">
+          <div><strong>A.</strong> fish</div>
+          <div><strong>B.</strong> goats</div>
+          <div><strong>C.</strong> oxen</div>
+        </div>
+        <table class="radio-grid-table" id="rgt-6-9">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Statement</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-6"><td class="rgt-num">6</td><td class="rgt-stmt">They yield the biggest profits for farmers.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="6" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="6" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="6" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="6">&#128269;</button></td></tr>
+            <tr id="q-target-7"><td class="rgt-num">7</td><td class="rgt-stmt">They may be consumed on special occasions.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="7" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="7" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="7" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="7">&#128269;</button></td></tr>
+            <tr id="q-target-8"><td class="rgt-num">8</td><td class="rgt-stmt">Because of insect pests they do not thrive.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="8" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="8" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="8" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="8">&#128269;</button></td></tr>
+            <tr id="q-target-9"><td class="rgt-num">9</td><td class="rgt-stmt">They are often preserved and sold outside the local area.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="9" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="9" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="9" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="9">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 10&ndash;12</div>
+        <div class="q-instruction">Choose TRUE, FALSE, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-10">
+          <div class="q-label"><span class="q-num">10</span><span>Agricultural land is usually prepared without the help of oxen.</span><button class="locate-btn" data-q="10">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="10" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="10" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="10" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-11">
+          <div class="q-label"><span class="q-num">11</span><span>Children are a source of extra labour during busy periods.</span><button class="locate-btn" data-q="11">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="11" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="11" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="11" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-12">
+          <div class="q-label"><span class="q-num">12</span><span>The people of Luapula Province eat chicken on a regular basis.</span><button class="locate-btn" data-q="12">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="12" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="12" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="12" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Question 13</div>
+        <div class="q-instruction">Choose the correct answer.</div>
+        <div class="q-item" id="q-target-13">
+          <div class="q-label"><span class="q-num">13</span><span>What is the writer&rsquo;s opinion about traditional farming methods in Luapula Province?</span><button class="locate-btn" data-q="13">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="13" data-val="A"><span class="radio-circle"></span>A. They meet all the dietary needs of the local population.</button>
+          <button class="mc-opt-btn" data-q="13" data-val="B"><span class="radio-circle"></span>B. The region&rsquo;s natural resources have not been fully exploited.</button>
+          <button class="mc-opt-btn" data-q="13" data-val="C"><span class="radio-circle"></span>C. They will be inadequate to support a growing population.</button>
+          <button class="mc-opt-btn" data-q="13" data-val="D"><span class="radio-circle"></span>D. A larger labour force will be required for maximum efficiency.</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2 Qs -->
+    <div class="q-panel" id="qpanel-1">
+      <div class="q-section">
+        <div class="q-section-title">Questions 14&ndash;19</div>
+        <div class="q-instruction">Reading Passage 2 has eight paragraphs, A&ndash;H. Which paragraph contains the following information? You may use any letter more than once.</div>
+        <table class="radio-grid-table" id="rgt-14-19">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Information</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+            <th class="rgt-opt">E</th><th class="rgt-opt">F</th><th class="rgt-opt">G</th><th class="rgt-opt">H</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-14"><td class="rgt-num">14</td><td class="rgt-stmt">a description of the methodology of an experiment carried out by several research institutes</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="14">&#128269;</button></td></tr>
+            <tr id="q-target-15"><td class="rgt-num">15</td><td class="rgt-stmt">the rationale for choosing the participants of an experiment</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="15">&#128269;</button></td></tr>
+            <tr id="q-target-16"><td class="rgt-num">16</td><td class="rgt-stmt">a suggestion that babies are driven to copy their mothers to gain food</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="16">&#128269;</button></td></tr>
+            <tr id="q-target-17"><td class="rgt-num">17</td><td class="rgt-stmt">an account of the methodology of a past experiment carried out by the Leipzig researchers</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="17">&#128269;</button></td></tr>
+            <tr id="q-target-18"><td class="rgt-num">18</td><td class="rgt-stmt">an illustration of the limitation of babies&rsquo; ability to hear inside the womb</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="18">&#128269;</button></td></tr>
+            <tr id="q-target-19"><td class="rgt-num">19</td><td class="rgt-stmt">an assertion that babies of different nationalities cry with different intonation</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="19">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 20&ndash;23</div>
+        <div class="q-instruction">Match each statement with the correct researcher, A, B or C. You may use any letter more than once.</div>
+        <div class="word-bank">
+          <div><strong>A.</strong> Professor Amelia Finlayson</div>
+          <div><strong>B.</strong> Doctor Katya Williams</div>
+          <div><strong>C.</strong> Mr Walter Meade</div>
+        </div>
+        <table class="radio-grid-table" id="rgt-20-23">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Statement</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-20"><td class="rgt-num">20</td><td class="rgt-stmt">Important everyday sounds must remain consistent in order to be understood.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="20">&#128269;</button></td></tr>
+            <tr id="q-target-21"><td class="rgt-num">21</td><td class="rgt-stmt">The different tones used in crying help babies to learn language later on.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="21">&#128269;</button></td></tr>
+            <tr id="q-target-22"><td class="rgt-num">22</td><td class="rgt-stmt">The tune of young primates&rsquo; cries is created by their breathing, not their brain.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="22">&#128269;</button></td></tr>
+            <tr id="q-target-23"><td class="rgt-num">23</td><td class="rgt-stmt">Unborn babies in the womb are focused on the voice of one specific person.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="23">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 24&ndash;26</div>
+        <div class="q-instruction">Complete the sentences below. Write ONE WORD ONLY from the passage for each answer.</div>
+        <div class="notes-box">
+          <p>Professor Amelia Finlayson doubts unborn babies can recognise different <span id="q-target-24"><input class="blank-input" id="blank-q24" data-q="24" placeholder="24" style="width:80px"></span><button class="locate-btn" data-q="24">&#128269;</button>.</p>
+          <p>In the first Leipzig experiment, the <span id="q-target-25"><input class="blank-input" id="blank-q25" data-q="25" placeholder="25" style="width:110px"></span><button class="locate-btn" data-q="25">&#128269;</button> of babies changed upon hearing different intonation patterns.</p>
+          <p>Early scientists believed that babies cried for no other reason than as a <span id="q-target-26"><input class="blank-input" id="blank-q26" data-q="26" placeholder="26" style="width:80px"></span><button class="locate-btn" data-q="26">&#128269;</button> that they wanted their parents.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3 Qs -->
+    <div class="q-panel" id="qpanel-2">
+      <div class="q-section">
+        <div class="q-section-title">Questions 27&ndash;32</div>
+        <div class="q-instruction">Choose YES, NO, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-27">
+          <div class="q-label"><span class="q-num">27</span><span>Historians have expressed little curiosity about the rise of the Roman Empire.</span><button class="locate-btn" data-q="27">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="27" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="27" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="27" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-28">
+          <div class="q-label"><span class="q-num">28</span><span>Accounts from the first century BCE of Rome&rsquo;s origins may be less reliable than 21st-century accounts.</span><button class="locate-btn" data-q="28">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="28" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="28" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="28" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-29">
+          <div class="q-label"><span class="q-num">29</span><span>Most Roman historians viewed their ancient capital in an unrealistically positive light.</span><button class="locate-btn" data-q="29">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="29" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="29" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="29" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-30">
+          <div class="q-label"><span class="q-num">30</span><span>The accounts by early Roman historians about the founding of Rome provide a full description of life at that time.</span><button class="locate-btn" data-q="30">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="30" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="30" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="30" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-31">
+          <div class="q-label"><span class="q-num">31</span><span>It is certain that the city of Rome was in existence long before 63 BCE.</span><button class="locate-btn" data-q="31">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="31" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="31" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="31" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-32">
+          <div class="q-label"><span class="q-num">32</span><span>Some people oppose archaeological excavations in Rome because they can damage the ancient monuments.</span><button class="locate-btn" data-q="32">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="32" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="32" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="32" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 33&ndash;36</div>
+        <div class="q-instruction">Choose the correct answer.</div>
+        <div class="q-item" id="q-target-33">
+          <div class="q-label"><span class="q-num">33</span><span>According to the writer, why were the archaeological remains found at Fidenae important?</span><button class="locate-btn" data-q="33">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="33" data-val="A"><span class="radio-circle"></span>A. They shed some light on the way of life of ancient Romans.</button>
+          <button class="mc-opt-btn" data-q="33" data-val="B"><span class="radio-circle"></span>B. They were the first evidence of an ancient Roman settlement in the area.</button>
+          <button class="mc-opt-btn" data-q="33" data-val="C"><span class="radio-circle"></span>C. They overturned common assumptions about the diet of ancient Romans.</button>
+          <button class="mc-opt-btn" data-q="33" data-val="D"><span class="radio-circle"></span>D. They showed how sophisticated domestic Roman architecture could be.</button>
+        </div>
+        <div class="q-item" id="q-target-34">
+          <div class="q-label"><span class="q-num">34</span><span>What did Rome&rsquo;s marble temples and Renaissance houses have in common?</span><button class="locate-btn" data-q="34">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="34" data-val="A"><span class="radio-circle"></span>A. They were the most enduring buildings of their respective eras.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="B"><span class="radio-circle"></span>B. They were evidence of Rome&rsquo;s enormous wealth.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="C"><span class="radio-circle"></span>C. They were built on previously unoccupied sites.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="D"><span class="radio-circle"></span>D. Their construction destroyed evidence of earlier buildings.</button>
+        </div>
+        <div class="q-item" id="q-target-35">
+          <div class="q-label"><span class="q-num">35</span><span>What does the writer say in the fifth paragraph about the dating of excavated remains?</span><button class="locate-btn" data-q="35">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="35" data-val="A"><span class="radio-circle"></span>A. Only the age of a proportion of remains can be agreed upon.</button>
+          <button class="mc-opt-btn" data-q="35" data-val="B"><span class="radio-circle"></span>B. Only an approximate sequence of eras can be established.</button>
+          <button class="mc-opt-btn" data-q="35" data-val="C"><span class="radio-circle"></span>C. Serious attempts at dating began only a few decades ago.</button>
+          <button class="mc-opt-btn" data-q="35" data-val="D"><span class="radio-circle"></span>D. More thorough investigations will result in reliable dates.</button>
+        </div>
+        <div class="q-item" id="q-target-36">
+          <div class="q-label"><span class="q-num">36</span><span>In the final paragraph, the writer makes the point that</span><button class="locate-btn" data-q="36">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="36" data-val="A"><span class="radio-circle"></span>A. traditional archaeological methods of dating have been discredited.</button>
+          <button class="mc-opt-btn" data-q="36" data-val="B"><span class="radio-circle"></span>B. many archaeologists are reluctant to abandon traditional methods of dating.</button>
+          <button class="mc-opt-btn" data-q="36" data-val="C"><span class="radio-circle"></span>C. radiocarbon dating is more accurate than archaeological methods.</button>
+          <button class="mc-opt-btn" data-q="36" data-val="D"><span class="radio-circle"></span>D. the findings of traditional archaeology and radiocarbon dating differ.</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 37&ndash;40</div>
+        <div class="q-instruction">Complete each sentence with the correct ending, A&ndash;F, below.</div>
+        <div class="endings-box">
+          <div><strong>A.</strong> composed of organic materials which are in use in the 21st century.</div>
+          <div><strong>B.</strong> referred to in popular legends about the origins of Rome.</div>
+          <div><strong>C.</strong> constructed on the site of an earlier burial ground.</div>
+          <div><strong>D.</strong> used to determine the relative dates of various Roman artefacts.</div>
+          <div><strong>E.</strong> chosen as the area for the greatest number of archaeological excavations.</div>
+          <div><strong>F.</strong> expected to shed some light on what Rome was originally like.</div>
+        </div>
+        <div class="sentence-item" id="q-target-37">
+          <span class="q-num" style="display:inline-flex;margin-right:6px;">37</span>
+          The Latin language can be
+          <button class="mc-opt-btn" data-q="37" data-val="A" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>A</button>
+          <button class="mc-opt-btn" data-q="37" data-val="B" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>B</button>
+          <button class="mc-opt-btn" data-q="37" data-val="C" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>C</button>
+          <button class="mc-opt-btn" data-q="37" data-val="D" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>D</button>
+          <button class="mc-opt-btn" data-q="37" data-val="E" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>E</button>
+          <button class="mc-opt-btn" data-q="37" data-val="F" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>F</button>
+          <button class="locate-btn" data-q="37">&#128269;</button>
+        </div>
+        <div class="sentence-item" id="q-target-38">
+          <span class="q-num" style="display:inline-flex;margin-right:6px;">38</span>
+          The Roman Forum was
+          <button class="mc-opt-btn" data-q="38" data-val="A" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>A</button>
+          <button class="mc-opt-btn" data-q="38" data-val="B" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>B</button>
+          <button class="mc-opt-btn" data-q="38" data-val="C" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>C</button>
+          <button class="mc-opt-btn" data-q="38" data-val="D" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>D</button>
+          <button class="mc-opt-btn" data-q="38" data-val="E" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>E</button>
+          <button class="mc-opt-btn" data-q="38" data-val="F" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>F</button>
+          <button class="locate-btn" data-q="38">&#128269;</button>
+        </div>
+        <div class="sentence-item" id="q-target-39">
+          <span class="q-num" style="display:inline-flex;margin-right:6px;">39</span>
+          The recently discovered building at Fidenae was
+          <button class="mc-opt-btn" data-q="39" data-val="A" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>A</button>
+          <button class="mc-opt-btn" data-q="39" data-val="B" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>B</button>
+          <button class="mc-opt-btn" data-q="39" data-val="C" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>C</button>
+          <button class="mc-opt-btn" data-q="39" data-val="D" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>D</button>
+          <button class="mc-opt-btn" data-q="39" data-val="E" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>E</button>
+          <button class="mc-opt-btn" data-q="39" data-val="F" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>F</button>
+          <button class="locate-btn" data-q="39">&#128269;</button>
+        </div>
+        <div class="sentence-item" id="q-target-40">
+          <span class="q-num" style="display:inline-flex;margin-right:6px;">40</span>
+          Ancient Greek pottery is sometimes
+          <button class="mc-opt-btn" data-q="40" data-val="A" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>A</button>
+          <button class="mc-opt-btn" data-q="40" data-val="B" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>B</button>
+          <button class="mc-opt-btn" data-q="40" data-val="C" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>C</button>
+          <button class="mc-opt-btn" data-q="40" data-val="D" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>D</button>
+          <button class="mc-opt-btn" data-q="40" data-val="E" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>E</button>
+          <button class="mc-opt-btn" data-q="40" data-val="F" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>F</button>
+          <button class="locate-btn" data-q="40">&#128269;</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /right-pane -->
+</div><!-- /split -->
+
+<div id="footer-nav">
+  <span class="nav-label">Q:</span>
+  <div id="nav-grid"></div>
+  <div id="font-controls">
+    <span>Font:</span>
+    <button id="btn-font-up">A+</button>
+    <button id="btn-font-dn">A&minus;</button>
+  </div>
+</div>
+</div><!-- /app -->
+
+<div id="highlight-menu">
+  <button style="background:#fef08a" onclick="applyHighlight('highlight-yellow')" title="Yellow"></button>
+  <button style="background:#bbf7d0" onclick="applyHighlight('highlight-green')" title="Green"></button>
+  <button style="background:#fbcfe8" onclick="applyHighlight('highlight-pink')" title="Pink"></button>
+  <button class="erase-btn" onclick="applyHighlight('erase')">&#10005;</button>
+</div>
+
+<div id="result-modal">
+  <div id="result-box">
+    <h2>Your Result</h2>
+    <div id="result-score">0/40</div>
+    <div id="result-band">Band: &ndash;</div>
+    <div id="result-breakdown"></div>
+    <button id="btn-close-modal">Review Answers</button>
+  </div>
+</div>
+
+<script>
+const ANSWERS={
+  1:'need',2:'ashes',3:'cassava',4:'ridges',5:'houses',
+  6:'A',7:'B',8:'C',9:'A',
+  10:'TRUE',11:'NOT GIVEN',12:'FALSE',13:'C',
+  14:'E',15:'D',16:'F',17:'B',18:'A',19:'F',
+  20:'B',21:'C',22:'B',23:'A',
+  24:'words',25:'brainwaves',26:'signal',
+  27:'NO',28:'NOT GIVEN',29:'NOT GIVEN',30:'NO',31:'YES',32:'NOT GIVEN',
+  33:'A',34:'D',35:'B',36:'D',
+  37:'B',38:'C',39:'A',40:'D'
+};
+const Q_PASSAGE={};
+for(let i=1;i<=13;i++)Q_PASSAGE[i]=0;
+for(let i=14;i<=26;i++)Q_PASSAGE[i]=1;
+for(let i=27;i<=40;i++)Q_PASSAGE[i]=2;
+
+let userAnswers={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+function normalizeAnswer(s){
+  return s.trim().toLowerCase().replace(/[‘’]/g,"'").replace(/[–—]/g,'-').replace(/\s+/g,' ');
+}
+function checkAnswer(user,correct){
+  const u=normalizeAnswer(user),c=normalizeAnswer(correct);
+  if(u===c)return true;
+  if(u.replace(/-/g,' ')===c.replace(/-/g,' '))return true;
+  // Handle "the vegetable cassava" -> "cassava"
+  if(c.includes(u)&&u.length>3)return true;
+  return false;
+}
+
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{p.style.display=i===t?'block':'none';p.classList.toggle('active',i===t);});
+  });
+});
+
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i;btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+
+document.querySelectorAll('.mc-opt-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+btn.dataset.q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();updateNav(q);
+  });
+});
+
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+
+function submitExam(){
+  if(submitted)return;
+  submitted=true;clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=checkAnswer(user,ans);
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        const existingLabel=inp.parentNode.querySelector('.blank-correct-label');
+        if(!existingLabel){
+          const lbl=document.createElement('span');
+          lbl.className='blank-correct-label';
+          lbl.textContent='✓ '+ans;
+          lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+          inp.insertAdjacentElement('afterend',lbl);
+        }
+      }
+    }
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    const rgtRow=document.getElementById('q-target-'+q);
+    if(rgtRow&&rgtRow.tagName==='TR')rgtRow.classList.add(ok?'row-correct':'row-wrong');
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    if(!ok)document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+  }
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1–13)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14–26)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27–40)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>document.getElementById('result-modal').classList.remove('show'));
+
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      const locEls=document.querySelectorAll('.loc-q'+q);
+      if(locEls.length===0)return;
+      // Always use the smallest span (most specific)
+      let best=locEls[0];
+      locEls.forEach(el=>{
+        if(el.textContent.trim().length < best.textContent.trim().length) best=el;
+      });
+      // If still large (>200 chars), try shorter child span
+      if(best.textContent.trim().length>200){
+        const children=best.querySelectorAll('span');
+        children.forEach(child=>{
+          const t=child.textContent.trim();
+          if(t.length>=15&&t.length<best.textContent.trim().length) best=child;
+        });
+      }
+      best.classList.add('loc-highlight');
+      best.scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(()=>best.classList.remove('loc-highlight'),4000);
+    },150);
+  });
+});
+
+document.getElementById('btn-font-up').addEventListener('click',()=>{
+  baseFontSize=Math.min(20,baseFontSize+1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{
+  baseFontSize=Math.max(11,baseFontSize-1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+
+let highlightMenu=document.getElementById('highlight-menu'),savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const lp=document.getElementById('left-pane'),rp=document.getElementById('right-pane');
+    if(lp.contains(range.commonAncestorContainer)||rp.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){window.getSelection().removeAllRanges();window.getSelection().addRange(savedRange);document.execCommand('removeFormat');savedRange=null;return;}
+  const span=document.createElement('span');span.className=cls;
+  try{savedRange.surroundContents(span);}catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();savedRange=null;
+}
+
+const handle=document.getElementById('resize-handle'),leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const split=document.getElementById('split');const rect=split.getBoundingClientRect();leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+
+startTimer();
+</script>
+</body>
+</html>

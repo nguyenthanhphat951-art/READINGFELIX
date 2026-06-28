@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading &ndash; VOL 9 TEST 9</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-pause:hover{background:#4b5563;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam:hover{background:#1e40af;}
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#resize-handle:hover{background:#9ca3af;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button:hover{background:#f3f4f6;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+#font-controls button:hover{background:#f3f4f6;}
+.passage-panel{display:none;}.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+.q-panel{display:none;}.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.blank-input{border:none;border-bottom:2px solid #1a1a1a;background:transparent;font-size:0.88rem;padding:2px 4px;min-width:110px;outline:none;font-family:'Lexend',sans-serif;}
+.blank-input:focus{border-bottom-color:#1d4ed8;}
+.blank-input.correct{border-bottom-color:#16a34a;background:#dcfce7;}
+.blank-input.wrong{border-bottom-color:#dc2626;background:#fee2e2;}
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr:hover:not(.row-correct):not(.row-wrong) td{background:#f0f9ff;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:36px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-radio:hover:not(:disabled){background:#f3f4f6;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+.notes-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.notes-box h4{font-size:0.88rem;font-weight:700;margin:0 0 8px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+.notes-box ul{margin:6px 0 6px 20px;padding:0;}
+.notes-box li{margin-bottom:4px;}
+.summary-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.4;margin-bottom:12px;}
+.word-bank{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 14px;font-size:0.82rem;margin-bottom:12px;display:grid;grid-template-columns:1fr 1fr;gap:3px 16px;}
+.word-bank span{font-weight:600;}
+/* DnD word bank */
+.word-bank-pool{display:flex;flex-wrap:wrap;gap:6px;padding:10px 12px;background:#f9fafb;border:1.5px dashed #9ca3af;border-radius:8px;margin-bottom:14px;min-height:44px;}
+.draggable-card{padding:5px 12px;background:#1a1a1a;color:#fff;border-radius:20px;cursor:grab;font-size:0.8rem;font-family:'Lexend',sans-serif;user-select:none;border:2px solid transparent;}
+.draggable-card:active{cursor:grabbing;}
+.draggable-card.dragging{opacity:0.4;}
+.draggable-card.used{background:#6b7280;cursor:default;}
+.drop-zone{display:inline-flex;align-items:center;justify-content:center;min-width:100px;height:30px;border:2px dashed #9ca3af;border-radius:16px;padding:0 10px;font-size:0.8rem;color:#9ca3af;vertical-align:middle;margin:0 3px;transition:border-color 0.15s,background 0.15s;position:relative;}
+.drop-zone.drag-over{border-color:#1d4ed8;background:#eff6ff;}
+.drop-zone.filled{border-style:solid;border-color:#1a1a1a;background:#1a1a1a;color:#fff;font-weight:600;}
+.drop-zone.correct{border-color:#16a34a!important;background:#dcfce7!important;color:#16a34a!important;}
+.drop-zone.wrong{border-color:#dc2626!important;background:#fee2e2!important;color:#dc2626!important;}
+.drop-zone .remove-chip{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:#fff;color:#1a1a1a;font-size:0.6rem;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;line-height:1;}
+.drop-zone.filled .remove-chip{display:flex;}
+.drop-zone:not(.filled) .remove-chip{display:none;}
+.correct-answer-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-top:3px;display:block;}
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn:hover{background:#fde68a;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+.blank-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="header">
+  <h1>IELTS READING &ndash; VOL 9 TEST 9</h1>
+  <div id="timer-wrap">
+    <span id="timer">60:00</span>
+    <button id="btn-pause">&#9208; Pause</button>
+    <button id="btn-submit-exam">Submit</button>
+  </div>
+</div>
+<div id="tab-bar">
+  <button class="tab-btn active" data-target="0">PASSAGE 1</button>
+  <button class="tab-btn" data-target="1">PASSAGE 2</button>
+  <button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+<div id="split">
+  <div id="left-pane">
+
+    <!-- PASSAGE 1: Cranberry Fruit -->
+    <div class="passage-panel active" id="passage-content-0">
+      <div class="passage-title">CRANBERRY FRUIT</div>
+      <div class="passage-subtitle">The story of a unique North American crop</div>
+      <div class="passage-text">
+        <p><span class="loc-q1">Cranberries are among the few fruits native to North America that have been grown commercially for centuries. <span class="loc-q1">These small, crimson berries thrive only in very unique environmental conditions, particularly in soil that is both sandy and acidic.</span> Such terrain lets water pass through easily while still retaining enough moisture for the plants&rsquo; shallow roots.</span> Since ordinary farmland cannot provide this delicate balance, cranberries are generally cultivated in low-lying areas called bogs. These natural basins, bordered by gentle ridges, allow growers to regulate water levels accurately. This setup creates a growing environment quite different from that required by most other fruit crops.</p>
+        <p><span class="loc-q2">Many bogs now used for cranberry farming were formed thousands of years ago when retreating glaciers carved deep hollows known as kettle ponds. Over time, these basins became lined with layers of sand and clay, producing a natural filtration system that keeps many pollutants out of the water. <span class="loc-q2">The clay bottom acts as a protective barrier, preventing harmful substances from entering the pond and preserving the clean water essential for healthy vines.</span></span> Such geological conditions, combined with deliberate human control of water, have made kettle-pond sites especially well suited to this crop.</p>
+        <p><span class="loc-q3 loc-q4">Long before the arrival of European settlers, the Wampanoag people made practical use of the berry in several ways. The fruit&rsquo;s sharp taste lent itself to preservation techniques; <span class="loc-q3">communities developed methods of drying and combining cranberries with other foods to extend their usefulness during months when fresh plants were scarce.</span> These practices resulted in compact foodstuffs intended for consumption in colder seasons. In addition to dietary uses, the Wampanoag also employed the berry in first-aid traditions: <span class="loc-q4">crushed fruit was applied to sores and minor wounds, reflecting a practical knowledge of its cleansing properties.</span></span></p>
+        <p><span class="loc-q5">When Europeans first arrived in the seventeenth century, they found cranberries in many coastal hollows and quickly took note of their usefulness. <span class="loc-q5">Rather than attempting to transplant European varieties, the newcomers adopted the native species already adapted to regional conditions.</span></span> Colonists used the fruit in preserves and beverages and valued it for its nutritional contributions during winter voyages and inland shortages. Over time, cranberries were assimilated into colonial cookery and later became associated with holiday traditions in North America. In the early nineteenth century, the shift from gathering wild berries to planned cultivation accelerated thanks to local experimentation. One Massachusetts grower, Captain Henry Hall, observed that windblown sand reaching his beds improved fruit quality and yield. He began deliberately applying sand to his plots and found that the practice changed both soil texture and pest incidence for the better. Hall&rsquo;s practice of controlling the land and surface materials was an important step toward systematic cranberry farming.</p>
+        <p>Cranberry cultivation follows a seasonal routine that links each operation to weather patterns. In winter farmers often choose to <span class="loc-q8">flood</span> the bogs, forming a protective layer that freezes and insulates the vines from extreme cold and drying winds. On the frozen surface, sand is sometimes scattered so that, when thawed, the particles work into the bed and improve overall <span class="loc-q9">drainage</span>, encouraging fresh shoots to establish. To reduce disease risk and improve crop vigour, farmers also remove trees and scrub beside the bogs so that <span class="loc-q10">air</span> can move through the site more freely and humidity is kept low. With the coming of spring, the frozen cover is managed and water levels are adjusted; controlled <span class="loc-q11">water</span> applications may be used at vulnerable times to shield budding shoots from sudden frosts. During this phase growers perform routine <span class="loc-q12">maintenance</span> on channels, pumps and irrigation lines and take steps to reduce pest pressure before the plants enter full growth. By early summer the vines are active and the focus shifts toward ensuring the fruit matures evenly. Farmers inspect beds for any sign of <span class="loc-q13">weed</span> emergence that would compete with the crop for nutrients and light, removing intruders promptly to protect potential yields. As autumn nears, ripening fruit signals the approach of harvest. In many operations the bogs are flooded again so that the buoyant berries float and can be separated from the vines, easing collection. Although mechanical aids and modern equipment have changed some details of the work, the overall system continues to depend on balancing soil, water and human management. From the Wampanoag&rsquo;s early practical uses to the innovations of later growers, cranberry culture remains rooted in seasonal attention and careful control of a unique landscape.</p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2: Dark Chocolate -->
+    <div class="passage-panel" id="passage-content-1">
+      <div class="passage-title">DARK CHOCOLATE&rsquo;S HEALTH-GIVING BENEFITS</div>
+      <div class="passage-subtitle">Researchers are investigating whether taking dark chocolate daily can reduce the risk of heart disease and stroke</div>
+      <div class="passage-text">
+        <p><span class="para-label">A</span> <span class="loc-q19a">Dark chocolate is gaining a reputation as a heart-healthy food, and research suggests that there might be some substance behind those claims. Ginger Hultin, owner of Champagne Nutrition in Seattle and a spokesperson for the Academy of Nutrition and Dietetics says &lsquo;Cocoa contains antioxidants in addition to magnesium, potassium, zinc, and iron. Plus, studies have shown that there could be some benefit to consuming chocolate or cocoa for the cardiovascular system, including potentially lowering blood pressure.&rsquo;</span></p>
+        <p><span class="para-label">B</span> <span class="loc-q15 loc-q23">Dark chocolate&rsquo;s health benefits come from its cocoa &ndash; specifically its cocoa flavanols. Flavanols are a type of polyphenol, and polyphenols are one group of phytochemicals. Many fruits and vegetables contain flavanols, but they are especially rich in tea, wine, and cocoa. During digestion, cocoa is broken down into smaller chemical <span class="loc-q23">compounds</span>. Some research suggests that <span class="loc-q15">these compounds have anti-inflammatory and antioxidant properties and may help protect against cardiovascular disease</span>, which affects both the heart and brain.</span> For example, research has found that even two weeks of eating dark chocolate or other flavanol-rich cocoa products is better than a placebo for lowering blood pressure in people who already have high blood pressure, although not to normal levels. <span class="loc-q20">In 2013, the European Food Safety Authority approved the claim that cocoa flavanols help maintain normal blood pressure, which means that the cost involved in future medical treatment may be less than scientists previously predicted.</span></p>
+        <p><span class="para-label">C</span> <span class="loc-q18">Researchers have also pointed out that people may digest cocoa differently. <span class="loc-q18">Variations in gut bacteria can influence how flavanols are processed and absorbed in the body.</span> As a result, the health effects of cocoa may differ from person to person, depending on individual digestive systems and dietary habits.</span></p>
+        <p><span class="para-label">D</span> <span class="loc-q22 loc-q24">Data from the long-running Physicians&rsquo; Health Study suggests that chocolate intake is associated with a reduced risk of developing Type 2 diabetes in younger and normal-weight men. However, take those findings with a grain of salt, because they were based on a single question about average yearly intake of chocolate that didn&rsquo;t ask what type of chocolate &ndash; white, milk, or dark &ndash; says Howard Sesso, an associate professor of preventive medicine at Brigham and Woman&rsquo;s Hospital in Boston. &lsquo;If we assume that any <span class="loc-q24">benefits</span> from cocoa are attributable to its flavanol content, then dark chocolate should in theory confer greater benefits than milk chocolate.&rsquo; Sesso and other researchers are investigating whether taking daily supplements of 600 mg of cocoa flavanols &ndash; not chocolate itself &ndash; reduces the risk for developing heart disease and stroke, as well as cancer. However, they have yet to determine how much people need to consume to reap benefits.</span></p>
+        <p><span class="para-label">E</span> <span class="loc-q16">What does that mean for the average person who enjoys chocolate and hopes they&rsquo;re getting some health benefit from it? Sadly, results from the large European Prospective Investigation of Cancer, EPIC-Norfolk study suggest that the amount of flavanols that the average person in Europe or the United States consumes is unlikely to do much to reduce risk of cardiovascular disease compared with taking medicine. The research also suggested that <span class="loc-q16">certain groups, particularly overweight individuals, may not receive the same protective effects from chocolate consumption</span> as younger and normal-weight men.</span></p>
+        <p><span class="para-label">F</span> <span class="loc-q14">Even though cocoa is a key ingredient in milk and dark chocolate, you can&rsquo;t really be sure how many flavanols you&rsquo;re getting. &lsquo;Product packaging does not specify amounts of cocoa flavanols, only percent cacao,&rsquo; Sesso says. &lsquo;Variable processing of the cocoa bean makes it difficult to equate percent cacao with cocoa flavanol content.&rsquo; <span class="loc-q14">White chocolate contains no cocoa solids, milk chocolate contains relatively small amounts of cocoa, while dark chocolate contains a much higher percentage of cocoa.</span> Cocoa may also appear in the form of cocoa powder, cocoa butter, or concentrated cocoa extracts.</span></p>
+        <p><span class="para-label">G</span> <span class="loc-q17 loc-q21 loc-q25 loc-q26">In the meantime, remember that chocolate products are typically high in calories and <span class="loc-q25">fats</span>; therefore, Sesso says it&rsquo;s best not to think of dark chocolate as a health food. &lsquo;Moderation is key; if someone enjoys eating chocolate, it should be done in moderation along with other foods.&rsquo; So for now, it&rsquo;s best not to put all your flavanol eggs in a dark chocolate basket. &lsquo;We get different phytochemicals and antioxidants from a wide variety of foods,&rsquo; Hultin says. &lsquo;Including different colors of fruits, vegetables, whole grains and beans is the best way to gain access to <span class="loc-q26">fiber</span> that could support health.&rsquo; That said, she does recommend enjoying a bit of chocolate or cocoa. &lsquo;<span class="loc-q17">I put cocoa powder in my smoothies for an added boost of flavor, nutrients and antioxidants.</span>&rsquo;</span></p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3: All in the family -->
+    <div class="passage-panel" id="passage-content-2">
+      <div class="passage-title">ALL IN THE FAMILY</div>
+      <div class="passage-subtitle">A person&rsquo;s brothers and sisters can have a powerful effect on their adult behaviour</div>
+      <div class="passage-text">
+        <p><span class="loc-q27">We can choose our friends, the saying goes, but we cannot choose our family of origin. Our parents provide the genetic material and make powerful early role models, but <span class="loc-q27">even more influential in determining what kind of adult we will become are our brothers and sisters</span> &ndash; our siblings. They occupy a position of unique intimacy in our lives and cast a longer shadow than many recognize or are prepared to acknowledge.</span> By turns enraging and lovable, familiar and mysterious, our brothers and sisters are the human beings who people our first social relationships. And a sibling relationship is the most enduring relationship many of us will ever have, less emotionally intense than the bonds we form with our spouses and our own children if only because they started when we were so young.</p>
+        <p><span class="loc-q30">Surprising new research by Dr Gene Brody found that having older children who do well in school and are well liked by other children leads to parental &lsquo;basking&rsquo; &ndash; increasing mothers&rsquo; self-esteem. <span class="loc-q30">It is clear that in turn this is associated with more positive parenting of younger children, who display fewer behavioural problems as a result.</span></span> Conversely, parents who get a difficult first child may in turn experience a negative spiral of household tension.</p>
+        <p><span class="loc-q31">International sports star Piri Weepu is a rugby hard man, but at least some of his tough temperament was forged long ago in the family home. His older brother Billy started rugby-tackling little Piri when he was just four &ndash; to &lsquo;harden him up&rsquo;. It seemed to work: Piri followed his brother in playing for the under-sevens league before he even started school. There are as many such stories as there are families: in the formative hothouse of the family, siblings interact in complex ways with the powerful force fields of parents, genetics and personality already at work. <span class="loc-q31">It starts with birth order, which determines play roles: the firstborn leader, the middle-child mediator and the rebellious youngest. These are roles than can stick for life.</span></span></p>
+        <p><span class="loc-q32">Clinical psychologist Claire Cartwright says <span class="loc-q32">she has clients who believe, and it might not have been true, that they were treated differently from their siblings</span>, that one child in the family was preferred over others. They are quite convinced that the parental judgments on them all those years ago were harsher, and that they were the ones who always got into trouble.</span> Later, in the workplace, such a person might be particularly defensive, and so behave in a way more prone to attracting harsh judgements.</p>
+        <p><span class="loc-q33">However, the research shows that being Mummy or Daddy&rsquo;s favourite has its own traps. If you were the easy-going, co-operative child at home, you probably excelled at pleasing parents and, later, bosses. But you might, as an adult, find it hard to be assertive with authority figures and lack direction. On the other hand, <span class="loc-q33">the sibling who is disruptive and annoying as a child may be able to reinterpret that role later, turning those attention-seeking characteristics into strengths like determination and leadership.</span></span></p>
+        <p><span class="loc-q34">How is it that full siblings, despite sharing DNA, can turn out so differently? One answer is that, in fact, each sibling grows up in a different family, a unique micro-culture. For example, the firstborn is, for a while, an only child, and therefore has a completely different experience of the parents than those born later. <span class="loc-q34">The parents themselves are growing up too, weathering hardship or good fortune, so one sibling might experience stability and closeness while another might be raised in the midst of crisis.</span></span></p>
+        <p><span class="loc-q35 loc-q36 loc-q37">Of course, there are many positive aspects of sibling relationships. Annette Henderson, a lecturer in psychology, says firstborn children learn vocabulary more quickly than their siblings because they are not competing to spend one-on-one time with parents. But younger children in turn benefit from unintentional instruction from their bigger brothers and sisters, acquiring entire phrases and an understanding of social concepts such as politeness. Similarly, a Cambridge University study of 140 children found that even when there is a great deal of conflict, siblings will still create a rich world of play and make-believe that extends them developmentally. Love-hate relationships were common among the children, but even those who fought the most had as many positive interactions as the other sibling pairs. It is also true that children compete for parental attention by making themselves different from their brothers and sisters, particularly if they are close in age. A 2003 research paper studied adolescents from 185 families over two years, finding that those who changed, to differentiate themselves from their siblings, increased the amount of warmth they gained from parents, and also developed stronger personalities and a better sense of their own identity.</span></p>
+        <p><span class="loc-q38 loc-q39 loc-q40">Another consideration is that many families today are smaller and more intimate than their historical counterparts. This may be advantageous because siblings tend to know each other better and remain lifelong friends compared to children from bigger or more widely spaced families, who perhaps lose touch with one another after leaving home. Then there was a 2010 American study which found that having a sister, whether younger or older, meant that 10-to 14-year-olds were less likely to feel lonely, unloved, self-conscious or fearful. The same study found that having a loving sibling of either gender promoted good deeds, such as helping a neighbor around the house or helping other children at school.</span></p>
+      </div>
+    </div>
+
+  </div><!-- /left-pane -->
+  <div id="resize-handle"></div>
+
+  <div id="right-pane">
+
+    <!-- PASSAGE 1 Qs -->
+    <div class="q-panel active" id="qpanel-0">
+      <div class="q-section">
+        <div class="q-section-title">Questions 1&ndash;7</div>
+        <div class="q-instruction">Choose TRUE, FALSE, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-1">
+          <div class="q-label"><span class="q-num">1</span><span>The cranberry requires a specific soil type to enable it to grow successfully.</span><button class="locate-btn" data-q="1">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="1" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="1" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="1" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-2">
+          <div class="q-label"><span class="q-num">2</span><span>A layer of clay protects kettle ponds from harmful substances which could affect the water quality.</span><button class="locate-btn" data-q="2">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="2" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="2" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="2" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-3">
+          <div class="q-label"><span class="q-num">3</span><span>In the past, the Wampanoag people had to consume most cranberries shortly after picking them.</span><button class="locate-btn" data-q="3">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="3" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="3" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="3" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-4">
+          <div class="q-label"><span class="q-num">4</span><span>The Wampanoag people took advantage of the medicinal properties of cranberries.</span><button class="locate-btn" data-q="4">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="4" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="4" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="4" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-5">
+          <div class="q-label"><span class="q-num">5</span><span>The first settlers in North America brought European varieties of cranberry with them when they arrived.</span><button class="locate-btn" data-q="5">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="5" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="5" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="5" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-6">
+          <div class="q-label"><span class="q-num">6</span><span>Captain Hall tried growing other fruit crops before cultivating cranberries.</span><button class="locate-btn" data-q="6">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="6" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="6" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="6" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-7">
+          <div class="q-label"><span class="q-num">7</span><span>It took a long time for Captain Hall&rsquo;s methods of cultivation to become popular among other cranberry producers.</span><button class="locate-btn" data-q="7">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="7" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="7" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="7" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 8&ndash;13</div>
+        <div class="q-instruction">Complete the notes below. Write ONE WORD ONLY for each answer.</div>
+        <div class="notes-box">
+          <h4>The Cycle of Cranberry Production</h4>
+          <p><strong>Winter</strong></p>
+          <ul>
+            <li>Growers <span id="q-target-8"><input class="blank-input" id="blank-q8" data-q="8" placeholder="8" style="width:70px"></span><button class="locate-btn" data-q="8">&#128269;</button> the bogs to protect vines.</li>
+            <li>Sand is put on bogs to increase <span id="q-target-9"><input class="blank-input" id="blank-q9" data-q="9" placeholder="9" style="width:90px"></span><button class="locate-btn" data-q="9">&#128269;</button> and encourage growth.</li>
+            <li>Trees are removed to promote the movement of <span id="q-target-10"><input class="blank-input" id="blank-q10" data-q="10" placeholder="10" style="width:60px"></span><button class="locate-btn" data-q="10">&#128269;</button>.</li>
+          </ul>
+          <p><strong>Spring</strong></p>
+          <ul>
+            <li><span id="q-target-11"><input class="blank-input" id="blank-q11" data-q="11" placeholder="11" style="width:70px"></span><button class="locate-btn" data-q="11">&#128269;</button> is supplied to protect against frost.</li>
+            <li><span id="q-target-12"><input class="blank-input" id="blank-q12" data-q="12" placeholder="12" style="width:110px"></span><button class="locate-btn" data-q="12">&#128269;</button> is done to control pests.</li>
+          </ul>
+          <p><strong>Summer</strong></p>
+          <ul>
+            <li>Growers check for <span id="q-target-13"><input class="blank-input" id="blank-q13" data-q="13" placeholder="13" style="width:70px"></span><button class="locate-btn" data-q="13">&#128269;</button> growth.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2 Qs -->
+    <div class="q-panel" id="qpanel-1">
+      <div class="q-section">
+        <div class="q-section-title">Questions 14&ndash;18</div>
+        <div class="q-instruction">Reading Passage 2 has seven paragraphs, A&ndash;G. Which paragraph contains the following information?</div>
+        <table class="radio-grid-table" id="rgt-14-18">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Information</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+            <th class="rgt-opt">E</th><th class="rgt-opt">F</th><th class="rgt-opt">G</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-14"><td class="rgt-num">14</td><td class="rgt-stmt">a description of different kinds of cocoa used in chocolate production</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="14">&#128269;</button></td></tr>
+            <tr id="q-target-15"><td class="rgt-num">15</td><td class="rgt-stmt">an explanation that chemicals produced during cocoa digestion may reduce the risks of diseases</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="15">&#128269;</button></td></tr>
+            <tr id="q-target-16"><td class="rgt-num">16</td><td class="rgt-stmt">a reference to a group of people who may not benefit from eating chocolate</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="16">&#128269;</button></td></tr>
+            <tr id="q-target-17"><td class="rgt-num">17</td><td class="rgt-stmt">an example of a specific way cocoa can be added into a beverage</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="17">&#128269;</button></td></tr>
+            <tr id="q-target-18"><td class="rgt-num">18</td><td class="rgt-stmt">information about differences in the way people digest cocoa</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="18">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 19&ndash;22</div>
+        <div class="q-instruction">Match each statement with the correct person or organization, A&ndash;D.</div>
+        <div class="notes-box" style="line-height:1.6;">
+          <div><strong>A</strong> Ginger Hultin &nbsp;&nbsp;<strong>B</strong> European Food Safety Authority &nbsp;&nbsp;<strong>C</strong> Howard Sesso &nbsp;&nbsp;<strong>D</strong> EPIC-Norfolk</div>
+        </div>
+        <table class="radio-grid-table" id="rgt-19-22">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Statement</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-19"><td class="rgt-num">19</td><td class="rgt-stmt">Eating cocoa together with dietary fiber may improve health.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="19">&#128269;</button></td></tr>
+            <tr id="q-target-20"><td class="rgt-num">20</td><td class="rgt-stmt">Dark chocolate consumption could reduce medical spending in the future.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="20">&#128269;</button></td></tr>
+            <tr id="q-target-21"><td class="rgt-num">21</td><td class="rgt-stmt">Dark chocolate should not be considered a replacement for medicine.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="21">&#128269;</button></td></tr>
+            <tr id="q-target-22"><td class="rgt-num">22</td><td class="rgt-stmt">The amount of cocoa required for health benefits remains uncertain.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="22">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 23&ndash;26</div>
+        <div class="q-instruction">Complete the sentences below. Write ONE WORD ONLY from the passage for each answer.</div>
+        <div class="notes-box">
+          <p>The digestive process turns cocoa into less complex chemical <span id="q-target-23"><input class="blank-input" id="blank-q23" data-q="23" placeholder="23" style="width:110px"></span><button class="locate-btn" data-q="23">&#128269;</button>.</p>
+          <p>The <span id="q-target-24"><input class="blank-input" id="blank-q24" data-q="24" placeholder="24" style="width:90px"></span><button class="locate-btn" data-q="24">&#128269;</button> would vary according to chocolate type with dark chocolate outperforming milk chocolate.</p>
+          <p>Dark chocolate should not be regarded as healthy due to its richness of calories and <span id="q-target-25"><input class="blank-input" id="blank-q25" data-q="25" placeholder="25" style="width:70px"></span><button class="locate-btn" data-q="25">&#128269;</button>.</p>
+          <p>In Hultin&rsquo;s view, dietary diversity is the best strategy for acquiring <span id="q-target-26"><input class="blank-input" id="blank-q26" data-q="26" placeholder="26" style="width:70px"></span><button class="locate-btn" data-q="26">&#128269;</button>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3 Qs -->
+    <div class="q-panel" id="qpanel-2">
+      <div class="q-section">
+        <div class="q-section-title">Questions 27&ndash;30</div>
+        <div class="q-instruction">Choose YES, NO, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-27">
+          <div class="q-label"><span class="q-num">27</span><span>Parents and siblings play equal roles in shaping people&rsquo;s adult personalities.</span><button class="locate-btn" data-q="27">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="27" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="27" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="27" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-28">
+          <div class="q-label"><span class="q-num">28</span><span>People&rsquo;s first social relationships tend to be with siblings of their own gender.</span><button class="locate-btn" data-q="28">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="28" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="28" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="28" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-29">
+          <div class="q-label"><span class="q-num">29</span><span>People&rsquo;s relationships with their siblings tend to receive less attention when they marry.</span><button class="locate-btn" data-q="29">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="29" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="29" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="29" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-30">
+          <div class="q-label"><span class="q-num">30</span><span>Parental &lsquo;basking&rsquo; is advantageous for later siblings.</span><button class="locate-btn" data-q="30">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="30" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="30" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="30" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 31&ndash;34</div>
+        <div class="q-instruction">Choose the correct answer.</div>
+        <div class="q-item" id="q-target-31">
+          <div class="q-label"><span class="q-num">31</span><span>What point does the writer make about birth order in the third paragraph?</span><button class="locate-btn" data-q="31">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="31" data-val="A"><span class="radio-circle"></span>A. Its role is underestimated by parents.</button>
+          <button class="mc-opt-btn" data-q="31" data-val="B"><span class="radio-circle"></span>B. It may shape the characteristics of adults.</button>
+          <button class="mc-opt-btn" data-q="31" data-val="C"><span class="radio-circle"></span>C. Its importance decreases as children grow up.</button>
+          <button class="mc-opt-btn" data-q="31" data-val="D"><span class="radio-circle"></span>D. It has more influence on personality than genetics.</button>
+        </div>
+        <div class="q-item" id="q-target-32">
+          <div class="q-label"><span class="q-num">32</span><span>What are we told about some of Claire Cartwright&rsquo;s clients?</span><button class="locate-btn" data-q="32">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="32" data-val="A"><span class="radio-circle"></span>A. Their parents treated them fairly.</button>
+          <button class="mc-opt-btn" data-q="32" data-val="B"><span class="radio-circle"></span>B. They were treated harshly by their siblings.</button>
+          <button class="mc-opt-btn" data-q="32" data-val="C"><span class="radio-circle"></span>C. Their perceptions of childhood may be inaccurate.</button>
+          <button class="mc-opt-btn" data-q="32" data-val="D"><span class="radio-circle"></span>D. They have closer relations with their siblings as adults.</button>
+        </div>
+        <div class="q-item" id="q-target-33">
+          <div class="q-label"><span class="q-num">33</span><span>What is the writer&rsquo;s main point about siblings in the fifth paragraph?</span><button class="locate-btn" data-q="33">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="33" data-val="A"><span class="radio-circle"></span>A. Parents tend to repeat their own parents&rsquo; mistakes.</button>
+          <button class="mc-opt-btn" data-q="33" data-val="B"><span class="radio-circle"></span>B. Favored children are likely to make good leaders as adults.</button>
+          <button class="mc-opt-btn" data-q="33" data-val="C"><span class="radio-circle"></span>C. Negative characteristics in children can become positive in adults.</button>
+          <button class="mc-opt-btn" data-q="33" data-val="D"><span class="radio-circle"></span>D. Attention-seeking children are unlikely to please bosses in later life.</button>
+        </div>
+        <div class="q-item" id="q-target-34">
+          <div class="q-label"><span class="q-num">34</span><span>Which of the following best summarises the writer&rsquo;s argument in the sixth paragraph?</span><button class="locate-btn" data-q="34">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="34" data-val="A"><span class="radio-circle"></span>A. Many children have a favourite parent.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="B"><span class="radio-circle"></span>B. Parenting skills improve with later children.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="C"><span class="radio-circle"></span>C. Siblings are born with different personalities.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="D"><span class="radio-circle"></span>D. The family environment may change over time.</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 35&ndash;40</div>
+        <div class="q-instruction">Complete the summary using the list of words A&ndash;K below. Drag each word to the correct gap.</div>
+        <div class="word-bank-pool" id="word-bank-pool">
+          <div class="draggable-card" draggable="true" data-word="A" id="card-A">A &ndash; parental love</div>
+          <div class="draggable-card" draggable="true" data-word="B" id="card-B">B &ndash; imaginative games</div>
+          <div class="draggable-card" draggable="true" data-word="C" id="card-C">C &ndash; physical development</div>
+          <div class="draggable-card" draggable="true" data-word="D" id="card-D">D &ndash; generous behaviour</div>
+          <div class="draggable-card" draggable="true" data-word="E" id="card-E">E &ndash; strong marriages</div>
+          <div class="draggable-card" draggable="true" data-word="F" id="card-F">F &ndash; greater individuality</div>
+          <div class="draggable-card" draggable="true" data-word="G" id="card-G">G &ndash; learning experiences</div>
+          <div class="draggable-card" draggable="true" data-word="H" id="card-H">H &ndash; career success</div>
+          <div class="draggable-card" draggable="true" data-word="I" id="card-I">I &ndash; closer relationships</div>
+          <div class="draggable-card" draggable="true" data-word="J" id="card-J">J &ndash; healthy competition</div>
+          <div class="draggable-card" draggable="true" data-word="K" id="card-K">K &ndash; mental well-being</div>
+        </div>
+        <div class="summary-box">
+          <strong>The positive aspects of sibling relationships</strong><br><br>
+          Annette Henderson suggests that young children&rsquo;s interactions with older siblings involve
+          <span class="drop-zone" id="q-target-35" data-q="35"><span class="dz-text">35</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="35">&#128269;</button>.
+          Also, a Cambridge study found that siblings still enjoy
+          <span class="drop-zone" id="q-target-36" data-q="36"><span class="dz-text">36</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="36">&#128269;</button>
+          even when they have a tendency to fight. Research conducted in 2003 suggests that children develop
+          <span class="drop-zone" id="q-target-37" data-q="37"><span class="dz-text">37</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="37">&#128269;</button>
+          as a result of seeking attention. Another factor is the trend for smaller families, which may mean that today&rsquo;s siblings enjoy
+          <span class="drop-zone" id="q-target-38" data-q="38"><span class="dz-text">38</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="38">&#128269;</button>
+          as adults. A 2010 American study linked having a sister with
+          <span class="drop-zone" id="q-target-39" data-q="39"><span class="dz-text">39</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="39">&#128269;</button>
+          among children aged 10&ndash;14. Finally, having a sibling may promote
+          <span class="drop-zone" id="q-target-40" data-q="40"><span class="dz-text">40</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="40">&#128269;</button>
+          according to the same study.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /right-pane -->
+</div><!-- /split -->
+
+<div id="footer-nav">
+  <span class="nav-label">Q:</span>
+  <div id="nav-grid"></div>
+  <div id="font-controls">
+    <span>Font:</span>
+    <button id="btn-font-up">A+</button>
+    <button id="btn-font-dn">A&minus;</button>
+  </div>
+</div>
+</div><!-- /app -->
+
+<div id="highlight-menu">
+  <button style="background:#fef08a" onclick="applyHighlight('highlight-yellow')" title="Yellow"></button>
+  <button style="background:#bbf7d0" onclick="applyHighlight('highlight-green')" title="Green"></button>
+  <button style="background:#fbcfe8" onclick="applyHighlight('highlight-pink')" title="Pink"></button>
+  <button class="erase-btn" onclick="applyHighlight('erase')">&#10005;</button>
+</div>
+
+<div id="result-modal">
+  <div id="result-box">
+    <h2>Your Result</h2>
+    <div id="result-score">0/40</div>
+    <div id="result-band">Band: &ndash;</div>
+    <div id="result-breakdown"></div>
+    <button id="btn-close-modal">Review Answers</button>
+  </div>
+</div>
+
+<script>
+const ANSWERS={
+  1:'TRUE',2:'TRUE',3:'FALSE',4:'TRUE',5:'FALSE',6:'NOT GIVEN',7:'NOT GIVEN',
+  8:'flood',9:'drainage',10:'air',11:'water',12:'maintenance',13:'weed',
+  14:'F',15:'B',16:'E',17:'G',18:'C',
+  19:'A',20:'B',21:'D',22:'C',
+  23:'compounds',24:'benefits',25:'fats',26:'fiber',
+  27:'NO',28:'NOT GIVEN',29:'NOT GIVEN',30:'YES',
+  31:'B',32:'C',33:'C',34:'D',
+  35:'G',36:'B',37:'F',38:'I',39:'K',40:'D'
+};
+const Q_PASSAGE={};
+for(let i=1;i<=13;i++)Q_PASSAGE[i]=0;
+for(let i=14;i<=26;i++)Q_PASSAGE[i]=1;
+for(let i=27;i<=40;i++)Q_PASSAGE[i]=2;
+
+let userAnswers={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+function normalizeAnswer(s){
+  return s.trim().toLowerCase().replace(/[‘’]/g,"'").replace(/[–—]/g,'-').replace(/\s+/g,' ');
+}
+function checkAnswer(user,correct){
+  const u=normalizeAnswer(user),c=normalizeAnswer(correct);
+  if(u===c)return true;
+  if(u.replace(/-/g,' ')===c.replace(/-/g,' '))return true;
+  // fiber/fibre
+  if((u==='fibre'&&c==='fiber')||(u==='fiber'&&c==='fibre'))return true;
+  return false;
+}
+function getWordLabel(w){
+  const map={A:'parental love',B:'imaginative games',C:'physical development',D:'generous behaviour',E:'strong marriages',F:'greater individuality',G:'learning experiences',H:'career success',I:'closer relationships',J:'healthy competition',K:'mental well-being'};
+  return map[w]||w;
+}
+
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{p.style.display=i===t?'block':'none';p.classList.toggle('active',i===t);});
+  });
+});
+
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i;btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+
+document.querySelectorAll('.mc-opt-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+btn.dataset.q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();updateNav(q);
+  });
+});
+
+// DnD word bank
+let dragWord=null;
+document.querySelectorAll('.draggable-card').forEach(card=>{
+  card.addEventListener('dragstart',e=>{
+    if(submitted)return;
+    dragWord=card.dataset.word;card.classList.add('dragging');e.dataTransfer.effectAllowed='move';
+  });
+  card.addEventListener('dragend',()=>card.classList.remove('dragging'));
+});
+document.querySelectorAll('.drop-zone').forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag-over');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
+  zone.addEventListener('drop',e=>{
+    e.preventDefault();zone.classList.remove('drag-over');
+    if(submitted||!dragWord)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById('card-'+prev);if(pc)pc.classList.remove('used');}
+    const card=document.getElementById('card-'+dragWord);
+    if(card)card.classList.add('used');
+    zone.dataset.filled=dragWord;zone.classList.add('filled');
+    zone.querySelector('.dz-text').textContent=dragWord+' – '+getWordLabel(dragWord);
+    const q=parseInt(zone.dataset.q);userAnswers[q]=dragWord;updateNav(q);dragWord=null;
+  });
+  zone.querySelector('.remove-chip').addEventListener('click',e=>{
+    e.stopPropagation();if(submitted)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById('card-'+prev);if(pc)pc.classList.remove('used');}
+    zone.dataset.filled='';zone.classList.remove('filled');
+    zone.querySelector('.dz-text').textContent=zone.dataset.q;
+    const q=parseInt(zone.dataset.q);delete userAnswers[q];updateNav(q);
+  });
+});
+
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+
+function submitExam(){
+  if(submitted)return;
+  submitted=true;clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=checkAnswer(user,ans);
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        const existingLabel=inp.parentNode.querySelector('.blank-correct-label');
+        if(!existingLabel){
+          const lbl=document.createElement('span');
+          lbl.className='blank-correct-label';
+          lbl.textContent='✓ '+ans;
+          lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+          inp.insertAdjacentElement('afterend',lbl);
+        }
+      }
+    }
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    const rgtRow=document.getElementById('q-target-'+q);
+    if(rgtRow&&rgtRow.tagName==='TR')rgtRow.classList.add(ok?'row-correct':'row-wrong');
+    const dz=document.getElementById('q-target-'+q);
+    if(dz&&dz.classList.contains('drop-zone')){
+      dz.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        const lbl=document.createElement('span');lbl.className='correct-answer-label';
+        lbl.textContent='✓ '+ans+' – '+getWordLabel(ans);
+        dz.insertAdjacentElement('afterend',lbl);
+      }
+    }
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    if(!ok)document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+  }
+  document.querySelectorAll('.draggable-card').forEach(c=>c.setAttribute('draggable','false'));
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1–13)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14–26)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27–40)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>document.getElementById('result-modal').classList.remove('show'));
+
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      const locEls=document.querySelectorAll('.loc-q'+q);
+      if(locEls.length===0)return;
+      // Always use the smallest span (most specific)
+      let best=locEls[0];
+      locEls.forEach(el=>{
+        if(el.textContent.trim().length < best.textContent.trim().length) best=el;
+      });
+      // If still large (>200 chars), try shorter child span
+      if(best.textContent.trim().length>200){
+        const children=best.querySelectorAll('span');
+        children.forEach(child=>{
+          const t=child.textContent.trim();
+          if(t.length>=15&&t.length<best.textContent.trim().length) best=child;
+        });
+      }
+      best.classList.add('loc-highlight');
+      best.scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(()=>best.classList.remove('loc-highlight'),4000);
+    },150);
+  });
+});
+
+document.getElementById('btn-font-up').addEventListener('click',()=>{
+  baseFontSize=Math.min(20,baseFontSize+1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{
+  baseFontSize=Math.max(11,baseFontSize-1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+
+let highlightMenu=document.getElementById('highlight-menu'),savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const lp=document.getElementById('left-pane'),rp=document.getElementById('right-pane');
+    if(lp.contains(range.commonAncestorContainer)||rp.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){window.getSelection().removeAllRanges();window.getSelection().addRange(savedRange);document.execCommand('removeFormat');savedRange=null;return;}
+  const span=document.createElement('span');span.className=cls;
+  try{savedRange.surroundContents(span);}catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();savedRange=null;
+}
+
+const handle=document.getElementById('resize-handle'),leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const split=document.getElementById('split');const rect=split.getBoundingClientRect();leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+
+startTimer();
+</script>
+</body>
+</html>

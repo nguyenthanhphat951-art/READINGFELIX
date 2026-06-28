@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading &ndash; VOL 9 TEST 8</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-pause:hover{background:#4b5563;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam:hover{background:#1e40af;}
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#resize-handle:hover{background:#9ca3af;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button:hover{background:#f3f4f6;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+#font-controls button:hover{background:#f3f4f6;}
+.passage-panel{display:none;}.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+.q-panel{display:none;}.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.blank-input{border:none;border-bottom:2px solid #1a1a1a;background:transparent;font-size:0.88rem;padding:2px 4px;min-width:110px;outline:none;font-family:'Lexend',sans-serif;}
+.blank-input:focus{border-bottom-color:#1d4ed8;}
+.blank-input.correct{border-bottom-color:#16a34a;background:#dcfce7;}
+.blank-input.wrong{border-bottom-color:#dc2626;background:#fee2e2;}
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr:hover:not(.row-correct):not(.row-wrong) td{background:#f0f9ff;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:36px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-radio:hover:not(:disabled){background:#f3f4f6;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+/* Heading DnD */
+.heading-chip{display:inline-flex;align-items:center;padding:5px 12px;background:#1a1a1a;color:#fff;border-radius:20px;cursor:grab;font-size:0.78rem;font-family:'Lexend',sans-serif;user-select:none;margin:3px;border:2px solid transparent;line-height:1.4;}
+.heading-chip:active{cursor:grabbing;}
+.heading-chip.dragging{opacity:0.4;}
+.heading-chip.used{background:#6b7280;cursor:default;}
+.heading-chip-pool{display:flex;flex-wrap:wrap;gap:4px;padding:10px 12px;background:#f9fafb;border:1.5px dashed #9ca3af;border-radius:8px;margin-bottom:14px;min-height:44px;}
+.heading-dropzone{display:inline-flex;align-items:center;justify-content:center;min-width:180px;height:28px;border:2px dashed #9ca3af;border-radius:14px;padding:0 10px;font-size:0.76rem;color:#9ca3af;vertical-align:middle;margin:3px 0;transition:border-color 0.15s,background 0.15s;position:relative;}
+.heading-dropzone.drag-over{border-color:#1d4ed8;background:#eff6ff;}
+.heading-dropzone.filled{border-style:solid;border-color:#1a1a1a;background:#1a1a1a;color:#fff;font-weight:600;}
+.heading-dropzone.correct{border-color:#16a34a!important;background:#dcfce7!important;color:#16a34a!important;}
+.heading-dropzone.wrong{border-color:#dc2626!important;background:#fee2e2!important;color:#dc2626!important;}
+.heading-dropzone .hdz-remove{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:#fff;color:#1a1a1a;font-size:0.6rem;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;line-height:1;}
+.heading-dropzone.filled .hdz-remove{display:flex;}
+.heading-dropzone:not(.filled) .hdz-remove{display:none;}
+.para-heading-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.headings-list{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:10px 14px;font-size:0.82rem;margin-bottom:14px;}
+.headings-list div{padding:3px 0;border-bottom:1px solid #f3f4f6;}
+.headings-list div:last-child{border-bottom:none;}
+.notes-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.notes-box h4{font-size:0.88rem;font-weight:700;margin:0 0 8px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+.notes-box ul{margin:6px 0 6px 20px;padding:0;}
+.notes-box li{margin-bottom:4px;}
+.word-bank{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 14px;font-size:0.82rem;margin-bottom:12px;}
+.word-bank div{padding:2px 0;}
+.endings-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:10px 14px;font-size:0.82rem;margin-bottom:12px;}
+.endings-box div{padding:3px 0;border-bottom:1px solid #f3f4f6;}
+.endings-box div:last-child{border-bottom:none;}
+.sentence-item{margin-bottom:12px;font-size:0.86rem;line-height:1.9;}
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn:hover{background:#fde68a;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+.blank-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+.hdz-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="header">
+  <h1>IELTS READING &ndash; VOL 9 TEST 8</h1>
+  <div id="timer-wrap">
+    <span id="timer">60:00</span>
+    <button id="btn-pause">&#9208; Pause</button>
+    <button id="btn-submit-exam">Submit</button>
+  </div>
+</div>
+<div id="tab-bar">
+  <button class="tab-btn active" data-target="0">PASSAGE 1</button>
+  <button class="tab-btn" data-target="1">PASSAGE 2</button>
+  <button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+<div id="split">
+  <div id="left-pane">
+
+    <!-- PASSAGE 1: Australia's Airborne Dentists -->
+    <div class="passage-panel active" id="passage-content-0">
+      <div class="passage-title">AUSTRALIA&rsquo;S AIRBORNE DENTISTS</div>
+      <div class="passage-subtitle"></div>
+      <div class="passage-text">
+        <p>Australians living or traveling in rural and remote areas can face particular difficulties when they need medical care. Hundreds of kilometres from major cities and many hours by road from the closest hospital or clinic, some rural Australians do not have easy access to doctors, nurses and dentists.</p>
+        <p><span class="loc-q1">Organisations such as the Royal Flying Doctor Service (RFDS) have been established to bring health services to outback Australian communities. The RFDS provides free medical care to people who live, work or travel in remote and regional parts of Australia. This non-profit organisation is the oldest and largest airborne health service of its kind in the world, and since 1928 it has used small planes to reach Australia&rsquo;s most far-away communities.</span></p>
+        <p>In recent years, the RFDS has also started to fly dentists to regional Australia. As well as offering mobile dental clinics, the RFDS offers a range of preventative and educational services. Looking after the teeth of people in remote areas presents special challenges. These include providing care to disparate communities with no established dental facilities, and dealing with higher incidences of other diseases which are linked to, or caused by poor dental health.</p>
+        <p><span class="loc-q2">People in remote areas have very infrequent visits by health staff. RFDS dentists might only visit a community once every few months, or sometimes once per year.</span> Because of infrequent dentist visits, patients in these areas often need to put up with their dental problems before they can get treatment; consequently, people in remote areas are more likely to have tooth decay (the blackening and deterioration of teeth) and develop gum and other mouth diseases.</p>
+        <p>In some locations that the RFDS visits, there are no suitable dental facilities, so dentists have to bring everything with them. This includes drills, dentists&rsquo; chairs, portable X-ray machines, and <span class="loc-q8">computers</span> for keeping track of patients&rsquo; treatments. Equipment can weigh up to 100 kilograms, and since the small planes that transport dentists have limited <span class="loc-q9">space</span>, dentists cannot always bring everything that they need.</p>
+        <p><span class="loc-q4">While dentists in town or city centres can specialise in certain types of treatment, RFDS dentists need to be &lsquo;all-rounders&rsquo;. They need to be able to do all kinds of dental procedures, as they don&rsquo;t have the ability to refer patients to more specialised dentists.</span> Even with their broad experience, there are some services that are particularly challenging for RFDS dentists. For example, <span class="loc-q10">dentures</span> (artificial teeth) can be very difficult to provide, as they need to be the right shape and size for the patient, and this requires many visits over a long period of time. As a result, it is not practical to make dentures available.</p>
+        <p>Some chronic illnesses are more common in remote communities than in the rest of Australia. These illnesses can in turn lead to a lowered resistance to infection, including gum and other oral infections. As a result, people in outback Australian communities are more likely to experience oral health problems than city folk, and this poses extra challenges for both the dentists and the doctors of the RFDS.</p>
+        <p><span class="loc-q5 loc-q6">Because there aren&rsquo;t a lot of dental services in remote areas, people living in these areas also receive less education about good dental hygiene than their city counterparts do. Australians in very remote communities might not be aware of things that people in cities take for granted, such as the importance of daily tooth brushing. Also, basic dental hygiene items such as <span class="loc-q11">toothpaste</span> and <span class="loc-q12">toothbrushes</span> can be more expensive in outback areas. Many people are on low incomes, meaning they have extra difficulty affording these products. If this is the case, the RFDS supplies these.</span></p>
+        <p>As well as treating patients, RFDS dentists try to focus on preventative oral health and educate their patients on good oral hygiene, such as tooth brushing and flossing. The RFDS also provides <span class="loc-q13">mouthguards</span> for young sports players. Playing contact sports, such as rugby league or Australian rules football, can damage young people&rsquo;s teeth, so mouthguards provide protection which prevents accidental injuries.</p>
+        <p><span class="loc-q7">Adding fluoride to water supplies has been proven to reduce the incidence of tooth decay in many parts of the world. City dwellers in Australia use water supplies that have been fluoridated, and their rates of tooth decay are lower because of this. In remote areas, it is not practical to fluoridate drinking water supplies, and so people living in these areas are more subject to tooth decay.</span> As a result, it is particularly important that people living in areas without fluoridated water pay special attention to regular brushing of their teeth with fluoridated toothpaste.</p>
+        <p>Despite many challenges, the RFDS continues to offer much-needed dental and medical support. Its presence in isolated communities greatly improves the quality of dental health, and supports important oral hygiene and health initiatives.</p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2: Public art programs -->
+    <div class="passage-panel" id="passage-content-1">
+      <div class="passage-title">PUBLIC ART PROGRAMS: RESEARCH UPDATE</div>
+      <div class="passage-subtitle">Researchers agree that art participation is an important leisure pursuit, with benefits not only to the individual, but also to the community.</div>
+      <div class="passage-text">
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 14:</span>
+          <span class="heading-dropzone" id="hdz-2-14" data-q="14"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="14">&#128269;</button>
+        </div>
+        <p><span class="loc-q14 loc-q23">Researcher Howard Spector suggests that active art experiences benefit all age groups by providing individuals with the means to freely and creatively express themselves. <span class="loc-q14">Self-expression, in turn, promotes individuality, bolsters self-confidence and improves motivation and attitudes towards academic performance.</span> <span class="loc-q23">Both active and passive art experiences can provide the benefits of discovery, stimulation and relaxation (Oliphant 2000).</span> Furthermore, people&rsquo;s participation in art enhances their development and expands their thoughts about culture. In short, art can make individuals more socially conscious.</span></p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 15:</span>
+          <span class="heading-dropzone" id="hdz-2-15" data-q="15"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="15">&#128269;</button>
+        </div>
+        <p><span class="loc-q15 loc-q20 loc-q21 loc-q22">Communities committed to providing opportunities for experiencing art are considered more livable because they are attractive to businesses and industry and they offer a higher quality of life for residents (<span class="loc-q22">Riley 2002</span>). Tourism is strongly linked to art; art is believed to stimulate tourism in a community, and vice versa. Art-related tourism generates tourists and revenue, attracts high-income consumers, extends the tourist season and is a &ldquo;green&rdquo; form of the industry (<span class="loc-q21">Hughes 2000</span>). Revitalization efforts have increased in many cities because of the strong presence of art opportunities.</span></p>
+        <p><span class="loc-q20b"><span class="loc-q15">Art programs can be highly effective in reducing community problems related to delinquent behavior and truancy in youth</span> (<span class="loc-q20c">Spector 2000</span>). The Philadelphia Department of Recreation Mural Arts Program (MAP) is one such program. It began in the early 1980s when the city undertook to remove graffiti in the city while creating a positive, productive and creative outlet for adjudicated graffiti artists, as they used their talents to beautify public spaces through the creation of murals, instilling a sense of pride, excellence, diligence and civic responsibility.</span></p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 16:</span>
+          <span class="heading-dropzone" id="hdz-2-16" data-q="16"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="16">&#128269;</button>
+        </div>
+        <p><span class="loc-q16">In recognition of these and other benefits, communities are finding many ways to ensure that the public is provided with opportunities to experience art.</span></p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 17:</span>
+          <span class="heading-dropzone" id="hdz-2-17" data-q="17"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="17">&#128269;</button>
+        </div>
+        <p><span class="loc-q17">Despite the significant benefits that art participation can offer to individuals and communities, only 35 percent of the American adult population visit museums or galleries at</span></p>
+        <p>To help researchers shed light on this question, the RAND Corporation, a nonprofit institution that helps improve policy and decision-making through objective research and analysis, developed &ldquo;A Behavior Model of the Participant Decision&rdquo;, which can be used to investigate people&rsquo;s inclinations about participating in an art activity (Yoshitomi 2000). According to Yoshitomi, each person has a disposition related to his or her interest in engaging in an art activity; a person&rsquo;s disposition is based on sociodemographic characteristics, social or cultural identity, personality and previous experience. The RAND model clusters participants into three groups according to their disposition toward art participation: those disinclined to participate; those inclined to participate; and those currently participating.</p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 18:</span>
+          <span class="heading-dropzone" id="hdz-2-18" data-q="18"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="18">&#128269;</button>
+        </div>
+        <p><span class="loc-q18 loc-q24 loc-q25"><span class="loc-q18">The RAND findings reveal that the disinclined perceive themselves as being uncomfortable or unfamiliar with art.</span> This disposition might occur among people who do not value art and who have not received art education, or who perceive themselves as unsophisticated or lacking skill to participate. The inclined are interested in participating, but may be constrained by particular barriers such as cost, time, and proper <span class="loc-q24">attire</span>. Current participants are those who are involved, and influence or encourage others to participate. Researchers suggest that a strong relationship exists between childhood and adult art participation <span class="loc-q25">rates</span>. Individuals with a greater number of childhood art experiences are more likely to have higher rates of participation as adults. Although 90 percent of Americans believe art instruction is important for children and should be offered in schools, almost 40 percent of schools either offer no art instruction or have art instructors with no formal art training.</span></p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 19:</span>
+          <span class="heading-dropzone" id="hdz-2-19" data-q="19"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="19">&#128269;</button>
+        </div>
+        <p><span class="loc-q19 loc-q26"><span class="loc-q19">One recreation organization working to make sure children get exposed to art is the Boys and Girls Clubs of America, which offer two innovative programs</span>: The National Photography Program and the National Fine Arts Exhibit. Both are designed to get children excited about art. The photography program promotes new art that is technologically produced, including video and computer graphics, but primarily focuses on photography. The program provides club members with the opportunity to achieve personal growth and receive artistic <span class="loc-q26">recognition</span> through instruction in photography. Participants also display their work at local, regional and national photography contests. The second program is the Fine Arts Exhibit. This encourages artistic expression, creativity, cultural appreciation and the development of artistic skills through classes, special events, exhibits and competitions. It allows participants to explore a variety of mediums, including drawing, painting, print making, collage and sculpture.</span></p>
+        <p>Because art experiences provide so many important benefits to individuals and communities, it is important for community programs to facilitate opportunities and provide encouragement to increase participation in a variety of programs.</p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3: 200 Years of Australian Landscapes -->
+    <div class="passage-panel" id="passage-content-2">
+      <div class="passage-title">200 YEARS OF AUSTRALIAN LANDSCAPES AT THE ROYAL ACADEMY IN LONDON</div>
+      <div class="passage-subtitle">This exhibition promises to chart the evolution of a nation through its art, but not everyone agrees with the reasons behind the choice of artwork</div>
+      <div class="passage-text">
+        <p><span class="para-label">A</span> <span class="loc-q27">For the casual viewer, the exhibition of landscapes, <em>Australia</em>, selected by the Royal Academy of Art will be a spectacular guide through Australian art history. Included in the exhibition are a range of artists and styles, dating from the earliest days of colonial art and progressing through expressionism and modernism to the artists of the 20th century, culminating with the current generation of Australian artists. It is hardly surprising, then, that <span class="loc-q27">this results in a flexible, wide-ranging notion of landscape.</span></span></p>
+        <p><span class="para-label">B</span> <span class="loc-q32">But this landmark exhibition gives rise to some questions, and perhaps problems, regarding Britain&rsquo;s relationship with its former colony. By choosing a style of painting at which British artists excel, the Academy could be seen as inviting criticism that hints at a telling attitude towards art by comparison. But it is the very theme of landscape painting that makes this a controversial selection. To consider if condescending is perhaps too strong, but for Joanna Mendelssohn, Australian critic and Associate Professor at the University of NSW&rsquo;s College of Fine Arts (COFA), <span class="loc-q32">there is a suggestion that British artistic values have directed this exhibition, rather than allowing Australia the freedom to demonstrate its maturity.</span></span></p>
+        <p><span class="para-label">C</span> <span class="loc-q33">What Mendelssohn found surprising about the exhibition was <span class="loc-q33">the underlying rules for the selection of works seemed to have been so conservative.</span> Since the landscape is a very strong British artistic theme, it appeared to her that when the British looked to the art of a former colony, there was a tendency for them to think that those colonies would continue to be like the British themselves. In reviewing Australian art, the British insisted on looking at the genre of landscape painting.</span></p>
+        <p><span class="para-label">D</span> <span class="loc-q29 loc-q30">Because of colonial ties, it was inevitable during Australian art&rsquo;s formative years that it would reflect Britain&rsquo;s devotion to the beloved landscape before its own character and idiosyncrasies took shape. And while Mendelssohn&rsquo;s concern over the exhibition&rsquo;s conventional selection is valid, <span class="loc-q30">the Academy is nevertheless embracing the peculiarities of Australian art from the mid-19th century onward</span>, albeit within the boundaries of landscape.</span></p>
+        <p><span class="para-label">E</span> <em>Australia</em> is curated by Kathleen Soriano, director of exhibitions at the Royal Academy. &lsquo;Certainly the influence of English, French or German art is much more evident in the early periods, in the early 1800s to mid-1800s,&rsquo; she says. &lsquo;What I wanted to show was how Australian art develops a real distinctiveness, associated with the landscape and the light.&rsquo;</p>
+        <p><span class="para-label">F</span> <span class="loc-q37">The fusion of &lsquo;tradition&rsquo; of the European kind with something more specifically Australian, and often personal, is crucial to the exhibition and extends particularly to some of the more contemporary artists involved.</span> Sydney-born video artist Shaun Gladwell is a good example of this. <span class="loc-q34 loc-q39">Gladwell&rsquo;s most famous piece, which is featured in the exhibition, is <em>Storm Sequence</em> (2000), a video of Gladwell skateboarding on the Bondi seafront as one of Sydney&rsquo;s signature brutal storms lingers offshore. It is his acknowledgment of landscape (or seascape) tradition, coloured by Gladwell&rsquo;s own individualism. &lsquo;To exhibit my work in this show might make some sense because I was interested in Turner and the idea of atmosphere affecting vision, something I was really interested in around the time of <em>Storm Sequence</em>. <span class="loc-q34">I was thinking about this tradition of Romantic landscape, but I wanted to make it personal</span>,&rsquo; says Gladwell.</span> But he didn&rsquo;t want to just embark on borrowing imagery from elsewhere. He wanted to bring it to his experience and his world through skateboarding and beach culture.</p>
+        <p><span class="para-label">G</span> <span class="loc-q31">So while it may seem narrow for Britain to reduce Australian art to the genre of landscape, <span class="loc-q31">there can be little denying that British landscape painting is still relevant to a current generation of Australian practitioners</span>, however indirectly.</span></p>
+        <p><span class="para-label">H</span> <span class="loc-q35 loc-q40">Visitors to the exhibition encounter Australian Aboriginal art first, the idea being that these works warrant a prominent position because they were &lsquo;first&rsquo;. Over the last couple of decades, London has hosted many successful exhibitions of Aboriginal art in smaller spaces, but for Soriano, <em>Australia</em> represents an opportunity to place such art within the context of new relationships to the art of the settlers and white Australia. &lsquo;One of the reasons landscape was seen as being the right theme was because Australian art started in and on the landscape,&rsquo; she says. &lsquo;[The exhibition] is a beautiful meshing of the two different kinds of art that allowed me to bring them together comfortably and honestly with this theme. It was important for me to present Indigenous art to audiences, and <span class="loc-q35">I felt it was most accurate to be seen as part of Australian art history, rather than a separate exhibition of its own.</span>&rsquo;</span></p>
+        <p><span class="para-label">I</span> <span class="loc-q36">Meanwhile, Australian critic Mendelssohn also points out that London is increasingly less important to today&rsquo;s generation of artists, and this somewhat weakens the ceremony surrounding the exhibition in London. &lsquo;China is the most important art market in the world,&rsquo; she says. &lsquo;If you&rsquo;ve made it in Shanghai, you&rsquo;ve made it. The world has changed.</span> My students in Australia, who come from all over the world, really want to see Venice Biennale and Art Basel, but they&rsquo;re less interested in going to London. When I was growing up, London was the destination, and then when I was at university all the smart young things wanted to go to New York,&rsquo; she added. &lsquo;Now they want to go everywhere. There&rsquo;s no such thing as the centre and the periphery like there used to be. It&rsquo;s much more complicated.&rsquo;</p>
+        <p><span class="loc-q38">The early to mid-1800s Australian art shows a strong European influence.</span></p>
+      </div>
+    </div>
+
+  </div><!-- /left-pane -->
+  <div id="resize-handle"></div>
+
+  <div id="right-pane">
+
+    <!-- PASSAGE 1 Qs -->
+    <div class="q-panel active" id="qpanel-0">
+      <div class="q-section">
+        <div class="q-section-title">Questions 1&ndash;7</div>
+        <div class="q-instruction">Choose TRUE, FALSE, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-1">
+          <div class="q-label"><span class="q-num">1</span><span>Many of the RFDS doctors work as volunteers.</span><button class="locate-btn" data-q="1">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="1" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="1" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="1" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-2">
+          <div class="q-label"><span class="q-num">2</span><span>RFDS dentists make trips to outback communities each month.</span><button class="locate-btn" data-q="2">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="2" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="2" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="2" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-3">
+          <div class="q-label"><span class="q-num">3</span><span>RFDS dentists are accompanied on their journeys to remote areas by a dental nurse.</span><button class="locate-btn" data-q="3">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="3" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="3" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="3" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-4">
+          <div class="q-label"><span class="q-num">4</span><span>RFDS dentists must provide a wide range of dental services.</span><button class="locate-btn" data-q="4">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="4" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="4" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="4" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-5">
+          <div class="q-label"><span class="q-num">5</span><span>Rural dental patients are more informed about oral hygiene than urban patients.</span><button class="locate-btn" data-q="5">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="5" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="5" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="5" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-6">
+          <div class="q-label"><span class="q-num">6</span><span>RFDS dentists educate patients about good eating habits.</span><button class="locate-btn" data-q="6">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="6" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="6" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="6" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-7">
+          <div class="q-label"><span class="q-num">7</span><span>Urban Australians generally have better teeth because their water is treated.</span><button class="locate-btn" data-q="7">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="7" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="7" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="7" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 8&ndash;13</div>
+        <div class="q-instruction">Complete the notes below. Write ONE WORD ONLY from the passage for each answer.</div>
+        <div class="notes-box">
+          <h4>Challenges faced by RFDS dentists</h4>
+          <ul>
+            <li>need to bring equipment including <span id="q-target-8"><input class="blank-input" id="blank-q8" data-q="8" placeholder="8" style="width:100px"></span><button class="locate-btn" data-q="8">&#128269;</button> for records</li>
+            <li>aircraft used to carry equipment have restricted <span id="q-target-9"><input class="blank-input" id="blank-q9" data-q="9" placeholder="9" style="width:70px"></span><button class="locate-btn" data-q="9">&#128269;</button></li>
+            <li>problems offering some services, e.g., fitting <span id="q-target-10"><input class="blank-input" id="blank-q10" data-q="10" placeholder="10" style="width:90px"></span><button class="locate-btn" data-q="10">&#128269;</button></li>
+            <li>People in remote areas are more likely to have infection in their mouth</li>
+          </ul>
+          <h4>Products supplied by RFDS dentists</h4>
+          <ul>
+            <li>if necessary RFDS provides: <span id="q-target-11"><input class="blank-input" id="blank-q11" data-q="11" placeholder="11" style="width:100px"></span><button class="locate-btn" data-q="11">&#128269;</button> and <span id="q-target-12"><input class="blank-input" id="blank-q12" data-q="12" placeholder="12" style="width:120px"></span><button class="locate-btn" data-q="12">&#128269;</button> for regular use</li>
+            <li><span id="q-target-13"><input class="blank-input" id="blank-q13" data-q="13" placeholder="13" style="width:120px"></span><button class="locate-btn" data-q="13">&#128269;</button> to limit dental accidents on the sports field</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2 Qs -->
+    <div class="q-panel" id="qpanel-1">
+      <div class="q-section">
+        <div class="q-section-title">Questions 14&ndash;19</div>
+        <div class="q-instruction">Reading Passage 2 has six paragraphs. Choose the correct heading for each paragraph from the list of headings below. Drag each heading chip to the correct paragraph in the passage on the left.</div>
+        <div class="headings-list">
+          <div><strong>i</strong> Interpreting the research behind who is participating in art activities</div>
+          <div><strong>ii</strong> How sales of artwork have increased in many countries</div>
+          <div><strong>iii</strong> Two opportunities for getting kids involved in art activities</div>
+          <div><strong>iv</strong> How art can be made accessible to the public</div>
+          <div><strong>v</strong> Developing a model to explain the lack of participation in art</div>
+          <div><strong>vi</strong> The connection between art and media</div>
+          <div><strong>vii</strong> How involvement with art affects well-being and attitudes</div>
+          <div><strong>viii</strong> How art makes communities safer and more vital</div>
+        </div>
+        <div class="heading-chip-pool" id="heading-chip-pool-2">
+          <div class="heading-chip" draggable="true" data-heading="i" id="hchip-2-i"><strong>i.</strong>&nbsp;Research on art participation</div>
+          <div class="heading-chip" draggable="true" data-heading="ii" id="hchip-2-ii"><strong>ii.</strong>&nbsp;Sales of artwork increased</div>
+          <div class="heading-chip" draggable="true" data-heading="iii" id="hchip-2-iii"><strong>iii.</strong>&nbsp;Kids involved in art</div>
+          <div class="heading-chip" draggable="true" data-heading="iv" id="hchip-2-iv"><strong>iv.</strong>&nbsp;Art accessible to public</div>
+          <div class="heading-chip" draggable="true" data-heading="v" id="hchip-2-v"><strong>v.</strong>&nbsp;Model for lack of participation</div>
+          <div class="heading-chip" draggable="true" data-heading="vi" id="hchip-2-vi"><strong>vi.</strong>&nbsp;Art and media connection</div>
+          <div class="heading-chip" draggable="true" data-heading="vii" id="hchip-2-vii"><strong>vii.</strong>&nbsp;Art affects well-being</div>
+          <div class="heading-chip" draggable="true" data-heading="viii" id="hchip-2-viii"><strong>viii.</strong>&nbsp;Art makes communities safer</div>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 20&ndash;23</div>
+        <div class="q-instruction">Match each statement with the correct researcher, A&ndash;F.</div>
+        <div class="word-bank">
+          <div><strong>A</strong> Spector &nbsp;&nbsp;<strong>B</strong> Oliphant &nbsp;&nbsp;<strong>C</strong> Riley &nbsp;&nbsp;<strong>D</strong> Hughes &nbsp;&nbsp;<strong>E</strong> Bradshaw &nbsp;&nbsp;<strong>F</strong> Yoshitomi</div>
+        </div>
+        <table class="radio-grid-table" id="rgt-20-23">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Statement</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th>
+            <th class="rgt-opt">D</th><th class="rgt-opt">E</th><th class="rgt-opt">F</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-20"><td class="rgt-num">20</td><td class="rgt-stmt">Art activities can contribute to lowering negative incidents associated with juvenile crime.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="20">&#128269;</button></td></tr>
+            <tr id="q-target-21"><td class="rgt-num">21</td><td class="rgt-stmt">Art can bring money and visitors into a community.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="21">&#128269;</button></td></tr>
+            <tr id="q-target-22"><td class="rgt-num">22</td><td class="rgt-stmt">Commercial interests are drawn to areas that emphasize public art.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="22">&#128269;</button></td></tr>
+            <tr id="q-target-23"><td class="rgt-num">23</td><td class="rgt-stmt">Art activities can both energize and calm people.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="23">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 24&ndash;26</div>
+        <div class="q-instruction">Complete the sentences below. Write ONE WORD ONLY from the passage for each answer.</div>
+        <div class="notes-box">
+          <p>Sometimes people want to get involved in art activities but can&rsquo;t afford it, can&rsquo;t fit it into their schedule, or don&rsquo;t have the suitable <span id="q-target-24"><input class="blank-input" id="blank-q24" data-q="24" placeholder="24" style="width:80px"></span><button class="locate-btn" data-q="24">&#128269;</button>.</p>
+          <p>A noticeable correlation exists between art involvement in childhood and those in adulthood <span id="q-target-25"><input class="blank-input" id="blank-q25" data-q="25" placeholder="25" style="width:70px"></span><button class="locate-btn" data-q="25">&#128269;</button>.</p>
+          <p>The National Photography Program allows members to grow personally and also gain <span id="q-target-26"><input class="blank-input" id="blank-q26" data-q="26" placeholder="26" style="width:110px"></span><button class="locate-btn" data-q="26">&#128269;</button> for their artistic achievements.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3 Qs -->
+    <div class="q-panel" id="qpanel-2">
+      <div class="q-section">
+        <div class="q-section-title">Questions 27&ndash;31</div>
+        <div class="q-instruction">Choose YES, NO, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-27">
+          <div class="q-label"><span class="q-num">27</span><span>As expected, the artworks chosen for the exhibition reflect a narrow interpretation of landscape.</span><button class="locate-btn" data-q="27">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="27" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="27" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="27" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-28">
+          <div class="q-label"><span class="q-num">28</span><span>The Academy rejected Australian suggestions for the subject of the exhibition.</span><button class="locate-btn" data-q="28">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="28" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="28" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="28" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-29">
+          <div class="q-label"><span class="q-num">29</span><span>The colonial relationship meant that early Australian landscape painting followed the traditions of English landscape painting.</span><button class="locate-btn" data-q="29">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="29" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="29" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="29" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-30">
+          <div class="q-label"><span class="q-num">30</span><span>The exhibition reflects the fact that Australian art developed its own particular qualities.</span><button class="locate-btn" data-q="30">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="30" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="30" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="30" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-31">
+          <div class="q-label"><span class="q-num">31</span><span>Contemporary Australian artists have generally rejected British landscape traditions.</span><button class="locate-btn" data-q="31">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="31" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="31" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="31" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 32&ndash;36</div>
+        <div class="q-instruction">Choose the correct answer.</div>
+        <div class="q-item" id="q-target-32">
+          <div class="q-label"><span class="q-num">32</span><span>What is the writer&rsquo;s main point in the second paragraph?</span><button class="locate-btn" data-q="32">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="32" data-val="A"><span class="radio-circle"></span>A. Australian landscape painting derives from the British tradition.</button>
+          <button class="mc-opt-btn" data-q="32" data-val="B"><span class="radio-circle"></span>B. Australian landscape painting is more highly regarded than British.</button>
+          <button class="mc-opt-btn" data-q="32" data-val="C"><span class="radio-circle"></span>C. Britain is still imposing its principles on Australian art.</button>
+          <button class="mc-opt-btn" data-q="32" data-val="D"><span class="radio-circle"></span>D. British art cannot be compared to Australian art.</button>
+        </div>
+        <div class="q-item" id="q-target-33">
+          <div class="q-label"><span class="q-num">33</span><span>What does Joanna Mendelssohn find surprising?</span><button class="locate-btn" data-q="33">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="33" data-val="A"><span class="radio-circle"></span>A. Modern Australian landscape painting has great variety.</button>
+          <button class="mc-opt-btn" data-q="33" data-val="B"><span class="radio-circle"></span>B. The guidelines for the choice of work were very traditional.</button>
+          <button class="mc-opt-btn" data-q="33" data-val="C"><span class="radio-circle"></span>C. Landscape painting remains a popular subject for British artists.</button>
+          <button class="mc-opt-btn" data-q="33" data-val="D"><span class="radio-circle"></span>D. The British find the Australian landscape unsuitable as a subject.</button>
+        </div>
+        <div class="q-item" id="q-target-34">
+          <div class="q-label"><span class="q-num">34</span><span>Shaun Gladwell&rsquo;s work is included in the exhibition because</span><button class="locate-btn" data-q="34">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="34" data-val="A"><span class="radio-circle"></span>A. it adopts a subjective approach to depicting the landscape.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="B"><span class="radio-circle"></span>B. skateboarding is an inspiration to many Australian artists.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="C"><span class="radio-circle"></span>C. storms are a significant feature in the Australian landscape.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="D"><span class="radio-circle"></span>D. Bondi is an iconic Australian location.</button>
+        </div>
+        <div class="q-item" id="q-target-35">
+          <div class="q-label"><span class="q-num">35</span><span>What was the reason for Soriano including Aboriginal art in the exhibition?</span><button class="locate-btn" data-q="35">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="35" data-val="A"><span class="radio-circle"></span>A. It is not well known in London art circles.</button>
+          <button class="mc-opt-btn" data-q="35" data-val="B"><span class="radio-circle"></span>B. Aboriginal landscape painting influenced Australian settlers.</button>
+          <button class="mc-opt-btn" data-q="35" data-val="C"><span class="radio-circle"></span>C. It is part of the Australian art tradition and not independent of it.</button>
+          <button class="mc-opt-btn" data-q="35" data-val="D"><span class="radio-circle"></span>D. Modern Aboriginal painting deals with changes to the landscape.</button>
+        </div>
+        <div class="q-item" id="q-target-36">
+          <div class="q-label"><span class="q-num">36</span><span>By referring to China, Mendelssohn is making the point that</span><button class="locate-btn" data-q="36">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="36" data-val="A"><span class="radio-circle"></span>A. having an exhibition in London is not as important as it used to be.</button>
+          <button class="mc-opt-btn" data-q="36" data-val="B"><span class="radio-circle"></span>B. young artists in Britain are not interested in Australian art.</button>
+          <button class="mc-opt-btn" data-q="36" data-val="C"><span class="radio-circle"></span>C. art from Shanghai is more important than Australian art.</button>
+          <button class="mc-opt-btn" data-q="36" data-val="D"><span class="radio-circle"></span>D. New York is still a preferred destination for young artists.</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 37&ndash;40</div>
+        <div class="q-instruction">Complete each sentence with the correct ending, A&ndash;F, below.</div>
+        <div class="endings-box">
+          <div><strong>A</strong> reflects the mood created by the natural environment.</div>
+          <div><strong>B</strong> demonstrates that the dominant art form in Australia is landscape painting.</div>
+          <div><strong>C</strong> demonstrates an understanding of the historical importance of the land.</div>
+          <div><strong>D</strong> showcases a very small number of artists.</div>
+          <div><strong>E</strong> demonstrates a strong European flavour.</div>
+          <div><strong>F</strong> shows an acceptance of the unique qualities of Australian art.</div>
+        </div>
+        <div class="sentence-item" id="q-target-37">
+          <span class="q-num" style="display:inline-flex;margin-right:6px;">37</span>
+          In spite of its conservatism, the Royal Academy exhibition
+          <button class="mc-opt-btn" data-q="37" data-val="A" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>A</button>
+          <button class="mc-opt-btn" data-q="37" data-val="B" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>B</button>
+          <button class="mc-opt-btn" data-q="37" data-val="C" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>C</button>
+          <button class="mc-opt-btn" data-q="37" data-val="D" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>D</button>
+          <button class="mc-opt-btn" data-q="37" data-val="E" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>E</button>
+          <button class="mc-opt-btn" data-q="37" data-val="F" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>F</button>
+          <button class="locate-btn" data-q="37">&#128269;</button>
+        </div>
+        <div class="sentence-item" id="q-target-38">
+          <span class="q-num" style="display:inline-flex;margin-right:6px;">38</span>
+          Australian art of the early to mid-1800s
+          <button class="mc-opt-btn" data-q="38" data-val="A" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>A</button>
+          <button class="mc-opt-btn" data-q="38" data-val="B" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>B</button>
+          <button class="mc-opt-btn" data-q="38" data-val="C" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>C</button>
+          <button class="mc-opt-btn" data-q="38" data-val="D" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>D</button>
+          <button class="mc-opt-btn" data-q="38" data-val="E" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>E</button>
+          <button class="mc-opt-btn" data-q="38" data-val="F" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>F</button>
+          <button class="locate-btn" data-q="38">&#128269;</button>
+        </div>
+        <div class="sentence-item" id="q-target-39">
+          <span class="q-num" style="display:inline-flex;margin-right:6px;">39</span>
+          The modern work by Gladwell chosen for the exhibition
+          <button class="mc-opt-btn" data-q="39" data-val="A" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>A</button>
+          <button class="mc-opt-btn" data-q="39" data-val="B" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>B</button>
+          <button class="mc-opt-btn" data-q="39" data-val="C" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>C</button>
+          <button class="mc-opt-btn" data-q="39" data-val="D" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>D</button>
+          <button class="mc-opt-btn" data-q="39" data-val="E" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>E</button>
+          <button class="mc-opt-btn" data-q="39" data-val="F" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>F</button>
+          <button class="locate-btn" data-q="39">&#128269;</button>
+        </div>
+        <div class="sentence-item" id="q-target-40">
+          <span class="q-num" style="display:inline-flex;margin-right:6px;">40</span>
+          Including Aboriginal art in the exhibition
+          <button class="mc-opt-btn" data-q="40" data-val="A" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>A</button>
+          <button class="mc-opt-btn" data-q="40" data-val="B" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>B</button>
+          <button class="mc-opt-btn" data-q="40" data-val="C" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>C</button>
+          <button class="mc-opt-btn" data-q="40" data-val="D" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>D</button>
+          <button class="mc-opt-btn" data-q="40" data-val="E" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>E</button>
+          <button class="mc-opt-btn" data-q="40" data-val="F" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>F</button>
+          <button class="locate-btn" data-q="40">&#128269;</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /right-pane -->
+</div><!-- /split -->
+
+<div id="footer-nav">
+  <span class="nav-label">Q:</span>
+  <div id="nav-grid"></div>
+  <div id="font-controls">
+    <span>Font:</span>
+    <button id="btn-font-up">A+</button>
+    <button id="btn-font-dn">A&minus;</button>
+  </div>
+</div>
+</div><!-- /app -->
+
+<div id="highlight-menu">
+  <button style="background:#fef08a" onclick="applyHighlight('highlight-yellow')" title="Yellow"></button>
+  <button style="background:#bbf7d0" onclick="applyHighlight('highlight-green')" title="Green"></button>
+  <button style="background:#fbcfe8" onclick="applyHighlight('highlight-pink')" title="Pink"></button>
+  <button class="erase-btn" onclick="applyHighlight('erase')">&#10005;</button>
+</div>
+
+<div id="result-modal">
+  <div id="result-box">
+    <h2>Your Result</h2>
+    <div id="result-score">0/40</div>
+    <div id="result-band">Band: &ndash;</div>
+    <div id="result-breakdown"></div>
+    <button id="btn-close-modal">Review Answers</button>
+  </div>
+</div>
+
+<script>
+const ANSWERS={
+  1:'NOT GIVEN',2:'FALSE',3:'NOT GIVEN',4:'TRUE',5:'FALSE',6:'FALSE',7:'TRUE',
+  8:'computers',9:'space',10:'dentures',11:'toothpaste',12:'toothbrushes',13:'mouthguards',
+  14:'vii',15:'viii',16:'iv',17:'v',18:'i',19:'iii',
+  20:'A',21:'D',22:'C',23:'B',
+  24:'attire',25:'rates',26:'recognition',
+  27:'NO',28:'NOT GIVEN',29:'YES',30:'YES',31:'NO',
+  32:'C',33:'B',34:'A',35:'C',36:'A',
+  37:'F',38:'E',39:'A',40:'C'
+};
+const Q_PASSAGE={};
+for(let i=1;i<=13;i++)Q_PASSAGE[i]=0;
+for(let i=14;i<=26;i++)Q_PASSAGE[i]=1;
+for(let i=27;i<=40;i++)Q_PASSAGE[i]=2;
+
+let userAnswers={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+function normalizeAnswer(s){
+  return s.trim().toLowerCase().replace(/[‘’]/g,"'").replace(/[–—]/g,'-').replace(/\s+/g,' ');
+}
+function checkAnswer(user,correct){
+  const u=normalizeAnswer(user),c=normalizeAnswer(correct);
+  if(u===c)return true;
+  if(u.replace(/-/g,' ')===c.replace(/-/g,' '))return true;
+  return false;
+}
+
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{p.style.display=i===t?'block':'none';p.classList.toggle('active',i===t);});
+  });
+});
+
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i;btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+
+document.querySelectorAll('.mc-opt-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+btn.dataset.q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();updateNav(q);
+  });
+});
+
+// Heading DnD
+let dragHeadingData=null;
+document.querySelectorAll('.heading-chip').forEach(chip=>{
+  chip.addEventListener('dragstart',e=>{
+    if(submitted)return;
+    dragHeadingData={heading:chip.dataset.heading,chipId:chip.id};
+    chip.classList.add('dragging');e.dataTransfer.effectAllowed='move';
+  });
+  chip.addEventListener('dragend',()=>chip.classList.remove('dragging'));
+});
+document.querySelectorAll('.heading-dropzone').forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag-over');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
+  zone.addEventListener('drop',e=>{
+    e.preventDefault();zone.classList.remove('drag-over');
+    if(submitted||!dragHeadingData)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById(prev);if(pc)pc.classList.remove('used');}
+    const chip=document.getElementById(dragHeadingData.chipId);
+    if(chip)chip.classList.add('used');
+    zone.dataset.filled=dragHeadingData.chipId;
+    zone.dataset.heading=dragHeadingData.heading;
+    zone.classList.add('filled');
+    const chipTxt=chip?chip.textContent.replace(/^[ivxlcdm]+\.\s*/i,'').trim():dragHeadingData.heading;
+    zone.querySelector('.hdz-text').textContent=dragHeadingData.heading+'. '+chipTxt;
+    const q=parseInt(zone.dataset.q);userAnswers[q]=dragHeadingData.heading;updateNav(q);dragHeadingData=null;
+  });
+  zone.querySelector('.hdz-remove').addEventListener('click',e=>{
+    e.stopPropagation();if(submitted)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById(prev);if(pc)pc.classList.remove('used');}
+    zone.dataset.filled='';zone.dataset.heading='';zone.classList.remove('filled');
+    zone.querySelector('.hdz-text').textContent='Drop heading here';
+    const q=parseInt(zone.dataset.q);delete userAnswers[q];updateNav(q);
+  });
+});
+
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+
+function submitExam(){
+  if(submitted)return;
+  submitted=true;clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=checkAnswer(user,ans);
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        const existingLabel=inp.parentNode.querySelector('.blank-correct-label');
+        if(!existingLabel){
+          const lbl=document.createElement('span');
+          lbl.className='blank-correct-label';
+          lbl.textContent='✓ '+ans;
+          lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+          inp.insertAdjacentElement('afterend',lbl);
+        }
+      }
+    }
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    const rgtRow=document.getElementById('q-target-'+q);
+    if(rgtRow&&rgtRow.tagName==='TR')rgtRow.classList.add(ok?'row-correct':'row-wrong');
+    const hdz=document.querySelector('.heading-dropzone[data-q="'+q+'"]');
+    if(hdz){
+      hdz.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        const existLbl=hdz.parentNode.querySelector('.hdz-correct-label');
+        if(!existLbl){
+          const lbl=document.createElement('span');lbl.className='hdz-correct-label';
+          lbl.textContent='✓ '+ans;
+          lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+          hdz.insertAdjacentElement('afterend',lbl);
+        }
+      }
+    }
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    if(!ok)document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+  }
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1–13)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14–26)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27–40)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>document.getElementById('result-modal').classList.remove('show'));
+
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      const locEls=document.querySelectorAll('.loc-q'+q);
+      if(locEls.length===0)return;
+      // Always use the smallest span (most specific)
+      let best=locEls[0];
+      locEls.forEach(el=>{
+        if(el.textContent.trim().length < best.textContent.trim().length) best=el;
+      });
+      // If still large (>200 chars), try shorter child span
+      if(best.textContent.trim().length>200){
+        const children=best.querySelectorAll('span');
+        children.forEach(child=>{
+          const t=child.textContent.trim();
+          if(t.length>=15&&t.length<best.textContent.trim().length) best=child;
+        });
+      }
+      best.classList.add('loc-highlight');
+      best.scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(()=>best.classList.remove('loc-highlight'),4000);
+    },150);
+  });
+});
+
+document.getElementById('btn-font-up').addEventListener('click',()=>{
+  baseFontSize=Math.min(20,baseFontSize+1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{
+  baseFontSize=Math.max(11,baseFontSize-1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+
+let highlightMenu=document.getElementById('highlight-menu'),savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const lp=document.getElementById('left-pane'),rp=document.getElementById('right-pane');
+    if(lp.contains(range.commonAncestorContainer)||rp.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){window.getSelection().removeAllRanges();window.getSelection().addRange(savedRange);document.execCommand('removeFormat');savedRange=null;return;}
+  const span=document.createElement('span');span.className=cls;
+  try{savedRange.surroundContents(span);}catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();savedRange=null;
+}
+
+const handle=document.getElementById('resize-handle'),leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const split=document.getElementById('split');const rect=split.getBoundingClientRect();leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+
+startTimer();
+</script>
+</body>
+</html>

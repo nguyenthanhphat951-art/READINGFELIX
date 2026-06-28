@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading &ndash; VOL 9 TEST 7</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-pause:hover{background:#4b5563;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam:hover{background:#1e40af;}
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#resize-handle:hover{background:#9ca3af;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button:hover{background:#f3f4f6;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+#font-controls button:hover{background:#f3f4f6;}
+.passage-panel{display:none;}.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+.q-panel{display:none;}.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.blank-input{border:none;border-bottom:2px solid #1a1a1a;background:transparent;font-size:0.88rem;padding:2px 4px;min-width:110px;outline:none;font-family:'Lexend',sans-serif;}
+.blank-input:focus{border-bottom-color:#1d4ed8;}
+.blank-input.correct{border-bottom-color:#16a34a;background:#dcfce7;}
+.blank-input.wrong{border-bottom-color:#dc2626;background:#fee2e2;}
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr:hover:not(.row-correct):not(.row-wrong) td{background:#f0f9ff;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:36px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-radio:hover:not(:disabled){background:#f3f4f6;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+.notes-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.notes-box h4{font-size:0.88rem;font-weight:700;margin:0 0 8px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+.notes-box ul{margin:6px 0 6px 20px;padding:0;}
+.notes-box li{margin-bottom:4px;}
+.summary-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.4;margin-bottom:12px;}
+.word-bank{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 14px;font-size:0.82rem;margin-bottom:12px;}
+.word-bank div{padding:2px 0;}
+.endings-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:10px 14px;font-size:0.82rem;margin-bottom:12px;}
+.endings-box div{padding:3px 0;border-bottom:1px solid #f3f4f6;}
+.endings-box div:last-child{border-bottom:none;}
+.sentence-item{margin-bottom:12px;font-size:0.86rem;line-height:1.9;}
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn:hover{background:#fde68a;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+.blank-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="header">
+  <h1>IELTS READING &ndash; VOL 9 TEST 7</h1>
+  <div id="timer-wrap">
+    <span id="timer">60:00</span>
+    <button id="btn-pause">&#9208; Pause</button>
+    <button id="btn-submit-exam">Submit</button>
+  </div>
+</div>
+<div id="tab-bar">
+  <button class="tab-btn active" data-target="0">PASSAGE 1</button>
+  <button class="tab-btn" data-target="1">PASSAGE 2</button>
+  <button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+<div id="split">
+  <div id="left-pane">
+
+    <!-- PASSAGE 1: Seaweed -->
+    <div class="passage-panel active" id="passage-content-0">
+      <div class="passage-title">SEAWEED</div>
+      <div class="passage-subtitle"></div>
+      <div class="passage-text">
+        <p><span class="loc-q1">Seaweed, a common plant that grows in the sea, has been an important food, fuel, and fertilizer since prehistoric times. For example, it has supplemented the diet of sheep in the Orkneys, islands off the coast of Scotland, since Neolithic times, roughly 5000 years ago.</span> <span class="loc-q2">In the early part of the 8th century in Japan, seaweed was already such a key part of people&rsquo;s regular diet that legislation was introduced giving people the right to pay their taxes to the Emperor in the form of seaweed.</span></p>
+        <p><span class="loc-q3">The oldest evidence of seaweed use was found in South America, dating from 12,500 years ago. The remains of red seaweed mixed with a medicinal herb were discovered on the floor of a medicine hut at Monte Verde, Chile, one of the oldest human habitation sites in the Americas. The Monte Verde findings led to a re-evaluation of the importance of plants to the communities of that region. It was previously believed that their diet was predominantly meat-based, and therefore reliant on the hunting skills of men. However, these findings suggest that women, known to be responsible for the gathering of plants such as seaweed, also played an important part in the provision of food.</span></p>
+        <p>The first recorded commercial use of seaweed in Europe was in the 17th century in France and Norway. Coastal populations, mainly farmers, gathered and burnt seaweed to produce potash, a substance which is used in the production of glass and soap. <span class="loc-q4">In 1800, Norway exported 1500 tonnes of potash.</span></p>
+        <p>Simple seaweed cultivation techniques were first developed in Japan in the mid-17th century and became increasingly popular over the next three centuries. In 1948, however, a series of <span class="loc-q6">typhoons</span> combined with increased pollution in coastal waters led to a total collapse in Japanese production of nori, the type of seaweed used to make sushi. And because almost nothing was known about its life cycle, no one could figure out how to grow new plants from scratch to repopulate the depleted seaweed beds. The country&rsquo;s nori industry ground to a halt, and many farmers lost their livelihoods. It was a British scientist, Dr. Kathleen Drew-Baker, who was credited with saving Japan&rsquo;s seaweed farming industry. Based at Manchester University in the 1940s, she was studying a seaweed called <span class="loc-q7">laver</span>, which is the Welsh equivalent of nori. In 1949, she published a paper outlining her discovery that certain tiny algae were actually baby seaweed, rather than an entirely separate species, as had previously been thought. After reading her research, Japanese scientists quickly developed methods for seeding these tiny algae artificially so that new plants could be grown. This made the mass production of nori possible. <span class="loc-q5">Although hardly anyone has heard of Dr Drew-Baker in the UK, she is known as the &lsquo;Mother of the Sea&rsquo; in Japan, and a statue of her can be found in the Japanese city of Osaka.</span></p>
+        <p>In the United States, Professor Charles Yarish of the University of Connecticut should probably be called the &lsquo;Father of the Sea&rsquo; for his work on <span class="loc-q8">kelp</span>, a large brown seaweed. The renowned scientist, who has been studying the biology of seaweed since the early 1970s, recently turned his attention to the development of revolutionary techniques for the harvesting of this species. Yarish has helped make it an economically viable crop for the New England <span class="loc-q9">fishermen</span> whose livelihoods were threatened by a combination of overfishing, pollution, and warming waters. As the world population grows and the climate changes, there is increased interest from businesses and development organizations in the use of seaweed for food and energy. Seaweed, which can grow rapidly and efficiently, provides plant-based proteins, and could also be used as a source of biofuels to replace fossil fuels. Its ability to absorb a number of environmentally unfriendly <span class="loc-q10">chemicals</span> discharged by farms, factories and wastewater treatment plants also makes it valuable as a means of reducing pollution. Seaweed cultivation in Asia has grown from the late 1950s into an industry offering sustainable employment in developing and emerging economies in many countries, notably Indonesia and China. However, seaweed farming is not very well developed in Europe and the industry still relies on the harvesting, either manually or mechanically, of wild seaweed. The main constraints on the development of seaweed farming in Europe have been the lack of <span class="loc-q11">markets</span> and the relative expense of European production compared to Asian production. A 2016 report from the World Bank estimates that annual global seaweed production could reach 500 million dry tons by 2050 if the industry is able to increase its harvest by 14% per year. Hitting that 500 million mark would boost the world&rsquo;s food supply by 10% from the current level, generating 50 million <span class="loc-q12">jobs</span> in the process. As a biofuel for <span class="loc-q13">vehicles</span>, it could also replace about 1.5% of the fossil fuels used today.</p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2: The History of Celtic Language -->
+    <div class="passage-panel" id="passage-content-1">
+      <div class="passage-title">THE HISTORY OF CELTIC LANGUAGE</div>
+      <div class="passage-subtitle"></div>
+      <div class="passage-text">
+        <p><span class="para-label">A</span> <span class="loc-q15 loc-q23">In November 1897, in a field near the village of Coligny in eastern France, a local inhabitant unearthed two strange objects. One was an imposing statue of <span class="loc-q15b">Mars, the Roman god of war</span>. The other was an ancient bronze tablet, 1.5 metres wide and 1 metre high. It bore numerals in Roman but the words were in <span class="loc-q23">Gaulish</span>, a version of the Celtic language spoken by the inhabitants of France before the Roman conquest in the first century BC. The tablet turned out to be one of the most important sources of words from this extinct language.</span></p>
+        <p><span class="para-label">B</span> <span class="loc-q17 loc-q21 loc-q24">Two researchers, geneticist Dr Peter Forster and linguist Dr Alfred Toth, have now used the calendar and other Celtic inscriptions to reconstruct the history of Celtic and its position in the Indo-European family of languages. They say that Celtic became a language in its own right and entered the British Isles much earlier than supposed. Then in the first century BC, the Romans defeated the Celts, both in France and in Britain, so decisively that their language, <span class="loc-q24">Latin</span>, and its successor languages displaced Celtic over much of its former territory. In the British Isles, Celtic speakers survived in two main groups: the Goidelic branch of Celtic, which includes Irish and Scots Gaelic, and the Brythonic branch, formed mainly of Welsh and <span class="loc-q17b">Breton, a Celtic tongue carried to Brittany in France by emigrants from Cornwall</span>.</span></p>
+        <p><span class="para-label">C</span> <span class="loc-q18">Because languages change so fast, <span class="loc-q18">historical linguists have little faith in language trees that go back more than a few thousand years.</span></span> Dr Forster has developed a new dating method for relating a group of languages, basing it on the tree-drawing techniques used to trace the evolutionary relationships among genes. The method will work on just a handful of words, a fortunate circumstance since only some 30 Gaulish words have known counterparts in all the other languages under study. Dr Forster and Dr Toth have used the method to draw up a tree relating the different branches of Celtic to one another and to other Indo-European languages like English, French, Spanish, Latin and Greek. In a published article, they say that soon after the ancestral Indo-European language arrived in Europe over 5,000 years ago, it split into different branches leading to Celtic, Latin, Greek and English. Within Celtic, their tree shows that Gaulish &ndash; the mainland European version of the language &ndash; separated from its Goidelic and Brythonic cousins, much as might be expected from the facts of geography.</p>
+        <p><span class="para-label">D</span> The researchers&rsquo; method even dates the points at which their language tree divides, although the dates have a wide range of possibility. They calculate that the Indo-European language initially fragmented in Europe around 8100 BC, plus or minus 1,900 years, and the <span class="loc-q25">divergence between the mainland European and British versions of Gaelic took place in 3200 BC</span>, plus or minus 1,500 years. These dates are much earlier than previously estimated. &lsquo;The traditional date of the Indo-European fragmentation has been 4000 BC for some time,&rsquo; said linguist Dr Merritt Ruhlen. He said the new method &lsquo;seems pretty reasonable&rsquo; and should be useful in tracing back the earlier history of the Indo-European language.</p>
+        <p><span class="para-label">E</span> <span class="loc-q14"><span class="loc-q14">Specialists have long debated which country was the homeland of the Indo-Europeans and whether their language was spread by conquest or because its speakers were the first agriculturists</span> whose methods and tongue were adopted by other populations.</span> The second theory, that it was spread by agriculture, has been advocated by archaeologist Dr Colin Renfrew. Dr Forster, who works with Dr Renfrew, said in an interview that the suggested date 8100 BC for the arrival of Indo-European in Europe does seem to vindicate Renfrew&rsquo;s archaeological idea that the Indo-European languages were spread by farmers. Agriculture started to arrive in Europe from the Near East around 6000 BC, which is earlier than the traditional date proposed by linguists for the spread of Indo-European. This writing would fit with the lower end of Dr Forster&rsquo;s range of dates.</p>
+        <p><span class="para-label">F</span> <span class="loc-q19">Dr Forster said that his estimated date of 3200 BC for the arrival of Celtic speakers in the British Isles is also much earlier than the usual date, 600 BC, posited on the basis of archaeological evidence. Dr Forster and Dr Toth said their method of evaluating groups of languages against each other was similar to historical linguists, many of whom restrict their research to how words in only one single language have changed over time. Asked what linguists thought of his approach he said: &lsquo;To be honest, they don&rsquo;t understand it, most of them. They don&rsquo;t even know what I&rsquo;m talking about.&rsquo;</span> The method used by Dr Forster and Dr Toth has two parts. One is to draw a tree on the basis of carefully chosen words; the second is to date the splits in the tree by calibrating them with known historical events. This is similar to the way geneticists date their evolutionary trees by tying one or more branch points to known dates from the fossil record.</p>
+        <p><span class="para-label">G</span> <span class="loc-q16 loc-q20 loc-q26">Dr April McMahon, a linguist at the University of Sheffield in England, said that Dr Forster&rsquo;s method &lsquo;seems to me to be a good start&rsquo;, and that it was reasonable to base a language family tree on just a handful of well-chosen words. She had less confidence in the dating method, she said, because <span class="loc-q26">language changes in an <span class="loc-q26b">irregular</span> way based on social factors like the size of the speaker&rsquo;s group and its degree of contact with others.</span></span></p>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3: Psychology of new product adoption -->
+    <div class="passage-panel" id="passage-content-2">
+      <div class="passage-title">THE PSYCHOLOGY OF NEW PRODUCT ADOPTION</div>
+      <div class="passage-subtitle">John Gourville explores the reasons why consumers don&rsquo;t always buy new products.</div>
+      <div class="passage-text">
+        <p><span class="loc-q27">An American philosopher once said, &ldquo;If a man can ... make a better mousetrap than his neighbor ... the world will make a beaten path to his door.&rdquo; If only marketing innovation was that simple. In today&rsquo;s marketplace, companies that successfully introduce new products are more likely to flourish than those that don&rsquo;t. However, businesses spend billions of dollars making better &ldquo;mousetraps&rdquo; only to find consumers rejecting them. Studies show that new products fail at the staggering rate of between 40% and 90%. In the US packaged goods industry, for example, companies introduce 30,000 new products every year, but 70% to 90% of them stay on store shelves for less than 12 months. According to one study, <span class="loc-q27">47% of the start-up companies that pioneered new products later went out of business altogether.</span></span></p>
+        <p><span class="loc-q28">Experts and novices alike tend to dismiss unsuccessful innovations as bad ideas that were destined to fail. But surely that&rsquo;s too simple an explanation. If these innovations were so misguided, why wasn&rsquo;t it obvious from the outset? Why don&rsquo;t consumers buy innovative products with distinct advantages over existing ones? <span class="loc-q28">To understand why new products fail we must delve into the psychology of behavior change.</span></span></p>
+        <p><span class="loc-q33 loc-q36">Companies have long assumed that they have only to develop innovations that are objectively superior to existing products, and consumers will have sufficient incentive to purchase them. In the 1960s, communications scholar Everett Rogers called the concept &ldquo;relative advantage&rdquo; and identified it as the most critical driver of new-product adoption. Although compelling, the theory has one major flaw: it fails to capture the psychological biases that affect decision-making.</span> In 2002, psychologist Daniel Kahneman won the Nobel Prize in economics for his research into the reasons why individuals deviate from rational economic behavior. One of the cornerstones of that research, developed with psychologist Amos Tversky, is how individuals value choices in the marketplace. Kahneman and Tversky showed that our responses to the alternatives before us have four distinct characteristics.</p>
+        <p><span class="loc-q29 loc-q34 loc-q35">First, people evaluate the attractiveness of an alternative based not on its objective or actual value, but on its subjective or perceived value. Second, <span class="loc-q29">consumers evaluate new products relative to the products they already own.</span> Third, people view any improvements relative to this reference point and treat all shortcomings as losses. Fourth, and most important, losses have a far greater impact on people than similarly sized gains, a phenomenon that Kahneman and Tversky called &ldquo;loss aversion&rdquo;. <span class="loc-q37">Loss aversion leads people to value products they already possess more than those that they don&rsquo;t. In other words, our desire to keep what we have is far greater than our desire to gain something new.</span></span></p>
+        <p><span class="loc-q30">In a 1990 paper, behavioral economist Richard Thaler and his colleagues described a series of experiments they conducted to quantify this phenomenon. In one experiment, they gave coffee mugs to a group of people, the &ldquo;Sellers&rdquo;, and asked at what price point, from 25&cent; to $9.25, they would be willing to part with those mugs. The researchers then asked another group, the &ldquo;Choosers&rdquo;, to whom they didn&rsquo;t give coffee mugs, to indicate whether they would choose the money or the mug at each price point. In objective terms, all the Sellers and the Choosers were in the same situation: they were choosing between a mug and a sum of money. In one trial the Sellers priced the mug at $7.12, on average, but the Choosers were willing to pay only $3.12. In another trial, the Sellers and the Choosers valued the mug at $7 and $3.50, respectively. Overall, <span class="loc-q30">the Sellers always demanded at least twice as much to give up the mugs as the Choosers would pay to obtain them.</span></span></p>
+        <p><span class="loc-q31 loc-q32">In a 1989 paper, economist Jack Knetsch helped to explain why people tend to stick with what they have even if a better alternative exists, by providing a compelling demonstration of what is known as the &ldquo;status quo bias&rdquo;. Knetsch asked one group of students to choose between an attractive coffee mug and a bar of Swiss chocolate. <span class="loc-q31">He gave a second group the coffee mugs but later allowed each student to exchange their mugs for a chocolate bar.</span> Finally, Knetsch gave chocolate bars to a third group then later allowed them to exchange their bars for a mug. Of the students initially given a choice, 56% chose the mug and 44% chose the chocolate bar, indicating a near even split in preferences between the two products. Logically, therefore, about half of the students to whom Knetsch gave the coffee mug should have traded for the chocolate bar and vice versa. However, in reality, <span class="loc-q32"><span class="loc-q32">only 11% of the students with mugs and 10% of those with chocolate bars wanted to exchange their products.</span> To approximately 90% of the students, giving up what they already had seemed like a painful loss and reduced their desire to trade.</span></span></p>
+        <p>Interestingly, most people seem oblivious to the existence of the behaviors implicit in these biases. In study after study, when researchers presented people with evidence that they had irrationally overvalued what they had, they were shocked, skeptical and more than a little defensive. These behavioral tendencies are universal, but awareness of them is not.</p>
+        <p><span class="loc-q38">In a perfect world, companies would know that consumers irrationally overvalue incumbent products and would take that bias into account when launching innovations. But developers are also biased - in favor of new products. Having worked on a new product for years, developers operate in a world where their innovation is the reference point. They&rsquo;re convinced that the product works and they are keenly aware of the shortcomings of existing alternatives.</span> Companies call those developers &ldquo;product champions&rdquo; or &ldquo;believers&rdquo;, suggesting that they have embraced a world the rest of us haven&rsquo;t yet.</p>
+      </div>
+    </div>
+
+  </div><!-- /left-pane -->
+  <div id="resize-handle"></div>
+
+  <div id="right-pane">
+
+    <!-- PASSAGE 1 Qs -->
+    <div class="q-panel active" id="qpanel-0">
+      <div class="q-section">
+        <div class="q-section-title">Questions 1&ndash;5</div>
+        <div class="q-instruction">Choose TRUE, FALSE, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-1">
+          <div class="q-label"><span class="q-num">1</span><span>Seaweed has been used to feed animals on some Scottish islands for thousands of years.</span><button class="locate-btn" data-q="1">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="1" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="1" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="1" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-2">
+          <div class="q-label"><span class="q-num">2</span><span>In the 8th century in Japan, eating seaweed was reserved for special occasions.</span><button class="locate-btn" data-q="2">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="2" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="2" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="2" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-3">
+          <div class="q-label"><span class="q-num">3</span><span>The findings at Monte Verde revealed new information about the significance of women&rsquo;s roles in prehistoric times.</span><button class="locate-btn" data-q="3">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="3" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="3" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="3" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-4">
+          <div class="q-label"><span class="q-num">4</span><span>Potash was Norway&rsquo;s largest export in the 1800s.</span><button class="locate-btn" data-q="4">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="4" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="4" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="4" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-5">
+          <div class="q-label"><span class="q-num">5</span><span>Dr Kathleen Drew-Baker is more famous in Japan than she is in the UK.</span><button class="locate-btn" data-q="5">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="5" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="5" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="5" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 6&ndash;13</div>
+        <div class="q-instruction">Complete the table below. Write ONE WORD ONLY from the passage for each answer.</div>
+        <div class="notes-box">
+          <h4>Japanese seaweed industry</h4>
+          <ul>
+            <li>was destroyed by pollution and <span id="q-target-6"><input class="blank-input" id="blank-q6" data-q="6" placeholder="6" style="width:100px"></span><button class="locate-btn" data-q="6">&#128269;</button> in 1948</li>
+            <li>recovered as a result of Kathleen Drew-Baker&rsquo;s research into <span id="q-target-7"><input class="blank-input" id="blank-q7" data-q="7" placeholder="7" style="width:70px"></span><button class="locate-btn" data-q="7">&#128269;</button>, a seaweed species similar to nori</li>
+          </ul>
+          <h4>Seaweed farming in the USA</h4>
+          <ul>
+            <li>new methods have resulted in the type of seaweed called <span id="q-target-8"><input class="blank-input" id="blank-q8" data-q="8" placeholder="8" style="width:60px"></span><button class="locate-btn" data-q="8">&#128269;</button> becoming a successful crop</li>
+            <li>has provided an alternative source of income for <span id="q-target-9"><input class="blank-input" id="blank-q9" data-q="9" placeholder="9" style="width:100px"></span><button class="locate-btn" data-q="9">&#128269;</button></li>
+          </ul>
+          <h4>Seaweed production in the future</h4>
+          <ul>
+            <li>may be used to minimise the harmful effects of various <span id="q-target-10"><input class="blank-input" id="blank-q10" data-q="10" placeholder="10" style="width:100px"></span><button class="locate-btn" data-q="10">&#128269;</button> produced by different industries</li>
+            <li>the cost of production and shortage of <span id="q-target-11"><input class="blank-input" id="blank-q11" data-q="11" placeholder="11" style="width:80px"></span><button class="locate-btn" data-q="11">&#128269;</button> may be preventing growth of the industry in Europe</li>
+            <li>could create very large numbers of new <span id="q-target-12"><input class="blank-input" id="blank-q12" data-q="12" placeholder="12" style="width:60px"></span><button class="locate-btn" data-q="12">&#128269;</button></li>
+            <li>could be used instead of oil to power a small percentage of <span id="q-target-13"><input class="blank-input" id="blank-q13" data-q="13" placeholder="13" style="width:90px"></span><button class="locate-btn" data-q="13">&#128269;</button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2 Qs -->
+    <div class="q-panel" id="qpanel-1">
+      <div class="q-section">
+        <div class="q-section-title">Questions 14&ndash;18</div>
+        <div class="q-instruction">Reading Passage 2 has seven paragraphs, A&ndash;G. Which paragraph contains the following information? You may use any letter more than once.</div>
+        <table class="radio-grid-table" id="rgt-14-18">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Information</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+            <th class="rgt-opt">E</th><th class="rgt-opt">F</th><th class="rgt-opt">G</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-14"><td class="rgt-num">14</td><td class="rgt-stmt">a difference of opinion about where a group of languages originated</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="14">&#128269;</button></td></tr>
+            <tr id="q-target-15"><td class="rgt-num">15</td><td class="rgt-stmt">a reference to a mythological figure</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="15">&#128269;</button></td></tr>
+            <tr id="q-target-16"><td class="rgt-num">16</td><td class="rgt-stmt">an expression of one person&rsquo;s doubt about a particular method of analysing scientific data</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="16">&#128269;</button></td></tr>
+            <tr id="q-target-17"><td class="rgt-num">17</td><td class="rgt-stmt">an explanation of how one particular Celtic language spread due to the movement of people</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="17">&#128269;</button></td></tr>
+            <tr id="q-target-18"><td class="rgt-num">18</td><td class="rgt-stmt">the reason why some language experts distrust language trees</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="18">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 19&ndash;22</div>
+        <div class="q-instruction">Match each statement with the correct researcher, A&ndash;D. You may use any letter more than once.</div>
+        <div class="word-bank">
+          <div><strong>A</strong> Dr Peter Forster &amp; Dr Alfred Toth</div>
+          <div><strong>B</strong> Dr Merritt Ruhlen</div>
+          <div><strong>C</strong> Dr Colin Renfrew</div>
+          <div><strong>D</strong> Dr April McMahon</div>
+        </div>
+        <table class="radio-grid-table" id="rgt-19-22">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Statement</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-19"><td class="rgt-num">19</td><td class="rgt-stmt">An approach commonly used in language research has too narrow a focus.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="19">&#128269;</button></td></tr>
+            <tr id="q-target-20"><td class="rgt-num">20</td><td class="rgt-stmt">The number of people who use a language has an effect on the modifications the language undergoes.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="20">&#128269;</button></td></tr>
+            <tr id="q-target-21"><td class="rgt-num">21</td><td class="rgt-stmt">The Celtic language has been a distinct language for longer than experts previously thought.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="21">&#128269;</button></td></tr>
+            <tr id="q-target-22"><td class="rgt-num">22</td><td class="rgt-stmt">The use of one family of languages may have become more extensive due to farming practices.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="22">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 23&ndash;26</div>
+        <div class="q-instruction">Complete the sentences below. Write ONE WORD ONLY from the passage for each answer.</div>
+        <div class="notes-box">
+          <p>The script on the bronze tablet discovered in Coligny in France was written in a form of Celtic called <span id="q-target-23"><input class="blank-input" id="blank-q23" data-q="23" placeholder="23" style="width:90px"></span><button class="locate-btn" data-q="23">&#128269;</button>.</p>
+          <p>After the success of the Roman Empire in conquering many parts of Europe, <span id="q-target-24"><input class="blank-input" id="blank-q24" data-q="24" placeholder="24" style="width:70px"></span><button class="locate-btn" data-q="24">&#128269;</button> and its related languages became the predominant languages.</p>
+          <p><span id="q-target-25"><input class="blank-input" id="blank-q25" data-q="25" placeholder="25" style="width:90px"></span><button class="locate-btn" data-q="25">&#128269;</button> is known to have occurred among the various versions of the Gaelic language around 3200 BC.</p>
+          <p>For social reasons, developments in languages are <span id="q-target-26"><input class="blank-input" id="blank-q26" data-q="26" placeholder="26" style="width:100px"></span><button class="locate-btn" data-q="26">&#128269;</button>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3 Qs -->
+    <div class="q-panel" id="qpanel-2">
+      <div class="q-section">
+        <div class="q-section-title">Questions 27&ndash;32</div>
+        <div class="q-instruction">Choose the correct answer.</div>
+        <div class="q-item" id="q-target-27">
+          <div class="q-label"><span class="q-num">27</span><span>In the first paragraph, what are we told about the current US marketplace?</span><button class="locate-btn" data-q="27">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="27" data-val="A"><span class="radio-circle"></span>A. Almost half of all businesses that added new products collapse.</button>
+          <button class="mc-opt-btn" data-q="27" data-val="B"><span class="radio-circle"></span>B. Innovations in packaged goods have the greatest chance of success.</button>
+          <button class="mc-opt-btn" data-q="27" data-val="C"><span class="radio-circle"></span>C. It is a waste of money to invent new versions of products that already work well.</button>
+          <button class="mc-opt-btn" data-q="27" data-val="D"><span class="radio-circle"></span>D. The least successful companies are those that concentrate on existing products.</button>
+        </div>
+        <div class="q-item" id="q-target-28">
+          <div class="q-label"><span class="q-num">28</span><span>In the second paragraph, what does the writer say about unsuccessful innovations?</span><button class="locate-btn" data-q="28">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="28" data-val="A"><span class="radio-circle"></span>A. Companies should take advice from the experts.</button>
+          <button class="mc-opt-btn" data-q="28" data-val="B"><span class="radio-circle"></span>B. Innovations fail if companies lack business experience.</button>
+          <button class="mc-opt-btn" data-q="28" data-val="C"><span class="radio-circle"></span>C. The failure of many innovations can be predicted from the beginning.</button>
+          <button class="mc-opt-btn" data-q="28" data-val="D"><span class="radio-circle"></span>D. The reasons for product failure are more complex than is commonly thought.</button>
+        </div>
+        <div class="q-item" id="q-target-29">
+          <div class="q-label"><span class="q-num">29</span><span>According to the characteristics described by Kahneman and Tversky, consumers</span><button class="locate-btn" data-q="29">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="29" data-val="A"><span class="radio-circle"></span>A. compare new products with things they have bought previously.</button>
+          <button class="mc-opt-btn" data-q="29" data-val="B"><span class="radio-circle"></span>B. value new products more than ones they currently own.</button>
+          <button class="mc-opt-btn" data-q="29" data-val="C"><span class="radio-circle"></span>C. give up what they already have quite willingly.</button>
+          <button class="mc-opt-btn" data-q="29" data-val="D"><span class="radio-circle"></span>D. consider price more than any other factor.</button>
+        </div>
+        <div class="q-item" id="q-target-30">
+          <div class="q-label"><span class="q-num">30</span><span>What are we told about the experiment conducted by Richard Thaler and his colleagues?</span><button class="locate-btn" data-q="30">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="30" data-val="A"><span class="radio-circle"></span>A. The Choosers had to guess the correct price of the coffee mug.</button>
+          <button class="mc-opt-btn" data-q="30" data-val="B"><span class="radio-circle"></span>B. The Sellers valued their coffee mugs more than the Choosers did.</button>
+          <button class="mc-opt-btn" data-q="30" data-val="C"><span class="radio-circle"></span>C. The Sellers had to persuade the Choosers to buy their coffee mugs.</button>
+          <button class="mc-opt-btn" data-q="30" data-val="D"><span class="radio-circle"></span>D. The Choosers paid less money for their coffee mugs than the Sellers.</button>
+        </div>
+        <div class="q-item" id="q-target-31">
+          <div class="q-label"><span class="q-num">31</span><span>In Jack Knetsch&rsquo;s demonstration, the second group of students were:</span><button class="locate-btn" data-q="31">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="31" data-val="A"><span class="radio-circle"></span>A. given a choice of several different products at the beginning.</button>
+          <button class="mc-opt-btn" data-q="31" data-val="B"><span class="radio-circle"></span>B. asked to choose between what they had and a new product.</button>
+          <button class="mc-opt-btn" data-q="31" data-val="C"><span class="radio-circle"></span>C. allowed to keep both of the products they were shown.</button>
+          <button class="mc-opt-btn" data-q="31" data-val="D"><span class="radio-circle"></span>D. forced to give back the first product they had been given.</button>
+        </div>
+        <div class="q-item" id="q-target-32">
+          <div class="q-label"><span class="q-num">32</span><span>What was the end result of Knetsch&rsquo;s demonstration?</span><button class="locate-btn" data-q="32">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="32" data-val="A"><span class="radio-circle"></span>A. The majority of students reacted in a logical way.</button>
+          <button class="mc-opt-btn" data-q="32" data-val="B"><span class="radio-circle"></span>B. Most of the students preferred chocolate bars to coffee mugs.</button>
+          <button class="mc-opt-btn" data-q="32" data-val="C"><span class="radio-circle"></span>C. Almost all of the students were unwilling to swap their products.</button>
+          <button class="mc-opt-btn" data-q="32" data-val="D"><span class="radio-circle"></span>D. Half of the students with coffee mugs swapped them for chocolate bars.</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 33&ndash;35</div>
+        <div class="q-instruction">Complete each sentence with the correct ending, A&ndash;F, below.</div>
+        <div class="endings-box">
+          <div><strong>A</strong> consumers do not follow expected purchasing patterns.</div>
+          <div><strong>B</strong> people will always buy products that are better than those they already own.</div>
+          <div><strong>C</strong> the &ldquo;status quo bias&rdquo; is purely theoretical.</div>
+          <div><strong>D</strong> consumers have their own idea of the value of a product.</div>
+          <div><strong>E</strong> innovations require expensive marketing campaigns.</div>
+          <div><strong>F</strong> &ldquo;loss aversion&rdquo; can be measured.</div>
+        </div>
+        <div class="sentence-item" id="q-target-33">
+          <span class="q-num" style="display:inline-flex;margin-right:6px;">33</span>
+          The theory of relative advantage is based on the assumption that
+          <button class="mc-opt-btn" data-q="33" data-val="A" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>A</button>
+          <button class="mc-opt-btn" data-q="33" data-val="B" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>B</button>
+          <button class="mc-opt-btn" data-q="33" data-val="C" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>C</button>
+          <button class="mc-opt-btn" data-q="33" data-val="D" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>D</button>
+          <button class="mc-opt-btn" data-q="33" data-val="E" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>E</button>
+          <button class="mc-opt-btn" data-q="33" data-val="F" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>F</button>
+          <button class="locate-btn" data-q="33">&#128269;</button>
+        </div>
+        <div class="sentence-item" id="q-target-34">
+          <span class="q-num" style="display:inline-flex;margin-right:6px;">34</span>
+          The 2002 Nobel Prize for economics was awarded for a study that explained why
+          <button class="mc-opt-btn" data-q="34" data-val="A" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>A</button>
+          <button class="mc-opt-btn" data-q="34" data-val="B" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>B</button>
+          <button class="mc-opt-btn" data-q="34" data-val="C" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>C</button>
+          <button class="mc-opt-btn" data-q="34" data-val="D" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>D</button>
+          <button class="mc-opt-btn" data-q="34" data-val="E" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>E</button>
+          <button class="mc-opt-btn" data-q="34" data-val="F" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>F</button>
+          <button class="locate-btn" data-q="34">&#128269;</button>
+        </div>
+        <div class="sentence-item" id="q-target-35">
+          <span class="q-num" style="display:inline-flex;margin-right:6px;">35</span>
+          According to the first characteristic described by Kahneman and Tversky,
+          <button class="mc-opt-btn" data-q="35" data-val="A" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>A</button>
+          <button class="mc-opt-btn" data-q="35" data-val="B" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>B</button>
+          <button class="mc-opt-btn" data-q="35" data-val="C" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>C</button>
+          <button class="mc-opt-btn" data-q="35" data-val="D" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>D</button>
+          <button class="mc-opt-btn" data-q="35" data-val="E" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>E</button>
+          <button class="mc-opt-btn" data-q="35" data-val="F" style="display:inline-flex;width:auto;margin:3px 3px 0;"><span class="radio-circle"></span>F</button>
+          <button class="locate-btn" data-q="35">&#128269;</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 36&ndash;40</div>
+        <div class="q-instruction">Choose YES, NO, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-36">
+          <div class="q-label"><span class="q-num">36</span><span>Everett Rogers&rsquo; theory explains the psychology behind the choices consumers make.</span><button class="locate-btn" data-q="36">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="36" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="36" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="36" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-37">
+          <div class="q-label"><span class="q-num">37</span><span>&ldquo;Loss aversion&rdquo; helps to explain why people fail to buy new products.</span><button class="locate-btn" data-q="37">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="37" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="37" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="37" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-38">
+          <div class="q-label"><span class="q-num">38</span><span>Developers always believe their latest product will be a success.</span><button class="locate-btn" data-q="38">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="38" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="38" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="38" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-39">
+          <div class="q-label"><span class="q-num">39</span><span>Developers waste too much time perfecting new products.</span><button class="locate-btn" data-q="39">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="39" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="39" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="39" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-40">
+          <div class="q-label"><span class="q-num">40</span><span>A product champion is a person who develops a best-selling new product.</span><button class="locate-btn" data-q="40">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="40" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="40" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="40" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /right-pane -->
+</div><!-- /split -->
+
+<div id="footer-nav">
+  <span class="nav-label">Q:</span>
+  <div id="nav-grid"></div>
+  <div id="font-controls">
+    <span>Font:</span>
+    <button id="btn-font-up">A+</button>
+    <button id="btn-font-dn">A&minus;</button>
+  </div>
+</div>
+</div><!-- /app -->
+
+<div id="highlight-menu">
+  <button style="background:#fef08a" onclick="applyHighlight('highlight-yellow')" title="Yellow"></button>
+  <button style="background:#bbf7d0" onclick="applyHighlight('highlight-green')" title="Green"></button>
+  <button style="background:#fbcfe8" onclick="applyHighlight('highlight-pink')" title="Pink"></button>
+  <button class="erase-btn" onclick="applyHighlight('erase')">&#10005;</button>
+</div>
+
+<div id="result-modal">
+  <div id="result-box">
+    <h2>Your Result</h2>
+    <div id="result-score">0/40</div>
+    <div id="result-band">Band: &ndash;</div>
+    <div id="result-breakdown"></div>
+    <button id="btn-close-modal">Review Answers</button>
+  </div>
+</div>
+
+<script>
+const ANSWERS={
+  1:'TRUE',2:'FALSE',3:'TRUE',4:'NOT GIVEN',5:'TRUE',
+  6:'typhoons',7:'laver',8:'kelp',9:'fishermen',10:'chemicals',11:'markets',12:'jobs',13:'vehicles',
+  14:'E',15:'A',16:'G',17:'B',18:'C',
+  19:'A',20:'D',21:'A',22:'C',
+  23:'Gaulish',24:'Latin',25:'British',26:'irregular',
+  27:'A',28:'D',29:'A',30:'B',31:'B',32:'C',
+  33:'B',34:'A',35:'D',
+  36:'NO',37:'YES',38:'YES',39:'NOT GIVEN',40:'NO'
+};
+const Q_PASSAGE={};
+for(let i=1;i<=13;i++)Q_PASSAGE[i]=0;
+for(let i=14;i<=26;i++)Q_PASSAGE[i]=1;
+for(let i=27;i<=40;i++)Q_PASSAGE[i]=2;
+
+let userAnswers={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+function normalizeAnswer(s){
+  return s.trim().toLowerCase().replace(/[‘’]/g,"'").replace(/[–—]/g,'-').replace(/\s+/g,' ');
+}
+function checkAnswer(user,correct){
+  const u=normalizeAnswer(user),c=normalizeAnswer(correct);
+  if(u===c)return true;
+  if(u.replace(/-/g,' ')===c.replace(/-/g,' '))return true;
+  return false;
+}
+
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{p.style.display=i===t?'block':'none';p.classList.toggle('active',i===t);});
+  });
+});
+
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i;btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+
+document.querySelectorAll('.mc-opt-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+btn.dataset.q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();updateNav(q);
+  });
+});
+
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+
+function submitExam(){
+  if(submitted)return;
+  submitted=true;clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=checkAnswer(user,ans);
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        const existingLabel=inp.parentNode.querySelector('.blank-correct-label');
+        if(!existingLabel){
+          const lbl=document.createElement('span');
+          lbl.className='blank-correct-label';
+          lbl.textContent='✓ '+ans;
+          lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+          inp.insertAdjacentElement('afterend',lbl);
+        }
+      }
+    }
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    const rgtRow=document.getElementById('q-target-'+q);
+    if(rgtRow&&rgtRow.tagName==='TR')rgtRow.classList.add(ok?'row-correct':'row-wrong');
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    if(!ok)document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+  }
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1–13)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14–26)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27–40)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>document.getElementById('result-modal').classList.remove('show'));
+
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      const locEls=document.querySelectorAll('.loc-q'+q);
+      if(locEls.length===0)return;
+      // Always use the smallest span (most specific)
+      let best=locEls[0];
+      locEls.forEach(el=>{
+        if(el.textContent.trim().length < best.textContent.trim().length) best=el;
+      });
+      // If still large (>200 chars), try shorter child span
+      if(best.textContent.trim().length>200){
+        const children=best.querySelectorAll('span');
+        children.forEach(child=>{
+          const t=child.textContent.trim();
+          if(t.length>=15&&t.length<best.textContent.trim().length) best=child;
+        });
+      }
+      best.classList.add('loc-highlight');
+      best.scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(()=>best.classList.remove('loc-highlight'),4000);
+    },150);
+  });
+});
+
+document.getElementById('btn-font-up').addEventListener('click',()=>{
+  baseFontSize=Math.min(20,baseFontSize+1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{
+  baseFontSize=Math.max(11,baseFontSize-1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+
+let highlightMenu=document.getElementById('highlight-menu'),savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const lp=document.getElementById('left-pane'),rp=document.getElementById('right-pane');
+    if(lp.contains(range.commonAncestorContainer)||rp.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){window.getSelection().removeAllRanges();window.getSelection().addRange(savedRange);document.execCommand('removeFormat');savedRange=null;return;}
+  const span=document.createElement('span');span.className=cls;
+  try{savedRange.surroundContents(span);}catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();savedRange=null;
+}
+
+const handle=document.getElementById('resize-handle'),leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const split=document.getElementById('split');const rect=split.getBoundingClientRect();leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+
+startTimer();
+</script>
+</body>
+</html>
