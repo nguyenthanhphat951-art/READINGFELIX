@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IELTS Reading – VOL 7 TEST 16</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-pause:hover{background:#4b5563;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam:hover{background:#1e40af;}
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#resize-handle:hover{background:#9ca3af;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button:hover{background:#f3f4f6;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+#font-controls button:hover{background:#f3f4f6;}
+.passage-panel{display:none;}.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+.q-panel{display:none;}.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.checkbox-sq{width:16px;height:16px;border:2px solid #9ca3af;border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .checkbox-sq{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .checkbox-sq::after{content:'✓';color:#fff;font-size:0.65rem;font-weight:700;}
+.mc-opt-btn.correct .checkbox-sq{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .checkbox-sq::after{content:'✓';color:#fff;font-size:0.65rem;font-weight:700;}
+.mc-opt-btn.wrong .checkbox-sq{border-color:#dc2626;background:#fee2e2;}
+.blank-input{border:none;border-bottom:2px solid #1a1a1a;background:transparent;font-size:0.88rem;padding:2px 4px;min-width:110px;outline:none;font-family:'Lexend',sans-serif;}
+.blank-input:focus{border-bottom-color:#1d4ed8;}
+.blank-input.correct{border-bottom-color:#16a34a;background:#dcfce7;}
+.blank-input.wrong{border-bottom-color:#dc2626;background:#fee2e2;}
+.heading-chip-pool{display:flex;flex-wrap:wrap;gap:4px;padding:10px 12px;background:#f9fafb;border:1.5px dashed #9ca3af;border-radius:8px;margin-bottom:14px;min-height:44px;}
+.heading-chip{display:inline-flex;align-items:center;padding:5px 12px;background:#1a1a1a;color:#fff;border-radius:20px;cursor:grab;font-size:0.78rem;font-family:'Lexend',sans-serif;user-select:none;margin:3px;border:2px solid transparent;line-height:1.4;}
+.heading-chip:active{cursor:grabbing;}
+.heading-chip.dragging{opacity:0.4;}
+.heading-chip.used{background:#6b7280;cursor:default;}
+.heading-dropzone{display:inline-flex;align-items:center;justify-content:center;min-width:180px;height:28px;border:2px dashed #9ca3af;border-radius:14px;padding:0 10px;font-size:0.76rem;color:#9ca3af;vertical-align:middle;margin:3px 0;transition:border-color 0.15s,background 0.15s;position:relative;}
+.heading-dropzone.drag-over{border-color:#1d4ed8;background:#eff6ff;}
+.heading-dropzone.filled{border-style:solid;border-color:#1a1a1a;background:#1a1a1a;color:#fff;font-weight:600;}
+.heading-dropzone.correct{border-color:#16a34a!important;background:#dcfce7!important;color:#16a34a!important;}
+.heading-dropzone.wrong{border-color:#dc2626!important;background:#fee2e2!important;color:#dc2626!important;}
+.heading-dropzone .hdz-remove{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:#fff;color:#1a1a1a;font-size:0.6rem;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;line-height:1;}
+.heading-dropzone.filled .hdz-remove{display:flex;}
+.heading-dropzone:not(.filled) .hdz-remove{display:none;}
+.para-heading-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.headings-list{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:10px 14px;font-size:0.82rem;margin-bottom:14px;}
+.headings-list div{padding:3px 0;border-bottom:1px solid #f3f4f6;}
+.headings-list div:last-child{border-bottom:none;}
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr:hover:not(.row-correct):not(.row-wrong) td{background:#f0f9ff;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:36px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-radio:hover:not(:disabled){background:#f3f4f6;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+.notes-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.notes-box h4{font-size:0.88rem;font-weight:700;margin:0 0 8px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+.notes-box ul{margin:6px 0 6px 20px;padding:0;}
+.notes-box li{margin-bottom:4px;}
+.choose-two-box{background:#fff3cd;border:1.5px solid #ffc107;border-radius:6px;padding:8px 12px;font-size:0.78rem;font-weight:600;color:#856404;margin-bottom:8px;}
+.summary-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:14px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.people-legend{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 14px;font-size:0.82rem;margin-bottom:12px;}
+.dates-legend{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 14px;font-size:0.82rem;margin-bottom:12px;}
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn:hover{background:#fde68a;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+.blank-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+.hdz-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="header">
+<h1>IELTS READING – VOL 7 TEST 16</h1>
+<div id="timer-wrap">
+<span id="timer">60:00</span>
+<button id="btn-pause">⏸ Pause</button>
+<button id="btn-submit-exam">Submit</button>
+</div>
+</div>
+<div id="tab-bar">
+<button class="tab-btn active" data-target="0">PASSAGE 1</button>
+<button class="tab-btn" data-target="1">PASSAGE 2</button>
+<button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+<div id="split">
+<div id="left-pane">
+<!-- PASSAGE 1: Charles Heaphy -->
+<div class="passage-panel active" id="passage-content-0">
+<div class="passage-title">CHARLES HEAPHY AND THE SETTLEMENT OF NEW ZEALAND</div>
+<div class="passage-subtitle">How did the work of an English artist influence European migration to New Zealand?</div>
+<div class="passage-text">
+<p><span class="para-label">A</span> In the early 19th century, the London-based New Zealand Company was set up to promote the colonisation of the North and South Islands of New Zealand. It hoped to encourage British migrants to settle there and buy land. To do this, it needed to capture the public imagination, and used paintings and drawings of the landscape for this purpose. <span class="loc-q1">Eighteen was a young age for someone to become a hired artist and explorer for this kind of major land-trading company, but Charles Heaphy took on this role after 18 months producing technical drawings for a British railway company, and a further two years studying occasionally at the Royal Academy’s school of painting.</span> His family had possibly lacked the financial means to enable him to continue at the Academy, but he was luckily introduced to someone in the New Zealand Company. Heaphy was offered, and accepted, a position on 6 May 1839 – three days before the Company’s ship, <em>Tory</em>, departed Plymouth for New Zealand with its cargo of settlers.</p>
+<p><span class="para-label">B</span> From his diaries, we can see that Heaphy was enthusiastic about this role. In addition to employment and position, it offered him the chance to explore a relatively little-known country. There was, however, some urgency placed on the young artist, as a large consignment of settlers was due to leave England a few months later, and so he needed to explore the country before they departed as efficiently as he could. <span class="loc-q3">His record of his travels through New Zealand is less comprehensive than those of some contemporaries, but what he did end up committing to paper and in paintings left an often vivid impression of travelling through various parts of the country.</span></p>
+<p><span class="para-label">C</span> As is so often the case, though, his high expectations were dampened on arrival. <span class="loc-q4">On first sighting New Zealand’s South Island, Heaphy commented that the high mountain ranges seemed to leave no space for farming, and that the country in general hardly seemed worth settling.</span> However, Heaphy hoped there might be other agricultural opportunities somewhere in the interior. Queen Charlotte Sound was the first place Heaphy visited. <span class="loc-q5">He remained unconvinced for years afterwards that it possessed the greatest harbour in the country but accepted that the few patches of fertile ground in the area were insufficient for a major settlement.</span> From there, he went to Port Nicholson and was clearly impressed.</p>
+<p><span class="para-label">D</span> However, his interpretations of this and many of the other locations he travelled through in the country were possibly not as ‘neutral’ as they may appear. His choice of scenes, and the organisation of elements in many of his paintings suggest that his artistic view of the landscape was perhaps restricted by the requirements placed on him by his employer, the New Zealand Company. Indeed, his paintings of Port Nicholson could easily be mistaken for paintings of English country villages.</p>
+<p><span class="para-label">E</span> Although Heaphy travelled widely around New Zealand, his explorations frequently were superficial at best, and there is a sense from Heaphy’s records that as he observed the North Island, he and his colleagues’ minds had already been made up regarding the superiority of Port Nicholson. This was the site they nominated for the New Zealand Company’s headquarters.</p>
+<p><span class="para-label">F</span> As ever more New Zealand Company migrants were being tempted to settle in New Zealand, the pressing demand for land forced officials to reconsider regions that they had previously ruled out. Heaphy accompanied one journey north from Port Nicholson to assess what parts of the country might be useful to establish new townships and farming districts on. One of the first places Heaphy’s team went to was Porirua. They found that the hills between Port Nicholson and Porirua were easy to cross and did not form the barrier they had expected, and were also of exceedingly rich and fertile <span class="loc-q6">soil,</span> making them a potential location for agriculture. Heaphy depicted this possible place for settlement as having the beautiful appearance of a <span class="loc-q7">park,</span> and thought most of it was fit for cultivation. Its harbour was also suitably deep.</p>
+<p><span class="para-label">G</span> From there Heaphy sailed further north, eventually reaching the Manawatu Plains. His assessment was again favourable, praising the level aspect of the plains and the way they were watered by numerous <span class="loc-q8">rivers.</span> These, he said, were deep enough for the passage of small ships. Writing to the New Zealand Company, he was confident that the countryside there was well adapted for settlement, but explained that this could only be accomplished by the growth of the <span class="loc-q9">population</span> of places already colonised. In the future, he envisaged, the region would become a major agricultural centre.</p>
+<p><span class="para-label">H</span> As for the Taranaki region, Heaphy was even more impressed. His artistic response, <em>Mt Egmont from the Southward</em>, shows an image of the <span class="loc-q10">mountain</span> that became his most famous painting. Despite the work being highly symmetrical, and the proportions being exaggerated, Heaphy turned this scene into a great piece of artistic propaganda. The foreground, with its small cleared section above a sandy shore, would have looked inviting to any would-be farmer, as would the forest in the middle ground, suggesting a ready supply of <span class="loc-q11">trees</span> which could be exploited for the construction of homes and ships.</p>
+<p><span class="para-label">I</span> Other beneficial aspects of living in New Zealand were discovered by Heaphy as he travelled around. He was convinced it had the best <span class="loc-q12">climate</span> in the world, and claimed that since the formation of the first Company settlement in Port Nicholson, almost no-one there had fallen sick. Indeed, Heaphy boasted that during his explorations, he had slept outside in all seasons and had never experienced a day’s <span class="loc-q13">illness,</span> certainly not the respiratory kind common in congested English cities. He certainly concluded that for anyone migrating to New Zealand, good prospects awaited.</p>
+<p><span class="loc-q2">His family had possibly lacked the financial means to enable him to continue at the Royal Academy.</span></p>
+</div>
+</div>
+<!-- PASSAGE 2: Bird Migration -->
+<div class="passage-panel" id="passage-content-1">
+<div class="passage-title">BIRD MIGRATION</div>
+<div class="passage-subtitle"></div>
+<div class="passage-text">
+<div class="para-heading-row">
+<span style="font-weight:700;font-size:0.85rem;color:#374151;">Para A:</span>
+<span class="heading-dropzone" data-q="14" id="hdz-14"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">✕</span></span>
+<button class="locate-btn" data-q="14">🔍</button>
+</div>
+<p id="q-target-14"><span class="loc-q14">Birds have many unique design features that enable them to perform such amazing feats of endurance. They are equipped with lightweight, hollow bones, intricately designed feathers providing both lift and thrust for rapid flight, navigation systems superior to any that man has developed, and an ingenious heat-conserving design that, among other things, concentrates all blood circulation beneath layers of warm, waterproof plumage, leaving them fit to face life in the harshest of climates.</span> Their respiratory systems have to perform efficiently during sustained flights at altitude, so they have a system of extracting oxygen from their lungs that far exceeds that of any other animal. During the later stages of the summer breeding season, when food is plentiful, their bodies can accumulate considerable layers of fat, to provide sufficient energy for their long migratory flights.</p>
+<div class="para-heading-row">
+<span style="font-weight:700;font-size:0.85rem;color:#374151;">Para B:</span>
+<span class="heading-dropzone" data-q="15" id="hdz-15"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">✕</span></span>
+<button class="locate-btn" data-q="15">🔍</button>
+</div>
+<p id="q-target-15"><span class="loc-q15">The fundamental reason that birds migrate is to find adequate food during the winter months when it is in short supply. This particularly applies to birds that breed in the temperate and Arctic regions of the Northern Hemisphere, where food is abundant during the short growing season. Many species can tolerate cold temperatures if food is plentiful, but when food is not available, they must migrate.</span> However, intriguing questions remain.</p>
+<div class="para-heading-row">
+<span style="font-weight:700;font-size:0.85rem;color:#374151;">Para C:</span>
+<span class="heading-dropzone" data-q="16" id="hdz-16"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">✕</span></span>
+<button class="locate-btn" data-q="16">🔍</button>
+</div>
+<p id="q-target-16"><span class="loc-q16">One puzzling fact is that many birds journey much further than would be necessary just to find food and good weather. Nobody knows, for instance, why British swallows, which could presumably survive equally well if they spent the winter in equatorial Africa, instead of flying several thousand miles further to their preferred winter home in South Africa’s Cape Province.</span> Another mystery involves the huge migrations performed by arctic terns and mudflat-feeding shorebirds that breed close to Polar Regions. In general, the further north a migrant species breeds, the further south it spends the winter. For arctic terns, this necessitates an annual round trip of 25,000 miles. Yet, en route to their final destination in far-flung southern latitudes, all these individuals overfly other areas of seemingly suitable habitat spanning two hemispheres. While we may not fully understand birds’ reasons for going to particular places, we can marvel at their feats.</p>
+<div class="para-heading-row">
+<span style="font-weight:700;font-size:0.85rem;color:#374151;">Para D:</span>
+<span class="heading-dropzone" data-q="17" id="hdz-17"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">✕</span></span>
+<button class="locate-btn" data-q="17">🔍</button>
+</div>
+<p id="q-target-17"><span class="loc-q17">One of the greatest mysteries is how young birds know how to find the traditional wintering areas without <span class="loc-q23">parental guidance.</span></span> Very few adults migrate with juveniles in tow, and youngsters may even have little or no inkling of their parents’ appearance. A familiar example is that of the cuckoo, which lays its eggs in another species’ nest and never re-encounters its young. It is mind-boggling to consider that, once raised by its host species, the young cuckoo makes its way to ancestral wintering grounds in the tropics before returning single-handedly to northern Europe the next season to seek out a mate among its kind. The obvious implication is that it inherits from its parents an inbuilt route map and direction-finding capability, as well as a mental image of what another cuckoo looks like. Yet nobody has the slightest idea as to how this is possible.</p>
+<div class="para-heading-row">
+<span style="font-weight:700;font-size:0.85rem;color:#374151;">Para E:</span>
+<span class="heading-dropzone" data-q="18" id="hdz-18"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">✕</span></span>
+<button class="locate-btn" data-q="18">🔍</button>
+</div>
+<p id="q-target-18"><span class="loc-q18">Mounting evidence has confirmed that birds use the positions of the sun and stars to obtain <span class="loc-q24">compass</span> directions. They also seem to be able to detect the earth’s magnetic field, probably due to having minute crystals of magnetite in the region of their brains. However, accurate navigation also requires an awareness of position and time, especially when lost. Experiments have shown that after being taken thousands of miles over an unfamiliar landmass, birds are still capable of returning rapidly to nest sites.</span> Such phenomenal powers are the product of computing several sophisticated cues, including an inborn map of the night sky and the pull of the earth’s magnetic field. How the birds use their ‘instruments’ remains unknown, but one thing is clear: they see the world with a superior sensory perception to ours. Most small birds migrate at night and take their direction from the position of the setting sun. However, as well as seeing the sun go down, they also seem to see the plane of polarized light caused by it, which calibrates their compass. Travelling at night provides other benefits. <span class="loc-q21c loc-q25">Daytime predators are avoided and the danger of dehydration due to flying for long periods in warm, sunlit skies is reduced.</span> Furthermore, at night the air is generally cool and less turbulent and so conducive to sustained, stable flight.</p>
+<div class="para-heading-row">
+<span style="font-weight:700;font-size:0.85rem;color:#374151;">Para F:</span>
+<span class="heading-dropzone" data-q="19" id="hdz-19"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">✕</span></span>
+<button class="locate-btn" data-q="19">🔍</button>
+</div>
+<p id="q-target-19"><span class="loc-q19">Nevertheless, all journeys involve considerable risk, and part of the skill in arriving safely is setting off at the right time. This means accurate weather forecasting and utilizing favourable winds. Birds are adept at both, and, in laboratory tests, some have been shown to detect the minute difference in barometric pressure between the floor and ceiling of a room. <span class="loc-q26">Often birds react to weather changes before there is any visible sign of them.</span></span> Lapwings, which feed on grassland, flee west from the Netherlands to the British Isles, France, and Spain at the onset of a cold snap. When the ground surface freezes, the birds could starve. Yet they return to Holland ahead of a thaw, their arrival linked to a pressure change presaging an improvement in the weather.</p>
+<div class="para-heading-row">
+<span style="font-weight:700;font-size:0.85rem;color:#374151;">Para G:</span>
+<span class="heading-dropzone" data-q="20" id="hdz-20"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">✕</span></span>
+<button class="locate-btn" data-q="20">🔍</button>
+</div>
+<p id="q-target-20"><span class="loc-q20">In one instance a Welsh Manx shearwater carried to America and released was back in its burrow on Skokholm Island, off the Pembrokeshire coast, one day before a letter announcing its release! Conversely, each autumn a small number of North American birds are blown across the Atlantic by fast-moving westerly tailwinds. Not only do they arrive safely in Europe, but, based on ringing evidence, some make it back to North America the following spring, after probably spending the winter with European migrants in sunny African climes.</span></p>
+<p><span class="loc-q21a">Many birds journey much further than would be necessary just to find food and good weather.</span></p>
+<p><span class="loc-q21c2">The danger of dehydration due to flying for long periods in warm, sunlit skies is reduced by flying at night.</span></p>
+</div>
+</div>
+<!-- PASSAGE 3: Look – who was talking -->
+<div class="passage-panel" id="passage-content-2">
+<div class="passage-title">LOOK – WHO WAS TALKING</div>
+<div class="passage-subtitle">Stephen Oppenheimer explores the origins of human speech</div>
+<div class="passage-text">
+<p><span class="para-label">A</span> <span class="loc-q29">When did we start talking to each other and how long did it take us to become so good at it? One view of language development, held by linguists such as Noam Chomsky and anthropologists such as Richard Klein, is that language, specifically the spoken word, appeared suddenly among modern humans a mere 35,000 to 50,000 years ago and that the ability to speak words and use syntax was recently genetically hard wired into our brains in a kind of language organ.</span> <span class="loc-q32">This view of language is associated with the old idea that logical thought is dependent on words, a concept originating with Plato and much in vogue in the 19th century – that is, animals do not speak because they do not think.</span> However, the abstract thought demonstrated in 20th century experiments with chimpanzees and bonobos put this theory in doubt.</p>
+<p><span class="para-label">B</span> <span class="loc-q27">An alternative to the Chomskian theory is that language developed as a series of inventions. This was first suggested by the 18th century philosopher Etienne Bonnot de Condillac. He argued that spoken language had developed out of gesture language (<em>langage d’action</em>) and that both were inventions arising initially from the simple association between action and object. The theory sees gesture language as arising originally among apes as sounds accompanying gestures, with these sounds gradually becoming coded into ‘words’ as the new skill drove its own evolution.</span> Subsequently, coded words developed into deliberate, complex communication. Evolutionary pressures promoted the development of an anatomy geared to speech – the larynx, vocal muscles and a specific part of the brain immediately next to the part responsible for gestures.</p>
+<p><span class="para-label">C</span> <span class="loc-q31">The view that spoken language was ultimately a cultural invention like tool-making, which then drove the biological evolution of the brain and vocal apparatus, seems obvious when you think of the development of different languages. The unique features of a language such as French clearly do not result from any physiological aspect of being French, but are the cultural possessions of the French-speaking community.</span> Each language evolves from one generation to the next, constantly adapting itself to cope with the learning biases of each new set of young, immature minds.</p>
+<p><span class="para-label">D</span> Those anthropologists and fossil experts who accept that speech started early still tend to think of language evolution as a gradual 2 million year process, with our own modern human species (<em>homo sapiens</em>) way out at the top. A major reason for this is the perception that brain growth among humans was gradual over a similar period. Several recent changes in the fossil evidence though, bring this into doubt.</p>
+<p><span class="para-label">E</span> The first of these is a re-dating of soil layers from the famous Olduvai Gorge in East Africa, where many key fossil remains have been found. A number of big-brained human species appear to be much older than previously thought, with several specimens dating from over a million years ago. <span class="loc-q35 loc-q38">When brain sizes for all available skulls are plotted against time using the revised dates, the result is startling; the bulk of increases in brain size was over by around 1.2 million years ago, with some African human species having brain volumes easily within the modern human range by that time.</span></p>
+<p><span class="para-label">F</span> <span class="loc-q34">So, we have the paradox that over the period when our brain was growing most rapidly, our material cultural development, as measured by stone tools, advanced only marginally; then, over a million years later, when the development of anatomically modern humans finally started to accelerate, artistically and technologically, our brains were actually getting smaller.</span> The additional piece of evidence that makes this paradox all the more significant is that brain size did not just leap between human species in a direct line of ascent towards ourselves. Over the period from 2.5 to 1.5 million years ago, brains were growing more rapidly than at any time since, within all the different human species. The logical conclusion is that there must have been a unique new behaviour driving brain growth, shared between all species of humans.</p>
+<p><span class="para-label">G</span> So, what was driving rapid brain growth right at the beginning, 2.5 million years ago? The answer may have been staring us in the face. Namely, that not only early humans, but their ancestors, had started the trend in the very useful skill of verbal communication. <span class="loc-q40">Around 2.5 million years ago, the weather took a decided turn for the worse, becoming more variable and colder and drier. The search for food became more taxing, and there would have been a real need to communicate more effectively and cope with the worsening environment in a co-operative way.</span> <span class="loc-q39">The near maximum in brain size achieved by 1.2 million years ago indicates that those early ancestors could already have been talking perfectly well.</span> Our brain, which had developed to manipulate and organise complex symbolic aspects of speech internally, could now be turned to a variety of other tasks.</p>
+<p><span class="para-label">H</span> So what happened in the million-year gap after that? Why did we take so long to get to the moon? <span class="loc-q37">Cultural evolution aided by communication and teaching is a cumulative interactive process. If each new generation invented just one new skill or idea and passed it on with the rest to their children and cousins, you could predict exactly the same curve of cultural advance as we see from the archaeological and historical record – first very slow, then faster and faster.</span></p>
+<p><span class="loc-q28">The abstract thought demonstrated in 20th century experiments with chimpanzees and bonobos put the Chomskian theory in doubt.</span></p>
+<p><span class="loc-q30">Condillac argued that spoken language had developed out of gesture language.</span></p>
+<p><span class="loc-q33">Anthropologists do not agree on the point in time when speech began.</span></p>
+</div>
+</div>
+</div><!-- /left-pane -->
+<div id="resize-handle"></div>
+<div id="right-pane">
+<!-- PASSAGE 1 Qs -->
+<div class="q-panel active" id="qpanel-0">
+<div class="q-section">
+<div class="q-section-title">Questions 1–5</div>
+<div class="q-instruction">Choose TRUE, FALSE, or NOT GIVEN.</div>
+<div class="q-item" id="q-target-1">
+<div class="q-label"><span class="q-num">1</span><span>Charles Heaphy gained employment with a railway company in Britain before he went to New Zealand.</span><button class="locate-btn" data-q="1">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="1" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="1" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="1" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-2">
+<div class="q-label"><span class="q-num">2</span><span>Heaphy completed his studies at the Royal Academy.</span><button class="locate-btn" data-q="2">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="2" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="2" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="2" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-3">
+<div class="q-label"><span class="q-num">3</span><span>Heaphy’s written records were generally more detailed than his paintings of New Zealand.</span><button class="locate-btn" data-q="3">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="3" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="3" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="3" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-4">
+<div class="q-label"><span class="q-num">4</span><span>Heaphy’s first impression of the New Zealand landscape was a positive one.</span><button class="locate-btn" data-q="4">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="4" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="4" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="4" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-5">
+<div class="q-label"><span class="q-num">5</span><span>Heaphy believed that Queen Charlotte Sound was a poor choice for new migrants.</span><button class="locate-btn" data-q="5">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="5" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="5" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="5" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 6–13</div>
+<div class="q-instruction">Complete the notes below. Write ONE WORD ONLY from the passage for each answer.</div>
+<div class="notes-box">
+<h4>Heaphy’s observations of places in New Zealand</h4>
+<p><strong>Porirua:</strong></p>
+<ul>
+<li>Heaphy said the <span id="q-target-6"><input class="blank-input" data-q="6" id="blank-q6" placeholder="6" style="width:70px"/></span><button class="locate-btn" data-q="6">🔍</button> of the surrounding hills was of good quality.</li>
+<li>He described the land as looking like a <span id="q-target-7"><input class="blank-input" data-q="7" id="blank-q7" placeholder="7" style="width:70px"/></span><button class="locate-btn" data-q="7">🔍</button></li>
+</ul>
+<p><strong>Manawatu Plains:</strong></p>
+<ul>
+<li>Heaphy noted that its many <span id="q-target-8"><input class="blank-input" data-q="8" id="blank-q8" placeholder="8" style="width:80px"/></span><button class="locate-btn" data-q="8">🔍</button> could be useful for transport</li>
+<li>He said a larger <span id="q-target-9"><input class="blank-input" data-q="9" id="blank-q9" placeholder="9" style="width:110px"/></span><button class="locate-btn" data-q="9">🔍</button> was needed before Manawatu could be settled.</li>
+</ul>
+<p><strong>The Taranaki region:</strong></p>
+<ul>
+<li>Heaphy’s painting of a <span id="q-target-10"><input class="blank-input" data-q="10" id="blank-q10" placeholder="10" style="width:100px"/></span><button class="locate-btn" data-q="10">🔍</button> was impressive but inaccurate.</li>
+<li>He gave the impression that there were plenty of <span id="q-target-11"><input class="blank-input" data-q="11" id="blank-q11" placeholder="11" style="width:80px"/></span><button class="locate-btn" data-q="11">🔍</button> for building.</li>
+</ul>
+<p><strong>New Zealand in general:</strong></p>
+<ul>
+<li>Heaphy wrote favourably about the excellent <span id="q-target-12"><input class="blank-input" data-q="12" id="blank-q12" placeholder="12" style="width:90px"/></span><button class="locate-btn" data-q="12">🔍</button> that New Zealand had.</li>
+<li>He implied in his writing that there was not as much <span id="q-target-13"><input class="blank-input" data-q="13" id="blank-q13" placeholder="13" style="width:90px"/></span><button class="locate-btn" data-q="13">🔍</button> in New Zealand as there was in England.</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- PASSAGE 2 Qs -->
+<div class="q-panel" id="qpanel-1">
+<div class="q-section">
+<div class="q-section-title">Questions 14–20</div>
+<div class="q-instruction">Reading Passage 2 has seven paragraphs. Choose the correct heading for each paragraph from the list of headings below. Drag each heading chip to the correct paragraph in the passage on the left.</div>
+<div class="headings-list">
+<div><strong>i.</strong> The best moment to migrate</div>
+<div><strong>ii.</strong> The unexplained rejection of closer feeding grounds</div>
+<div><strong>iii.</strong> The influence of weather on the migration route</div>
+<div><strong>iv.</strong> Physical characteristics that allow birds to migrate</div>
+<div><strong>v.</strong> The main reason why birds migrate</div>
+<div><strong>vi.</strong> The best wintering grounds for birds</div>
+<div><strong>vii.</strong> Research findings on how birds migrate</div>
+<div><strong>viii.</strong> Successful migration despite the trouble of wind</div>
+<div><strong>ix.</strong> The contrast between long-distance and short-distance migration</div>
+<div><strong>x.</strong> Mysterious migration despite lack of teaching</div>
+</div>
+<div class="heading-chip-pool" id="heading-chip-pool">
+<div class="heading-chip" data-heading="i" draggable="true" id="hchip-i"><strong>i.</strong> Best moment to migrate</div>
+<div class="heading-chip" data-heading="ii" draggable="true" id="hchip-ii"><strong>ii.</strong> Closer feeding grounds</div>
+<div class="heading-chip" data-heading="iii" draggable="true" id="hchip-iii"><strong>iii.</strong> Weather influence</div>
+<div class="heading-chip" data-heading="iv" draggable="true" id="hchip-iv"><strong>iv.</strong> Physical characteristics</div>
+<div class="heading-chip" data-heading="v" draggable="true" id="hchip-v"><strong>v.</strong> Main reason to migrate</div>
+<div class="heading-chip" data-heading="vi" draggable="true" id="hchip-vi"><strong>vi.</strong> Best wintering grounds</div>
+<div class="heading-chip" data-heading="vii" draggable="true" id="hchip-vii"><strong>vii.</strong> Research findings</div>
+<div class="heading-chip" data-heading="viii" draggable="true" id="hchip-viii"><strong>viii.</strong> Despite wind trouble</div>
+<div class="heading-chip" data-heading="ix" draggable="true" id="hchip-ix"><strong>ix.</strong> Long vs short distance</div>
+<div class="heading-chip" data-heading="x" draggable="true" id="hchip-x"><strong>x.</strong> Mysterious migration</div>
+</div>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 21–22</div>
+<div class="q-instruction">Choose TWO correct answers. Which TWO of the following statements are true of bird migration?</div>
+<div class="choose-two-box">⚠ Choose TWO answers (Q21 &amp; Q22 share the same options)</div>
+<div id="q-target-21">
+<button class="mc-opt-btn" data-multi="true" data-q="21-22" data-val="A"><span class="checkbox-sq"></span>A Birds often fly further than they need to.</button>
+<button class="mc-opt-btn" data-multi="true" data-q="21-22" data-val="B"><span class="checkbox-sq"></span>B Birds travelling in family groups are safe.</button>
+<button class="mc-opt-btn" data-multi="true" data-q="21-22" data-val="C"><span class="checkbox-sq"></span>C Birds flying at night need less water.</button>
+<button class="mc-opt-btn" data-multi="true" data-q="21-22" data-val="D"><span class="checkbox-sq"></span>D Birds have much sharper eyesight than humans.</button>
+<button class="mc-opt-btn" data-multi="true" data-q="21-22" data-val="E"><span class="checkbox-sq"></span>E Only shorebirds are resistant to strong winds.</button>
+</div>
+<div id="q-target-22" style="display:none;"></div>
+<button class="locate-btn" data-q="21" style="margin-top:6px;">🔍 Locate</button>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 23–26</div>
+<div class="q-instruction">Complete the sentences below. Write NO MORE THAN TWO WORDS from the passage for each answer.</div>
+<div class="notes-box">
+<p>It is a great mystery that young birds like cuckoos can find their wintering grounds without <span id="q-target-23"><input class="blank-input" data-q="23" id="blank-q23" placeholder="23" style="width:160px"/></span><button class="locate-btn" data-q="23">🔍</button>.</p>
+<p>Evidence shows birds can tell directions like a <span id="q-target-24"><input class="blank-input" data-q="24" id="blank-q24" placeholder="24" style="width:100px"/></span><button class="locate-btn" data-q="24">🔍</button> by observing the sun and the stars.</p>
+<p>One advantage for birds flying at night is that they can avoid contact with <span id="q-target-25"><input class="blank-input" data-q="25" id="blank-q25" placeholder="25" style="width:170px"/></span><button class="locate-btn" data-q="25">🔍</button>.</p>
+<p>Laboratory tests show that birds can detect weather without <span id="q-target-26"><input class="blank-input" data-q="26" id="blank-q26" placeholder="26" style="width:90px"/></span><button class="locate-btn" data-q="26">🔍</button> signs.</p>
+</div>
+</div>
+</div>
+<!-- PASSAGE 3 Qs -->
+<div class="q-panel" id="qpanel-2">
+<div class="q-section">
+<div class="q-section-title">Questions 27–32</div>
+<div class="q-instruction">Match each statement with the correct person, A, B, or C. You may use any letter more than once.</div>
+<div class="people-legend">
+<strong>A.</strong> Chomsky    <strong>B.</strong> Condillac    <strong>C.</strong> neither Chomsky nor Condillac
+        </div>
+<table class="radio-grid-table">
+<thead><tr>
+<th class="rgt-num">#</th><th class="rgt-stmt">Statement</th>
+<th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th>
+<th class="rgt-loc"></th>
+</tr></thead>
+<tbody>
+<tr id="q-target-27"><td class="rgt-num">27</td><td class="rgt-stmt">The development of human speech can be traced back to apes.</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="27">🔍</button></td></tr>
+<tr id="q-target-28"><td class="rgt-num">28</td><td class="rgt-stmt">Animal research is essential for understanding the development of human speech.</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="28">🔍</button></td></tr>
+<tr id="q-target-29"><td class="rgt-num">29</td><td class="rgt-stmt">Language emerged relatively late in human evolution.</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="29">🔍</button></td></tr>
+<tr id="q-target-30"><td class="rgt-num">30</td><td class="rgt-stmt">Non-verbal language was essential in the development of verbal language.</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="30">🔍</button></td></tr>
+<tr id="q-target-31"><td class="rgt-num">31</td><td class="rgt-stmt">The development of different languages is related more to environmental than biological factors.</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="31">🔍</button></td></tr>
+<tr id="q-target-32"><td class="rgt-num">32</td><td class="rgt-stmt">The ability to think rationally is linked to the ability to speak.</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="32">🔍</button></td></tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 33–37</div>
+<div class="q-instruction">Choose YES, NO, or NOT GIVEN.</div>
+<div class="q-item" id="q-target-33">
+<div class="q-label"><span class="q-num">33</span><span>Anthropologists now agree on the point in time when speech began.</span><button class="locate-btn" data-q="33">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="33" data-val="YES"><span class="radio-circle"></span>YES</button>
+<button class="mc-opt-btn" data-q="33" data-val="NO"><span class="radio-circle"></span>NO</button>
+<button class="mc-opt-btn" data-q="33" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-34">
+<div class="q-label"><span class="q-num">34</span><span>The rate of human technological development in ancient times was directly related to brain size.</span><button class="locate-btn" data-q="34">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="34" data-val="YES"><span class="radio-circle"></span>YES</button>
+<button class="mc-opt-btn" data-q="34" data-val="NO"><span class="radio-circle"></span>NO</button>
+<button class="mc-opt-btn" data-q="34" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-35">
+<div class="q-label"><span class="q-num">35</span><span>The period when the brain was growing most quickly has now been identified.</span><button class="locate-btn" data-q="35">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="35" data-val="YES"><span class="radio-circle"></span>YES</button>
+<button class="mc-opt-btn" data-q="35" data-val="NO"><span class="radio-circle"></span>NO</button>
+<button class="mc-opt-btn" data-q="35" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-36">
+<div class="q-label"><span class="q-num">36</span><span>The development of agriculture influenced language development.</span><button class="locate-btn" data-q="36">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="36" data-val="YES"><span class="radio-circle"></span>YES</button>
+<button class="mc-opt-btn" data-q="36" data-val="NO"><span class="radio-circle"></span>NO</button>
+<button class="mc-opt-btn" data-q="36" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-37">
+<div class="q-label"><span class="q-num">37</span><span>Cultural development has been seen to follow a particular pattern throughout human history.</span><button class="locate-btn" data-q="37">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="37" data-val="YES"><span class="radio-circle"></span>YES</button>
+<button class="mc-opt-btn" data-q="37" data-val="NO"><span class="radio-circle"></span>NO</button>
+<button class="mc-opt-btn" data-q="37" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 38–40</div>
+<div class="q-instruction">Match each statement with the correct date, A, B, C, or D. You may use any letter more than once.</div>
+<div class="dates-legend">
+<strong>A.</strong> 2.5 million years ago    <strong>B.</strong> 1.5 million years ago    <strong>C.</strong> 1.2 million years ago    <strong>D.</strong> 0.5 million years ago
+        </div>
+<table class="radio-grid-table">
+<thead><tr>
+<th class="rgt-num">#</th><th class="rgt-stmt">Statement</th>
+<th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+<th class="rgt-loc"></th>
+</tr></thead>
+<tbody>
+<tr id="q-target-38"><td class="rgt-num">38</td><td class="rgt-stmt">Revised fossil evidence indicates most brain growth was complete.</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="38" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="38" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="38" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="38" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="38">🔍</button></td></tr>
+<tr id="q-target-39"><td class="rgt-num">39</td><td class="rgt-stmt">The writer suggests that language development was complete.</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="39" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="39" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="39" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="39" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="39">🔍</button></td></tr>
+<tr id="q-target-40"><td class="rgt-num">40</td><td class="rgt-stmt">An external change may have influenced language development.</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="40" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="40" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="40" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="40" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="40">🔍</button></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div><!-- /right-pane -->
+</div><!-- /split -->
+<div id="footer-nav">
+<span class="nav-label">Q:</span>
+<div id="nav-grid"></div>
+<div id="font-controls">
+<span>Font:</span>
+<button id="btn-font-up">A+</button>
+<button id="btn-font-dn">A−</button>
+</div>
+</div>
+</div><!-- /app -->
+<div id="highlight-menu">
+<button onclick="applyHighlight('highlight-yellow')" style="background:#fef08a" title="Yellow"></button>
+<button onclick="applyHighlight('highlight-green')" style="background:#bbf7d0" title="Green"></button>
+<button onclick="applyHighlight('highlight-pink')" style="background:#fbcfe8" title="Pink"></button>
+<button class="erase-btn" onclick="applyHighlight('erase')">✕</button>
+</div>
+<div id="result-modal">
+<div id="result-box">
+<h2>Your Result</h2>
+<div id="result-score">0/40</div>
+<div id="result-band">Band: –</div>
+<div id="result-breakdown"></div>
+<button id="btn-close-modal">Review Answers</button>
+</div>
+</div>
+<script>
+const ANSWERS={
+  1:'TRUE',2:'FALSE',3:'NOT GIVEN',4:'FALSE',5:'TRUE',
+  6:'soil',7:'park',8:'rivers',9:'population',10:'mountain',11:'trees',12:'climate',13:'illness',
+  14:'iv',15:'v',16:'ii',17:'x',18:'vii',19:'iii',20:'viii',
+  21:'A',22:'C',
+  23:'parental guidance',24:'compass',25:'daytime predators',26:'visible',
+  27:'B',28:'C',29:'A',30:'B',31:'C',32:'A',
+  33:'NO',34:'NO',35:'YES',36:'NOT GIVEN',37:'YES',
+  38:'C',39:'C',40:'A'
+};
+const Q_PASSAGE={};
+for(let i=1;i<=13;i++)Q_PASSAGE[i]=0;
+for(let i=14;i<=26;i++)Q_PASSAGE[i]=1;
+for(let i=27;i<=40;i++)Q_PASSAGE[i]=2;
+
+const multiSelections={'21-22':[]};
+let userAnswers={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+function normalizeAnswer(s){
+  return s.trim().toLowerCase().replace(/[\u2018\u2019]/g,"'").replace(/[\u2013\u2014]/g,'-').replace(/\s+/g,' ');
+}
+function checkAnswer(user,correct){
+  const u=normalizeAnswer(user),c=normalizeAnswer(correct);
+  if(u===c)return true;
+  if(u.replace(/-/g,' ')===c.replace(/-/g,' '))return true;
+  const cw=c.split(' ');
+  if(cw.length>1){const uw=u.split(' ');if(uw.length===cw.length&&uw.every((w,i)=>w===cw[i]))return true;}
+  return false;
+}
+
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{p.style.display=i===t?'block':'none';p.classList.toggle('active',i===t);});
+  });
+});
+
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i;btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+
+document.querySelectorAll('.mc-opt-btn:not([data-multi])').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+btn.dataset.q+'"]:not([data-multi])').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+
+document.querySelectorAll('.mc-opt-btn[data-multi]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const grp=btn.dataset.q;const val=btn.dataset.val;const sel=multiSelections[grp];
+    if(btn.classList.contains('selected')){
+      btn.classList.remove('selected');const idx=sel.indexOf(val);if(idx>=0)sel.splice(idx,1);
+    } else {
+      if(sel.length>=2){const fv=sel.shift();document.querySelectorAll('.mc-opt-btn[data-q="'+grp+'"][data-val="'+fv+'"]').forEach(b=>b.classList.remove('selected'));}
+      btn.classList.add('selected');sel.push(val);
+    }
+    const [q1,q2]=grp.split('-').map(Number);
+    if(sel.length>=1){userAnswers[q1]=sel[0];updateNav(q1);}else{delete userAnswers[q1];updateNav(q1);}
+    if(sel.length>=2){userAnswers[q2]=sel[1];updateNav(q2);}else{delete userAnswers[q2];updateNav(q2);}
+  });
+});
+
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();updateNav(q);
+  });
+});
+
+// Heading DnD
+let dragHeadingData=null;
+document.querySelectorAll('.heading-chip').forEach(chip=>{
+  chip.addEventListener('dragstart',e=>{
+    if(submitted)return;
+    dragHeadingData={heading:chip.dataset.heading,chipId:chip.id};
+    chip.classList.add('dragging');e.dataTransfer.effectAllowed='move';
+  });
+  chip.addEventListener('dragend',()=>chip.classList.remove('dragging'));
+});
+document.querySelectorAll('.heading-dropzone').forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag-over');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
+  zone.addEventListener('drop',e=>{
+    e.preventDefault();zone.classList.remove('drag-over');
+    if(submitted||!dragHeadingData)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById(prev);if(pc)pc.classList.remove('used');}
+    const chip=document.getElementById(dragHeadingData.chipId);
+    if(chip)chip.classList.add('used');
+    zone.dataset.filled=dragHeadingData.chipId;zone.dataset.heading=dragHeadingData.heading;
+    zone.classList.add('filled');
+    const chipTxt=chip?chip.textContent.replace(/^[ivxlcdm]+\.\s*/i,'').trim():dragHeadingData.heading;
+    zone.querySelector('.hdz-text').textContent=dragHeadingData.heading+'. '+chipTxt;
+    const q=parseInt(zone.dataset.q);userAnswers[q]=dragHeadingData.heading;updateNav(q);dragHeadingData=null;
+  });
+  zone.querySelector('.hdz-remove').addEventListener('click',e=>{
+    e.stopPropagation();if(submitted)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById(prev);if(pc)pc.classList.remove('used');}
+    zone.dataset.filled='';zone.dataset.heading='';zone.classList.remove('filled');
+    zone.querySelector('.hdz-text').textContent='Drop heading here';
+    const q=parseInt(zone.dataset.q);delete userAnswers[q];updateNav(q);
+  });
+});
+
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+
+function submitExam(){
+  if(submitted)return;
+  submitted=true;clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=checkAnswer(user,ans);
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){const lbl=document.createElement('span');lbl.className='blank-correct-label';lbl.textContent='✓ '+ans;inp.insertAdjacentElement('afterend',lbl);}
+    }
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]:not([data-multi])').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    const rgtRow=document.getElementById('q-target-'+q);
+    if(rgtRow&&rgtRow.tagName==='TR')rgtRow.classList.add(ok?'row-correct':'row-wrong');
+    const hdz=document.querySelector('.heading-dropzone[data-q="'+q+'"]');
+    if(hdz){
+      hdz.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        const lbl=document.createElement('span');lbl.className='hdz-correct-label';
+        lbl.textContent='✓ '+ans;lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+        hdz.insertAdjacentElement('afterend',lbl);
+      }
+    }
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    if(!ok)document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+  }
+  ['21-22'].forEach(grp=>{
+    const [q1,q2]=grp.split('-').map(Number);
+    const correctVals=[ANSWERS[q1],ANSWERS[q2]];
+    document.querySelectorAll('.mc-opt-btn[data-q="'+grp+'"]').forEach(b=>{
+      b.disabled=true;
+      if(correctVals.includes(b.dataset.val))b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+  });
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1&ndash;13)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14&ndash;26)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27&ndash;40)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>document.getElementById('result-modal').classList.remove('show'));
+
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      const locEls=document.querySelectorAll('.loc-q'+q);
+      if(locEls.length===0)return;
+      let best=locEls[0];
+      locEls.forEach(el=>{if(el.textContent.trim().length<best.textContent.trim().length)best=el;});
+      if(best.textContent.trim().length>200){
+        const children=best.querySelectorAll('span');
+        children.forEach(child=>{const t=child.textContent.trim();if(t.length>=15&&t.length<best.textContent.trim().length)best=child;});
+      }
+      best.classList.add('loc-highlight');
+      best.scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(()=>best.classList.remove('loc-highlight'),4000);
+    },150);
+  });
+});
+
+document.getElementById('btn-font-up').addEventListener('click',()=>{
+  baseFontSize=Math.min(20,baseFontSize+1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{
+  baseFontSize=Math.max(11,baseFontSize-1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+
+let highlightMenu=document.getElementById('highlight-menu'),savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const lp=document.getElementById('left-pane'),rp=document.getElementById('right-pane');
+    if(lp.contains(range.commonAncestorContainer)||rp.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){window.getSelection().removeAllRanges();window.getSelection().addRange(savedRange);document.execCommand('removeFormat');savedRange=null;return;}
+  const span=document.createElement('span');span.className=cls;
+  try{savedRange.surroundContents(span);}catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();savedRange=null;
+}
+
+const handle=document.getElementById('resize-handle'),leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const split=document.getElementById('split');const rect=split.getBoundingClientRect();leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+
+startTimer();
+</script>
+</body>
+</html>

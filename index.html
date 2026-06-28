@@ -3,383 +3,479 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IELTS Reading &ndash; VOL 8 Library</title>
+<title>Felix Reading Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Lexend',sans-serif;background:#0f0f0f;color:#fff;min-height:100vh;}
-
-/* Hero */
-.hero{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);padding:60px 24px 48px;text-align:center;position:relative;overflow:hidden;}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(99,102,241,0.15) 0%,transparent 70%);}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(99,102,241,0.2);border:1px solid rgba(99,102,241,0.4);border-radius:20px;padding:6px 16px;font-size:0.78rem;font-weight:600;color:#a5b4fc;margin-bottom:20px;letter-spacing:0.05em;}
-.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:-0.02em;line-height:1.1;margin-bottom:12px;}
-.hero h1 span{background:linear-gradient(135deg,#6366f1,#8b5cf6,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.hero p{font-size:1rem;color:#94a3b8;max-width:500px;margin:0 auto 32px;line-height:1.6;}
+body{font-family:'Lexend',sans-serif;background:#0f0f0f;color:#e5e7eb;min-height:100vh;}
+.hero{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);padding:48px 24px 40px;text-align:center;border-bottom:1px solid #1e293b;}
+.hero-logo{font-size:2.4rem;font-weight:800;letter-spacing:-0.02em;color:#fff;margin-bottom:6px;}
+.hero-logo span{color:#fbbf24;}
+.hero-sub{font-size:0.9rem;color:#94a3b8;font-weight:400;margin-bottom:24px;}
 .hero-stats{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;}
 .stat{text-align:center;}
-.stat-num{font-size:2rem;font-weight:800;color:#6366f1;}
-.stat-label{font-size:0.75rem;color:#64748b;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;}
-
-/* Main */
-.container{max-width:1100px;margin:0 auto;padding:48px 24px;}
-.section-header{display:flex;align-items:center;gap:12px;margin-bottom:28px;}
-.section-header h2{font-size:1.3rem;font-weight:700;}
-.section-header .line{flex:1;height:1px;background:linear-gradient(to right,#374151,transparent);}
-
-/* Grid */
-.tests-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
-
-/* Card */
-.test-card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:16px;padding:20px;cursor:pointer;transition:all 0.2s;text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;}
-.test-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(99,102,241,0.05),transparent);opacity:0;transition:opacity 0.2s;}
-.test-card:hover{border-color:#6366f1;transform:translateY(-2px);box-shadow:0 8px 32px rgba(99,102,241,0.15);}
-.test-card:hover::before{opacity:1;}
-.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-.test-num{font-size:1.4rem;font-weight:800;color:#6366f1;}
-.test-badge{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:4px 10px;font-size:0.72rem;font-weight:600;color:#94a3b8;}
-.card-title{font-size:0.88rem;font-weight:600;color:#e2e8f0;margin-bottom:4px;line-height:1.4;}
-.card-subtitle{font-size:0.78rem;color:#64748b;margin-bottom:14px;line-height:1.4;}
-.card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px;}
-.tag{background:#0f172a;border:1px solid #1e293b;border-radius:6px;padding:3px 8px;font-size:0.7rem;color:#94a3b8;font-weight:500;}
-.tag.special{background:rgba(99,102,241,0.1);border-color:rgba(99,102,241,0.3);color:#a5b4fc;}
-.card-footer{display:flex;align-items:center;justify-content:space-between;}
-.q-count{font-size:0.75rem;color:#64748b;}
-.open-btn{display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:'Lexend',sans-serif;transition:opacity 0.15s;}
-.open-btn:hover{opacity:0.9;}
-.open-btn svg{width:14px;height:14px;}
-
-/* Missing badge */
-.test-card.missing{opacity:0.4;cursor:not-allowed;}
-.test-card.missing:hover{transform:none;box-shadow:none;border-color:#2a2a2a;}
-
-/* Footer */
-.footer{text-align:center;padding:40px 24px;color:#374151;font-size:0.8rem;border-top:1px solid #1a1a1a;}
-.footer span{color:#6366f1;}
+.stat-num{font-size:1.8rem;font-weight:700;color:#fbbf24;}
+.stat-label{font-size:0.72rem;color:#64748b;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;}
+.search-bar{background:#111827;border-bottom:1px solid #1e293b;padding:14px 24px;display:flex;justify-content:center;}
+.search-input{width:100%;max-width:480px;background:#1e293b;border:1.5px solid #374151;border-radius:8px;padding:9px 16px;color:#e5e7eb;font-family:'Lexend',sans-serif;font-size:0.85rem;outline:none;transition:border-color 0.2s;}
+.search-input:focus{border-color:#fbbf24;}
+.search-input::placeholder{color:#4b5563;}
+.main{max-width:1400px;margin:0 auto;padding:32px 20px 60px;}
+.vol-section{margin-bottom:48px;}
+.vol-header{display:flex;align-items:center;gap:16px;margin-bottom:20px;}
+.vol-badge{background:#fbbf24;color:#0f0f0f;font-size:0.75rem;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;}
+.vol-title{font-size:1.2rem;font-weight:700;color:#f1f5f9;}
+.vol-count{font-size:0.78rem;color:#64748b;font-weight:500;}
+.vol-line{flex:1;height:1px;background:#1e293b;}
+.tests-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
+.test-card{background:#111827;border:1.5px solid #1e293b;border-radius:12px;padding:16px 18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:10px;transition:border-color 0.2s,transform 0.15s,box-shadow 0.2s;cursor:pointer;}
+.test-card:hover{border-color:#fbbf24;transform:translateY(-2px);box-shadow:0 8px 24px rgba(251,191,36,0.08);}
+.card-top{display:flex;align-items:center;justify-content:space-between;}
+.card-num{font-size:0.72rem;font-weight:700;color:#fbbf24;letter-spacing:0.06em;text-transform:uppercase;}
+.card-badge{background:#1e293b;color:#94a3b8;font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:10px;}
+.card-passages{display:flex;flex-direction:column;gap:4px;}
+.passage-item{display:flex;align-items:flex-start;gap:6px;}
+.passage-num{font-size:0.65rem;font-weight:700;color:#475569;min-width:18px;padding-top:2px;}
+.passage-title{font-size:0.82rem;font-weight:600;color:#e2e8f0;line-height:1.35;}
+.card-qtypes{display:flex;flex-wrap:wrap;gap:4px;}
+.qtype-tag{font-size:0.62rem;font-weight:600;padding:2px 7px;border-radius:8px;background:#1e293b;color:#94a3b8;border:1px solid #374151;}
+.qtype-tag.special{background:#1e3a5f;color:#60a5fa;border-color:#1e40af;}
+.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:6px;border-top:1px solid #1e293b;}
+.card-qcount{font-size:0.65rem;color:#4b5563;font-weight:500;}
+.open-btn{background:#fbbf24;color:#0f0f0f;border:none;padding:5px 12px;border-radius:6px;font-size:0.72rem;font-weight:700;cursor:pointer;font-family:'Lexend',sans-serif;display:flex;align-items:center;gap:4px;transition:background 0.15s;}
+.open-btn:hover{background:#f59e0b;}
+.open-btn svg{width:12px;height:12px;}
+.test-card.hidden{display:none;}
+@media(max-width:600px){.hero-logo{font-size:1.8rem;}.tests-grid{grid-template-columns:1fr;}.hero-stats{gap:20px;}}
 </style>
 </head>
 <body>
-
 <div class="hero">
-  <div class="hero-badge">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-    IELTS Reading Practice
-  </div>
-  <h1>VOL 8 <span>Test Library</span></h1>
-  <p>Complete IELTS Academic Reading tests with interactive questions, timer, highlight tools, and instant scoring.</p>
+  <div class="hero-logo">Felix <span>Reading Hub</span></div>
+  <div class="hero-sub">IELTS Academic Reading Practice &mdash; Interactive Tests with Answer Keys</div>
   <div class="hero-stats">
-    <div class="stat"><div class="stat-num">11</div><div class="stat-label">Tests</div></div>
-    <div class="stat"><div class="stat-num">440</div><div class="stat-label">Questions</div></div>
-    <div class="stat"><div class="stat-num">33</div><div class="stat-label">Passages</div></div>
-    <div class="stat"><div class="stat-num">60</div><div class="stat-label">Min / Test</div></div>
+    <div class="stat"><div class="stat-num">37</div><div class="stat-label">Tests</div></div>
+    <div class="stat"><div class="stat-num">1,480</div><div class="stat-label">Questions</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">Volumes</div></div>
   </div>
 </div>
+<div class="search-bar">
+  <input class="search-input" type="text" placeholder="&#128269; Search by topic, question type..." id="searchInput" oninput="filterCards()">
+</div>
+<div class="main">
 
-<div class="container">
-  <div class="section-header">
-    <h2>All Tests</h2>
-    <div class="line"></div>
-  </div>
-
-  <div class="tests-grid">
-
-    <!-- TEST 1 -->
-    <a href="VOL8-TEST1.html" class="test-card">
-      <div class="card-header">
-        <div class="test-num">TEST 1</div>
-        <div class="test-badge">40 Questions</div>
-      </div>
-      <div class="card-title">Steam Across the Water &bull; IQ Scores &bull; Practical Learning</div>
-      <div class="card-subtitle">Steamboat history &bull; Flynn Effect &bull; Adobe architecture</div>
-      <div class="card-tags">
-        <span class="tag">Completion</span>
-        <span class="tag">TRUE/FALSE/NG</span>
-        <span class="tag">Matching Names</span>
-        <span class="tag special">Drag &amp; Drop</span>
-        <span class="tag">MCQ</span>
-      </div>
-      <div class="card-footer">
-        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
-        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-      </div>
-    </a>
-
-    <!-- TEST 2 -->
-    <a href="VOL8-TEST2.html" class="test-card">
-      <div class="card-header">
-        <div class="test-num">TEST 2</div>
-        <div class="test-badge">40 Questions</div>
-      </div>
-      <div class="card-title">Australia&rsquo;s Cane Toad &bull; Farmers NZ &bull; Life on Mars?</div>
-      <div class="card-subtitle">Biological control &bull; NZ chain store &bull; Mars exploration</div>
-      <div class="card-tags">
-        <span class="tag">Completion</span>
-        <span class="tag">TRUE/FALSE/NG</span>
-        <span class="tag special">Matching Grid</span>
-        <span class="tag">Sentence Completion</span>
-        <span class="tag">MCQ</span>
-      </div>
-      <div class="card-footer">
-        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
-        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-      </div>
-    </a>
-
-    <!-- TEST 3 -->
-    <a href="VOL8-TEST3.html" class="test-card">
-      <div class="card-header">
-        <div class="test-num">TEST 3</div>
-        <div class="test-badge">40 Questions</div>
-      </div>
-      <div class="card-title">History of the Chicken &bull; Introvert/Extrovert &bull; Synesthesia</div>
-      <div class="card-subtitle">Chicken domestication &bull; Workplace personality &bull; Mixed senses</div>
-      <div class="card-tags">
-        <span class="tag">TRUE/FALSE/NG</span>
-        <span class="tag">Completion</span>
-        <span class="tag special">Matching Headings</span>
-        <span class="tag special">MCQ Choose TWO</span>
-        <span class="tag">Matching Para</span>
-      </div>
-      <div class="card-footer">
-        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
-        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-      </div>
-    </a>
-
-    <!-- TEST 4 -->
-    <a href="VOL8-TEST4.html" class="test-card">
-      <div class="card-header">
-        <div class="test-num">TEST 4</div>
-        <div class="test-badge">40 Questions</div>
-      </div>
-      <div class="card-title">The Pixar Story &bull; Mechanical Friend &bull; Peopling of Patagonia</div>
-      <div class="card-subtitle">Pixar animation &bull; Children &amp; robots &bull; Human migration</div>
-      <div class="card-tags">
-        <span class="tag">TRUE/FALSE/NG</span>
-        <span class="tag">Completion</span>
-        <span class="tag">Matching Para</span>
-        <span class="tag">Matching Names</span>
-        <span class="tag special">DnD A&ndash;J</span>
-      </div>
-      <div class="card-footer">
-        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
-        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-      </div>
-    </a>
-
-    <!-- TEST 5 -->
-    <a href="VOL8-TEST5.html" class="test-card">
-      <div class="card-header">
-        <div class="test-num">TEST 5</div>
-        <div class="test-badge">40 Questions</div>
-      </div>
-      <div class="card-title">Western Immigration &bull; Why Don&rsquo;t We Sleep? &bull; Understanding Symbols</div>
-      <div class="card-subtitle">Canada settlement &bull; Insomnia research &bull; Children &amp; symbols</div>
-      <div class="card-tags">
-        <span class="tag special">Matching Headings i&ndash;xii</span>
-        <span class="tag">Completion</span>
-        <span class="tag">Matching Para</span>
-        <span class="tag special">Sentence Endings</span>
-        <span class="tag">MCQ</span>
-      </div>
-      <div class="card-footer">
-        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
-        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-      </div>
-    </a>
-
-    <!-- TEST 6 -->
-    <a href="VOL8-TEST6.html" class="test-card">
-      <div class="card-header">
-        <div class="test-num">TEST 6</div>
-        <div class="test-badge">40 Questions</div>
-      </div>
-      <div class="card-title">Optimism &amp; Health &bull; Eco-tourism &bull; Numeracy</div>
-      <div class="card-subtitle">Positive thinking &bull; Sustainable travel &bull; Mathematics education</div>
-      <div class="card-tags">
-        <span class="tag">TFNG</span>
-        <span class="tag">Matching</span>
-        <span class="tag">Completion</span>
-        <span class="tag">MCQ</span>
-      </div>
-      <div class="card-footer">
-        <span class="q-count">40 Questions &middot; 3 Passages</span>
-        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-      </div>
-    </a>
-
-    <!-- TEST 7 -->
-    <a href="VOL8-TEST7.html" class="test-card">
-      <div class="card-header">
-        <div class="test-num">TEST 7</div>
-        <div class="test-badge">40 Questions</div>
-      </div>
-      <div class="card-title">William Gilbert &bull; Multi-tasking &bull; Benefits of Music</div>
-      <div class="card-subtitle">Magnetism &amp; electricity &bull; Brain &amp; attention &bull; Instrument learning</div>
-      <div class="card-tags">
-        <span class="tag special">Matching Headings i&ndash;x</span>
-        <span class="tag">TRUE/FALSE/NG</span>
-        <span class="tag special">MCQ Choose THREE</span>
-        <span class="tag">Matching Names</span>
-        <span class="tag special">Sentence Endings</span>
-      </div>
-      <div class="card-footer">
-        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
-        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-      </div>
-    </a>
-
-    <!-- TEST 8 -->
-    <a href="VOL8-TEST8.html" class="test-card">
-      <div class="card-header">
-        <div class="test-num">TEST 8</div>
-        <div class="test-badge">40 Questions</div>
-      </div>
-      <div class="card-title">Jethro Tull &bull; Internal Body Clock &bull; Origin of Language</div>
-      <div class="card-subtitle">Agricultural revolution &bull; Circadian rhythms &bull; Proto-language</div>
-      <div class="card-tags">
-        <span class="tag special">Diagram Labelling</span>
-        <span class="tag">Completion</span>
-        <span class="tag">Matching Para</span>
-        <span class="tag special">MCQ Choose TWO &times;2</span>
-        <span class="tag special">MCQ Choose THREE</span>
-      </div>
-      <div class="card-footer">
-        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
-        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-      </div>
-    </a>
-
-    <!-- TEST 9 -->
-    <a href="VOL8-TEST9.html" class="test-card">
-      <div class="card-header">
-        <div class="test-num">TEST 9</div>
-        <div class="test-badge">40 Questions</div>
-      </div>
-      <div class="card-title">The Whale Goes to Court &bull; Herbal Medicine &bull; Science in the Kitchen</div>
-      <div class="card-subtitle">1818 legal drama &bull; NZ herbal industry &bull; Molecular gastronomy</div>
-      <div class="card-tags">
-        <span class="tag">TRUE/FALSE/NG</span>
-        <span class="tag">Completion</span>
-        <span class="tag">Matching Para</span>
-        <span class="tag">Matching Names</span>
-        <span class="tag special">Sentence Endings A&ndash;H</span>
-      </div>
-      <div class="card-footer">
-        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
-        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-      </div>
-    </a>
-
-    <!-- TEST 10 -->
-    <a href="VOL8-TEST10.html" class="test-card">
-      <div class="card-header">
-        <div class="test-num">TEST 10</div>
-        <div class="test-badge">40 Questions</div>
-      </div>
-      <div class="card-title">Origins of Weather Forecasting &bull; Icebergs &bull; The Dunedin Study</div>
-      <div class="card-subtitle">FitzRoy &amp; forecasting &bull; Antarctic ecology &bull; NZ longitudinal study</div>
-      <div class="card-tags">
-        <span class="tag">TRUE/FALSE/NG</span>
-        <span class="tag">Completion</span>
-        <span class="tag">Matching Para A&ndash;I</span>
-        <span class="tag special">MCQ Choose TWO</span>
-        <span class="tag special">DnD Word Bank</span>
-      </div>
-      <div class="card-footer">
-        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
-        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-      </div>
-    </a>
-
-    <!-- TEST 11 -->
-    <a href="VOL8-TEST11.html" class="test-card">
-      <div class="card-header">
-        <div class="test-num">TEST 11</div>
-        <div class="test-badge">40 Questions</div>
-      </div>
-      <div class="card-title">Candles &bull; Carbon Footprints &bull; The Science of Shopping</div>
-      <div class="card-subtitle">Candle history &bull; LCA methods &bull; Supermarket psychology</div>
-      <div class="card-tags">
-        <span class="tag">TRUE/FALSE/NG</span>
-        <span class="tag">Completion</span>
-        <span class="tag">Matching Para A&ndash;G</span>
-        <span class="tag special">MCQ Choose TWO &times;2</span>
-        <span class="tag special">DnD A&ndash;I</span>
-      </div>
-      <div class="card-footer">
-        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
-        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-      </div>
-    </a>
-
-    <!-- TEST 12 -->
-    <a href="VOL8-TEST12.html" class="test-card">
-      <div class="card-header">
-        <div class="test-num">TEST 12</div>
-        <div class="test-badge">40 Questions</div>
-      </div>
-      <div class="card-title">Origins of Weather Forecasting &bull; Icebergs &bull; The Dunedin Study</div>
-      <div class="card-subtitle">FitzRoy &amp; forecasting &bull; Antarctic ecology &bull; NZ longitudinal study</div>
-      <div class="card-tags">
-        <span class="tag">TRUE/FALSE/NG</span>
-        <span class="tag">Completion</span>
-        <span class="tag">Matching Para A&ndash;I</span>
-        <span class="tag special">MCQ Choose TWO</span>
-        <span class="tag special">DnD Word Bank</span>
-      </div>
-      <div class="card-footer">
-        <span class="q-count">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span>
-        <button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-      </div>
-    </a>
-
-  </div>
-
-  <!-- Features section -->
-  <div style="margin-top:56px;">
-    <div class="section-header">
-      <h2>Features</h2>
-      <div class="line"></div>
+  <div class="vol-section">
+    <div class="vol-header">
+      <span class="vol-badge">VOL 7</span>
+      <span class="vol-title">Cambridge IELTS Volume 7</span>
+      <span class="vol-count">16 tests</span>
+      <div class="vol-line"></div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;">
-      <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:16px;">
-        <div style="font-size:1.5rem;margin-bottom:8px;">&#9201;</div>
-        <div style="font-weight:600;font-size:0.88rem;margin-bottom:4px;">60-Minute Timer</div>
-        <div style="font-size:0.78rem;color:#64748b;">Pause/resume, auto-submit when time runs out</div>
-      </div>
-      <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:16px;">
-        <div style="font-size:1.5rem;margin-bottom:8px;">&#128269;</div>
-        <div style="font-weight:600;font-size:0.88rem;margin-bottom:4px;">Locate Answer</div>
-        <div style="font-size:0.78rem;color:#64748b;">Highlights the relevant passage text after submission</div>
-      </div>
-      <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:16px;">
-        <div style="font-size:1.5rem;margin-bottom:8px;">&#128396;</div>
-        <div style="font-weight:600;font-size:0.88rem;margin-bottom:4px;">3-Color Highlight</div>
-        <div style="font-size:0.78rem;color:#64748b;">Yellow, green, pink &mdash; works in both panes</div>
-      </div>
-      <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:16px;">
-        <div style="font-size:1.5rem;margin-bottom:8px;">&#127919;</div>
-        <div style="font-weight:600;font-size:0.88rem;margin-bottom:4px;">Instant Scoring</div>
-        <div style="font-size:0.78rem;color:#64748b;">Score/40 + IELTS band estimate per test</div>
-      </div>
-      <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:16px;">
-        <div style="font-size:1.5rem;margin-bottom:8px;">&#128241;</div>
-        <div style="font-weight:600;font-size:0.88rem;margin-bottom:4px;">Split-Screen Layout</div>
-        <div style="font-size:0.78rem;color:#64748b;">Resizable passage &amp; question panes</div>
-      </div>
-      <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:16px;">
-        <div style="font-size:1.5rem;margin-bottom:8px;">&#128293;</div>
-        <div style="font-weight:600;font-size:0.88rem;margin-bottom:4px;">All Question Types</div>
-        <div style="font-size:0.78rem;color:#64748b;">Drag &amp; drop, matching grids, multi-select &amp; more</div>
-      </div>
+    <div class="tests-grid">
+      <a href="VOL7-TEST1.html" class="test-card" data-search="carnivorous plant drawing lessons neanderthal technology">
+        <div class="card-top"><span class="card-num">VOL 7 &middot; TEST 1</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Carnivorous Plant</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Drawing Lessons from History</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Neanderthal Technology</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">Notes Completion</span><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">YES/NO/NG</span><span class="qtype-tag">Sentence Endings</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">Matching Places</span><span class="qtype-tag">Summary Completion</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL7-TEST2.html" class="test-card" data-search="olive oil playing science class size">
+        <div class="card-top"><span class="card-num">VOL 7 &middot; TEST 2</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Olive Oil</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Playing with Science</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Does Class Size Matter?</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">Choose TWO</span><span class="qtype-tag">Summary Completion</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL7-TEST3.html" class="test-card" data-search="plastics lean production watching sport brain">
+        <div class="card-top"><span class="card-num">VOL 7 &middot; TEST 3</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Development of Plastics</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Lean Production Innovation</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Watching Sport &amp; the Brain</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">Table Completion</span><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">Matching Para</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">YES/NO/NG</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL7-TEST4.html" class="test-card" data-search="rubber eight hour sleep living dunes">
+        <div class="card-top"><span class="card-num">VOL 7 &middot; TEST 4</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Rubber</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Eight-hour Sleep Myth</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Living Dunes</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Notes Completion</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">Matching Names</span><span class="qtype-tag">YES/NO/NG</span><span class="qtype-tag">Sentence Endings</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL7-TEST5.html" class="test-card" data-search="reef fish eating less saving skink">
+        <div class="card-top"><span class="card-num">VOL 7 &middot; TEST 5</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Reef Fish</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Eating Less</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Saving the Skink</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Flow-chart</span><span class="qtype-tag">Matching Para</span><span class="qtype-tag">Sentence Endings</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL7-TEST6.html" class="test-card" data-search="deep sea discovery jellyfish pirahã people brazil">
+        <div class="card-top"><span class="card-num">VOL 7 &middot; TEST 6</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Deep Sea Discovery</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Jellyfish &ndash; The Dominant Species</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">The Pirah&atilde; People of Brazil</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Notes Completion</span><span class="qtype-tag">Matching Para</span><span class="qtype-tag">Choose TWO</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">YES/NO/NG</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL7-TEST7.html" class="test-card" data-search="history guitar playing soccer history chocolate">
+        <div class="card-top"><span class="card-num">VOL 7 &middot; TEST 7</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">History of the Guitar</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Playing Soccer</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">The History of Chocolate</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Table Completion</span><span class="qtype-tag">Matching Para</span><span class="qtype-tag">Choose TWO</span><span class="qtype-tag">Summary Completion</span><span class="qtype-tag">Flow-chart</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL7-TEST8.html" class="test-card" data-search="dust american west urban regeneration berlin fluoridation">
+        <div class="card-top"><span class="card-num">VOL 7 &middot; TEST 8</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Dust and the American West</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Urban Regeneration in Berlin</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">The Fluoridation Controversy</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Notes Completion</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">Choose TWO</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">YES/NO/NG</span><span class="qtype-tag">Sentence Endings</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL7-TEST9.html" class="test-card" data-search="dolls biophilic design biology bitterness">
+        <div class="card-top"><span class="card-num">VOL 7 &middot; TEST 9</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Dolls Through the Ages</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Biophilic Design</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Biology of Bitterness</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">Notes Completion</span><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Matching Para</span><span class="qtype-tag">Choose TWO</span><span class="qtype-tag">Summary Completion</span><span class="qtype-tag">MCQ</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL7-TEST10.html" class="test-card" data-search="wood new zealand intelligent birds jean piaget">
+        <div class="card-top"><span class="card-num">VOL 7 &middot; TEST 10</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Wood in New Zealand's Economy</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Intelligent Behaviour in Birds</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Jean Piaget 1896&ndash;1980</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Short Answer</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">Matching Names</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">YES/NO/NG</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL7-TEST11.html" class="test-card" data-search="chilli peppers stress less robert louis stevenson">
+        <div class="card-top"><span class="card-num">VOL 7 &middot; TEST 11</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Chilli Peppers</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Stress Less</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Robert Louis Stevenson</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Notes Completion</span><span class="qtype-tag">Matching Names</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">YES/NO/NG</span><span class="qtype-tag">Word Bank Summary</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL7-TEST12.html" class="test-card" data-search="tulip mania roller coaster tasmania mona">
+        <div class="card-top"><span class="card-num">VOL 7 &middot; TEST 12</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Tulip Mania</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Roller Coaster</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Tasmania's Museum of Old and New Art</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">Matching Para</span><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Diagram Labelling</span><span class="qtype-tag">Summary Completion</span><span class="qtype-tag">YES/NO/NG</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">Word Bank Summary</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL7-TEST13.html" class="test-card" data-search="bar code goya portraits memory champions">
+        <div class="card-top"><span class="card-num">VOL 7 &middot; TEST 13</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">History of the Bar Code</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Goya's Portraits</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Memory Champions</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">Notes Completion</span><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Matching Para</span><span class="qtype-tag">Choose TWO</span><span class="qtype-tag">Summary Completion</span><span class="qtype-tag">Sentence Endings</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL7-TEST14.html" class="test-card" data-search="oldest leather shoe pantomime tuatara">
+        <div class="card-top"><span class="card-num">VOL 7 &middot; TEST 14</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">The Oldest Leather Shoe</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Pantomime</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">The Tuatara &ndash; Past and Future</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">Notes Completion</span><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">Sentence Completion</span><span class="qtype-tag">Matching Names</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">YES/NO/NG</span><span class="qtype-tag">Word Bank Summary</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL7-TEST15.html" class="test-card" data-search="hokusai eating meat travelling plants">
+        <div class="card-top"><span class="card-num">VOL 7 &middot; TEST 15</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Katsushika Hokusai</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Should We Stop Eating Meat?</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Travelling Plants</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Summary Completion</span><span class="qtype-tag">Matching Para</span><span class="qtype-tag">Matching Names</span><span class="qtype-tag">Sentence Endings</span><span class="qtype-tag">Sentence Completion</span><span class="qtype-tag">MCQ</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL7-TEST16.html" class="test-card" data-search="charles heaphy new zealand bird migration who was talking">
+        <div class="card-top"><span class="card-num">VOL 7 &middot; TEST 16</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Charles Heaphy &amp; New Zealand</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Bird Migration</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Look &ndash; Who Was Talking</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Notes Completion</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">Choose TWO</span><span class="qtype-tag">Sentence Completion</span><span class="qtype-tag">Matching Names</span><span class="qtype-tag">YES/NO/NG</span><span class="qtype-tag">Matching Dates</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
     </div>
   </div>
+  <div class="vol-section">
+    <div class="vol-header">
+      <span class="vol-badge">VOL 8</span>
+      <span class="vol-title">Cambridge IELTS Volume 8</span>
+      <span class="vol-count">12 tests</span>
+      <div class="vol-line"></div>
+    </div>
+    <div class="tests-grid">
+      <a href="VOL8-TEST1.html" class="test-card" data-search="steam water iq scores practical learning">
+        <div class="card-top"><span class="card-num">VOL 8 &middot; TEST 1</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Steam Across the Water</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">IQ Scores</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Practical Learning</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">Summary Completion</span><span class="qtype-tag">MCQ</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL8-TEST2.html" class="test-card" data-search="cane toad farmers new zealand life mars">
+        <div class="card-top"><span class="card-num">VOL 8 &middot; TEST 2</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Cane Toad</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Farmers of New Zealand</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Life on Mars</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Matching Para</span><span class="qtype-tag">Choose THREE</span><span class="qtype-tag">YES/NO/NG</span><span class="qtype-tag">MCQ</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL8-TEST3.html" class="test-card" data-search="history chicken introvert extrovert synesthesia">
+        <div class="card-top"><span class="card-num">VOL 8 &middot; TEST 3</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">History of Chicken</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Introvert &amp; Extrovert</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Synesthesia</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Table Completion</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">Matching Names</span><span class="qtype-tag">YES/NO/NG</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL8-TEST4.html" class="test-card" data-search="pixar story mechanical friend patagonia">
+        <div class="card-top"><span class="card-num">VOL 8 &middot; TEST 4</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">The Pixar Story</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">A Mechanical Friend for Children</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">The Peopling of Patagonia</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Notes Completion</span><span class="qtype-tag">Matching Para</span><span class="qtype-tag">Matching Names</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">Drag &amp; Drop</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL8-TEST5.html" class="test-card" data-search="western immigration why sleep understanding symbols">
+        <div class="card-top"><span class="card-num">VOL 8 &middot; TEST 5</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Western Immigration</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Why Sleep?</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Understanding Symbols</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Notes Completion</span><span class="qtype-tag">Choose TWO</span><span class="qtype-tag">Matching Dates</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL8-TEST6.html" class="test-card" data-search="optimism health speaking nothing soviet working week">
+        <div class="card-top"><span class="card-num">VOL 8 &middot; TEST 6</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Optimism and Health</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Speaking of Nothing</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">The Soviet Working Week</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">Matching Names</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">Short Answer</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL8-TEST7.html" class="test-card" data-search="william gilbert multitasking benefits music">
+        <div class="card-top"><span class="card-num">VOL 8 &middot; TEST 7</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">William Gilbert &amp; Magnetism</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Multi-tasking</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Benefits of Music</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Matching Names</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">YES/NO/NG</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL8-TEST8.html" class="test-card" data-search="jethro tull body clock origin language">
+        <div class="card-top"><span class="card-num">VOL 8 &middot; TEST 8</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Jethro Tull</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Body Clock</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Origin of Language</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Notes Completion</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">YES/NO/NG</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL8-TEST9.html" class="test-card" data-search="whale goes court herbal medicine science kitchen">
+        <div class="card-top"><span class="card-num">VOL 8 &middot; TEST 9</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Whale Goes to Court</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Herbal Medicine</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Science in the Kitchen</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Matching Para</span><span class="qtype-tag">Matching Names</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">YES/NO/NG</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL8-TEST10.html" class="test-card" data-search="weather forecasting icebergs dunedin study">
+        <div class="card-top"><span class="card-num">VOL 8 &middot; TEST 10</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Weather Forecasting</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Icebergs</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">The Dunedin Study</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Notes Completion</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">YES/NO/NG</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL8-TEST11.html" class="test-card" data-search="candles carbon footprints science shopping">
+        <div class="card-top"><span class="card-num">VOL 8 &middot; TEST 11</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Candles</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Carbon Footprints</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Science of Shopping</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Notes Completion</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">YES/NO/NG</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL8-TEST12.html" class="test-card" data-search="weather forecasting icebergs dunedin study">
+        <div class="card-top"><span class="card-num">VOL 8 &middot; TEST 12</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Weather Forecasting</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Icebergs</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">The Dunedin Study</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Notes Completion</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">YES/NO/NG</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+    </div>
+  </div>
+  <div class="vol-section">
+    <div class="vol-header">
+      <span class="vol-badge">VOL 9</span>
+      <span class="vol-title">Cambridge IELTS Volume 9</span>
+      <span class="vol-count">9 tests</span>
+      <div class="vol-line"></div>
+    </div>
+    <div class="tests-grid">
+      <a href="VOL9-TEST1.html" class="test-card" data-search="baobabs coins grapefruit">
+        <div class="card-top"><span class="card-num">VOL 9 &middot; TEST 1</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Baobabs of Madagascar</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Coins</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Grapefruit</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">Choose TWO</span><span class="qtype-tag">Matching Para</span><span class="qtype-tag">MCQ</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL9-TEST2.html" class="test-card" data-search="andrew carnegie translating easter island">
+        <div class="card-top"><span class="card-num">VOL 9 &middot; TEST 2</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Andrew Carnegie</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Translating</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Easter Island</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">Completion</span><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Matching Para</span><span class="qtype-tag">Choose THREE</span><span class="qtype-tag">YES/NO/NG</span><span class="qtype-tag">MCQ</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL9-TEST3.html" class="test-card" data-search="giraffes healthy buildings child play">
+        <div class="card-top"><span class="card-num">VOL 9 &middot; TEST 3</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Giraffes</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Healthy Buildings</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Child's Play</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Table Completion</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">Matching Names</span><span class="qtype-tag">YES/NO/NG</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL9-TEST4.html" class="test-card" data-search="traditional farming zambia babies cry ancient rome">
+        <div class="card-top"><span class="card-num">VOL 9 &middot; TEST 4</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Traditional Farming in Zambia</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Why Babies Cry</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Ancient Rome</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">Sentence Completion</span><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Matching Para</span><span class="qtype-tag">Matching Names</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">Sentence Endings</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL9-TEST5.html" class="test-card" data-search="origins tennis john ray sir francis ronalds">
+        <div class="card-top"><span class="card-num">VOL 9 &middot; TEST 5</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Origins of Tennis</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">John Ray</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Sir Francis Ronalds</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Notes Completion</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">Choose TWO</span><span class="qtype-tag">Matching Dates</span><span class="qtype-tag">Matching Para</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL9-TEST6.html" class="test-card" data-search="health wild speaking nothing soviet working week">
+        <div class="card-top"><span class="card-num">VOL 9 &middot; TEST 6</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Health in the Wild</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Speaking of Nothing</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Soviet Working Week</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">Matching Names</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">YES/NO/NG</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL9-TEST7.html" class="test-card" data-search="seaweed celtic language psychology new product adoption">
+        <div class="card-top"><span class="card-num">VOL 9 &middot; TEST 7</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Seaweed</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Celtic Language</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">Psychology of New Product Adoption</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Table Completion</span><span class="qtype-tag">Matching Para</span><span class="qtype-tag">Matching Names</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">YES/NO/NG</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL9-TEST8.html" class="test-card" data-search="australia airborne dentists public art programs australian landscapes">
+        <div class="card-top"><span class="card-num">VOL 9 &middot; TEST 8</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Australia's Airborne Dentists</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Public Art Programs</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">200 Years of Australian Landscapes</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Notes Completion</span><span class="qtype-tag special">Matching Headings</span><span class="qtype-tag">Matching Names</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">Sentence Endings</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+      <a href="VOL9-TEST9.html" class="test-card" data-search="cranberry dark chocolate all family">
+        <div class="card-top"><span class="card-num">VOL 9 &middot; TEST 9</span><span class="card-badge">40 Q</span></div>
+        <div class="card-passages">
+          <div class="passage-item"><span class="passage-num">P1</span><span class="passage-title">Cranberry Fruit</span></div>
+          <div class="passage-item"><span class="passage-num">P2</span><span class="passage-title">Dark Chocolate</span></div>
+          <div class="passage-item"><span class="passage-num">P3</span><span class="passage-title">All in the Family</span></div>
+        </div>
+        <div class="card-qtypes"><span class="qtype-tag">TRUE/FALSE/NG</span><span class="qtype-tag">Notes Completion</span><span class="qtype-tag">Matching Para</span><span class="qtype-tag">Matching Names</span><span class="qtype-tag">MCQ</span><span class="qtype-tag">Drag &amp; Drop</span></div>
+        <div class="card-footer"><span class="card-qcount">P1: Q1&ndash;13 &bull; P2: Q14&ndash;26 &bull; P3: Q27&ndash;40</span><button class="open-btn">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+      </a>
+    </div>
+  </div>
 </div>
-
-<div class="footer">
-  Built with &hearts; &bull; IELTS Reading VOL 8 &bull; <span>11 Tests &bull; 440 Questions</span>
-</div>
-
+<script>
+function filterCards(){
+  const q=document.getElementById('searchInput').value.toLowerCase().trim();
+  document.querySelectorAll('.test-card').forEach(card=>{
+    const data=(card.dataset.search||'').toLowerCase();
+    const title=card.querySelector('.card-passages')?.textContent.toLowerCase()||'';
+    const num=card.querySelector('.card-num')?.textContent.toLowerCase()||'';
+    const match=!q||data.includes(q)||title.includes(q)||num.includes(q);
+    card.classList.toggle('hidden',!match);
+  });
+}
+</script>
 </body>
 </html>

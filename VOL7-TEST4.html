@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading &ndash; VOL 7 TEST 4</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+.passage-panel{display:none;}.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+.q-panel{display:none;}.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.blank-input{border:none;border-bottom:2px solid #1a1a1a;background:transparent;font-size:0.88rem;padding:2px 4px;min-width:110px;outline:none;font-family:'Lexend',sans-serif;}
+.blank-input.correct{border-bottom-color:#16a34a;background:#dcfce7;}
+.blank-input.wrong{border-bottom-color:#dc2626;background:#fee2e2;}
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:36px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+/* Heading DnD */
+.heading-chip{display:inline-flex;align-items:center;padding:5px 12px;background:#1a1a1a;color:#fff;border-radius:20px;cursor:grab;font-size:0.78rem;font-family:'Lexend',sans-serif;user-select:none;margin:3px;border:2px solid transparent;line-height:1.4;}
+.heading-chip:active{cursor:grabbing;}
+.heading-chip.dragging{opacity:0.4;}
+.heading-chip.used{background:#6b7280;cursor:default;}
+.heading-chip-pool{display:flex;flex-wrap:wrap;gap:4px;padding:10px 12px;background:#f9fafb;border:1.5px dashed #9ca3af;border-radius:8px;margin-bottom:14px;min-height:44px;}
+.heading-dropzone{display:inline-flex;align-items:center;justify-content:center;min-width:180px;height:28px;border:2px dashed #9ca3af;border-radius:14px;padding:0 10px;font-size:0.76rem;color:#9ca3af;vertical-align:middle;margin:3px 0;transition:border-color 0.15s,background 0.15s;position:relative;}
+.heading-dropzone.drag-over{border-color:#1d4ed8;background:#eff6ff;}
+.heading-dropzone.filled{border-style:solid;border-color:#1a1a1a;background:#1a1a1a;color:#fff;font-weight:600;}
+.heading-dropzone.correct{border-color:#16a34a!important;background:#dcfce7!important;color:#16a34a!important;}
+.heading-dropzone.wrong{border-color:#dc2626!important;background:#fee2e2!important;color:#dc2626!important;}
+.heading-dropzone .hdz-remove{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:#fff;color:#1a1a1a;font-size:0.6rem;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;line-height:1;}
+.heading-dropzone.filled .hdz-remove{display:flex;}
+.heading-dropzone:not(.filled) .hdz-remove{display:none;}
+.para-heading-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.headings-list{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:10px 14px;font-size:0.82rem;margin-bottom:14px;}
+.headings-list div{padding:3px 0;border-bottom:1px solid #f3f4f6;}
+.headings-list div:last-child{border-bottom:none;}
+.notes-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.notes-box h4{font-size:0.88rem;font-weight:700;margin:0 0 8px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+.notes-box ul{margin:6px 0 6px 20px;padding:0;}
+.notes-box li{margin-bottom:4px;}
+.summary-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.4;margin-bottom:12px;}
+/* Table styling */
+.passage-text table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:12px 0;}
+.passage-text table th{background:#374151;color:#fff;padding:7px 10px;text-align:left;font-weight:600;}
+.passage-text table td{padding:7px 10px;border:1px solid #e5e7eb;vertical-align:top;line-height:1.7;}
+.passage-text table tr:nth-child(even) td{background:#f9fafb;}
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+.blank-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+.hdz-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="header">
+  <h1>IELTS READING &ndash; VOL 7 TEST 4</h1>
+  <div id="timer-wrap">
+    <span id="timer">60:00</span>
+    <button id="btn-pause">&#9208; Pause</button>
+    <button id="btn-submit-exam">Submit</button>
+  </div>
+</div>
+<div id="tab-bar">
+  <button class="tab-btn active" data-target="0">PASSAGE 1</button>
+  <button class="tab-btn" data-target="1">PASSAGE 2</button>
+  <button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+<div id="split">
+  <div id="left-pane">
+    <div class="passage-panel active" id="passage-content-0">
+      <div class="passage-title">RUBBER</div>
+      <div class="passage-subtitle">T and W Musgrove discuss the origins and early uses of rubber</div>
+      <div class="passage-text">
+        <p>The plants that produce rubber are spread right across the globe, and grow in many different habitats. One might think it likely, therefore, that humankind has known about rubber for thousands of years. Yet, unlike other crops of economic importance, rubber led a relatively anonymous life until the last 150 years or so. <span class="loc-q2">The Indians of South America appear to be the first people to have understood the properties of rubber, and the Aztecs of what is now Mexico were the first to be recorded using the substance; a wall painting dating back to the sixth century depicts a scene of a tributary offering of crude rubber.</span> With the arrival of Columbus in the Americas and the resulting Spanish influx, further evidence starts to appear concerning the Native American use of rubber. Antonio de Herrera y Tordesillas describes a ritual game played with a rubber ball at the court of the Aztec Emperor Montezuma II, and the Mayan and Toltec people are known to have taken part in similar activities. <span class="loc-q3">Rubber was also used to make raincoats, shoes, jars, torches and musical instruments, all of which must have been made from the indigenous Castilla elastica, as the Para plant now favoured for rubber cultivation does not grow in the Mexican region.</span></p>
+        <p>The first description of latex (liquid rubber) extraction is made by Juan de Torquemada, who noted that if a receptacle was not at hand the Native Americans would place the latex on their bodies to allow it to solidify. <span class="loc-q4">However, no real interest in rubber was shown by any European until Charles de la Condamine, a French mathematician, published an account of his journey to South America in 1735.</span> The journey was undertaken on behalf of the Paris Academy of Sciences to measure an arc of the meridian line on the equator, but the journey home was to turn out to be more significant than the true purpose of the trip. Condamine explored Brazil and Peru and discovered how the local people used one single piece of coagulated latex to make boots. The boots were impervious to water and, when smoked, looked like real leather. In 1747 the first description of the rubber tree and latex tapping was made by a military engineer and amateur botanist, François Fresneau, who was posted to French Guiana. The publications of Condamine and Fresneau created considerable excitement among French scientists, and an attempt was made to discover a solvent that could turn the crude rubber into a substance for commercial exploitation.</p>
+        <p><span class="loc-q7">In 1818 a British medical student named James Syme first used rubber to make waterproof cloth.</span> Another early use of the substance was as an eraser of pencil marks, hence the name 'rubber'. This was complemented by balloons, rubber bands, braces, boots for the army and other ideas that met with varying degrees of success. <span class="loc-q8">In 1820 Thomas Hancock, an English manufacturer of rubber goods such as driving belts, industrial rollers and rubber hoses, invented a machine he called the 'piokle', which chewed up waste strips for re-use.</span> It was discovered that the masticated rubber was more malleable, while maintaining much of its elasticity. In Scotland at the same time Charles Mackintosh had discovered a way of using rubber as waterproofing material, by a process he patented in 1823. Hancock and Mackintosh joined forces in 1834, and three years later Hancock invented a machine for spreading rubber onto material.</p>
+        <p>Despite their beneficial qualities, such as waterproofing, rubber goods were still not particularly popular as they had some major flaws, including the fact that they dissolved malodorously. <span class="loc-q9">They also became pliant when warm and rigid when cold.</span> <span class="loc-q5"><span class="loc-q10">Then in 1839 the American Charles Goodyear discovered that it was possible to stabilise rubber by mixing it with sulphur while exposing it to heat - a process he called vulcanisation - and the full versatility of this extraordinary substance became apparent.</span></span></p>
+        <p>Rubber goods could now be manufactured which had all the beneficial qualities of the material, such as durability, elasticity and variability, but which were not sticky, soluble or governed by the vagaries of the weather. The economic potential of rubber was now clearly evident. <span class="loc-q11">It played an important role in the Industrial Revolution, being employed in the steam engines found in factories, mills, mines and railways.</span> It made a triumphant entrance as a new and innovative material at the Great Exhibition of 1851, where shoes, airbeds, furniture and clothing made out of newly improved rubber were proudly displayed.</p>
+        <p><span class="loc-q12">One of the most important rubber inventions was made in 1888, when an Irishman called John Boyd Dunlop produced the first pneumatic tyre.</span> Solid rubber tyres had been used for the previous 18 years, but Dunlop's new design, which he updated in 1890, immediately became popular. <span class="loc-q13">In 1895 Dunlop's tyres were first used in motor cars, and with the mass production of cars just over the horizon the rubber industry had never looked healthier.</span> The import levels of rubber over the nineteenth century bear witness to its irrepressible rise. <span class="loc-q6">In 1830 Britain had imported just 211 kg of crude rubber.</span> This had risen to 10,000kg in 1857, and by 1874 levels were just under six times as much again.</p>
+      </div>
+    </div>
+    <div class="passage-panel" id="passage-content-1">
+      <div class="passage-title">THE MYTH OF THE EIGHT-HOUR SLEEP</div>
+      <div class="passage-subtitle">We often worry about lying awake in the middle of the night &ndash; but it could be good for you</div>
+      <div class="passage-text">
+        <p>The Myth of the Eight-hour Sleep</p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 14:</span>
+          <span class="heading-dropzone" id="hdz-2-14" data-q="14"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="14">&#128269;</button>
+        </div>
+        <p><span class="loc-q14">We often worry about lying awake in the middle of the night – but it could be good for you
+Indications from both science and history suggest that the eight-hour sleep may not be a</span> <span class="loc-q24">In the early 1990s, psychiatrist Thomas Wehr conducted research which implies just that Wehr kept a group of people in a darkened room or 14 hours a day for a month.</span> It took some time for their sleep to regulate, but by the fourth week the subjects had settled into a very distinct sleeping pattern. Firstly, they slept four hours, then woke for one or two hours before falling into a second four-hour sleep. Though sleep scientists were impressed by the implications of the study, the idea that we must sleep for eight consecutive hours persists amongst the general public.</p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 15:</span>
+          <span class="heading-dropzone" id="hdz-2-15" data-q="15"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="15">&#128269;</button>
+        </div>
+        <p><span class="loc-q15">In 2001, <span class="loc-q21">historian Roger Ekirch of Virginia Tech University</span> in the US published a paper drawn from 16 years of research, revealing historical evidence that humans used to sleep in two distinct periods of time each night. Ekirch's research found more than 500 references to a segmented sleeping pattern – in diaries, court recorders, medical books and literature, from the ancient Greeks to tribes in Nigeria. Much like Wehr's findings, these references describe a first sleep which began not long following sunset. <span class="loc-q20">Then there was a waking period of one or two hours and after that a second sleep.</span> During the waking period, people could be quite active. They sometimes got up and moved around the house, although most people stayed in bed, and perhaps read or wrote if they had enough money for candles. In many historic accounts, Ekirch found that people used the time that they were awake between periods of sleep to think about and attempt to analyse their dreams.</span></p>
+        <p>In his book, Evening's Empire, historian Craig Koslofsky suggested an explanation for this divided sleep pattern in Europe. 'Associations with night before the 17th century were not good,' he writes. <span class="loc-q26">He goes on to explain that the streets of cities and towns at night were often populated by thieves or worse.</span> The streets at night consequently scared many people. Even the wealthy, who could afford to light their way, had better things to spend their money on. There was no prestige or social value with going out or staying up late at night.</p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 16:</span>
+          <span class="heading-dropzone" id="hdz-2-16" data-q="16"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="16">&#128269;</button>
+        </div>
+        <p><span class="loc-q16">Ekirch found that references to the first and second sleep started to disappear during the late 17th century.</span> The pattern began to alter first among the urban upper classes changing amongst the rest of Western society. By the 1920s, the idea of a first and second sleep had receded entirely from our social consciousness. Ekirch attributes the initial shift to improvements in street and home lighting. As the night became a time for all kinds of activity, the length of time people used for rest declined.</p>
+        <p>In 1667, Paris became the first city in the world to light its streets, using wax candles in glass lamps. It was followed by another French city, Lille, in the same year and by Amsterdam in Holland two years later, where a much more efficient oil-powered lamp was developed. <span class="loc-q19"><span class="loc-q22">London didn't light its streets until 1584, but by the end of the 17th century, more than 50 of Europe's major towns and cities were lit at night.</span></span> Coffee houses emerged as a fashionable phenomenon</p>
+        <p>and many were open virtually around the clock. Going out at night became commonplace, and spending hours lying in bed was considered a waste of time. ‘People were becoming increasingly time-conscious and sensitive to efficiency, certainly before the 19th century,’ says Ekirch. ‘But the Industrial Revolution intensified that attitude considerably.’ Strong evidence of this shifting attitude is contained in a medical journal from 1829 which urged parents to force their children out of the pattern of first and second sleep.</p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 17:</span>
+          <span class="heading-dropzone" id="hdz-2-17" data-q="17"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="17">&#128269;</button>
+        </div>
+        <p><span class="loc-q17">Today, most people seem to have adapted quite well to the eight-hour sleep, but Ekirch believes many sleeping problems may have roots in the human body's natural preference for</span> This could be the cause of a condition called sleep maintenance insomnia, where people wake during the night and have trouble getting back to sleep. The condition first appears in literature at the end of the 19th century, at the same time as accounts of interrupted sleep disappear.</p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 18:</span>
+          <span class="heading-dropzone" id="hdz-2-18" data-q="18"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="18">&#128269;</button>
+        </div>
+        <p><span class="loc-q18">Sleep psychologist, Gregg Jacobs, says that <span class="loc-q23">the idea that we must sleep for an extended period of time could be changing</span>. <span class="loc-q25">If it makes people who wake up in the night anxious, as this anxiety can itself discourage sleep and is likely to affect waking life too.</span> Jacobs suggests that the waking period between sleeping, when people simply rested and relaxed, could have played an important part in the human capacity to regulate stress naturally. Russell Foster, a professor of circadian (body clock) neuroscience at Oxford University in the UK, shares this point of view. 'Over 30% of the medical problems that doctors are faced with stem directly or indirectly from sleep. But sleep has been ignored in medical training, and there are very few countries where sleep is studied,' Foster says. He feels this needs to change.</span></p>
+      </div>
+    </div>
+    <div class="passage-panel" id="passage-content-2">
+      <div class="passage-title">LIVING DUNES</div>
+      <div class="passage-subtitle">Things don&rsquo;t come much stranger than heaps of sand that can move and sing of their own accord</div>
+      <div class="passage-text">
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 27:</span>
+          <span class="heading-dropzone" id="hdz-3-27" data-q="27"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="27">&#128269;</button>
+        </div>
+        <p><span class="loc-q27">Armies of giant sand dunes are advancing across the world's deserts, engulfing anything that crosses their path.</span> They are tens of metres tall and hundreds of metres long. Fortunately, they aren't going very fast. Even the smallest, speediest dunes only travel about 100 metres over the course of a year, while the bigger ones, which weigh something in the order of 10,000 tonnes, barely move one metre in that time. However, their insidious creep can have serious consequences if there is an oil installation or a railway line in their path.</p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 28:</span>
+          <span class="heading-dropzone" id="hdz-3-28" data-q="28"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="28">&#128269;</button>
+        </div>
+        <p><span class="loc-q28">About 47% of the world's land mass, including Antarctica, most of Australia and large areas of Africa, is classified as arid or semi-arid desert.</span> Only around 20% of that is sand-covered, however, and over half of that is classified as 'linear' sand dunes. These form in a long curving wave, as a result of wind blowing strongly from several quarters, flipping them from side to side. Although linear dunes are static, sand blowing off them can cause problems for desert villages, burying crops and buildings.</p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 29:</span>
+          <span class="heading-dropzone" id="hdz-3-29" data-q="29"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="29">&#128269;</button>
+        </div>
+        <p><span class="loc-q29">Moving dunes make up just a small percentage of the rest, but they are of the most interest to scientists.</span> <span class="loc-q35">They are known as 'barchans': heavy, crescent-shaped sand piles with a ridged crest and two elongated arms, one curving away to either side.</span> <span class="loc-q34">'Barchan dunes only tend to form where you have one-directional winds on the edge of sandy deserts near coastal areas,' says Giles Wiggs, a geomorphologist at Oxford University, who has been studying the formation and movement of sand dunes for more than a decade.</span></p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 30:</span>
+          <span class="heading-dropzone" id="hdz-3-30" data-q="30"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="30">&#128269;</button>
+        </div>
+        <p><span class="loc-q30">But even with strong winds, how can entire barchans move while retaining their form? That question was first answered in the mid-20th century by British explorer Ralph Alger Bagnold, and his answer hinges on the fact that dunes aren't solid, but granular.</span> Bagnold figured out how barchan dunes are able to move grain by grain. Imagine a single grain of sand being blown up the back of a dune by the wind and deposited on the top. More grains follow the same pattern, until the accumulated weight of piled-up sand finally pushes the top down the dune face. The grain tumbles, then stops on the face until subsequent mini-avalanches bury it. Eventually, it reappears at the back of the dune, ready to repeat the process. As this happens to every grain of sand in the dune, the whole thing creeps in the direction of the prevailing wind.</p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 31:</span>
+          <span class="heading-dropzone" id="hdz-3-31" data-q="31"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="31">&#128269;</button>
+        </div>
+        <p><span class="loc-q31">The relationship between the wind and barchan dunes is complex.</span> As a dune grows, it modifies the speed and course of the wind, which in turn alters how that dune and its neighbours evolve. <span class="loc-q36">'Interestingly, the dune can regulate its own shape, and maintain it as it moves,' says Dr Stéphane Douady, a physicist at Ecole Normale Supérieure (ENS) in France.</span> 'Even when two dunes collide, they quickly take on their distinctive shapes again. It's like a living organism.'</p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 32:</span>
+          <span class="heading-dropzone" id="hdz-3-32" data-q="32"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="32">&#128269;</button>
+        </div>
+        <p><span class="loc-q32">Douady and his colleagues have also been studying an even odder phenomenon than moving dunes: some barchans actually sing.</span> Local legends attributed the sounds to dangerous spirits which were trying to trap unwary travellers. Douady is more pragmatic. <span class="loc-q37">'It's a strong booming noise with a low frequency,' he explains, making a noise like a foghorn to demonstrate.</span> 'It can last for a long time - up to several minutes. It's a very loud sound and you don't understand where it's coming from when you first hear it.' There are about 50 dunes distributed across 35 deserts round the world that are known to sing. Douady says the sound is caused by the way sand avalanches down the faces of particular dunes. Rather than tumbling randomly, the sand grains flow in synchrony and set each other vibrating like the membrane on a gigantic loudspeaker. The synchronisation causes the air to move in and out between the grains, creating a powerful sound wave.</p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 33:</span>
+          <span class="heading-dropzone" id="hdz-3-33" data-q="33"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="33">&#128269;</button>
+        </div>
+        <p><span class="loc-q33">What really surprised the scientists, however, was that they were able to take samples of the singing sand back to France and replicate the sound at ENS, proving that it's the</span> <span class="loc-q38"><span class="loc-q39">Their studies show the grains are a uniform shape, well-rounded from years of striking each other, and that the variations in size affect the tone.</span></span> <span class="loc-q40">Crucially, the grains are coated with a special veneer, which Douady calls 'desert glaze', made from a precise combination of minerals from surrounding rocks including iron, aluminium, manganese, silicon and calcium.</span> The team found that after a month or so, the veneer wore off and the grains lost their 'voice'. 'We managed to reproduce the desert glaze and then the grains started to sing again,' says Douady. 'We tried putting the coating onto different grains, but they weren't round enough and it didn't work. But some American colleagues made some artificial grains and managed to make them sing, after covering them in desert glaze. Douady has now made recordings of dunesong from all over the world which are to be made into a CD.</p>
+      </div>
+    </div>
+  </div><!-- /left-pane -->
+  <div id="resize-handle"></div>
+  <div id="right-pane">
+
+    <!-- PASSAGE 1 Qs -->
+    <div class="q-panel active" id="qpanel-0">
+      <div class="q-section">
+        <div class="q-section-title">Questions 1&ndash;6</div>
+        <div class="q-instruction">Choose TRUE, FALSE, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-1">
+          <div class="q-label"><span class="q-num">1</span><span>Rubber plants grow only in certain regions of the world.</span><button class="locate-btn" data-q="1">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="1" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="1" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="1" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-2">
+          <div class="q-label"><span class="q-num">2</span><span>Rubber was extracted in Mexico as early as the sixth century.</span><button class="locate-btn" data-q="2">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="2" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="2" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="2" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-3">
+          <div class="q-label"><span class="q-num">3</span><span>Rubber from the <em>Castilla elastica</em> plant is of poorer quality than that from the Para plant.</span><button class="locate-btn" data-q="3">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="3" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="3" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="3" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-4">
+          <div class="q-label"><span class="q-num">4</span><span>A French mathematician inspired real interest in rubber amongst Europeans.</span><button class="locate-btn" data-q="4">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="4" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="4" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="4" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-5">
+          <div class="q-label"><span class="q-num">5</span><span>The process of vulcanisation was discovered by accident.</span><button class="locate-btn" data-q="5">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="5" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="5" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="5" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-6">
+          <div class="q-label"><span class="q-num">6</span><span>Imports of crude rubber into Britain fell during the nineteenth century.</span><button class="locate-btn" data-q="6">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="6" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="6" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="6" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+      <div class="q-section">
+        <div class="q-section-title">Questions 7&ndash;13</div>
+        <div class="q-instruction">Complete the summary below. Write NO MORE THAN THREE WORDS from the passage for each answer.</div>
+        <div class="notes-box">
+          <h4>The Commercial Development of Rubber</h4>
+          <p>Early European travellers gave accounts of various rubber objects in use in Central and South America, and these accounts created interest in the commercial exploitation of rubber. In 1818, <span id="q-target-7"><input class="blank-input" id="blank-q7" data-q="7" placeholder="7" style="width:150px"></span><button class="locate-btn" data-q="7">&#128269;</button> was produced using rubber, and in 1820 a machine was invented for recycling <span id="q-target-8"><input class="blank-input" id="blank-q8" data-q="8" placeholder="8" style="width:120px"></span><button class="locate-btn" data-q="8">&#128269;</button> of rubber. Over the next few years, other attempts were made to improve rubber, but some problems remained. For example, rubber products smelt bad when they were dissolved, and could turn either soft or <span id="q-target-9"><input class="blank-input" id="blank-q9" data-q="9" placeholder="9" style="width:80px"></span><button class="locate-btn" data-q="9">&#128269;</button> depending on the temperature. However, in 1839 a new process to <span id="q-target-10"><input class="blank-input" id="blank-q10" data-q="10" placeholder="10" style="width:100px"></span><button class="locate-btn" data-q="10">&#128269;</button> the substance greatly increased its potential. For example, rubber was used in the creation of the <span id="q-target-11"><input class="blank-input" id="blank-q11" data-q="11" placeholder="11" style="width:130px"></span><button class="locate-btn" data-q="11">&#128269;</button> industry during the Industrial Revolution. Then in 1888 the <span id="q-target-12"><input class="blank-input" id="blank-q12" data-q="12" placeholder="12" style="width:140px"></span><button class="locate-btn" data-q="12">&#128269;</button> was developed, and a few years later the <span id="q-target-13"><input class="blank-input" id="blank-q13" data-q="13" placeholder="13" style="width:140px"></span><button class="locate-btn" data-q="13">&#128269;</button> of the motor car began.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2 Qs -->
+    <div class="q-panel" id="qpanel-1">
+      <div class="q-section">
+        <div class="q-section-title">Questions 14&ndash;18</div>
+        <div class="q-instruction">Reading Passage 2 has five sections. Choose the correct heading for each section from the list of headings below. Drag each heading chip to the correct section in the passage on the left.</div>
+        <div class="headings-list">
+          <div><strong>i</strong> Historical reasons why interrupted sleep became uncommon</div>
+          <div><strong>ii</strong> Brain structures involved in sleep patterns</div>
+          <div><strong>iii</strong> Potential health issues related to sleep</div>
+          <div><strong>iv</strong> Famous cases in literature of sleep</div>
+          <div><strong>v</strong> An analysis of old documents to discover deep patterns</div>
+          <div><strong>vi</strong> Biological and environmental factors preventing people from falling asleep again</div>
+          <div><strong>vii</strong> Scientific evidence that divided sleep is a natural phenomenon</div>
+        </div>
+        <div class="heading-chip-pool" id="heading-chip-pool-2">
+          <div class="heading-chip" draggable="true" data-heading="i" id="hchip-2-i"><strong>i.</strong>&nbsp;Historical reasons for change</div>
+          <div class="heading-chip" draggable="true" data-heading="ii" id="hchip-2-ii"><strong>ii.</strong>&nbsp;Brain structures in sleep</div>
+          <div class="heading-chip" draggable="true" data-heading="iii" id="hchip-2-iii"><strong>iii.</strong>&nbsp;Health issues related to sleep</div>
+          <div class="heading-chip" draggable="true" data-heading="iv" id="hchip-2-iv"><strong>iv.</strong>&nbsp;Famous cases in literature</div>
+          <div class="heading-chip" draggable="true" data-heading="v" id="hchip-2-v"><strong>v.</strong>&nbsp;Analysis of old documents</div>
+          <div class="heading-chip" draggable="true" data-heading="vi" id="hchip-2-vi"><strong>vi.</strong>&nbsp;Biological &amp; environmental factors</div>
+          <div class="heading-chip" draggable="true" data-heading="vii" id="hchip-2-vii"><strong>vii.</strong>&nbsp;Scientific evidence of divided sleep</div>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 19&ndash;23</div>
+        <div class="q-instruction">Match each statement with the correct researcher, A&ndash;E. You may use any letter more than once.</div>
+        <div class="notes-box" style="line-height:1.6;">
+          <div><strong>A.</strong> Thomas Wehr &nbsp;&nbsp;<strong>B.</strong> Roger Ekirch &nbsp;&nbsp;<strong>C.</strong> Craig Koslofsky &nbsp;&nbsp;<strong>D.</strong> Gregg Jacobs &nbsp;&nbsp;<strong>E.</strong> Russell Foster</div>
+        </div>
+        <table class="radio-grid-table" id="rgt-19-23">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Statement</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th><th class="rgt-opt">E</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-19"><td class="rgt-num">19</td><td class="rgt-stmt">In certain historical periods, the threat of criminal danger led to segmented sleep.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="19">&#128269;</button></td></tr>
+            <tr id="q-target-20"><td class="rgt-num">20</td><td class="rgt-stmt">Physicians should learn more about treating people with sleeping difficulties.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="20">&#128269;</button></td></tr>
+            <tr id="q-target-21"><td class="rgt-num">21</td><td class="rgt-stmt">Historically, when people experienced interrupted sleep, they used the waking period at night for different activities.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="21">&#128269;</button></td></tr>
+            <tr id="q-target-22"><td class="rgt-num">22</td><td class="rgt-stmt">Technological changes in Europe made people more likely to sleep throughout the night.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="22">&#128269;</button></td></tr>
+            <tr id="q-target-23"><td class="rgt-num">23</td><td class="rgt-stmt">The belief that humans should have a long continuous sleep can be psychologically harmful.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="23">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 24&ndash;26</div>
+        <div class="q-instruction">Complete the summary below. Write ONE WORD ONLY from the passage for each answer.</div>
+        <div class="notes-box">
+          <h4>Historical patterns of interrupted sleep</h4>
+          <p>Historical evidence seems to show that humans had common sleep patterns which were quite unlike today&rsquo;s eight hours of unbroken sleep each night. People habitually went to bed early, soon after <span id="q-target-24"><input class="blank-input" id="blank-q24" data-q="24" placeholder="24" style="width:90px"></span><button class="locate-btn" data-q="24">&#128269;</button>, slept for a while, then woke up for a few hours of activity or perhaps to consider, for example, the meaning of their <span id="q-target-25"><input class="blank-input" id="blank-q25" data-q="25" placeholder="25" style="width:90px"></span><button class="locate-btn" data-q="25">&#128269;</button>. They then went back to sleep until morning. This pattern was so common that it was even used as a cover by <span id="q-target-26"><input class="blank-input" id="blank-q26" data-q="26" placeholder="26" style="width:90px"></span><button class="locate-btn" data-q="26">&#128269;</button> who could claim to be out at night for innocent reasons.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3 Qs -->
+    <div class="q-panel" id="qpanel-2">
+      <div class="q-section">
+        <div class="q-section-title">Questions 27&ndash;33</div>
+        <div class="q-instruction">Reading Passage 3 has seven paragraphs. Choose the correct heading for each paragraph from the list of headings below. Drag each heading chip to the correct paragraph in the passage on the left.</div>
+        <div class="headings-list">
+          <div><strong>i</strong> Moving rapidly across the desert</div>
+          <div><strong>ii</strong> Recreating the process in a laboratory</div>
+          <div><strong>iii</strong> Strange music created by human movement</div>
+          <div><strong>iv</strong> A potential threat to industry and communications</div>
+          <div><strong>v</strong> Dunes coming together and re-forming</div>
+          <div><strong>vi</strong> Needing a specific combination of conditions</div>
+          <div><strong>vii</strong> A continuous cycle</div>
+          <div><strong>viii</strong> The commonest type of dune</div>
+          <div><strong>ix</strong> Old superstitions demystified</div>
+        </div>
+        <div class="heading-chip-pool" id="heading-chip-pool-3">
+          <div class="heading-chip" draggable="true" data-heading="i" id="hchip-3-i"><strong>i.</strong>&nbsp;Moving rapidly</div>
+          <div class="heading-chip" draggable="true" data-heading="ii" id="hchip-3-ii"><strong>ii.</strong>&nbsp;Recreating in laboratory</div>
+          <div class="heading-chip" draggable="true" data-heading="iii" id="hchip-3-iii"><strong>iii.</strong>&nbsp;Strange music</div>
+          <div class="heading-chip" draggable="true" data-heading="iv" id="hchip-3-iv"><strong>iv.</strong>&nbsp;Threat to industry</div>
+          <div class="heading-chip" draggable="true" data-heading="v" id="hchip-3-v"><strong>v.</strong>&nbsp;Dunes re-forming</div>
+          <div class="heading-chip" draggable="true" data-heading="vi" id="hchip-3-vi"><strong>vi.</strong>&nbsp;Specific conditions needed</div>
+          <div class="heading-chip" draggable="true" data-heading="vii" id="hchip-3-vii"><strong>vii.</strong>&nbsp;A continuous cycle</div>
+          <div class="heading-chip" draggable="true" data-heading="viii" id="hchip-3-viii"><strong>viii.</strong>&nbsp;Commonest type of dune</div>
+          <div class="heading-chip" draggable="true" data-heading="ix" id="hchip-3-ix"><strong>ix.</strong>&nbsp;Old superstitions demystified</div>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 34&ndash;36</div>
+        <div class="q-instruction">Choose the correct answer.</div>
+        <div class="q-item" id="q-target-34">
+          <div class="q-label"><span class="q-num">34</span><span>What are we told about linear dunes?</span><button class="locate-btn" data-q="34">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="34" data-val="A"><span class="radio-circle"></span>A They are formed by strong winds blowing from one direction.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="B"><span class="radio-circle"></span>B They can move up to 100 metres in a twelve-month period.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="C"><span class="radio-circle"></span>C They develop in a recognisable shape.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="D"><span class="radio-circle"></span>D They make up about 20% of the world&rsquo;s deserts.</button>
+        </div>
+        <div class="q-item" id="q-target-35">
+          <div class="q-label"><span class="q-num">35</span><span>Bagnold discovered that movement in barchans was caused by</span><button class="locate-btn" data-q="35">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="35" data-val="A"><span class="radio-circle"></span>A the long straight shape of the dunes.</button>
+          <button class="mc-opt-btn" data-q="35" data-val="B"><span class="radio-circle"></span>B the particular composition of the dunes.</button>
+          <button class="mc-opt-btn" data-q="35" data-val="C"><span class="radio-circle"></span>C the exceptionally heavy nature of the sand grains.</button>
+          <button class="mc-opt-btn" data-q="35" data-val="D"><span class="radio-circle"></span>D the unusual strength of the wind in certain seasons.</button>
+        </div>
+        <div class="q-item" id="q-target-36">
+          <div class="q-label"><span class="q-num">36</span><span>Why does Dr Douady compare a barchan dune to a living organism?</span><button class="locate-btn" data-q="36">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="36" data-val="A"><span class="radio-circle"></span>A It starts small and then increases in size.</button>
+          <button class="mc-opt-btn" data-q="36" data-val="B"><span class="radio-circle"></span>B It has an effect on its immediate surroundings.</button>
+          <button class="mc-opt-btn" data-q="36" data-val="C"><span class="radio-circle"></span>C Its relations with desert organisms are quite developed.</button>
+          <button class="mc-opt-btn" data-q="36" data-val="D"><span class="radio-circle"></span>D Its outline stays the same even after a period of movement.</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 37&ndash;40</div>
+        <div class="q-instruction">Complete the summary below. Write NO MORE THAN TWO WORDS from the passage for each answer.</div>
+        <div class="notes-box">
+          <h4>Singing dunes</h4>
+          <p>Singing dunes, which belong to the type of dunes known as <span id="q-target-37"><input class="blank-input" id="blank-q37" data-q="37" placeholder="37" style="width:130px"></span><button class="locate-btn" data-q="37">&#128269;</button>, produce a very loud sound which is transmitted at a low frequency. Researchers have worked out that sand grains fall down the dune and start vibrating against other grains, forming a sound wave.</p>
+          <p>Research proves that the individual grains have a similar <span id="q-target-38"><input class="blank-input" id="blank-q38" data-q="38" placeholder="38" style="width:90px"></span><button class="locate-btn" data-q="38">&#128269;</button>, but the differences in dimensions alter the <span id="q-target-39"><input class="blank-input" id="blank-q39" data-q="39" placeholder="39" style="width:80px"></span><button class="locate-btn" data-q="39">&#128269;</button> of the &lsquo;song&rsquo;. Each grain is covered with a mixture of different <span id="q-target-40"><input class="blank-input" id="blank-q40" data-q="40" placeholder="40" style="width:100px"></span><button class="locate-btn" data-q="40">&#128269;</button> and this is vital to the sound production.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /right-pane -->
+</div><!-- /split -->
+
+<div id="footer-nav">
+  <span class="nav-label">Q:</span>
+  <div id="nav-grid"></div>
+  <div id="font-controls">
+    <span>Font:</span>
+    <button id="btn-font-up">A+</button>
+    <button id="btn-font-dn">A&minus;</button>
+  </div>
+</div>
+</div><!-- /app -->
+
+<div id="highlight-menu">
+  <button style="background:#fef08a" onclick="applyHighlight('highlight-yellow')"></button>
+  <button style="background:#bbf7d0" onclick="applyHighlight('highlight-green')"></button>
+  <button style="background:#fbcfe8" onclick="applyHighlight('highlight-pink')"></button>
+  <button class="erase-btn" onclick="applyHighlight('erase')">&#10005;</button>
+</div>
+
+<div id="result-modal">
+  <div id="result-box">
+    <h2>Your Result</h2>
+    <div id="result-score">0/40</div>
+    <div id="result-band">Band: &ndash;</div>
+    <div id="result-breakdown"></div>
+    <button id="btn-close-modal">Review Answers</button>
+  </div>
+</div>
+
+<script>
+const ANSWERS={1:'FALSE',2:'TRUE',3:'NOT GIVEN',4:'TRUE',5:'NOT GIVEN',6:'FALSE',7:'waterproof cloth',8:'waste strips',9:'rigid',10:'stabilise',11:'steam engines',12:'pneumatic tyre',13:'mass production',14:'vii',15:'v',16:'i',17:'vi',18:'iii',19:'C',20:'E',21:'B',22:'B',23:'D',24:'sunset',25:'dreams',26:'thieves',27:'iv',28:'viii',29:'vi',30:'vii',31:'v',32:'ix',33:'ii',34:'C',35:'B',36:'D',37:'barchans / dunes',38:'shape',39:'tone',40:'minerals'};
+const Q_PASSAGE={1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0,11:0,12:0,13:0,14:1,15:1,16:1,17:1,18:1,19:1,20:1,21:1,22:1,23:1,24:1,25:1,26:1,27:2,28:2,29:2,30:2,31:2,32:2,33:2,34:2,35:2,36:2,37:2,38:2,39:2,40:2};
+
+let userAnswers={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+function normalizeAnswer(s){
+  return s.trim().toLowerCase().replace(/[\u2018\u2019]/g,"'").replace(/[\u2013\u2014]/g,'-').replace(/\s+/g,' ');
+}
+function checkAnswer(user,correct){
+  const u=normalizeAnswer(user),c=normalizeAnswer(correct);
+  if(u===c)return true;
+  if(u.replace(/-/g,' ')===c.replace(/-/g,' '))return true;
+  if(c.includes(' / ')){const parts=c.split(' / ');for(const p of parts){if(u===normalizeAnswer(p))return true;}}
+  return false;
+}
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{p.style.display=i===t?'block':'none';p.classList.toggle('active',i===t);});
+  });
+});
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i;btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+document.querySelectorAll('.mc-opt-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+btn.dataset.q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();updateNav(q);
+  });
+});
+// Heading DnD
+let dragHeadingData=null;
+document.querySelectorAll('.heading-chip').forEach(chip=>{
+  chip.addEventListener('dragstart',e=>{
+    if(submitted)return;
+    dragHeadingData={heading:chip.dataset.heading,chipId:chip.id};
+    chip.classList.add('dragging');e.dataTransfer.effectAllowed='move';
+  });
+  chip.addEventListener('dragend',()=>chip.classList.remove('dragging'));
+});
+document.querySelectorAll('.heading-dropzone').forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag-over');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
+  zone.addEventListener('drop',e=>{
+    e.preventDefault();zone.classList.remove('drag-over');
+    if(submitted||!dragHeadingData)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById(prev);if(pc)pc.classList.remove('used');}
+    const chip=document.getElementById(dragHeadingData.chipId);
+    if(chip)chip.classList.add('used');
+    zone.dataset.filled=dragHeadingData.chipId;
+    zone.dataset.heading=dragHeadingData.heading;
+    zone.classList.add('filled');
+    const chipTxt=chip?chip.textContent.replace(/^[ivxlcdm]+\.\s*/i,'').trim():dragHeadingData.heading;
+    zone.querySelector('.hdz-text').textContent=dragHeadingData.heading+'. '+chipTxt;
+    const q=parseInt(zone.dataset.q);userAnswers[q]=dragHeadingData.heading;updateNav(q);dragHeadingData=null;
+  });
+  zone.querySelector('.hdz-remove').addEventListener('click',e=>{
+    e.stopPropagation();if(submitted)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById(prev);if(pc)pc.classList.remove('used');}
+    zone.dataset.filled='';zone.dataset.heading='';zone.classList.remove('filled');
+    zone.querySelector('.hdz-text').textContent='Drop heading here';
+    const q=parseInt(zone.dataset.q);delete userAnswers[q];updateNav(q);
+  });
+});
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+function submitExam(){
+  if(submitted)return;
+  submitted=true;clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=checkAnswer(user,ans);
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        const lbl=document.createElement('span');lbl.className='blank-correct-label';
+        lbl.textContent='\u2713 '+ans;lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+        inp.insertAdjacentElement('afterend',lbl);
+      }
+    }
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    const rgtRow=document.getElementById('q-target-'+q);
+    if(rgtRow&&rgtRow.tagName==='TR')rgtRow.classList.add(ok?'row-correct':'row-wrong');
+    const hdz=document.querySelector('.heading-dropzone[data-q="'+q+'"]');
+    if(hdz){
+      hdz.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        const lbl=document.createElement('span');lbl.className='hdz-correct-label';
+        lbl.textContent='\u2713 '+ans;lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+        hdz.insertAdjacentElement('afterend',lbl);
+      }
+    }
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    if(!ok)document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+  }
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1\u201313)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14\u201326)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27\u201340)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>document.getElementById('result-modal').classList.remove('show'));
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      const locEls=document.querySelectorAll('.loc-q'+q);
+      if(locEls.length===0)return;
+      let best=locEls[0];
+      locEls.forEach(el=>{if(el.textContent.trim().length<best.textContent.trim().length)best=el;});
+      if(best.textContent.trim().length>200){
+        const children=best.querySelectorAll('span');
+        children.forEach(child=>{const t=child.textContent.trim();if(t.length>=15&&t.length<best.textContent.trim().length)best=child;});
+      }
+      if(best.textContent.trim().length>200){
+        const answerKey=ANSWERS[q]?ANSWERS[q].toLowerCase():'';
+        const sentences=best.textContent.split(/(?<=[.!?])\s+/);
+        let bestSentence=null,bestLen=9999;
+        sentences.forEach(s=>{const st=s.trim();if(st.length>=20&&st.length<200){if(answerKey&&st.toLowerCase().includes(answerKey)){if(st.length<bestLen){bestSentence=st;bestLen=st.length;}}else if(!bestSentence&&st.length<bestLen){bestSentence=st;bestLen=st.length;}}});
+        if(bestSentence){
+          const walker=document.createTreeWalker(best,NodeFilter.SHOW_TEXT,null);
+          let node;const searchStr=bestSentence.substring(0,30);
+          while((node=walker.nextNode())){const idx=node.textContent.indexOf(searchStr);if(idx>=0){try{const range=document.createRange();range.setStart(node,idx);range.setEnd(node,Math.min(idx+bestSentence.length,node.textContent.length));const mark=document.createElement('span');mark.className='loc-highlight';mark.dataset.temp='1';range.surroundContents(mark);mark.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>{const parent=mark.parentNode;if(parent){while(mark.firstChild)parent.insertBefore(mark.firstChild,mark);parent.removeChild(mark);}},4000);return;}catch(e){}}}
+        }
+      }
+      best.classList.add('loc-highlight');
+      best.scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(()=>best.classList.remove('loc-highlight'),4000);
+    },150);
+  });
+});
+document.getElementById('btn-font-up').addEventListener('click',()=>{baseFontSize=Math.min(20,baseFontSize+1);document.getElementById('left-pane').style.fontSize=baseFontSize+'px';document.getElementById('right-pane').style.fontSize=baseFontSize+'px';});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{baseFontSize=Math.max(11,baseFontSize-1);document.getElementById('left-pane').style.fontSize=baseFontSize+'px';document.getElementById('right-pane').style.fontSize=baseFontSize+'px';});
+let highlightMenu=document.getElementById('highlight-menu'),savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const lp=document.getElementById('left-pane'),rp=document.getElementById('right-pane');
+    if(lp.contains(range.commonAncestorContainer)||rp.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){window.getSelection().removeAllRanges();window.getSelection().addRange(savedRange);document.execCommand('removeFormat');savedRange=null;return;}
+  const span=document.createElement('span');span.className=cls;
+  try{savedRange.surroundContents(span);}catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();savedRange=null;
+}
+const handle=document.getElementById('resize-handle'),leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const split=document.getElementById('split');const rect=split.getBoundingClientRect();leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+startTimer();
+</script>
+</body>
+</html>

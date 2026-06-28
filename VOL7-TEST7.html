@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IELTS Reading – VOL 7 TEST 7</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-pause:hover{background:#4b5563;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam:hover{background:#1e40af;}
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#resize-handle:hover{background:#9ca3af;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button:hover{background:#f3f4f6;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+#font-controls button:hover{background:#f3f4f6;}
+.passage-panel{display:none;}.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+.q-panel{display:none;}.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.checkbox-sq{width:16px;height:16px;border:2px solid #9ca3af;border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .checkbox-sq{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .checkbox-sq::after{content:'✓';color:#fff;font-size:0.65rem;font-weight:700;}
+.mc-opt-btn.correct .checkbox-sq{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .checkbox-sq::after{content:'✓';color:#fff;font-size:0.65rem;font-weight:700;}
+.mc-opt-btn.wrong .checkbox-sq{border-color:#dc2626;background:#fee2e2;}
+.blank-input{border:none;border-bottom:2px solid #1a1a1a;background:transparent;font-size:0.88rem;padding:2px 4px;min-width:110px;outline:none;font-family:'Lexend',sans-serif;}
+.blank-input:focus{border-bottom-color:#1d4ed8;}
+.blank-input.correct{border-bottom-color:#16a34a;background:#dcfce7;}
+.blank-input.wrong{border-bottom-color:#dc2626;background:#fee2e2;}
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr:hover:not(.row-correct):not(.row-wrong) td{background:#f0f9ff;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:36px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-radio:hover:not(:disabled){background:#f3f4f6;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+.notes-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.notes-box h4{font-size:0.88rem;font-weight:700;margin:0 0 8px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+.notes-box ul{margin:6px 0 6px 20px;padding:0;}
+.notes-box li{margin-bottom:4px;}
+.table-completion{width:100%;border-collapse:collapse;font-size:0.83rem;margin-bottom:14px;}
+.table-completion th{background:#1a1a1a;color:#fff;padding:8px 10px;text-align:left;font-weight:600;}
+.table-completion td{padding:8px 10px;border:1px solid #e5e7eb;vertical-align:top;line-height:1.9;}
+.table-completion tr:nth-child(even) td{background:#f9fafb;}
+.flowchart-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;margin-bottom:12px;}
+.flowchart-box h4{font-size:0.88rem;font-weight:700;margin:0 0 12px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+.flow-step{background:#fff;border:1.5px solid #d1d5db;border-radius:6px;padding:8px 14px;margin-bottom:4px;font-size:0.84rem;line-height:1.9;}
+.flow-arrow{text-align:center;color:#6b7280;font-size:1.1rem;margin:2px 0;}
+.choose-two-box{background:#fff3cd;border:1.5px solid #ffc107;border-radius:6px;padding:8px 12px;font-size:0.78rem;font-weight:600;color:#856404;margin-bottom:8px;}
+.summary-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:14px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn:hover{background:#fde68a;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+.blank-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="header">
+<h1>IELTS READING – VOL 7 TEST 7</h1>
+<div id="timer-wrap">
+<span id="timer">60:00</span>
+<button id="btn-pause">⏸ Pause</button>
+<button id="btn-submit-exam">Submit</button>
+</div>
+</div>
+<div id="tab-bar">
+<button class="tab-btn active" data-target="0">PASSAGE 1</button>
+<button class="tab-btn" data-target="1">PASSAGE 2</button>
+<button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+<div id="split">
+<div id="left-pane">
+<!-- PASSAGE 1: The History of the Guitar -->
+<div class="passage-panel active" id="passage-content-0">
+<div class="passage-title">THE HISTORY OF THE GUITAR</div>
+<div class="passage-subtitle">An overview of the origins of the modern guitar</div>
+<div class="passage-text">
+<p><span class="para-label">A</span> <span class="loc-q1">The earliest stringed instruments currently known to archaeologists are bowl harps. For millennia, people made bowl harps using, for example, tortoise shells as resonators, with a bent stick for a neck and one or more gut or silk strings. The world’s museums contain many such harps from the ancient Sumerian, Babylonian, and Egyptian civilisations. Around 2500–2000 BC more advanced harps, such as the beautifully carved 11-stringed instrument found in the tomb of Queen Shub-Ad in ancient Mesopotamia, now modern day Iraq, started to appear.</span></p>
+<p><span class="para-label">B</span> The tanbur* probably developed from the bowl harp. It was different from the bowl harp in that its neck was straightened out to allow the strings to be pressed down to create more notes. Tomb paintings and stone carvings in Egypt indicate that harps and tanburs – plus flutes and percussion instruments – were being played together 3,500–4,000 years ago. Archaeologists have also found many similar relics amongst the ruins of the ancient Mesopotamian civilisation. <span class="loc-q2">Many of these instruments have survived into modern times in almost unchanged form, for example folk instruments of the region such as the Turkish saz and Afghan panchtar.</span></p>
+<p><span class="para-label">C</span> <span class="loc-q3">At 3,500 years old, the tanbur which belonged to the Egyptian singer Har-Mose is the earliest known example of this instrument.</span> Har-Mose’s tanbur had three strings and a plectrum suspended from the neck by a cord. The soundbox, which increased the volume, was made of beautifully polished cedarwood and covered in rawhide. <span class="loc-q4">It can be seen today at the Archaeological Museum in Cairo.</span></p>
+<p><span class="para-label">D</span> In order to distinguish guitars from other stringed instruments, it is helpful to have a broad definition of the guitar. Music expert Dr Michael Kasha defines a guitar as having ‘a long, fretted neck, flat wooden soundboard, ribs, and a flat back, most often with sides that curve inwards’. <span class="loc-q5">The oldest known visual representation of such an instrument is a stone carving at Alaca Huyuk in Turkey, which shows a 3,300-year-old instrument with a long neck and sides that clearly curve inwards.</span></p>
+<p><span class="para-label">E</span> The name ‘guitar’ comes from the ancient Sanskrit word for ‘string’ – ‘tar’. Many popular stringed instruments used in central Asia today have existed in an unchanged form for several thousand years, as shown by archaeological finds in the area. Many have names that end in ‘tar’, with a prefix indicating the number of strings, such as the doter, a two-stringed instrument found in Turkestan, and the Persian three-stringed setar and four-stringed charter. The Indian sitar almost certainly took its name from the setar, but over the centuries it evolved radically, following the Indians’ own aesthetic and cultural ideals.</p>
+<p><span class="para-label">F</span> Tanburs and harps spread around the ancient world with travellers, merchants and seamen. The earliest guitar-like instruments to arrive in Europe had, most often, four strings. <span class="loc-q6">Many such instruments, and variations with from three to five strings, can be seen in mediaeval illustrated manuscripts.</span> They were also carved in stone in European churches and cathedrals, from the first century AD through until the 13th century.</p>
+<p><span class="para-label">G</span> <span class="loc-q7">When the four-stringed Persian chartar arrived in Spain, however, it changed in form and construction, acquiring pairs of strings tuned to the same note instead of single strings. It became known as the chitarra.</span> By the middle of the 14th century, the chitarra had become dominant, at least in most of Europe. The earliest known music for the eight-stringed chitarra was written in 16th-century Spain. The ten-string version first appeared in Italy at the same time, and gradually replaced the eight-stringed instrument. A further two strings first appeared in the 17th century, an innovation which guitar makers all over Europe quickly took up. However, this twelve-string arrangement gradually gave way to six single strings across the continent. The six-stringed guitar can thus be said to be a development of the twelve-string, rather than vice versa, as was thought previously.</p>
+<p><span class="para-label">H</span> At the beginning of the 19th century, the present-day guitar began to take shape, although bodies were still fairly small and narrow-waisted. The modern classical guitar first appeared in its current form in the mid-19th century, <span class="loc-q8">when the Spanish guitar maker Antonio Torres increased the size of the body, altered its proportions, and introduced the revolutionary fan-braced top**.</span> <span class="loc-q9">His design radically increased the volume and improved the tone of the instrument, and very soon became the norm.</span> This design has remained essentially unchanged to this day.</p>
+<p><span class="para-label">I</span> At the time when Torres made his breakthrough, <span class="loc-q10">German immigrants to America – among them Christian Friedrich Martin – began making guitars with X-braced tops.</span> <span class="loc-q11">Steel strings, which became widely available several decades later in the early 1900s, offered the promise of much louder guitar, but the increased tension was too much for the fan-braced top.</span> The stronger X-braced top proved equal to the job, and quickly became the industry standard.</p>
+<p><span class="para-label">J</span> At the end of the 19th century, guitar manufacturer Orville Gibson added steel strings to a body constructed like a cello, a combination which produced more volume. <span class="loc-q12">The electric guitar was born when pickups were fitted to Hawaiian and jazz guitars in the late 1920s,</span> but met with little success until 1936, when <span class="loc-q13">Gibson introduced its famous ES150 model.</span></p>
+<p style="font-size:0.78rem;color:#6b7280;margin-top:12px;"><em>*tanbur: a long-necked stringed instrument with a small pear-shaped body</em><br/><em>**fan-braced top: a strengthening structure in the shape of a fan inserted into the soundbox</em></p>
+</div>
+</div>
+<!-- PASSAGE 2: Playing Soccer -->
+<div class="passage-panel" id="passage-content-1">
+<div class="passage-title">PLAYING SOCCER</div>
+<div class="passage-subtitle">There are many differences between playing soccer in the street and joining a youth team in an organized league in the USA</div>
+<div class="passage-text">
+<p><span class="para-label">A</span> <span class="loc-q20c">Street soccer, as its name implies, is an informal variation of the sport, often played on the street, particularly in urban areas. There are many reasons for the widespread popularity of street soccer. Unlike youth soccer, its more formally organized counterpart, no large space is needed, and goal posts, corner markers, and marked lines, associated with the formal game, are typically absent, as are game officials or referees.</span> <span class="loc-q21">Another attraction of street soccer is that it does not necessarily require standard 11-a-side teams or fixed playing positions.</span> Unlike in youth soccer, inexperienced street soccer players rarely learn from repetitive technical and tactical drills. Instead, they learn from their poor performance in competition, unconscious of the skills they are nonetheless developing, and without older adults or coaches present. Players learn without effort through playing the game, and soon attain an almost natural feeling for the sport.</p>
+<p><span class="para-label">B</span> <span class="loc-q17">However, there are lots of cities in the world today where conditions are such that street soccer is no longer possible. Congested traffic now dominates where games were once played. Parks and open fields are used as hangouts for older teenagers with other interests.</span> Add to this the requirement in many localities for official permits to use public spaces and the managed schedules that many young people have today, and spontaneous play of any kind is hard to imagine.</p>
+<p><span class="para-label">C</span> In spite of all these obstacles, which are probably solvable in most instances, there is another sociological explanation of why in many places street soccer doesn’t enjoy the same popularity it once did. In his book <em>How Soccer Explains the World</em>, US writer Franklin Foer observes: But for all the talk of freedom, the 1960s parenting style had a far less relaxed side too. <span class="loc-q15">Like the 1960s consumer movement which brought seat belts and airbags to cars, the (youth) soccer movement felt like it could create a set of … regulations that would protect both the child’s body and mind from damage.</span> Soccer leagues like the one I played in as a child handed out ‘participation’ prizes to every player, no matter how few games his (or her) team won…. Where most of the world accepts the practice of using your head to hit the ball as an essential element of the game, some (youth) soccer parents have worried over the potential for injury to the brain. An entire industry grew up to manufacture protective headgear…. <span class="loc-q22b">Even though very little medical evidence supports this fear, some youth leagues prohibited heading the ball altogether.</span> <span class="loc-q23d">Soccer leagues like the one I played in as a child handed out ‘participation’ prizes to every player, no matter how few games his (or her) team won.</span></p>
+<p><span class="para-label">D</span> <span class="loc-q19">A growing body of people don’t believe street soccer involves a legitimate educational method. They argue that children need to be taught by experts. Youth soccer instruction now begins with four-year-olds, so that they will have an advantage as six-year-olds.</span> This need to get ahead brings with it a fear of falling behind that only expert instruction can prevent. This type of instruction leaves no room for the trial and error approach of street soccer.</p>
+<p><span class="para-label">E</span> <span class="loc-q14">One of the basic ideas of street soccer is that young players are assigned a particular role by a better player and are expected to play for the good of the team. Such an assignment runs counter to the idea of youth soccer that every child needs to learn every position and will benefit from doing so.</span> In street soccer, you fill the role that you are best suited to at a particular time. While this role assignment can change from game to game, the purpose is always the same: to get the best out of each individual at any given moment.</p>
+<p><span class="para-label">F</span> <span class="loc-q16">In street soccer, children have to learn patience, to wait their turn, to realize that they are not entitled to make decisions, or even be listened to simply because they show up. Positions of responsibility are earned through competition within the team. Younger players in street soccer must wait to attain those positions.</span> In youth soccer, however, with its overly democratic values, youngsters are guaranteed their time in the spotlight. Whether it’s their turn to be captain, to play a central position or to take a crucial shot, youth soccer players come to believe that hard work and patience aren’t really necessary.</p>
+<p><span class="para-label">G</span> Not only does every youth soccer player get a chance, it is assumed that each individual has played well. <span class="loc-q24">‘Everyone’s a winner; no one’s a loser’ is a guiding principle of youth soccer.</span> This ensures each individual goes away positive about themselves. No one can leave a game or a practice feeling bad. But, if there really are no losers, then why try at all? <span class="loc-q25">Since giving less than your best receives the same reward as giving your best why go to any extra effort?</span> In street soccer, every game results in a winner and a loser and everyone knows who is who. <span class="loc-q18">Losing a game is a common experience and players learn early on how to handle this. As a result, unlike most youth soccer players, they acquire resilience.</span> A further difference between these two strands of soccer is that in street soccer a formal <span class="loc-q26">record is not kept.</span> You can lose one day and win the next. The results are only temporary and are forgotten within minutes of the end of the match. But in organized youth soccer, the position each person plays and the results are formally noted and maintained throughout a season.</p>
+</div>
+</div>
+<!-- PASSAGE 3: The History of Chocolate -->
+<div class="passage-panel" id="passage-content-2">
+<div class="passage-title">THE HISTORY OF CHOCOLATE</div>
+<div class="passage-subtitle"></div>
+<div class="passage-text">
+<p><span class="para-label">A</span> Chocolate is now perceived as a ubiquitous indulgence, whether consumed as confectionery or a beverage, readily accessible in global markets. However, it may come as a surprise that chocolate was once regarded as a commodity of extraordinary value. The discovery of the cocoa tree, the source of chocolate, occurred approximately 2,000 years ago in the lush tropical rain forests of the Americas. The evolution of the chocolate — from a regionally significant Mesoamerican drink to globally consumed confectionery — has been shaped through cross-continental cultural exchanges and the successive influences of multiple civilisations.</p>
+<p><span class="para-label">B</span> Historians suggest that the ancient Maya pioneered cocoa tree cultivation in Mesoamerica, with evidence dating back approximately 2,000 years. They transplanted cocoa trees from the dense rain forest into their domesticated gardens, where cocoa beans were initially roasted and ground into a smooth paste. The paste was combined with spices and water to produce unsweetened chocolate beverages. The Maya also employed a distinctive technique of transferring the liquid back and forth between containers, generating a foamy layer on the drink’s surface.</p>
+<p><span class="para-label">C</span> Cocoa and chocolate were integral to Maya culture, commonly depicted in their architectural structures and artistic works. <span class="loc-q32">While the aristocracy, particularly the royal families, consumed chocolate during elaborate ceremonies, even less privileged groups occasionally savoured the drink.</span> Furthermore, cocoa beans served as a powerful emblem of marital union and were ritually exchanged during wedding ceremonies.</p>
+<p><span class="para-label">D</span> <span class="loc-q31">The Aztec civilisation in Mexico regarded chocolate as a prestigious commodity, despite being geographically unable to cultivate cocoa trees within their heartland. Accordingly, they sourced cocoa beans through extensive trade networks, even utilising them as currency for tax payments.</span> Chocolate held an exclusive function within Aztec imperial and religious ceremonies, where priests offered cocoa beans as divine offerings and prepared sacred chocolate drinks. Due to the scarcity of cocoa beans, consumption remained restricted to the societal elite, with historical accounts suggesting Emperor Montezuma consumed up to 50 cups daily. Linguists trace the term ‘chocolate’ to the Aztec Nahuatl word <em>xocolatl</em>, meaning ‘bitter water’ in the Nahuatl language, though some scholars argue that it has hybrid origins combining Maya and Nahuatl linguistic elements.</p>
+<p><span class="para-label">E</span> In 1502, explorer Christopher Columbus introduced cocoa beans to Spain after voyaging to Mesoamerica, and later Spanish explorer Hernán Cortés quickly recognised the potential economic value of chocolate. Upon arriving in present-day Mexico in 1519, Cortés observed that chocolate beverages would appeal to the Spanish. After conquering the Aztec Empire, Spanish forces exported confiscated cocoa supplies to Spain. In response to the growing demand, Spain began cultivating cocoa trees in its American colonies. <span class="loc-q30">Spanish elite first developed a taste for sweetened chocolate drinks, but the beverage rapidly spread across Europe.</span> England, the Netherlands, and France followed suit by establishing cocoa plantations in their own colonies. By the 18th century, chocolate remained primarily a luxury restricted to the affluent. However, the Industrial Revolution’s technologies enabled mechanised production, dramatically reducing costs and making chocolate available to a broader population.</p>
+<p><span class="para-label">F</span> Cocoa trees are cultivated across multiple countries in Africa, Mesoamerica, and South America, thriving in cool, shaded environments within equatorial zones. Despite widespread cultivation, cocoa farming remains labour-intensive, due to the trees’ requirement for specific water thresholds, temperature ranges, soil compositions, and protection from environmental threats. <span class="loc-q27">Approximately five years after planting, cocoa trees begin to yield large, pod-shaped fruits that grow on the trunk. These pods contain the beans used in chocolate production.</span> While several types of cocoa trees exist, the bulk of the chocolate is produced from the seeds of the most commonly cultivated varieties. However, farmers opt to grow more specialised types, such as Criollo or Trinitario, valued for distinctive flavour profiles. <span class="loc-q29">Unexpectedly, cocoa trees grown on farms are more vulnerable to disease and pests than their wild counterparts.</span> Cocoa cultivation presents a strenuous endeavour for farmers, who sell their harvests on futures markets, exposing their incomes to external market fluctuations.</p>
+<p><span class="para-label">G</span> The process of chocolate production involves a series of steps, carried out in specialised factories where cocoa beans are meticulously processed. Workers first sort, clean, and roast the beans before <span class="loc-q37">extracting the outer shells, leaving only the inner nibs.</span> These nibs are then ground into a dense paste known as <span class="loc-q38">chocolate liquor,</span> which is subsequently separated into two components: cocoa solids and <span class="loc-q39">cocoa butter.</span> Following standardised formulations, chocolate manufacturers blend the chocolate liquor with precise ratios of sugar, milk, and cocoa butter. The resulting mixture, often referred to as the ‘crumb’, undergoes fine grinding to create a smooth consistency. Finally, the mixture is then subjected to two additional processes — conching and tempering — before being placed into <span class="loc-q40">moulds</span> to create various forms, such as bars or other chocolate products.</p>
+<p><span class="para-label">H</span> <span class="loc-q28">Chocolate holds significant global economic value, with the manufacturing industry generating over $5 billion annually from cocoa crops, and its reputation remains most prominent in Europe and the United States. For instance, US cocoa product imports reached $1.4 billion in 2005. On average, Americans consume over five kilogrammes of chocolate per person each year.</span> In addition, upscale chocolate boutiques, which offer premium chocolates, have gained significant popularity. Many of these shops specialise in artisanal chocolates, crafted with unique flavour profiles. Renowned chocolate brands such as Cadbury, Godiva, Lindt, and Ferrero Rocher dominate the market. However, the cocoa and chocolate production sectors often face challenges related to fair trade, sustainable development, and environmental preservation. These issues are now being actively addressed by industry stakeholders, including officials, activists, and researchers, who are working closely with farmers to promote farming practices that foster sustainability and protect the environment.</p>
+</div>
+</div>
+</div><!-- /left-pane -->
+<div id="resize-handle"></div>
+<div id="right-pane">
+<!-- PASSAGE 1 Qs -->
+<div class="q-panel active" id="qpanel-0">
+<div class="q-section">
+<div class="q-section-title">Questions 1–6</div>
+<div class="q-instruction">Choose TRUE, FALSE, or NOT GIVEN.</div>
+<div class="q-item" id="q-target-1">
+<div class="q-label"><span class="q-num">1</span><span>The instrument found in Queen Shub-Ad’s tomb is the world’s oldest known version of a harp.</span><button class="locate-btn" data-q="1">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="1" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="1" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="1" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-2">
+<div class="q-label"><span class="q-num">2</span><span>Today’s Afghan panchtar is very similar to an ancient Mesopotamian instrument.</span><button class="locate-btn" data-q="2">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="2" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="2" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="2" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-3">
+<div class="q-label"><span class="q-num">3</span><span>The Egyptian singer Har-Mose was an excellent tanbur player.</span><button class="locate-btn" data-q="3">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="3" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="3" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="3" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-4">
+<div class="q-label"><span class="q-num">4</span><span>Cairo Archaeological Museum contains many historic musical instruments.</span><button class="locate-btn" data-q="4">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="4" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="4" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="4" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-5">
+<div class="q-label"><span class="q-num">5</span><span>The instrument carved in stone at Alaca Huyuk is consistent with Dr Michael Kasha’s definition of a guitar.</span><button class="locate-btn" data-q="5">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="5" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="5" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="5" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-6">
+<div class="q-label"><span class="q-num">6</span><span>The different instruments that appeared in medieval literature had the same number of strings.</span><button class="locate-btn" data-q="6">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="6" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="6" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="6" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 7–13</div>
+<div class="q-instruction">Complete the table below. Write ONE WORD ONLY from the passage for each answer.</div>
+<table class="table-completion">
+<thead><tr><th>Date</th><th>Type of instrument</th><th>Notes</th></tr></thead>
+<tbody>
+<tr>
+<td>13th–19th century</td>
+<td>Chitarra</td>
+<td>
+                • was a development of an earlier instrument called the <span id="q-target-7"><input class="blank-input" data-q="7" id="blank-q7" placeholder="7" style="width:80px"/></span><button class="locate-btn" data-q="7">🔍</button><br/>
+                • extra strings added in 16th century in Italy
+              </td>
+</tr>
+<tr>
+<td rowspan="2">from around the 1850s</td>
+<td>Classical guitar</td>
+<td>
+                • its shape a result of modifications including a larger <span id="q-target-8"><input class="blank-input" data-q="8" id="blank-q8" placeholder="8" style="width:70px"/></span><button class="locate-btn" data-q="8">🔍</button> introduced by Antonio Torres<br/>
+                • changes produced better tone and greater <span id="q-target-9"><input class="blank-input" data-q="9" id="blank-q9" placeholder="9" style="width:80px"/></span><button class="locate-btn" data-q="9">🔍</button>
+</td>
+</tr>
+<tr>
+<td>X-braced top guitar</td>
+<td>
+                • first made in <span id="q-target-10"><input class="blank-input" data-q="10" id="blank-q10" placeholder="10" style="width:90px"/></span><button class="locate-btn" data-q="10">🔍</button> in mid-19th century<br/>
+                • strings made of <span id="q-target-11"><input class="blank-input" data-q="11" id="blank-q11" placeholder="11" style="width:70px"/></span><button class="locate-btn" data-q="11">🔍</button> became available around 1900
+              </td>
+</tr>
+<tr>
+<td>1920s onwards</td>
+<td>Electric guitar</td>
+<td>
+                • in the 1920s, <span id="q-target-12"><input class="blank-input" data-q="12" id="blank-q12" placeholder="12" style="width:80px"/></span><button class="locate-btn" data-q="12">🔍</button> added to guitars<br/>
+                • a well-known version brought out by <span id="q-target-13"><input class="blank-input" data-q="13" id="blank-q13" placeholder="13" style="width:80px"/></span><button class="locate-btn" data-q="13">🔍</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- PASSAGE 2 Qs -->
+<div class="q-panel" id="qpanel-1">
+<div class="q-section">
+<div class="q-section-title">Questions 14–19</div>
+<div class="q-instruction">Reading Passage 2 has seven sections, A–G. Which section contains the following information? Choose the correct letter, A–G.</div>
+<table class="radio-grid-table">
+<thead><tr>
+<th class="rgt-num">#</th><th class="rgt-stmt">Information</th>
+<th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+<th class="rgt-opt">E</th><th class="rgt-opt">F</th><th class="rgt-opt">G</th>
+<th class="rgt-loc"></th>
+</tr></thead>
+<tbody>
+<tr id="q-target-14"><td class="rgt-num">14</td><td class="rgt-stmt">a contrast between the ways young players gain experience of playing different positions</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="14">🔍</button></td></tr>
+<tr id="q-target-15"><td class="rgt-num">15</td><td class="rgt-stmt">examples outside sport of greater emphasis on individual safety</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="15">🔍</button></td></tr>
+<tr id="q-target-16"><td class="rgt-num">16</td><td class="rgt-stmt">a description of methods of selection for leadership on soccer teams</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="16">🔍</button></td></tr>
+<tr id="q-target-17"><td class="rgt-num">17</td><td class="rgt-stmt">details of urban changes that discourage street soccer</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="17">🔍</button></td></tr>
+<tr id="q-target-18"><td class="rgt-num">18</td><td class="rgt-stmt">a mention of the lesson that failure teaches street soccer players</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="18">🔍</button></td></tr>
+<tr id="q-target-19"><td class="rgt-num">19</td><td class="rgt-stmt">an explanation of why youth soccer emphasises the need for coaches</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="19">🔍</button></td></tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 20–21</div>
+<div class="q-instruction">Choose TWO correct answers. Which TWO of these reasons are mentioned by the writer of the text?</div>
+<div class="choose-two-box">⚠ Choose TWO answers (Q20 &amp; Q21 share the same options)</div>
+<div id="q-target-20">
+<button class="mc-opt-btn" data-multi="true" data-q="20-21" data-val="A"><span class="checkbox-sq"></span>A Many famous soccer players got their start in street soccer.</button>
+<button class="mc-opt-btn" data-multi="true" data-q="20-21" data-val="B"><span class="checkbox-sq"></span>B Young people can begin playing street soccer at a very early age.</button>
+<button class="mc-opt-btn" data-multi="true" data-q="20-21" data-val="C"><span class="checkbox-sq"></span>C You do not need elaborate facilities to play street soccer.</button>
+<button class="mc-opt-btn" data-multi="true" data-q="20-21" data-val="D"><span class="checkbox-sq"></span>D Inexperienced street soccer players are not criticised for mistakes.</button>
+<button class="mc-opt-btn" data-multi="true" data-q="20-21" data-val="E"><span class="checkbox-sq"></span>E Street soccer teams can have varying numbers of players.</button>
+</div>
+<div id="q-target-21" style="display:none;"></div>
+<button class="locate-btn" data-q="20" style="margin-top:6px;">🔍 Locate</button>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 22–23</div>
+<div class="q-instruction">Choose TWO correct answers. Which TWO of these results are mentioned by Franklin Foer?</div>
+<div class="choose-two-box">⚠ Choose TWO answers (Q22 &amp; Q23 share the same options)</div>
+<div id="q-target-22">
+<button class="mc-opt-btn" data-multi="true" data-q="22-23" data-val="A"><span class="checkbox-sq"></span>A Participation in youth soccer became much more expensive.</button>
+<button class="mc-opt-btn" data-multi="true" data-q="22-23" data-val="B"><span class="checkbox-sq"></span>B Some youth soccer leagues adopted more restrictive rules of play.</button>
+<button class="mc-opt-btn" data-multi="true" data-q="22-23" data-val="C"><span class="checkbox-sq"></span>C Fewer young people joined youth soccer teams.</button>
+<button class="mc-opt-btn" data-multi="true" data-q="22-23" data-val="D"><span class="checkbox-sq"></span>D Youth soccer players were sometimes rewarded for simply playing in games.</button>
+<button class="mc-opt-btn" data-multi="true" data-q="22-23" data-val="E"><span class="checkbox-sq"></span>E Soccer equipment manufacturers directed advertising towards parents.</button>
+</div>
+<div id="q-target-23" style="display:none;"></div>
+<button class="locate-btn" data-q="22" style="margin-top:6px;">🔍 Locate</button>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 24–26</div>
+<div class="q-instruction">Complete the summary below. Write ONE WORD ONLY from the passage for each answer.</div>
+<div class="summary-box">
+<strong>Winners and losers</strong><br/><br/>
+          For youth soccer players, a key <span id="q-target-24"><input class="blank-input" data-q="24" id="blank-q24" placeholder="24" style="width:100px"/></span><button class="locate-btn" data-q="24">🔍</button> is that they should always come away from the game with a positive attitude. In this respect, regardless of the effort the players make, they get some kind of <span id="q-target-25"><input class="blank-input" data-q="25" id="blank-q25" placeholder="25" style="width:80px"/></span><button class="locate-btn" data-q="25">🔍</button> at the end of a game.<br/><br/>
+          In street soccer, however, players gain resilience because they have to learn to cope with failure. But the outcome of a match isn’t remembered for long. In fact, no-one ever keeps a <span id="q-target-26"><input class="blank-input" data-q="26" id="blank-q26" placeholder="26" style="width:80px"/></span><button class="locate-btn" data-q="26">🔍</button> of the results of games.
+        </div>
+</div>
+</div>
+<!-- PASSAGE 3 Qs -->
+<div class="q-panel" id="qpanel-2">
+<div class="q-section">
+<div class="q-section-title">Questions 27–31</div>
+<div class="q-instruction">Reading Passage 3 has eight paragraphs, A–H. Which paragraph contains the following information? You may use any letter more than once.</div>
+<table class="radio-grid-table">
+<thead><tr>
+<th class="rgt-num">#</th><th class="rgt-stmt">Information</th>
+<th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+<th class="rgt-opt">E</th><th class="rgt-opt">F</th><th class="rgt-opt">G</th><th class="rgt-opt">H</th>
+<th class="rgt-loc"></th>
+</tr></thead>
+<tbody>
+<tr id="q-target-27"><td class="rgt-num">27</td><td class="rgt-stmt">the part of cocoa trees used for chocolate production</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="27">🔍</button></td></tr>
+<tr id="q-target-28"><td class="rgt-num">28</td><td class="rgt-stmt">annual chocolate consumption per capita in the United States</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="28">🔍</button></td></tr>
+<tr id="q-target-29"><td class="rgt-num">29</td><td class="rgt-stmt">the higher likelihood of cultivated cocoa trees being attacked by insects</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="29">🔍</button></td></tr>
+<tr id="q-target-30"><td class="rgt-num">30</td><td class="rgt-stmt">a community which developed a preference for sweetened chocolate beverages</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="30">🔍</button></td></tr>
+<tr id="q-target-31"><td class="rgt-num">31</td><td class="rgt-stmt">an approach by which ancient Mexicans could acquire cocoa beans</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="31">🔍</button></td></tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 32–36</div>
+<div class="q-instruction">Choose TRUE, FALSE, or NOT GIVEN.</div>
+<div class="q-item" id="q-target-32">
+<div class="q-label"><span class="q-num">32</span><span>The Mayan ruling class forbade the use of cocoa and chocolate in rituals.</span><button class="locate-btn" data-q="32">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="32" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="32" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="32" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-33">
+<div class="q-label"><span class="q-num">33</span><span>The Spanish explorer Hernán Cortés had made an investment in chocolate and chocolate beverages.</span><button class="locate-btn" data-q="33">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="33" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="33" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="33" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-34">
+<div class="q-label"><span class="q-num">34</span><span>Wild cocoa trees are more susceptible to infectious diseases than cultivated ones.</span><button class="locate-btn" data-q="34">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="34" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="34" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="34" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-35">
+<div class="q-label"><span class="q-num">35</span><span>During chocolate production, some of the seeds are discarded.</span><button class="locate-btn" data-q="35">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="35" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="35" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="35" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-36">
+<div class="q-label"><span class="q-num">36</span><span>Chocolate enjoys more prestige in Europe and the United States than in any other country.</span><button class="locate-btn" data-q="36">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="36" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="36" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="36" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 37–40</div>
+<div class="q-instruction">Complete the flow-chart below. Write NO MORE THAN TWO WORDS from the passage for each answer.</div>
+<div class="flowchart-box">
+<h4>From Cocoa Beans to Chocolate</h4>
+<div class="flow-step">Seeds → classifying, cleaning, and roasting → stripping their <span id="q-target-37"><input class="blank-input" data-q="37" id="blank-q37" placeholder="37" style="width:120px"/></span><button class="locate-btn" data-q="37">🔍</button></div>
+<div class="flow-arrow">↓</div>
+<div class="flow-step">Nibs → Crushing → producing <span id="q-target-38"><input class="blank-input" data-q="38" id="blank-q38" placeholder="38" style="width:140px"/></span><button class="locate-btn" data-q="38">🔍</button></div>
+<div class="flow-arrow">↓</div>
+<div class="flow-step">mixing with measured quantities of substances such as sweeteners, liquid dairy, and <span id="q-target-39"><input class="blank-input" data-q="39" id="blank-q39" placeholder="39" style="width:130px"/></span><button class="locate-btn" data-q="39">🔍</button></div>
+<div class="flow-arrow">↓</div>
+<div class="flow-step">Crumb blending → crushing finely to obtain a smooth texture → manufacturing diverse shapes of chocolate in <span id="q-target-40"><input class="blank-input" data-q="40" id="blank-q40" placeholder="40" style="width:90px"/></span><button class="locate-btn" data-q="40">🔍</button></div>
+<div class="flow-arrow">↓</div>
+<div class="flow-step" style="background:#1a1a1a;color:#fff;font-weight:700;text-align:center;">Chocolate</div>
+</div>
+</div>
+</div>
+</div><!-- /right-pane -->
+</div><!-- /split -->
+<div id="footer-nav">
+<span class="nav-label">Q:</span>
+<div id="nav-grid"></div>
+<div id="font-controls">
+<span>Font:</span>
+<button id="btn-font-up">A+</button>
+<button id="btn-font-dn">A−</button>
+</div>
+</div>
+</div><!-- /app -->
+<div id="highlight-menu">
+<button onclick="applyHighlight('highlight-yellow')" style="background:#fef08a" title="Yellow"></button>
+<button onclick="applyHighlight('highlight-green')" style="background:#bbf7d0" title="Green"></button>
+<button onclick="applyHighlight('highlight-pink')" style="background:#fbcfe8" title="Pink"></button>
+<button class="erase-btn" onclick="applyHighlight('erase')">✕</button>
+</div>
+<div id="result-modal">
+<div id="result-box">
+<h2>Your Result</h2>
+<div id="result-score">0/40</div>
+<div id="result-band">Band: –</div>
+<div id="result-breakdown"></div>
+<button id="btn-close-modal">Review Answers</button>
+</div>
+</div>
+<script>
+const ANSWERS={
+  1:'FALSE',2:'TRUE',3:'NOT GIVEN',4:'NOT GIVEN',5:'TRUE',6:'FALSE',
+  7:'chartar',8:'body',9:'volume',10:'America',11:'steel',12:'pickups',13:'Gibson',
+  14:'E',15:'C',16:'F',17:'B',18:'G',19:'D',
+  20:'C',21:'E',
+  22:'B',23:'D',
+  24:'principle',25:'reward',26:'record',
+  27:'F',28:'H',29:'F',30:'E',31:'D',
+  32:'FALSE',33:'NOT GIVEN',34:'FALSE',35:'NOT GIVEN',36:'NOT GIVEN',
+  37:'outer shells',38:'chocolate liquor',39:'cocoa butter',40:'moulds'
+};
+const Q_PASSAGE={};
+for(let i=1;i<=13;i++)Q_PASSAGE[i]=0;
+for(let i=14;i<=26;i++)Q_PASSAGE[i]=1;
+for(let i=27;i<=40;i++)Q_PASSAGE[i]=2;
+
+const multiSelections={'20-21':[],'22-23':[]};
+let userAnswers={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+function normalizeAnswer(s){
+  return s.trim().toLowerCase().replace(/[\u2018\u2019]/g,"'").replace(/[\u2013\u2014]/g,'-').replace(/\s+/g,' ');
+}
+function checkAnswer(user,correct){
+  const u=normalizeAnswer(user),c=normalizeAnswer(correct);
+  if(u===c)return true;
+  if(u.replace(/-/g,' ')===c.replace(/-/g,' '))return true;
+  // Handle multi-word answers
+  const cw=c.split(' ');
+  if(cw.length>1){
+    const uw=u.split(' ');
+    if(uw.length===cw.length&&uw.every((w,i)=>w===cw[i]))return true;
+  }
+  return false;
+}
+
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{p.style.display=i===t?'block':'none';p.classList.toggle('active',i===t);});
+  });
+});
+
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i;btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+
+document.querySelectorAll('.mc-opt-btn:not([data-multi])').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+btn.dataset.q+'"]:not([data-multi])').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+
+document.querySelectorAll('.mc-opt-btn[data-multi]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const grp=btn.dataset.q;
+    const val=btn.dataset.val;
+    const sel=multiSelections[grp];
+    if(btn.classList.contains('selected')){
+      btn.classList.remove('selected');
+      const idx=sel.indexOf(val);if(idx>=0)sel.splice(idx,1);
+    } else {
+      if(sel.length>=2){
+        const fv=sel.shift();
+        document.querySelectorAll('.mc-opt-btn[data-q="'+grp+'"][data-val="'+fv+'"]').forEach(b=>b.classList.remove('selected'));
+      }
+      btn.classList.add('selected');sel.push(val);
+    }
+    const [q1,q2]=grp.split('-').map(Number);
+    if(sel.length>=1){userAnswers[q1]=sel[0];updateNav(q1);}else{delete userAnswers[q1];updateNav(q1);}
+    if(sel.length>=2){userAnswers[q2]=sel[1];updateNav(q2);}else{delete userAnswers[q2];updateNav(q2);}
+  });
+});
+
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();updateNav(q);
+  });
+});
+
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+
+function submitExam(){
+  if(submitted)return;
+  submitted=true;clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=checkAnswer(user,ans);
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){const lbl=document.createElement('span');lbl.className='blank-correct-label';lbl.textContent='✓ '+ans;inp.insertAdjacentElement('afterend',lbl);}
+    }
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]:not([data-multi])').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    const rgtRow=document.getElementById('q-target-'+q);
+    if(rgtRow&&rgtRow.tagName==='TR')rgtRow.classList.add(ok?'row-correct':'row-wrong');
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    if(!ok)document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+  }
+  ['20-21','22-23'].forEach(grp=>{
+    const [q1,q2]=grp.split('-').map(Number);
+    const correctVals=[ANSWERS[q1],ANSWERS[q2]];
+    document.querySelectorAll('.mc-opt-btn[data-q="'+grp+'"]').forEach(b=>{
+      b.disabled=true;
+      if(correctVals.includes(b.dataset.val))b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+  });
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1&ndash;13)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14&ndash;26)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27&ndash;40)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>document.getElementById('result-modal').classList.remove('show'));
+
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      const locEls=document.querySelectorAll('.loc-q'+q);
+      if(locEls.length===0)return;
+      let best=locEls[0];
+      locEls.forEach(el=>{if(el.textContent.trim().length<best.textContent.trim().length)best=el;});
+      if(best.textContent.trim().length>200){
+        const children=best.querySelectorAll('span');
+        children.forEach(child=>{const t=child.textContent.trim();if(t.length>=15&&t.length<best.textContent.trim().length)best=child;});
+      }
+      best.classList.add('loc-highlight');
+      best.scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(()=>best.classList.remove('loc-highlight'),4000);
+    },150);
+  });
+});
+
+document.getElementById('btn-font-up').addEventListener('click',()=>{
+  baseFontSize=Math.min(20,baseFontSize+1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{
+  baseFontSize=Math.max(11,baseFontSize-1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+
+let highlightMenu=document.getElementById('highlight-menu'),savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const lp=document.getElementById('left-pane'),rp=document.getElementById('right-pane');
+    if(lp.contains(range.commonAncestorContainer)||rp.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){window.getSelection().removeAllRanges();window.getSelection().addRange(savedRange);document.execCommand('removeFormat');savedRange=null;return;}
+  const span=document.createElement('span');span.className=cls;
+  try{savedRange.surroundContents(span);}catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();savedRange=null;
+}
+
+const handle=document.getElementById('resize-handle'),leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const split=document.getElementById('split');const rect=split.getBoundingClientRect();leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+
+startTimer();
+</script>
+</body>
+</html>

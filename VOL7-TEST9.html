@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IELTS Reading – VOL 7 TEST 9</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-pause:hover{background:#4b5563;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam:hover{background:#1e40af;}
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#resize-handle:hover{background:#9ca3af;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button:hover{background:#f3f4f6;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+#font-controls button:hover{background:#f3f4f6;}
+.passage-panel{display:none;}.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+.q-panel{display:none;}.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.checkbox-sq{width:16px;height:16px;border:2px solid #9ca3af;border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .checkbox-sq{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .checkbox-sq::after{content:'✓';color:#fff;font-size:0.65rem;font-weight:700;}
+.mc-opt-btn.correct .checkbox-sq{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .checkbox-sq::after{content:'✓';color:#fff;font-size:0.65rem;font-weight:700;}
+.mc-opt-btn.wrong .checkbox-sq{border-color:#dc2626;background:#fee2e2;}
+.blank-input{border:none;border-bottom:2px solid #1a1a1a;background:transparent;font-size:0.88rem;padding:2px 4px;min-width:110px;outline:none;font-family:'Lexend',sans-serif;}
+.blank-input:focus{border-bottom-color:#1d4ed8;}
+.blank-input.correct{border-bottom-color:#16a34a;background:#dcfce7;}
+.blank-input.wrong{border-bottom-color:#dc2626;background:#fee2e2;}
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr:hover:not(.row-correct):not(.row-wrong) td{background:#f0f9ff;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:36px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-radio:hover:not(:disabled){background:#f3f4f6;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+.notes-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.notes-box h4{font-size:0.88rem;font-weight:700;margin:0 0 8px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+.notes-box ul{margin:6px 0 6px 20px;padding:0;}
+.notes-box li{margin-bottom:4px;}
+.choose-two-box{background:#fff3cd;border:1.5px solid #ffc107;border-radius:6px;padding:8px 12px;font-size:0.78rem;font-weight:600;color:#856404;margin-bottom:8px;}
+.summary-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:14px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn:hover{background:#fde68a;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+.blank-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="header">
+<h1>IELTS READING – VOL 7 TEST 9</h1>
+<div id="timer-wrap">
+<span id="timer">60:00</span>
+<button id="btn-pause">⏸ Pause</button>
+<button id="btn-submit-exam">Submit</button>
+</div>
+</div>
+<div id="tab-bar">
+<button class="tab-btn active" data-target="0">PASSAGE 1</button>
+<button class="tab-btn" data-target="1">PASSAGE 2</button>
+<button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+<div id="split">
+<div id="left-pane">
+<!-- PASSAGE 1: Dolls through the ages -->
+<div class="passage-panel active" id="passage-content-0">
+<div class="passage-title">DOLLS THROUGH THE AGES</div>
+<div class="passage-subtitle"></div>
+<div class="passage-text">
+<p><span class="para-label">A</span> <span class="loc-q1">What is today a simple children’s toy has a surprisingly rich history. Dolls have been a part of humankind for thousands of years. Often depicting religious figures, or used as playthings, early dolls were probably made from primitive materials such as clay, fur, or wood.</span></p>
+<p><span class="para-label">B</span> Dolls constructed of flat pieces of wood, painted with various designs, and with ‘hair’ made of clay, have often been found in Egyptian graves dating back to 2000 BC. Egyptian tombs of wealthy families have included pottery dolls. Dolls being placed in these graves leads some to believe that they were cherished possessions.</p>
+<p><span class="para-label">C</span> <span class="loc-q2">Girls from ancient Greece and Rome offered their wooden dolls to goddesses after they were too ‘grown-up’ to play with dolls.</span> Most ancient dolls that were found in tombs were very simple creations, often made from such materials as clay, rags, wood, or bone. Some of the more unique dolls were made with ivory or <span class="loc-q4">wax.</span> The main goal was to make the doll as lifelike as possible. That ideal led to the creation of dolls with movable <span class="loc-q3">limbs</span> and removable garments, dating back to 600 BC.</p>
+<p><span class="para-label">D</span> Following the era of the ancient dolls, Europe became a major hub for doll production. These dolls were primarily made of wood. Fewer than 30 examples of primitive wooden stump dolls from England survive today. The Grodnertal area of Germany produced many peg wooden dolls, a type of doll that has very simple peg joints and resembles a clothespin (a device for hanging washing on a clothesline). An alternative to wood was developed in the 1800s.</p>
+<p><span class="para-label">E</span> <span class="loc-q6">‘Composition’ is a collective term for mixtures of pulped wood or paper that were used to make doll heads and bodies.</span> These mixtures were moulded under pressure, creating a durable doll that could be mass-produced. Manufacturers closely guarded the recipes for their mixtures, sometimes using strange ingredients like ash or eggshells. Papier-mâché, a type of <span class="loc-q5">composition,</span> was one of the most popular mixtures.</p>
+<p><span class="para-label">F</span> In addition to wooden dolls, <span class="loc-q4b">wax dolls grew in popularity in the 17th and 18th centuries.</span> Munich in Germany was a major manufacturing centre for wax dolls. Wax dollmakers would model a doll’s head in wax or clay, and then cover it with <span class="loc-q5b">plaster</span> to create a mould. Then they would pour melted wax into the cast. The wax for the head would be very thin, no more than 3 mm. Some of the most distinctive wax dolls were created in England between 1850 and 1930. One of the first dolls that portrayed a baby was made in England from wax at the beginning of the 19th century.</p>
+<p><span class="para-label">G</span> Around the same time, porcelain became popular. It is made by firing special clays in a kiln at more than 2,372 degrees Fahrenheit (1300°C), and only a few clays can withstand firing at such high temperatures. Porcelain is used generically to refer to both china and bisque dolls; china is glazed, whereas bisque is unglazed. Germany, France, and Denmark started creating china heads for dolls in the 1840s. These china heads were replaced in the 1860s by ones made of bisque. <span class="loc-q7">Bisque, which is porcelain fired twice with colour added to it after the first firing, looked more like skin than china did.</span></p>
+<p><span class="para-label">H</span> In France, the bébé was popular in the 1880s, and it has become a highly sought-after doll today. The bébé, first made in the 1850s, was different from its predecessors because it depicted a younger girl. Until then, most French dolls were representations of adults. <span class="loc-q8">Although the French dolls were unrivalled in their artistry, German bisque dolls became quite popular because they were not as expensive.</span> Kammer &amp; Reinhardt introduced a bisque character doll in the 1900s, starting a trend of creating realistic dolls.</p>
+<p><span class="para-label">I</span> For many centuries, rag dolls were made by mothers for their children. The term ‘rag doll’ refers generically to dolls made of any fabric. <span class="loc-q10">‘Cloth doll’ refers to a subset of rag dolls made of linen or cotton.</span> <span class="loc-q9">Commercially produced rag dolls were first introduced in the 1850s by English and American manufacturers.</span> Although not as sophisticated as dolls made from other materials, rag dolls were well loved, often as a child’s first toy.</p>
+<p><span class="para-label">J</span> Dollmaking did not become an industry in the United States until after the Civil War in the 1860s. Doll production was concentrated in the New England region of the United States, with dolls made from a variety of materials such as leather, rubber, papier-mâché, and cloth. Celluloid was developed in the state of New Jersey in the late 1860s and was used to manufacture dolls until the mid-1950s. German, French, American, and Japanese factories churned out cheaply produced celluloid dolls in mass quantities. <span class="loc-q11">However, celluloid fell out of favour because of its extreme flammability and propensity to fade in bright light.</span></p>
+<p><span class="para-label">K</span> After World War I, dollmakers experimented with plastics. <span class="loc-q12">Hard plastic dolls were manufactured in the 1940s. They resembled composition dolls, but they were much more durable.</span> Other materials used in doll manufacturing included rubber, foam rubber, and vinyl in the 1950s and 1960s. Vinyl changed dollmaking, allowing dollmakers to root hair into the head, rather than using wigs or painting the hair. Although most dolls are now mass-manufactured using these modern materials, many modern dollmakers are still using the traditional materials of the past to make collectible dolls.</p>
+</div>
+</div>
+<!-- PASSAGE 2: Biophilic Design -->
+<div class="passage-panel" id="passage-content-1">
+<div class="passage-title">BIOPHILIC DESIGN</div>
+<div class="passage-subtitle"></div>
+<div class="passage-text">
+<p><span class="para-label">A</span> <span class="loc-q16">Biophilic design, a movement related to green architecture, has gained much momentum within the building community in recent years. The premise of biophilic design seeks both to avoid or minimize harmful impacts on the natural environment, and equally importantly, to provide and restore beneficial contacts between people and nature in the built environment.</span></p>
+<p><span class="para-label">B</span> <span class="loc-q15">People have a psychologically developed need to commune with nature but this has frequently been neglected. All too often, architects have put creative originality before the needs of the people who have to live and work in their futuristic constructions, with scant regard for emotional, as well as practical, considerations.</span> Biophilic design does not advocate tree houses or cave-dwelling, but it does provide the nature-based features that maximize human functioning and health. Though not technically a biophilic design, Fallingwater – the stunning house in rural Pennsylvania designed in the 1930s by Frank Lloyd Wright – arguably speaks to the human soul much more than the box-like blocks of flats designed by his contemporary Le Corbusier.</p>
+<p><span class="para-label">C</span> <span class="loc-q14">In the modern world, much of our built environment is obstructing the age-old connection between humans and nature. The rates of technological progress are far exceeding rates of psychological evolution, leaving us ill-equipped to cope with our lifestyle, which in turn leads to increased stress.</span> Because biophilia attempts to integrate basic and current needs, it can alleviate the difficulties caused by the brain’s constant attempts to function in a modern environment it has not yet evolved to handle. For example, one crucial element of the natural landscape to human health is <span class="loc-q22">sunlight.</span> We are evolutionarily programmed to respond positively to sunny areas over dark or overcast ones, and sense that they will foster restoration, improve emotional well-being and promote health.</p>
+<p><span class="para-label">D</span> Because of its tremendous impact biophilic design plays a vital role in healthcare and healthcare delivery. The current healthcare system contains many flaws, especially in its physical clinics, and offices are high-stress environments for patients, visitors and healthcare professionals alike. One well-known study looked at the impact of nature on patients after surgery. <span class="loc-q23">One group had a view of tree; the others had a window looking onto a brick wall. The first group had shorter hospital stays, received fewer negative comments from the nurses, required fewer analgesics, and had slightly fewer post-operative complications.</span></p>
+<p><span class="para-label">E</span> As a consequence of this and other studies, nature and nature-based design have been integrated into the physical design of many hospitals. For example, Dartmouth Hitchcock Medical Center (DHMC) in New Hampshire boasts an atrium design, illuminating the entire facility. Natural elements also permeate the building, including wood, stone, and numerous live plants. While DHMC was built to incorporate these qualities, other hospitals have had biophilic features added to existing structures. The application of biophilia’s concepts to interior design in hospitals has increased substantially as administrators have witnessed patients’ positive responses to nature.</p>
+<p><span class="para-label">F</span> Many existing buildings contain biophilic elements, but only a few have been built with the specific idea of biophilic design in mind. One such building is the Adam Joseph Lewis Center for Environmental Studies at Oberlin College, in Ohio. The director of Oberlin’s Environmental Studies Program, David Orr, explained the building’s goals were <span class="loc-q25d">‘to create not just a place for classes but rather a building that would help to redefine the relationship between humankind and the environment – one that would expand our sense of ecological possibilities’.</span> The Lewis Center is sustainable in a broader sense than in the typical application of the word. It harnesses solar power, utilizes both active and passive air systems, and monitors the weather to adapt to conditions. The Center’s ‘Living Machine’ treats wastewater by combining traditional wastewater technology with wetland ecosystems’ purification processes, producing water that can be used in the toilets and for irrigation. <span class="loc-q25b">In their design, Orr and his team of architects engineered a healthy and comfortable space for students, while ensuring the surrounding environment was undamaged.</span></p>
+<p><span class="para-label">G</span> Another example is the University of Guelph-Humber building in Ontario, Canada. It contains a centrally located bio-wall, vertically spanning the building. The wall is covered in dense foliage which not only connects people to nature on the inside of the building, but also functions as a new filtration system prototype. <span class="loc-q24">The wall purifies the air and has the potential to fulfill the building’s fresh air intake requirements.</span> This is another example of how biophilic design principles can be applied in a variety of contexts. These examples prove that the built environment need does not interfere with biological human needs to commune with nature, nor with existing ecological systems.</p>
+<p><span class="para-label">H</span> <span class="loc-q17">Ancient architects built for their cultures, which were almost always more in touch with the earth than western society of the present. They mimicked nature’s forms, producing magnificent structures with which we are still awed – though biophilic design is a novel concept, they certainly employed some of its recommendations.</span> Today, we can add another layer to this tradition and ensure maximal benefit for our planet and ourselves.</p>
+<p><span class="loc-q20">In the modern world, much of our built environment is obstructing the age-old connection between humans and nature. The rates of technological progress are far exceeding rates of psychological evolution.</span></p>
+<p><span class="loc-q21">Biophilia can help us deal with the stress caused by the difficulties of our current lifestyles.</span></p>
+</div>
+</div>
+<!-- PASSAGE 3: Biology of Bitterness -->
+<div class="passage-panel" id="passage-content-2">
+<div class="passage-title">BIOLOGY OF BITTERNESS</div>
+<div class="passage-subtitle">To many people, grapefruit is palatable only when doused in sugar. Bitter Blockers like adenosine monophosphate could change that.</div>
+<div class="passage-text">
+<p><span class="para-label">A</span> <span class="loc-q33">There is a reason why grapefruit juice is served in little glasses: most people don’t want to drink more than a few ounces at a time. <span class="loc-q35">Naringin, a natural chemical compound found in grapefruit, tastes bitter.</span></span> Some people like that bitterness in small doses and believe it enhances the general flavor, but others would rather avoid it altogether. So juice packagers often select grapefruit with low naringin though the compound has antioxidant properties that some nutritionists contend may help prevent cancer and arteriosclerosis.</p>
+<p><span class="para-label">B</span> <span class="loc-q27">It is possible, however, to get the goodness of grapefruit juice without the bitter taste. I found that out by participating in a test conducted at the Linguagen Corporation, a biotechnology company in Cranbury, New Jersey.</span> Sets of two miniature white paper cups, labeled 304 and 305, were placed before five people seated around a conference table. Each of us drank from one cup and then the other, cleansing our palates between tastes with water and a soda cracker. Even the smallest sip of 304 had grapefruit’s unmistakable bitter bite. But 305 was smoother; there was the sour taste of citrus but none of the bitterness of naringin. <span class="loc-q39">This juice had been treated with adenosine monophosphate, or AMP, a compound that blocks the bitterness in foods without making them less nutritious.</span></p>
+<p><span class="para-label">C</span> Taste research is a booming business these days, with scientists delving into all five basics – sweet, bitter, sour, salty, and umami, the savory taste of protein. Bitterness is of special interest to industry because of its untapped potential in food. There are thousands of bitter-tasting compounds in nature. <span class="loc-q36">They defend plants by warning animals away and protect animals by letting them know when a plant may be poisonous.</span> But the system isn’t foolproof. Grapefruit and cruciferous vegetable like Brussels sprouts and kale are nutritious despite – and sometimes because of – their bitter-tasting components. Over time, many people have learned to love them, at least in small doses. “Humans are the only species that enjoys bitter taste,” says Charles Zuker, a neuroscientist at the University of California School of Medicine at San Diego. “Every other species is averse to bitter because it means bad news. But we have learned to enjoy it. We drink coffee, which is bitter, and quinine [in tonic water] too. We enjoy having that spice in our lives.” Because bitterness can be pleasing in small quantities but repellent when intense, bitter blockers like AMP could make a whole range of foods, drinks, and medicines more palatable – and therefore more profitable.</p>
+<p><span class="para-label">D</span> <span class="loc-q34">People have varying capacities for tasting bitterness, and the differences appear to be genetic.</span> About 75 percent of people are sensitive to the taste of the bitter compounds phenylthiocarbamide and 6-n-propylthiouracil, and 25 percent are insensitive. Those who are sensitive to phenylthiocarbamide seem to be less likely than others to eat cruciferous vegetables, according to Stephen Wooding, a geneticist at the University of Utah. <span class="loc-q37"><span class="loc-q38">Some people, known as supertasters, are especially sensitive to 6-n-propylthiouracil because they have an unusually high number of taste buds.</span></span> Supertasters tend to shun all kinds of bitter-tasting things, including vegetable, coffee, and dark chocolate. Perhaps as a result, they tend to be thin. They’re also less fond of alcoholic drinks, which are often slightly bitter. Dewar’s scotch, for instance, tastes somewhat sweet to most people. “But a supertaster tastes no sweetness at all, only bitterness,” says Valerie Duffy, an associate professor of dietetics at the University of Connecticut at Storrs.</p>
+<p><span class="para-label">E</span> In one recent study, Duffy found that supertasters consume alcoholic beverages, on average, only two to three times a week, compared with five or six times for the average nontasters. Each taste bud, which looks like an onion, consists of 50 to 100 elongated cells running from the top of the bud to the bottom. At the top is a little clump of receptors that capture the taste molecules, known as tastants, in food and drink. The receptors function much like those for sight and smell. Once a bitter signal has been received, it is relayed via proteins known as G proteins. The G protein involved in the perception of bitterness, sweetness, and umami was identified in the early 1990s by Linguagen’s founder, Robert Margolskee, at Mount Sinai School of Medicine in New York City. Known as gustducin, the protein triggers a cascade of chemical reactions that lead to changes in ion concentrations within the cell. <span class="loc-q30"><span class="loc-q40">Ultimately, this delivers a signal to the brain that registers as bitter.</span></span> “The signaling system is like a bucket brigade,” Margolskee says. “It goes from the G protein to other proteins.”</p>
+<p><span class="para-label">F</span> In 2000 Zuker and others found some 30 different kinds of genes that code for bitter-taste receptors. “We knew the number would have to be large because there is such a large universe of bitter tastants,” Zuker says. Yet no matter which tastant enters the mouth or which receptor it attaches to, bitter always tastes the same to us. The only variation derives from its intensity and the ways in which it can be flavored by the sense of smell. “Taste cells are like a light switch,” Zuker says. “They are either on or off.”</p>
+<p><span class="para-label">G</span> <span class="loc-q31">Once they figured out the taste mechanism, scientists began to think of ways to interfere with it. They tried AMP, an organic compound found in breast milk and other substances, which is created as cells break down food. AMP has no bitterness of its own, but when put it in foods, Margolskee and his colleagues discovered, it attaches to bitter-taste receptors.</span> As effective as it is, AMP may not be able to dampen every type of bitter taste, because it probably doesn’t attach to all 30 bitter-taste receptors. So Linguagen has scaled up the hunt for other bitter blockers with a technology called high-throughput screening. Researchers start by coaxing cells in culture to activate bitter-taste receptors. Then candidate substances, culled from chemical compound libraries, are dropped onto the receptors, and scientists look for evidence of a reaction.</p>
+<p><span class="para-label">H</span> <span class="loc-q32">In time, some taste researchers believe, compounds like AMP will help make processed foods less unhealthy. Consider, for example, that a single cup of Campbell’s chicken noodle soup contains 850 milligrams of sodium chloride, or table salt – more than a third of the recommended daily allowance. The salt masks the bitterness created by the high temperatures used in the canning process, which cause sugars and amino acids to react.</span> Part of the salt could be replaced by another salt, potassium chloride, which tends to be scarce in some people’s diets. Potassium chloride has a bitter aftertaste, but that could be eliminated with a dose of AMP. Bitter blockers could also be used in place of cherry or grape flavoring to take the harshness out of children’s cough syrup, and they could dampen the bitterness of antihistamines, antibiotics, certain HIV drugs, and other medications.</p>
+<p><span class="para-label">I</span> <span class="loc-q28">A number of foodmakers have already begun to experiment with AMP in their products, and other bitter blockers are being developed by rival firms such as Senomyx in La Jolla, California. In a few years, perhaps, after food companies have taken the bitterness from canned soup and TV dinners, they can set their sights on something more useful: a bitter blocker in a bottle that any of us can sprinkle on our brussels sprouts or stir into our grapefruit juice.</span></p>
+</div>
+</div>
+</div><!-- /left-pane -->
+<div id="resize-handle"></div>
+<div id="right-pane">
+<!-- PASSAGE 1 Qs -->
+<div class="q-panel active" id="qpanel-0">
+<div class="q-section">
+<div class="q-section-title">Questions 1–6</div>
+<div class="q-instruction">Complete the notes below. Write ONE WORD ONLY from the passage for each answer.</div>
+<div class="notes-box">
+<h4>Dolls through the ages – materials used</h4>
+<ul>
+<li>Earliest dolls: made from <span id="q-target-1"><input class="blank-input" data-q="1" id="blank-q1" placeholder="1" style="width:70px"/></span><button class="locate-btn" data-q="1">🔍</button>, fur, or wood</li>
+<li>Ancient Greece/Rome: offered to <span id="q-target-2"><input class="blank-input" data-q="2" id="blank-q2" placeholder="2" style="width:100px"/></span><button class="locate-btn" data-q="2">🔍</button></li>
+<li>Some ancient dolls had movable <span id="q-target-3"><input class="blank-input" data-q="3" id="blank-q3" placeholder="3" style="width:80px"/></span><button class="locate-btn" data-q="3">🔍</button></li>
+<li>Unique dolls made with ivory or <span id="q-target-4"><input class="blank-input" data-q="4" id="blank-q4" placeholder="4" style="width:70px"/></span><button class="locate-btn" data-q="4">🔍</button></li>
+<li>Wax dollmakers covered clay mould with <span id="q-target-5"><input class="blank-input" data-q="5" id="blank-q5" placeholder="5" style="width:80px"/></span><button class="locate-btn" data-q="5">🔍</button></li>
+<li>‘<span id="q-target-6"><input class="blank-input" data-q="6" id="blank-q6" placeholder="6" style="width:120px"/></span><button class="locate-btn" data-q="6">🔍</button>’ = collective term for mixtures of pulped wood or paper</li>
+</ul>
+</div>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 7–13</div>
+<div class="q-instruction">Choose TRUE, FALSE, or NOT GIVEN.</div>
+<div class="q-item" id="q-target-7">
+<div class="q-label"><span class="q-num">7</span><span>Bisque dolls appear less realistic than dolls made of china.</span><button class="locate-btn" data-q="7">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="7" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="7" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="7" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-8">
+<div class="q-label"><span class="q-num">8</span><span>French dolls tended to cost more than German bisque dolls.</span><button class="locate-btn" data-q="8">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="8" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="8" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="8" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-9">
+<div class="q-label"><span class="q-num">9</span><span>The first rag dolls were made in the 1850s.</span><button class="locate-btn" data-q="9">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="9" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="9" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="9" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-10">
+<div class="q-label"><span class="q-num">10</span><span>Only dolls made of cotton or linen are classified as cloth dolls.</span><button class="locate-btn" data-q="10">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="10" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="10" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="10" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-11">
+<div class="q-label"><span class="q-num">11</span><span>Dolls made of celluloid tended to lose their colour.</span><button class="locate-btn" data-q="11">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="11" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="11" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="11" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-12">
+<div class="q-label"><span class="q-num">12</span><span>Composition dolls lasted longer than the plastic dolls that were made in the 1940s.</span><button class="locate-btn" data-q="12">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="12" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="12" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="12" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-13">
+<div class="q-label"><span class="q-num">13</span><span>Doll collectors prefer a doll to be dressed in its original clothing.</span><button class="locate-btn" data-q="13">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="13" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="13" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="13" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+</div>
+</div>
+<!-- PASSAGE 2 Qs -->
+<div class="q-panel" id="qpanel-1">
+<div class="q-section">
+<div class="q-section-title">Questions 14–19</div>
+<div class="q-instruction">Reading Passage 2 has eight paragraphs, A–H. Which paragraph contains the following information? You may use any letter more than once.</div>
+<table class="radio-grid-table">
+<thead><tr>
+<th class="rgt-num">#</th><th class="rgt-stmt">Information</th>
+<th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+<th class="rgt-opt">E</th><th class="rgt-opt">F</th><th class="rgt-opt">G</th><th class="rgt-opt">H</th>
+<th class="rgt-loc"></th>
+</tr></thead>
+<tbody>
+<tr id="q-target-14"><td class="rgt-num">14</td><td class="rgt-stmt">a description of how rapid change has a negative effect on people</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="14">🔍</button></td></tr>
+<tr id="q-target-15"><td class="rgt-num">15</td><td class="rgt-stmt">a reference to an architect whose designs were uncharacteristic of biophilia</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="15">🔍</button></td></tr>
+<tr id="q-target-16"><td class="rgt-num">16</td><td class="rgt-stmt">a definition of the two main aims of biophilia</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="16">🔍</button></td></tr>
+<tr id="q-target-17"><td class="rgt-num">17</td><td class="rgt-stmt">a positive claim about early forms of architecture</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="17">🔍</button></td></tr>
+<tr id="q-target-18"><td class="rgt-num">18</td><td class="rgt-stmt">a reference to the fact that many architects are too focused on innovation</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="18">🔍</button></td></tr>
+<tr id="q-target-19"><td class="rgt-num">19</td><td class="rgt-stmt">a description of features which conserve energy in a biophilic design</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="19">🔍</button></td></tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 20–24</div>
+<div class="q-instruction">Complete the sentences below. Write ONE WORD ONLY from the passage for each answer.</div>
+<div class="notes-box">
+<p>In the modern world, <span id="q-target-20"><input class="blank-input" data-q="20" id="blank-q20" placeholder="20" style="width:130px"/></span><button class="locate-btn" data-q="20">🔍</button> advancements are happening so quickly that humans are unable to adjust to them.</p>
+<p>Biophilia can help us deal with the <span id="q-target-21"><input class="blank-input" data-q="21" id="blank-q21" placeholder="21" style="width:80px"/></span><button class="locate-btn" data-q="21">🔍</button> caused by the difficulties of our current lifestyles.</p>
+<p>People instinctively feel more comfortable in places which have plenty of <span id="q-target-22"><input class="blank-input" data-q="22" id="blank-q22" placeholder="22" style="width:90px"/></span><button class="locate-btn" data-q="22">🔍</button>.</p>
+<p>An experiment designed to test the effect of nature on patient recovery times found that those who could see a <span id="q-target-23"><input class="blank-input" data-q="23" id="blank-q23" placeholder="23" style="width:70px"/></span><button class="locate-btn" data-q="23">🔍</button> made a faster recovery.</p>
+<p>There is a biophilic design feature in the University of Guelph-Humber building which improves the quality of the <span id="q-target-24"><input class="blank-input" data-q="24" id="blank-q24" placeholder="24" style="width:70px"/></span><button class="locate-btn" data-q="24">🔍</button>.</p>
+</div>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 25–26</div>
+<div class="q-instruction">Choose TWO correct answers. Which TWO of the following statements does the writer make about the Adam Joseph Lewis Center at Oberlin College?</div>
+<div class="choose-two-box">⚠ Choose TWO answers (Q25 &amp; Q26 share the same options)</div>
+<div id="q-target-25">
+<button class="mc-opt-btn" data-multi="true" data-q="25-26" data-val="A"><span class="checkbox-sq"></span>A It was the first educational establishment designed with biophilic principles.</button>
+<button class="mc-opt-btn" data-multi="true" data-q="25-26" data-val="B"><span class="checkbox-sq"></span>B It is beneficial for both students and the environment.</button>
+<button class="mc-opt-btn" data-multi="true" data-q="25-26" data-val="C"><span class="checkbox-sq"></span>C It has established new concepts for classroom design.</button>
+<button class="mc-opt-btn" data-multi="true" data-q="25-26" data-val="D"><span class="checkbox-sq"></span>D It aims to inspire new ways of thinking about the environment.</button>
+<button class="mc-opt-btn" data-multi="true" data-q="25-26" data-val="E"><span class="checkbox-sq"></span>E It provides solar power to other buildings in the surrounding area.</button>
+</div>
+<div id="q-target-26" style="display:none;"></div>
+<button class="locate-btn" data-q="25" style="margin-top:6px;">🔍 Locate</button>
+</div>
+</div>
+<!-- PASSAGE 3 Qs -->
+<div class="q-panel" id="qpanel-2">
+<div class="q-section">
+<div class="q-section-title">Questions 27–34</div>
+<div class="q-instruction">Reading Passage 3 has nine paragraphs, A–I. Which paragraph contains the following information? You may use any letter more than once.</div>
+<table class="radio-grid-table">
+<thead><tr>
+<th class="rgt-num">#</th><th class="rgt-stmt">Information</th>
+<th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+<th class="rgt-opt">E</th><th class="rgt-opt">F</th><th class="rgt-opt">G</th><th class="rgt-opt">H</th><th class="rgt-opt">I</th>
+<th class="rgt-loc"></th>
+</tr></thead>
+<tbody>
+<tr id="q-target-27"><td class="rgt-num">27</td><td class="rgt-stmt">Experiment on bitterness conducted</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="I"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="27">🔍</button></td></tr>
+<tr id="q-target-28"><td class="rgt-num">28</td><td class="rgt-stmt">Look into the future application</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="I"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="28">🔍</button></td></tr>
+<tr id="q-target-29"><td class="rgt-num">29</td><td class="rgt-stmt">Bitterness means different information for human and animals</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="I"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="29">🔍</button></td></tr>
+<tr id="q-target-30"><td class="rgt-num">30</td><td class="rgt-stmt">Spread process of bitterness inside of body</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="I"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="30">🔍</button></td></tr>
+<tr id="q-target-31"><td class="rgt-num">31</td><td class="rgt-stmt">How AMP blocks bitterness</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="I"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="31">🔍</button></td></tr>
+<tr id="q-target-32"><td class="rgt-num">32</td><td class="rgt-stmt">Some bitterness blocker may help lower unhealthy impact</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="I"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="32">🔍</button></td></tr>
+<tr id="q-target-33"><td class="rgt-num">33</td><td class="rgt-stmt">Bitterness introduced from a fruit</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="33" data-val="I"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="33">🔍</button></td></tr>
+<tr id="q-target-34"><td class="rgt-num">34</td><td class="rgt-stmt">Genetic feature determines sensitivity</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="E"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="F"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="G"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="H"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="34" data-val="I"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="34">🔍</button></td></tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 35–38</div>
+<div class="q-instruction">Complete the following summary. Write NO MORE THAN TWO WORDS from the passage for each answer.</div>
+<div class="summary-box">
+          The reason why grapefruit tastes bitter is because of a substance called <span id="q-target-35"><input class="blank-input" data-q="35" id="blank-q35" placeholder="35" style="width:90px"/></span><button class="locate-btn" data-q="35">🔍</button> contained in it. However, bitterness plays a significant role for plants. It gives a signal that certain plant is <span id="q-target-36"><input class="blank-input" data-q="36" id="blank-q36" placeholder="36" style="width:100px"/></span><button class="locate-btn" data-q="36">🔍</button>. For human beings, different person carries various genetic abilities of tasting bitterness. According to a scientist at the University of Utah, <span id="q-target-37"><input class="blank-input" data-q="37" id="blank-q37" placeholder="37" style="width:110px"/></span><button class="locate-btn" data-q="37">🔍</button> have exceptionally plenty of <span id="q-target-38"><input class="blank-input" data-q="38" id="blank-q38" placeholder="38" style="width:110px"/></span><button class="locate-btn" data-q="38">🔍</button>, which allows them to perceive bitter compounds.
+        </div>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 39–40</div>
+<div class="q-instruction">Choose the correct answer.</div>
+<div class="q-item" id="q-target-39">
+<div class="q-label"><span class="q-num">39</span><span>What is the main feature of AMP according to this passage?</span><button class="locate-btn" data-q="39">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="39" data-val="A"><span class="radio-circle"></span>A. offset bitter flavour in food</button>
+<button class="mc-opt-btn" data-q="39" data-val="B"><span class="radio-circle"></span>B. only exist in 304 cup</button>
+<button class="mc-opt-btn" data-q="39" data-val="C"><span class="radio-circle"></span>C. tastes like citrus</button>
+<button class="mc-opt-btn" data-q="39" data-val="D"><span class="radio-circle"></span>D. chemical reaction when meets biscuit</button>
+</div>
+<div class="q-item" id="q-target-40">
+<div class="q-label"><span class="q-num">40</span><span>What is the main function of G protein?</span><button class="locate-btn" data-q="40">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="40" data-val="A"><span class="radio-circle"></span>A. collecting taste molecule</button>
+<button class="mc-opt-btn" data-q="40" data-val="B"><span class="radio-circle"></span>B. identifying different flavors elements</button>
+<button class="mc-opt-btn" data-q="40" data-val="C"><span class="radio-circle"></span>C. resolving large molecules</button>
+<button class="mc-opt-btn" data-q="40" data-val="D"><span class="radio-circle"></span>D. transmitting bitter signals to the brain</button>
+</div>
+</div>
+</div>
+</div><!-- /right-pane -->
+</div><!-- /split -->
+<div id="footer-nav">
+<span class="nav-label">Q:</span>
+<div id="nav-grid"></div>
+<div id="font-controls">
+<span>Font:</span>
+<button id="btn-font-up">A+</button>
+<button id="btn-font-dn">A−</button>
+</div>
+</div>
+</div><!-- /app -->
+<div id="highlight-menu">
+<button onclick="applyHighlight('highlight-yellow')" style="background:#fef08a" title="Yellow"></button>
+<button onclick="applyHighlight('highlight-green')" style="background:#bbf7d0" title="Green"></button>
+<button onclick="applyHighlight('highlight-pink')" style="background:#fbcfe8" title="Pink"></button>
+<button class="erase-btn" onclick="applyHighlight('erase')">✕</button>
+</div>
+<div id="result-modal">
+<div id="result-box">
+<h2>Your Result</h2>
+<div id="result-score">0/40</div>
+<div id="result-band">Band: –</div>
+<div id="result-breakdown"></div>
+<button id="btn-close-modal">Review Answers</button>
+</div>
+</div>
+<script>
+const ANSWERS={
+  1:'clay',2:'goddesses',3:'limbs',4:'wax',5:'plaster',6:'composition',
+  7:'FALSE',8:'TRUE',9:'FALSE',10:'TRUE',11:'TRUE',12:'FALSE',13:'NOT GIVEN',
+  14:'C',15:'B',16:'A',17:'H',18:'B',19:'F',
+  20:'technological',21:'stress',22:'sunlight',23:'tree',24:'air',
+  25:'B',26:'D',
+  27:'B',28:'I',29:'C',30:'E',31:'G',32:'H',33:'A',34:'D',
+  35:'naringin',36:'poisonous',37:'supertasters',38:'taste buds',
+  39:'A',40:'D'
+};
+const Q_PASSAGE={};
+for(let i=1;i<=13;i++)Q_PASSAGE[i]=0;
+for(let i=14;i<=26;i++)Q_PASSAGE[i]=1;
+for(let i=27;i<=40;i++)Q_PASSAGE[i]=2;
+
+const multiSelections={'25-26':[]};
+let userAnswers={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+function normalizeAnswer(s){
+  return s.trim().toLowerCase().replace(/[\u2018\u2019]/g,"'").replace(/[\u2013\u2014]/g,'-').replace(/\s+/g,' ');
+}
+function checkAnswer(user,correct){
+  const u=normalizeAnswer(user),c=normalizeAnswer(correct);
+  if(u===c)return true;
+  if(u.replace(/-/g,' ')===c.replace(/-/g,' '))return true;
+  const cw=c.split(' ');
+  if(cw.length>1){const uw=u.split(' ');if(uw.length===cw.length&&uw.every((w,i)=>w===cw[i]))return true;}
+  return false;
+}
+
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{p.style.display=i===t?'block':'none';p.classList.toggle('active',i===t);});
+  });
+});
+
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i;btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+
+document.querySelectorAll('.mc-opt-btn:not([data-multi])').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+btn.dataset.q+'"]:not([data-multi])').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+
+document.querySelectorAll('.mc-opt-btn[data-multi]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const grp=btn.dataset.q;const val=btn.dataset.val;const sel=multiSelections[grp];
+    if(btn.classList.contains('selected')){
+      btn.classList.remove('selected');const idx=sel.indexOf(val);if(idx>=0)sel.splice(idx,1);
+    } else {
+      if(sel.length>=2){const fv=sel.shift();document.querySelectorAll('.mc-opt-btn[data-q="'+grp+'"][data-val="'+fv+'"]').forEach(b=>b.classList.remove('selected'));}
+      btn.classList.add('selected');sel.push(val);
+    }
+    const [q1,q2]=grp.split('-').map(Number);
+    if(sel.length>=1){userAnswers[q1]=sel[0];updateNav(q1);}else{delete userAnswers[q1];updateNav(q1);}
+    if(sel.length>=2){userAnswers[q2]=sel[1];updateNav(q2);}else{delete userAnswers[q2];updateNav(q2);}
+  });
+});
+
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();updateNav(q);
+  });
+});
+
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+
+function submitExam(){
+  if(submitted)return;
+  submitted=true;clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=checkAnswer(user,ans);
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){const lbl=document.createElement('span');lbl.className='blank-correct-label';lbl.textContent='✓ '+ans;inp.insertAdjacentElement('afterend',lbl);}
+    }
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]:not([data-multi])').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    const rgtRow=document.getElementById('q-target-'+q);
+    if(rgtRow&&rgtRow.tagName==='TR')rgtRow.classList.add(ok?'row-correct':'row-wrong');
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    if(!ok)document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+  }
+  ['25-26'].forEach(grp=>{
+    const [q1,q2]=grp.split('-').map(Number);
+    const correctVals=[ANSWERS[q1],ANSWERS[q2]];
+    document.querySelectorAll('.mc-opt-btn[data-q="'+grp+'"]').forEach(b=>{
+      b.disabled=true;
+      if(correctVals.includes(b.dataset.val))b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+  });
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1&ndash;13)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14&ndash;26)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27&ndash;40)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>document.getElementById('result-modal').classList.remove('show'));
+
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      const locEls=document.querySelectorAll('.loc-q'+q);
+      if(locEls.length===0)return;
+      let best=locEls[0];
+      locEls.forEach(el=>{if(el.textContent.trim().length<best.textContent.trim().length)best=el;});
+      if(best.textContent.trim().length>200){
+        const children=best.querySelectorAll('span');
+        children.forEach(child=>{const t=child.textContent.trim();if(t.length>=15&&t.length<best.textContent.trim().length)best=child;});
+      }
+      best.classList.add('loc-highlight');
+      best.scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(()=>best.classList.remove('loc-highlight'),4000);
+    },150);
+  });
+});
+
+document.getElementById('btn-font-up').addEventListener('click',()=>{
+  baseFontSize=Math.min(20,baseFontSize+1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{
+  baseFontSize=Math.max(11,baseFontSize-1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+
+let highlightMenu=document.getElementById('highlight-menu'),savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const lp=document.getElementById('left-pane'),rp=document.getElementById('right-pane');
+    if(lp.contains(range.commonAncestorContainer)||rp.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){window.getSelection().removeAllRanges();window.getSelection().addRange(savedRange);document.execCommand('removeFormat');savedRange=null;return;}
+  const span=document.createElement('span');span.className=cls;
+  try{savedRange.surroundContents(span);}catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();savedRange=null;
+}
+
+const handle=document.getElementById('resize-handle'),leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const split=document.getElementById('split');const rect=split.getBoundingClientRect();leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+
+startTimer();
+</script>
+</body>
+</html>

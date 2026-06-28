@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IELTS Reading – VOL 7 TEST 11</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-pause:hover{background:#4b5563;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam:hover{background:#1e40af;}
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#resize-handle:hover{background:#9ca3af;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button:hover{background:#f3f4f6;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+#font-controls button:hover{background:#f3f4f6;}
+.passage-panel{display:none;}.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+.q-panel{display:none;}.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.blank-input{border:none;border-bottom:2px solid #1a1a1a;background:transparent;font-size:0.88rem;padding:2px 4px;min-width:110px;outline:none;font-family:'Lexend',sans-serif;}
+.blank-input:focus{border-bottom-color:#1d4ed8;}
+.blank-input.correct{border-bottom-color:#16a34a;background:#dcfce7;}
+.blank-input.wrong{border-bottom-color:#dc2626;background:#fee2e2;}
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr:hover:not(.row-correct):not(.row-wrong) td{background:#f0f9ff;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:36px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-radio:hover:not(:disabled){background:#f3f4f6;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+.notes-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.notes-box h4{font-size:0.88rem;font-weight:700;margin:0 0 8px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+.notes-box ul{margin:6px 0 6px 20px;padding:0;}
+.notes-box li{margin-bottom:4px;}
+.people-legend{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 14px;font-size:0.82rem;margin-bottom:12px;}
+.summary-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:14px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.word-bank-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 14px;font-size:0.82rem;margin-bottom:12px;display:flex;flex-wrap:wrap;gap:6px;}
+.word-bank-box span{font-weight:600;}
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn:hover{background:#fde68a;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+.blank-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+
+.word-bank-pool{display:flex;flex-wrap:wrap;gap:6px;padding:10px 12px;background:#f9fafb;border:1.5px dashed #9ca3af;border-radius:8px;margin-bottom:14px;min-height:44px;}
+.draggable-card{padding:5px 12px;background:#1a1a1a;color:#fff;border-radius:20px;cursor:grab;font-size:0.78rem;font-family:'Lexend',sans-serif;user-select:none;border:2px solid transparent;line-height:1.4;}
+.draggable-card:active{cursor:grabbing;}
+.draggable-card.dragging{opacity:0.4;}
+.draggable-card.used{background:#6b7280;cursor:default;}
+.drop-zone{display:inline-flex;align-items:center;justify-content:center;min-width:50px;height:28px;border:2px dashed #9ca3af;border-radius:14px;padding:0 10px;font-size:0.8rem;color:#9ca3af;vertical-align:middle;margin:0 3px;transition:border-color 0.15s,background 0.15s;position:relative;}
+.drop-zone.drag-over{border-color:#1d4ed8;background:#eff6ff;}
+.drop-zone.filled{border-style:solid;border-color:#1a1a1a;background:#1a1a1a;color:#fff;font-weight:700;}
+.drop-zone.correct{border-color:#16a34a!important;background:#dcfce7!important;color:#16a34a!important;}
+.drop-zone.wrong{border-color:#dc2626!important;background:#fee2e2!important;color:#dc2626!important;}
+.drop-zone .remove-chip{position:absolute;right:3px;top:50%;transform:translateY(-50%);width:13px;height:13px;border-radius:50%;background:#fff;color:#1a1a1a;font-size:0.55rem;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;line-height:1;}
+.drop-zone.filled .remove-chip{display:flex;}
+.drop-zone:not(.filled) .remove-chip{display:none;}
+.dnd-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="header">
+<h1>IELTS READING – VOL 7 TEST 11</h1>
+<div id="timer-wrap">
+<span id="timer">60:00</span>
+<button id="btn-pause">⏸ Pause</button>
+<button id="btn-submit-exam">Submit</button>
+</div>
+</div>
+<div id="tab-bar">
+<button class="tab-btn active" data-target="0">PASSAGE 1</button>
+<button class="tab-btn" data-target="1">PASSAGE 2</button>
+<button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+<div id="split">
+<div id="left-pane">
+<!-- PASSAGE 1: Chilli Peppers -->
+<div class="passage-panel active" id="passage-content-0">
+<div class="passage-title">CHILLI PEPPERS</div>
+<div class="passage-subtitle"></div>
+<div class="passage-text">
+<p><span class="para-label">A</span> <span class="loc-q1">For thousands of years, humans have taken painful pleasure from adding chillies (also known as peppers or chilli peppers) to their food. A study published in the British Medical Journal in 2015 indicated that a diet filled with spices – including chillies – was beneficial for health. The study, which was carried out by scientists at the Chinese Academy of Medical Sciences, tracked the health of nearly half a million participants in China for several years.</span> They found that participants who ate spicy food once or twice a week had a mortality rate 10% lower than those who ate spicy food less than once a week. Risk of death reduced still further for people who ate spicy food six or seven days a week. <span class="loc-q2">Chilli peppers were the most commonly used spice among the sample, and those who ate fresh chilli had a lower probability of death from cancer, heart disease and diabetes.</span></p>
+<p><span class="para-label">B</span> The health-promoting properties of chillies can be found in capsaicin, which is the odourless, colourless chemical compound that makes chillies hot. Inside a chilli there are yellow stalks that attach the seeds to its sides and in many types of chilli, this is the location of capsaicin, <span class="loc-q3">but there are several varieties where this is not the case.</span> The heat of a chilli is measured in Scoville heat units, which is the number of times a sample of dissolved dried chilli must be diluted by its own weight in sugar water before it loses its heat. For a green bell pepper this is zero. But habanero peppers have a Scoville value of between 100,000 and 350,000. For pure capsaicin the figure is 16 million. <span class="loc-q5">Pure capsaicin can be bought on the internet, though its use as a food additive is banned in the European Union.</span> The use of chilli peppers as weapons dates back to pre-Columbian times (before 1492), when, it is said, Mayans burned rows of them to create a stinging smokescreen to protect themselves from their enemies. <span class="loc-q6">The Aztecs also put chilli on their teeth to kill toothache pain, and the use of capsaicin as a pain reliever continues today.</span></p>
+<p><span class="para-label">C</span> Joshua Tewksbury, a natural historian at the University of Washington, thinks the burning sensation we experience when we come into contact with chillies is an evolutionary trick. ‘We’re not actually being damaged by the capsaicin the way we would be if we were touching a stove, but our brain thinks we are,’ he says, adding that all mammals experience the same sensation but that <span class="loc-q7">birds do not. ‘They can eat chillies like popcorn and they don’t feel the heat.’</span> In this way, Tewksbury suggests, the plant evolved to repel animals that might crush its seeds with their teeth, but not ones that would help spread them.</p>
+<p><span class="para-label">D</span> Chillies also fight bacteria. This was of great value in the days before <span class="loc-q8">refrigeration,</span> when, particularly in the tropics, people were vulnerable to bacteria that could harm them directly or cause their food to spoil. Chillies kill or inhibit 75% of such bacteria. That may just explain the spice’s world-conquering success. Just two or three years after the explorer Christopher Columbus brought chilli seeds back to Europe from the New World in 1493, Portuguese merchants took the plants to Asia, where they would transform the cuisine. People in hot countries are said to use more chilli because it makes them generate a lot of <span class="loc-q9">sweat,</span> which cools them down. But in 1998, researchers at Cornell University pointed out that the greater use of spices in countries such as India, Thailand and China was likely to be linked to the antibacterial function. By studying books filled with <span class="loc-q10">recipes</span> from all over the world, the researchers found that spices including chilli were more likely to be used close to the equator, and were also used more in valleys with high levels of humidity than on high plateaux.</p>
+<p><span class="para-label">E</span> Capsaicin has even been suggested as a potential weight-loss tool. Research conducted by the University of Wyoming on mice that had been fed a high-fat diet found that the substance increased the <span class="loc-q11">metabolism</span> of the animals, causing them to burn more energy and preventing weight gain. In another study, researchers at the University of Adelaide found that certain receptors that interact with capsaicin and are located inside the <span class="loc-q12">stomach</span> play a role in sensing when you are full. Previous studies on humans seem to back the idea that eating spicy food may curb our appetite.</p>
+<p><span class="para-label">F</span> Capsaicin is a natural painkiller. Capsaicin creams and patches are available in chemists to ease pain. But it’s only recently that we have come to understand how something that causes pain can ease it too. Capsaicin binds to the pain receptor TRPV1, which our brains also use to detect changes in temperature — that’s why we think chillies are hot. But after being over-stimulated the neurons stop responding, killing the pain. This process involves the release of endorphins, which can give us a ‘rush’ not unlike the feeling we have when we have done some <span class="loc-q13">exercise.</span> This may explain why some people believe that hot food is addictive.</p>
+</div>
+</div>
+<!-- PASSAGE 2: Stress Less -->
+<div class="passage-panel" id="passage-content-1">
+<div class="passage-title">STRESS LESS</div>
+<div class="passage-subtitle"></div>
+<div class="passage-text">
+<p><span class="para-label">A</span> How busy is too busy? For some it means sometimes having to have a short lunch; for others it may mean missing lunch altogether. For a few, it is not being able to take a day off once a month. Then there is a group of people for whom working every evening and weekend is normal, and feeling stressed is taken for granted. For most senior executives, workloads swing between extremely busy and frenzied. <span class="loc-q15a">Neil Plumridge, vice-president of a management consultancy company, says that his weeks vary from a ‘manageable’ 45 hours to 80 hours, but average 60 hours.</span></p>
+<p><span class="para-label">B</span> <span class="loc-q15b">Three signs warn Plumridge about his workload: sleep, scheduling and family. He knows he is doing too much when he gets less than six hours’ sleep for three consecutive nights, when he is constantly having to reschedule appointments, and when he misses a family birthday or anniversary.</span> ‘Then’, he says, ‘I know things are out of control’. <span class="loc-q15c">Plumridge states that stress is often caused by his having unrealistic expectations of himself. ‘I’ll promise a client that I’ll do something tomorrow, and then I’ll promise another client that I’ll do the same thing, when I know it’s not going to happen. I could have said: “Why don’t I give that to you in 48 hours?” The client wouldn’t care.’</span></p>
+<p><span class="para-label">C</span> Over-committing is something people experience as an individual problem. However, <span class="loc-q18">new research indicates that people may be designed to over-commit. A study in the JOURNAL OF EXPERIMENTAL PSYCHOLOGY shows that people always believe that they will be less busy in the future. This is a misapprehension according to the authors of the report, Gal Zauberman of the University of North Carolina and John Lynch of Duke University.</span> ‘On average, an individual will be just as busy two weeks or a month from now as he or she is today. But that is not how it appears in everyday life,’ they say. ‘People make commitments long in advance that they would never make if the same commitments required immediate action. They discount future time investments relatively steeply.’</p>
+<p><span class="para-label">D</span> Being ‘too busy’ is highly subjective, but for any individual there are some concrete signs of stress: disturbed sleep and declining mental and physical health are the most common examples. <span class="loc-q22">Figures for National Workers’ Compensation (insurance against injury caused by work) show that stress causes the most lost time of any workplace injury:</span> <span class="loc-q23">employees suffering stress are absent from work for an average of 16.6 weeks.</span> The effects of stress are also expensive. The Australian Government insurer reports that in 2003–2004, claims for stress-related psychological injury accounted for <span class="loc-q24">7%</span> of insurance claims, but almost 27% of the amount paid out in claim payments.</p>
+<p><span class="para-label">E</span> Experts say the key to dealing with stress is not to focus on relief – a game of golf or <span class="loc-q25">a massage</span> – but to reassess <span class="loc-q26">workloads.</span> Neil Plumridge says he makes it a priority to work out what has to change: that might mean allocating extra staff to a job, allowing more time, or changing expectations. <span class="loc-q16">He also relies on the advice of colleagues, saying that his peers coach each other on business problems: ‘Just a fresh pair of eyes over an issue can help,’ he states.</span></p>
+<p><span class="para-label">F</span> Executive stress is not confined to big organisations. Vanessa Stoykov has been running her own advertising agency and public relations business for seven years. Her company has grown so fast that it appeared on the BUSINESS REVIEW WEEKLY ‘Fast 100’ list of fastest-growing small enterprises in 2004, just after Stoykov had her first child. In 2005, revenue was projected to double to $2.4 million. She had just had her second child. With a fast-growing business and two small children, Stoykov says she has mastered the art of caring for children, typing, and talking on the phone at the same time. But, unlike many others, she appears to thrive on the mental stimulation of running her own business, despite the stress.</p>
+<p><span class="para-label">G</span> <span class="loc-q14">Jan Elsner, a psychologist who specialises in executive coaching, says that doing well on a demanding workload is typical of senior executives. Some people work best with high-adrenaline periods followed by quieter times, while others thrive under sustained pressure.</span> Elsner’s practice is based on a movement known as positive psychology, a school of thought that argues that positive experiences – feeling engaged and challenged, for example – do not balance out negative experiences such as stress; instead they help people increase their resilience over time. <span class="loc-q21">Elsner says that many of the senior business people she coaches are increasingly relying more on regulating stress through methods such as meditation. She points to research showing that meditation can alter the biochemistry of the brain and the way that brains and bodies react to stress.</span></p>
+<p><span class="para-label">H</span> Some experts believe there is too much emphasis on treating job stress as an individual problem. <span class="loc-q17">Tony LaMontagne, of the University of Melbourne, says that while personality traits do have some effect on stress, it is systemic stressors – qualities of job roles and organisations themselves – that have a far greater effect. His recent research shows that the major predictor of stress is the level of job control a person has.</span> The best type of job combines challenging work with high autonomy. The worst jobs combine challenging work and low control. People with demanding jobs but little autonomy have up to four times the probability of depression and more than double the risk of heart attack.</p>
+</div>
+</div>
+<!-- PASSAGE 3: Robert Louis Stevenson -->
+<div class="passage-panel" id="passage-content-2">
+<div class="passage-title">ROBERT LOUIS STEVENSON</div>
+<div class="passage-subtitle">The writer of some of the best-known stories in the English language, including Treasure Island and The Strange Case of Dr. Jekyll and Mr. Hyde</div>
+<div class="passage-text">
+<p><span class="para-label">A</span> <span class="loc-q27">It is more than 100 years since the death of the Scottish writer Robert Louis Stevenson on the South Pacific Island of Samoa, and it seems that time has not been kind to Stevenson’s memory. Immediately after his death, his family and friends set to work to fashion the legend of Robert Louis Stevenson or RLS, as he became known – one of the few writers familiar from his initials alone. Subsequent works of biography then turned him into a writer of almost religious importance. One example was literary critic Balfour, who in 1901 portrayed Stevenson’s family as ministering angels to the dying genius during his final illness. Similarly, the biographer Crouch absurdly overstated Stevenson’s significance by placing him in the same company as those most revered names in English literature: Shakespeare and Keats.</span> The reaction to this nonsense was a number of highly critical assessments of Stevenson’s legacy in the 1920s.</p>
+<p><span class="para-label">B</span> Normally, the critical pendulum can be relied on to swing back again, but there are several aspects of Stevenson’s work that have, until recently, acted against a more balanced appraisal. First is the allegation that Stevenson was a mere master of linguistic fireworks, who lacked moral depth. <span class="loc-q28">Some critics accused him of being a literary charlatan, of juggling words very prettily to strike effects which overawed an ignorant public, and served to distract from the inadequacy of his ideas.</span></p>
+<p><span class="para-label">C</span> <span class="loc-q29">Then there has long been a prejudice against the adventure story as the proper medium for deep moral seriousness, a prejudice which is still extremely influential today. It seems that we can accept that an adventure film can successfully express profound moral truths, but we reject the same idea for a book.</span> The absurdity of this becomes apparent when we think of writers like Joseph Conrad and Graham Greene, but it is no use pretending that this bias against adventure stories is not part of our high culture. <span class="loc-q30">A further problem is that Stevenson has often not found favour in the land of his birth because his conservatism so often collides with the strong radical tradition in Scotland.</span> His many escapist stories and preference for living abroad have led to accusations that he camouflaged Scotland’s health problems. <span class="loc-q31">Lastly the high adventure of Stevenson’s own lifestyle has sometimes obscured his output. His globe-trotting, and above all the final phase of his life in Samoa, tended to make his own life a greater story than any he could devise.</span> This was precisely what his friends feared would happen towards the end of his short life: his art might be overwhelmed by the drama of life in Samoa.</p>
+<p><span class="para-label">D</span> One consequence of this has been that Stevenson’s influence on other writers has too often been neglected. <span class="loc-q32">The writer and poet Oscar Wilde was deeply influenced by Stevenson, even though he declared that Stevenson would have produced better work if he had lived in London rather than Samoa.</span> Stevenson tends to stick in the throat even of those writers who would like to spit him out, such as Shaw, who claimed to have learned from him that the romantic hero is always mocked by reality. Likewise, <span class="loc-q34">the writer Galsworthy, who began as a determined critic, later changed his mind and said that the superiority of Stevenson over the novelist Hardy was that Stevenson was all life and Hardy all death.</span> <span class="loc-q35">The influence on the novelist Chesterton would also repay detailed study, for it was through him that Stevenson has managed to cross the ages, emerging as an influence on the modernist movement and our own contemporary Latin American school of ‘magical realism’.</span></p>
+<p><span class="para-label">E</span> When making an assessment of his life and work one question must inevitably be asked: was Robert Louis Stevenson Scotland’s greatest writer of English prose? For most commentators this honour falls to Sir Walter Scott, author of Ivanhoe among many other classic novels and it is true that in terms of craftsmanship, precision and the ability to minutely regulate language to create the desired effect, <span class="loc-q36">Scott takes the Prize.</span> However, this is not the same as inherent talent: by way of comparison one may take the example of the two great Russian composers Shostakovich and Prokofiev, of whom the former had learned more precise skills of execution but the latter’s intrinsic genius was greater, and so it seems to be with Scott and Stevenson. Admittedly, Scott’s detailed style does permit his stories to explore levels of tragedy that are beyond Stevenson’s reach, but in this regard they have the musty smell of the museum, somehow artificial and removed from modern day reality. On the other hand, <span class="loc-q39">Stevenson’s skill with plotting and narrative give his books a timeless quality, so that they still live today.</span> And <span class="loc-q40">Stevenson was also the shrewder judge of behaviour and psychology. For example, his compelling descriptions of a man with a split personality in The Strange Case of Dr. Jekyll and Mr. Hyde have proved so accessible and accurate that the expression ‘Jekyll and Hyde’ has entered common English usage.</span> Even if we do not see a revival of critical interest in this great Scottish writer, it is to be hoped that readers go back to Robert Louis Stevenson’s magnificent stories and reassess this neglected genius.</p>
+<p><span class="loc-q37">Stevenson had more natural ability than Scott.</span></p>
+<p><span class="loc-q38">Scott’s books showed more depth when it came to tragedy.</span></p>
+</div>
+</div>
+</div><!-- /left-pane -->
+<div id="resize-handle"></div>
+<div id="right-pane">
+<!-- PASSAGE 1 Qs -->
+<div class="q-panel active" id="qpanel-0">
+<div class="q-section">
+<div class="q-section-title">Questions 1–7</div>
+<div class="q-instruction">Choose TRUE, FALSE, or NOT GIVEN.</div>
+<div class="q-item" id="q-target-1">
+<div class="q-label"><span class="q-num">1</span><span>The study done by the Chinese Academy of Medical Sciences looked at eating habits in several countries.</span><button class="locate-btn" data-q="1">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="1" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="1" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="1" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-2">
+<div class="q-label"><span class="q-num">2</span><span>Eating fresh chillies can decrease the likelihood of dying from certain serious illnesses.</span><button class="locate-btn" data-q="2">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="2" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="2" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="2" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-3">
+<div class="q-label"><span class="q-num">3</span><span>Capsaicin is found in the same place in all chilli varieties.</span><button class="locate-btn" data-q="3">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="3" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="3" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="3" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-4">
+<div class="q-label"><span class="q-num">4</span><span>Habanero peppers are the hottest known peppers.</span><button class="locate-btn" data-q="4">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="4" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="4" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="4" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-5">
+<div class="q-label"><span class="q-num">5</span><span>Pure capsaicin is licensed for use in food products in the European Union.</span><button class="locate-btn" data-q="5">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="5" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="5" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="5" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-6">
+<div class="q-label"><span class="q-num">6</span><span>The Aztecs were the first to use capsaicin as a pain killer.</span><button class="locate-btn" data-q="6">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="6" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="6" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="6" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-7">
+<div class="q-label"><span class="q-num">7</span><span>Birds have different physical responses to eating chillies to those of mammals.</span><button class="locate-btn" data-q="7">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="7" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="7" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="7" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 8–13</div>
+<div class="q-instruction">Complete the notes below. Write ONE WORD ONLY from the passage for each answer.</div>
+<div class="notes-box">
+<h4>The health benefits of chilli</h4>
+<p><strong>Using chilli to fight bacteria</strong></p>
+<ul>
+<li>chilli’s ability to fight germs was very significant before the invention of <span id="q-target-8"><input class="blank-input" data-q="8" id="blank-q8" placeholder="8" style="width:130px"/></span><button class="locate-btn" data-q="8">🔍</button></li>
+<li>it was thought that chilli was eaten because it causes bodies to produce <span id="q-target-9"><input class="blank-input" data-q="9" id="blank-q9" placeholder="9" style="width:80px"/></span><button class="locate-btn" data-q="9">🔍</button> which reduces body heat</li>
+<li>books of <span id="q-target-10"><input class="blank-input" data-q="10" id="blank-q10" placeholder="10" style="width:90px"/></span><button class="locate-btn" data-q="10">🔍</button> from around the world show chilli is more commonly used in certain geographical areas</li>
+<li>chilli is most likely to be used in valleys with a lot of humidity</li>
+</ul>
+<p><strong>Using chilli for weight loss</strong></p>
+<ul>
+<li>the University of Wyoming found that chilli raised the mice’s <span id="q-target-11"><input class="blank-input" data-q="11" id="blank-q11" placeholder="11" style="width:110px"/></span><button class="locate-btn" data-q="11">🔍</button></li>
+<li>the University of Adelaide found that receptors in the <span id="q-target-12"><input class="blank-input" data-q="12" id="blank-q12" placeholder="12" style="width:90px"/></span><button class="locate-btn" data-q="12">🔍</button> react with chilli to indicate when you’ve had enough to eat</li>
+</ul>
+<p><strong>Using chilli as pain relief</strong></p>
+<ul>
+<li>it reacts with the part of our brain that notices a difference in temperature</li>
+<li>the sensation we have when eating chilli is similar to the one we have after <span id="q-target-13"><input class="blank-input" data-q="13" id="blank-q13" placeholder="13" style="width:100px"/></span><button class="locate-btn" data-q="13">🔍</button></li>
+</ul>
+</div>
+</div>
+</div>
+<!-- PASSAGE 2 Qs -->
+<div class="q-panel" id="qpanel-1">
+<div class="q-section">
+<div class="q-section-title">Questions 14–18</div>
+<div class="q-instruction">Match each statement with the correct person, A–D. You may use any letter more than once.</div>
+<div class="people-legend">
+<strong>A.</strong> Neil Plumridge    <strong>B.</strong> Gal Zauberman and John Lynch    <strong>C.</strong> Jan Elsner    <strong>D.</strong> Tony LaMontagne
+        </div>
+<table class="radio-grid-table">
+<thead><tr>
+<th class="rgt-num">#</th><th class="rgt-stmt">Statement</th>
+<th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+<th class="rgt-loc"></th>
+</tr></thead>
+<tbody>
+<tr id="q-target-14"><td class="rgt-num">14</td><td class="rgt-stmt">High-level workers tend to react positively to stress.</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="14">🔍</button></td></tr>
+<tr id="q-target-15"><td class="rgt-num">15</td><td class="rgt-stmt">Stress levels are increased by trying to please customers.</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="15">🔍</button></td></tr>
+<tr id="q-target-16"><td class="rgt-num">16</td><td class="rgt-stmt">Support from other workers may relieve stress.</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="16">🔍</button></td></tr>
+<tr id="q-target-17"><td class="rgt-num">17</td><td class="rgt-stmt">Lack of independence at work is often responsible for stress.</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="17">🔍</button></td></tr>
+<tr id="q-target-18"><td class="rgt-num">18</td><td class="rgt-stmt">Workers commonly expect their workloads to lessen over time.</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="18">🔍</button></td></tr>
+</tbody>
+</table>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 19–21</div>
+<div class="q-instruction">Choose the correct answer.</div>
+<div class="q-item" id="q-target-19">
+<div class="q-label"><span class="q-num">19</span><span>Which of the following is NOT mentioned by Neil Plumridge as an indication that his workload is too heavy?</span><button class="locate-btn" data-q="19">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="19" data-val="A"><span class="radio-circle"></span>A. an inability to keep to his schedule</button>
+<button class="mc-opt-btn" data-q="19" data-val="B"><span class="radio-circle"></span>B. inattention to family celebrations</button>
+<button class="mc-opt-btn" data-q="19" data-val="C"><span class="radio-circle"></span>C. a lack of concentration on a task</button>
+<button class="mc-opt-btn" data-q="19" data-val="D"><span class="radio-circle"></span>D. a period of insufficient sleep</button>
+</div>
+<div class="q-item" id="q-target-20">
+<div class="q-label"><span class="q-num">20</span><span>Which method of lessening work stress is NOT suggested by Neil Plumridge?</span><button class="locate-btn" data-q="20">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="20" data-val="A"><span class="radio-circle"></span>A. rethinking ideas of what can be achieved</button>
+<button class="mc-opt-btn" data-q="20" data-val="B"><span class="radio-circle"></span>B. extending the deadline for completing the task</button>
+<button class="mc-opt-btn" data-q="20" data-val="C"><span class="radio-circle"></span>C. using more workers on a project</button>
+<button class="mc-opt-btn" data-q="20" data-val="D"><span class="radio-circle"></span>D. taking more time off for sport or other recreation</button>
+</div>
+<div class="q-item" id="q-target-21">
+<div class="q-label"><span class="q-num">21</span><span>According to Jan Elsner, meditation offers a method of</span><button class="locate-btn" data-q="21">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="21" data-val="A"><span class="radio-circle"></span>A. taking a worker’s mind off his troubles.</button>
+<button class="mc-opt-btn" data-q="21" data-val="B"><span class="radio-circle"></span>B. changing physical response to stress.</button>
+<button class="mc-opt-btn" data-q="21" data-val="C"><span class="radio-circle"></span>C. resting more effectively.</button>
+<button class="mc-opt-btn" data-q="21" data-val="D"><span class="radio-circle"></span>D. encouraging executives to take breaks.</button>
+</div>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 22–26</div>
+<div class="q-instruction">Complete the summary below. Write NO MORE THAN TWO WORDS AND/OR A NUMBER from the passage for each answer.</div>
+<div class="summary-box">
+<strong>Stress: its effects and how to reduce it</strong><br/><br/>
+          Statistics on workers’ compensation show that people take more time off work due to stress than for any other <span id="q-target-22"><input class="blank-input" data-q="22" id="blank-q22" placeholder="22" style="width:150px"/></span><button class="locate-btn" data-q="22">🔍</button> at work. On average, workers who take time off because of stress stay away for <span id="q-target-23"><input class="blank-input" data-q="23" id="blank-q23" placeholder="23" style="width:110px"/></span><button class="locate-btn" data-q="23">🔍</button>. This absence comes at a high price – while the number of insurance claims due to stress amount to only <span id="q-target-24"><input class="blank-input" data-q="24" id="blank-q24" placeholder="24" style="width:60px"/></span><button class="locate-btn" data-q="24">🔍</button> of the total, they account for a much higher proportion of the cost of claims payments.<br/><br/>
+          Experts believe that seeking to relieve stress through physical therapies such as sport or <span id="q-target-25"><input class="blank-input" data-q="25" id="blank-q25" placeholder="25" style="width:110px"/></span><button class="locate-btn" data-q="25">🔍</button> may be less effective than simply reviewing your <span id="q-target-26"><input class="blank-input" data-q="26" id="blank-q26" placeholder="26" style="width:110px"/></span><button class="locate-btn" data-q="26">🔍</button>.
+        </div>
+</div>
+</div>
+<!-- PASSAGE 3 Qs -->
+<div class="q-panel" id="qpanel-2">
+<div class="q-section">
+<div class="q-section-title">Questions 27–31</div>
+<div class="q-instruction">Choose the correct answer.</div>
+<div class="q-item" id="q-target-27">
+<div class="q-label"><span class="q-num">27</span><span>In the opinion of the writer, the biographers Balfour and Crouch</span><button class="locate-btn" data-q="27">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="27" data-val="A"><span class="radio-circle"></span>A. understated the role played by Stevenson’s family.</button>
+<button class="mc-opt-btn" data-q="27" data-val="B"><span class="radio-circle"></span>B. misunderstood Stevenson’s religious beliefs.</button>
+<button class="mc-opt-btn" data-q="27" data-val="C"><span class="radio-circle"></span>C. overestimated other writers’ influence on Stevenson.</button>
+<button class="mc-opt-btn" data-q="27" data-val="D"><span class="radio-circle"></span>D. elevated Stevenson above his true status as a writer.</button>
+</div>
+<div class="q-item" id="q-target-28">
+<div class="q-label"><span class="q-num">28</span><span>What point does the writer make about Stevenson in the second paragraph?</span><button class="locate-btn" data-q="28">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="28" data-val="A"><span class="radio-circle"></span>A. The public judged him more fairly than the critics.</button>
+<button class="mc-opt-btn" data-q="28" data-val="B"><span class="radio-circle"></span>B. Recent criticism of him has been justified.</button>
+<button class="mc-opt-btn" data-q="28" data-val="C"><span class="radio-circle"></span>C. Critics argued that his style covered up his faults.</button>
+<button class="mc-opt-btn" data-q="28" data-val="D"><span class="radio-circle"></span>D. The ethical nature of his stories was often criticized.</button>
+</div>
+<div class="q-item" id="q-target-29">
+<div class="q-label"><span class="q-num">29</span><span>According to the writer, the adventure story</span><button class="locate-btn" data-q="29">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="29" data-val="A"><span class="radio-circle"></span>A. is more appropriate for books than films.</button>
+<button class="mc-opt-btn" data-q="29" data-val="B"><span class="radio-circle"></span>B. can be used by writers to tell moral stories.</button>
+<button class="mc-opt-btn" data-q="29" data-val="C"><span class="radio-circle"></span>C. is more fashionable today than in the past.</button>
+<button class="mc-opt-btn" data-q="29" data-val="D"><span class="radio-circle"></span>D. has been used by other writers but not Stevenson.</button>
+</div>
+<div class="q-item" id="q-target-30">
+<div class="q-label"><span class="q-num">30</span><span>What point does the writer make about Stevenson and Scotland?</span><button class="locate-btn" data-q="30">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="30" data-val="A"><span class="radio-circle"></span>A. His ideas contrasted with those of many Scots.</button>
+<button class="mc-opt-btn" data-q="30" data-val="B"><span class="radio-circle"></span>B. He demonstrated great sympathy for Scotland’s problems.</button>
+<button class="mc-opt-btn" data-q="30" data-val="C"><span class="radio-circle"></span>C. He was not considered a true Scot as he was not born there.</button>
+<button class="mc-opt-btn" data-q="30" data-val="D"><span class="radio-circle"></span>D. His unflattering stories about Scotland angered many Scots.</button>
+</div>
+<div class="q-item" id="q-target-31">
+<div class="q-label"><span class="q-num">31</span><span>According to the writer, Stevenson’s own lifestyle</span><button class="locate-btn" data-q="31">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="31" data-val="A"><span class="radio-circle"></span>A. was envied by his friends.</button>
+<button class="mc-opt-btn" data-q="31" data-val="B"><span class="radio-circle"></span>B. was responsible for his early death.</button>
+<button class="mc-opt-btn" data-q="31" data-val="C"><span class="radio-circle"></span>C. attracted more attention than his books.</button>
+<button class="mc-opt-btn" data-q="31" data-val="D"><span class="radio-circle"></span>D. did not prepare him for living in Samoa.</button>
+</div>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 32–35</div>
+<div class="q-instruction">Choose YES, NO, or NOT GIVEN.</div>
+<div class="q-item" id="q-target-32">
+<div class="q-label"><span class="q-num">32</span><span>Although Oscar Wilde admired Stevenson’s work, he believed Stevenson could have written something better.</span><button class="locate-btn" data-q="32">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="32" data-val="YES"><span class="radio-circle"></span>YES</button>
+<button class="mc-opt-btn" data-q="32" data-val="NO"><span class="radio-circle"></span>NO</button>
+<button class="mc-opt-btn" data-q="32" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-33">
+<div class="q-label"><span class="q-num">33</span><span>Stevenson encouraged Oscar Wilde to start writing.</span><button class="locate-btn" data-q="33">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="33" data-val="YES"><span class="radio-circle"></span>YES</button>
+<button class="mc-opt-btn" data-q="33" data-val="NO"><span class="radio-circle"></span>NO</button>
+<button class="mc-opt-btn" data-q="33" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-34">
+<div class="q-label"><span class="q-num">34</span><span>Galsworthy had greater respect for Hardy than Stevenson.</span><button class="locate-btn" data-q="34">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="34" data-val="YES"><span class="radio-circle"></span>YES</button>
+<button class="mc-opt-btn" data-q="34" data-val="NO"><span class="radio-circle"></span>NO</button>
+<button class="mc-opt-btn" data-q="34" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-35">
+<div class="q-label"><span class="q-num">35</span><span>More research is needed regarding Stevenson’s influence on Chesterton.</span><button class="locate-btn" data-q="35">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="35" data-val="YES"><span class="radio-circle"></span>YES</button>
+<button class="mc-opt-btn" data-q="35" data-val="NO"><span class="radio-circle"></span>NO</button>
+<button class="mc-opt-btn" data-q="35" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+</div>
+<div class="q-section">
+        <div class="q-section-title">Questions 36&ndash;40</div>
+        <div class="q-instruction">Complete the summary using the list of words below. Drag each word to the correct gap.</div>
+        <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 14px;font-size:0.78rem;margin-bottom:10px;"><strong>A</strong> natural ability &nbsp;&nbsp; <strong>B</strong> critical acclaim &nbsp;&nbsp; <strong>C</strong> humour &nbsp;&nbsp; <strong>D</strong> romance &nbsp;&nbsp; <strong>E</strong> colourful language &nbsp;&nbsp; <strong>F</strong> technical control &nbsp;&nbsp; <strong>G</strong> story telling &nbsp;&nbsp; <strong>H</strong> depth &nbsp;&nbsp; <strong>I</strong> human nature</div>
+        <div class="word-bank-pool" id="wbpool-t11">
+          <div class="draggable-card" draggable="true" data-word="A" id="dcard-t11-A"><strong>A</strong> &ndash; natural ability</div>
+          <div class="draggable-card" draggable="true" data-word="B" id="dcard-t11-B"><strong>B</strong> &ndash; critical acclaim</div>
+          <div class="draggable-card" draggable="true" data-word="C" id="dcard-t11-C"><strong>C</strong> &ndash; humour</div>
+          <div class="draggable-card" draggable="true" data-word="D" id="dcard-t11-D"><strong>D</strong> &ndash; romance</div>
+          <div class="draggable-card" draggable="true" data-word="E" id="dcard-t11-E"><strong>E</strong> &ndash; colourful language</div>
+          <div class="draggable-card" draggable="true" data-word="F" id="dcard-t11-F"><strong>F</strong> &ndash; technical control</div>
+          <div class="draggable-card" draggable="true" data-word="G" id="dcard-t11-G"><strong>G</strong> &ndash; story telling</div>
+          <div class="draggable-card" draggable="true" data-word="H" id="dcard-t11-H"><strong>H</strong> &ndash; depth</div>
+          <div class="draggable-card" draggable="true" data-word="I" id="dcard-t11-I"><strong>I</strong> &ndash; human nature</div>
+        </div>
+        <div class="summary-box"><strong>Robert Louis Stevenson and Sir Walter Scott</strong><br><br>
+Opinions differ as to whether Robert Louis Stevenson or Sir Walter Scott should be considered Scotland&rsquo;s best writer. Scott had greater <span class="drop-zone" data-q="36"><span class="dz-text">36</span><span class="remove-chip">&#10005;</span></span> but Stevenson had more <span class="drop-zone" data-q="37"><span class="dz-text">37</span><span class="remove-chip">&#10005;</span></span> and the same distinction can be made between the two composers Shostakovich and Prokofiev. It is true that Scott&rsquo;s books showed more <span class="drop-zone" data-q="38"><span class="dz-text">38</span><span class="remove-chip">&#10005;</span></span> when it came to tragedy though in an old-fashioned way while Stevenson&rsquo;s books are still popular because of his <span class="drop-zone" data-q="39"><span class="dz-text">39</span><span class="remove-chip">&#10005;</span></span>. And Stevenson&rsquo;s understanding of <span class="drop-zone" data-q="40"><span class="dz-text">40</span><span class="remove-chip">&#10005;</span></span> has resulted in the widespread use of an expression from one of his books.
+        </div>
+      </div>
+    </div>
+  </div><!-- /right-pane -->
+</div><!-- /split -->
+<div id="footer-nav">
+<span class="nav-label">Q:</span>
+<div id="nav-grid"></div>
+<div id="font-controls">
+<span>Font:</span>
+<button id="btn-font-up">A+</button>
+<button id="btn-font-dn">A−</button>
+</div>
+</div>
+</div><!-- /app -->
+<div id="highlight-menu">
+<button onclick="applyHighlight('highlight-yellow')" style="background:#fef08a" title="Yellow"></button>
+<button onclick="applyHighlight('highlight-green')" style="background:#bbf7d0" title="Green"></button>
+<button onclick="applyHighlight('highlight-pink')" style="background:#fbcfe8" title="Pink"></button>
+<button class="erase-btn" onclick="applyHighlight('erase')">✕</button>
+</div>
+<div id="result-modal">
+<div id="result-box">
+<h2>Your Result</h2>
+<div id="result-score">0/40</div>
+<div id="result-band">Band: –</div>
+<div id="result-breakdown"></div>
+<button id="btn-close-modal">Review Answers</button>
+</div>
+</div>
+<script>
+const ANSWERS={
+  1:'FALSE',2:'TRUE',3:'FALSE',4:'NOT GIVEN',5:'FALSE',6:'NOT GIVEN',7:'TRUE',
+  8:'refrigeration',9:'sweat',10:'recipes',11:'metabolism',12:'stomach',13:'exercise',
+  14:'C',15:'A',16:'A',17:'D',18:'B',
+  19:'C',20:'D',21:'B',
+  22:'workplace injury',23:'16.6 weeks',24:'7%',25:'a massage',26:'workloads',
+  27:'D',28:'C',29:'B',30:'A',31:'C',
+  32:'YES',33:'NOT GIVEN',34:'NO',35:'YES',
+  36:'F',37:'A',38:'H',39:'G',40:'I'
+};
+const Q_PASSAGE={};
+for(let i=1;i<=13;i++)Q_PASSAGE[i]=0;
+for(let i=14;i<=26;i++)Q_PASSAGE[i]=1;
+for(let i=27;i<=40;i++)Q_PASSAGE[i]=2;
+
+let userAnswers={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+function normalizeAnswer(s){
+  return s.trim().toLowerCase().replace(/[\u2018\u2019]/g,"'").replace(/[\u2013\u2014]/g,'-').replace(/\s+/g,' ');
+}
+function checkAnswer(user,correct){
+  const u=normalizeAnswer(user),c=normalizeAnswer(correct);
+  if(u===c)return true;
+  if(u.replace(/-/g,' ')===c.replace(/-/g,' '))return true;
+  const cw=c.split(' ');
+  if(cw.length>1){const uw=u.split(' ');if(uw.length===cw.length&&uw.every((w,i)=>w===cw[i]))return true;}
+  // Handle percentage: 7% vs 7 %
+  if(u.replace(/\s/g,'')===c.replace(/\s/g,''))return true;
+  return false;
+}
+
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{p.style.display=i===t?'block':'none';p.classList.toggle('active',i===t);});
+  });
+});
+
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i;btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+
+document.querySelectorAll('.mc-opt-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+btn.dataset.q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();updateNav(q);
+  });
+});
+
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+
+function submitExam(){
+  if(submitted)return;
+  submitted=true;clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=checkAnswer(user,ans);
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    // Handle drop zones
+    const dz=document.querySelector('.drop-zone[data-q="'+q+'"]');
+    if(dz){dz.classList.add(ok?'correct':'wrong');if(!ok){const lbl=document.createElement('span');lbl.className='dnd-correct-label';lbl.textContent='✓ '+ans;dz.insertAdjacentElement('afterend',lbl);}}
+        const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){const lbl=document.createElement('span');lbl.className='blank-correct-label';lbl.textContent='✓ '+ans;inp.insertAdjacentElement('afterend',lbl);}
+    }
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    const rgtRow=document.getElementById('q-target-'+q);
+    if(rgtRow&&rgtRow.tagName==='TR')rgtRow.classList.add(ok?'row-correct':'row-wrong');
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    if(!ok)document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+  }
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1&ndash;13)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14&ndash;26)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27&ndash;40)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>document.getElementById('result-modal').classList.remove('show'));
+
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      const locEls=document.querySelectorAll('.loc-q'+q);
+      if(locEls.length===0)return;
+      let best=locEls[0];
+      locEls.forEach(el=>{if(el.textContent.trim().length<best.textContent.trim().length)best=el;});
+      if(best.textContent.trim().length>200){
+        const children=best.querySelectorAll('span');
+        children.forEach(child=>{const t=child.textContent.trim();if(t.length>=15&&t.length<best.textContent.trim().length)best=child;});
+      }
+      best.classList.add('loc-highlight');
+      best.scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(()=>best.classList.remove('loc-highlight'),4000);
+    },150);
+  });
+});
+
+document.getElementById('btn-font-up').addEventListener('click',()=>{
+  baseFontSize=Math.min(20,baseFontSize+1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{
+  baseFontSize=Math.max(11,baseFontSize-1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+
+let highlightMenu=document.getElementById('highlight-menu'),savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const lp=document.getElementById('left-pane'),rp=document.getElementById('right-pane');
+    if(lp.contains(range.commonAncestorContainer)||rp.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){window.getSelection().removeAllRanges();window.getSelection().addRange(savedRange);document.execCommand('removeFormat');savedRange=null;return;}
+  const span=document.createElement('span');span.className=cls;
+  try{savedRange.surroundContents(span);}catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();savedRange=null;
+}
+
+const handle=document.getElementById('resize-handle'),leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const split=document.getElementById('split');const rect=split.getBoundingClientRect();leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+
+
+// Drag & Drop word bank
+let _dragWord=null;
+document.querySelectorAll('.draggable-card').forEach(card=>{
+  card.addEventListener('dragstart',e=>{
+    if(submitted)return;
+    _dragWord=card.dataset.word;card.classList.add('dragging');e.dataTransfer.effectAllowed='move';
+  });
+  card.addEventListener('dragend',()=>card.classList.remove('dragging'));
+});
+document.querySelectorAll('.drop-zone').forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag-over');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
+  zone.addEventListener('drop',e=>{
+    e.preventDefault();zone.classList.remove('drag-over');
+    if(submitted||!_dragWord)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.querySelector('.draggable-card[data-word="'+prev+'"]');if(pc)pc.classList.remove('used');}
+    const card=document.querySelector('.draggable-card[data-word="'+_dragWord+'"]');
+    if(card)card.classList.add('used');
+    zone.dataset.filled=_dragWord;zone.classList.add('filled');
+    zone.querySelector('.dz-text').textContent=_dragWord;
+    const q=parseInt(zone.dataset.q);userAnswers[q]=_dragWord;updateNav(q);_dragWord=null;
+  });
+  zone.querySelector('.remove-chip').addEventListener('click',e=>{
+    e.stopPropagation();if(submitted)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.querySelector('.draggable-card[data-word="'+prev+'"]');if(pc)pc.classList.remove('used');}
+    zone.dataset.filled='';zone.classList.remove('filled');
+    zone.querySelector('.dz-text').textContent=zone.dataset.q;
+    const q=parseInt(zone.dataset.q);delete userAnswers[q];updateNav(q);
+  });
+});
+
+startTimer();
+</script>
+</body>
+</html>

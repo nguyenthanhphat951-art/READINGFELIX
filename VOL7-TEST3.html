@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading &ndash; VOL 7 TEST 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+.passage-panel{display:none;}.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+.q-panel{display:none;}.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.blank-input{border:none;border-bottom:2px solid #1a1a1a;background:transparent;font-size:0.88rem;padding:2px 4px;min-width:110px;outline:none;font-family:'Lexend',sans-serif;}
+.blank-input.correct{border-bottom-color:#16a34a;background:#dcfce7;}
+.blank-input.wrong{border-bottom-color:#dc2626;background:#fee2e2;}
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:36px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+/* Heading DnD */
+.heading-chip{display:inline-flex;align-items:center;padding:5px 12px;background:#1a1a1a;color:#fff;border-radius:20px;cursor:grab;font-size:0.78rem;font-family:'Lexend',sans-serif;user-select:none;margin:3px;border:2px solid transparent;line-height:1.4;}
+.heading-chip:active{cursor:grabbing;}
+.heading-chip.dragging{opacity:0.4;}
+.heading-chip.used{background:#6b7280;cursor:default;}
+.heading-chip-pool{display:flex;flex-wrap:wrap;gap:4px;padding:10px 12px;background:#f9fafb;border:1.5px dashed #9ca3af;border-radius:8px;margin-bottom:14px;min-height:44px;}
+.heading-dropzone{display:inline-flex;align-items:center;justify-content:center;min-width:180px;height:28px;border:2px dashed #9ca3af;border-radius:14px;padding:0 10px;font-size:0.76rem;color:#9ca3af;vertical-align:middle;margin:3px 0;transition:border-color 0.15s,background 0.15s;position:relative;}
+.heading-dropzone.drag-over{border-color:#1d4ed8;background:#eff6ff;}
+.heading-dropzone.filled{border-style:solid;border-color:#1a1a1a;background:#1a1a1a;color:#fff;font-weight:600;}
+.heading-dropzone.correct{border-color:#16a34a!important;background:#dcfce7!important;color:#16a34a!important;}
+.heading-dropzone.wrong{border-color:#dc2626!important;background:#fee2e2!important;color:#dc2626!important;}
+.heading-dropzone .hdz-remove{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:#fff;color:#1a1a1a;font-size:0.6rem;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;line-height:1;}
+.heading-dropzone.filled .hdz-remove{display:flex;}
+.heading-dropzone:not(.filled) .hdz-remove{display:none;}
+.para-heading-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.headings-list{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:10px 14px;font-size:0.82rem;margin-bottom:14px;}
+.headings-list div{padding:3px 0;border-bottom:1px solid #f3f4f6;}
+.headings-list div:last-child{border-bottom:none;}
+.notes-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.notes-box h4{font-size:0.88rem;font-weight:700;margin:0 0 8px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+.notes-box ul{margin:6px 0 6px 20px;padding:0;}
+.notes-box li{margin-bottom:4px;}
+.summary-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.4;margin-bottom:12px;}
+/* Table styling */
+.passage-text table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:12px 0;}
+.passage-text table th{background:#374151;color:#fff;padding:7px 10px;text-align:left;font-weight:600;}
+.passage-text table td{padding:7px 10px;border:1px solid #e5e7eb;vertical-align:top;line-height:1.7;}
+.passage-text table tr:nth-child(even) td{background:#f9fafb;}
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+.blank-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+.hdz-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="header">
+  <h1>IELTS READING &ndash; VOL 7 TEST 3</h1>
+  <div id="timer-wrap">
+    <span id="timer">60:00</span>
+    <button id="btn-pause">&#9208; Pause</button>
+    <button id="btn-submit-exam">Submit</button>
+  </div>
+</div>
+<div id="tab-bar">
+  <button class="tab-btn active" data-target="0">PASSAGE 1</button>
+  <button class="tab-btn" data-target="1">PASSAGE 2</button>
+  <button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+<div id="split">
+  <div id="left-pane">
+    <div class="passage-panel active" id="passage-content-0">
+      <div class="passage-title">THE DEVELOPMENT OF PLASTICS</div>
+      <div class="passage-subtitle"></div>
+      <div class="passage-text">
+        <p>The development of plastics</p>
+        <p><span class="loc-q13">The first plastics were developed as a substitute for natural rubber. Chemically, rubber is a polymer-a compound containing large molecules that are formed by the bonding of many smaller, simpler units, repeated over and over again. The same bonding principle-polymerization-is the basis of the creation of a huge range of plastics by the chemical industry.</span></p>
+        <p>The first plastic was developed as a result of a competition in the USA. In the 1860s, $10,000 was offered to anybody who could replace ivory-supplies of which were declining-with something equally good as a material for making billiard balls. <span class="loc-q9">The prize was won by John Wesley Hyatt, with a material called celluloid.</span> Celluloid was made by dissolving cellulose, a carbohydrate obtained from plants, in a solution of camphor dissolved in ethanol. This new material rapidly found other applications in the manufacture of everyday products such as knife handles and detachable collars and cuffs. <span class="loc-q1">But perhaps the best-known celluloid product was photographic film, without which the film industry could never have taken off at the end of the 19th century.</span></p>
+        <p><span class="loc-q12"><span class="loc-q10"><span class="loc-q8">Celluloid can be repeatedly softened and reshaped by heat, and is known as a thermoplastic.</span></span> In 1907, Leo Baekeland (1863-1944), a Belgian chemist working in the USA, invented a different kind of plastic, by causing phenol and formaldehyde to react together. <span class="loc-q2">Baekeland called it Bakelite, and it was the first of the thermosets-plastic that can be cast and molded while hot, but cannot be softened by heat and reshaped once they have set.</span> Bakelite was a good insulator, and was resistant to water and acid. With these properties <span class="loc-q3">it was soon being used in the manufacture of electrical switches as well as a variety of domestic items.</span></span></p>
+        <p>As the century went on, the range of newly developed plastic increased. Chemists began looking for other small molecules that could be strung together to make polymers. <span class="loc-q4">In the 1930s, chemists in Britain discovered that the gas ethylene would polymerize under heat and pressure to form a thermoplastic they called polythene.</span> Polypropylene followed in the 1950s. Both are used to make bottles, pipes and plastic bags. A small change in the starting material-replacing a hydrogen atom in ethylene with a chlorine atom-<span class="loc-q5">produced rigid PVC (polyvinyl chloride), a fireproof plastic suitable for drains and gutters.</span> By adding certain chemicals, a soft form of PVC can be produced, suitable as a substitute for rubber in items such as waterproof clothing. A closely related plastic is Teflon or PTFE (polytetrafluoroethylene). It produces very litter friction, making it ideal for products such as non-stick frying pans.</p>
+        <p><span class="loc-q6">Polystyrene, a hard, clear material like glass, was developed during the 1930s in Germany, and its applications included food containers and toys.</span> Expanded polystyrene is rigid and is widely used in packaging and insulation. <span class="loc-q7">Polyurethane, developed in the same country, was commonly produced as a foam which was very useful in the production of insulating materials.</span></p>
+        <p>In the 1930s, the first of the man-made fibres was created-nylon. Its inventor was a chemist called Wallace Carothers (1896-1937), who worked for the Du Pont company in the USA. He found that under the right conditions two particular chemicals would form a polymer that could</p>
+        <p>be pumped out through holes and then stretched to form long glossy threads that could be woven like silk. Its first use was to make parachutes for the US armed forces in World War II. In the postwar years, it completely replaced silk in the manufacture of stockings.</p>
+        <p>Many other synthetic fibres joined nylon, including Orion, Acrilan, and Terylene. Today most garments are made of a blend of natural fibres, such as cotton and wool, and man-made fibres that make fabrics easier to look after.</p>
+        <p>Despite its enormous usefulness, plastic has its drawbacks. In fact one its great strengths-its indestructibility- is its greatest disadvantage. Beaches all over the world, even on the remotest island, are littered with plastic bottles that nothing can destroy. <span class="loc-q11">Nor is it very easy to recycle plastics, as different types of plastics, as different types of plastic are often found in the same items and call for different treatments.</span></p>
+      </div>
+    </div>
+    <div class="passage-panel" id="passage-content-1">
+      <div class="passage-title">LEAN PRODUCTION INNOVATION &ndash; IN MANUFACTURING SYSTEMS</div>
+      <div class="passage-subtitle"></div>
+      <div class="passage-text">
+        <p>Lean Production innovation – in manufacturing systems</p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 14:</span>
+          <span class="heading-dropzone" id="hdz-2-14" data-q="14"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="14">&#128269;</button>
+        </div>
+        <p><span class="loc-q14">After the First World War, car makers Henry Ford and Arthur Sloan of General Motors moved world manufacturing from centuries of craft production into the age of mass production.</span> Largely as a result of this, the United States soon dominated the world economy. After the Second World War, and approximately a hundred years after Japan opened up to the modern world, Eiji Toyoda and Taiichi Ohno pioneered the concept of lean production at the Toyota car company. And now, although superimposing the method on existing mass production systems causes pain and upheaval, manufacturers around the world are trying to embrace this innovative system.</p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 15:</span>
+          <span class="heading-dropzone" id="hdz-2-15" data-q="15"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="15">&#128269;</button>
+        </div>
+        <p><span class="loc-q15">Perhaps the best way to describe lean production is to compare it with the two other major manufacturing systems: craft production and mass production.</span> The craft producer uses highly skilled workers and simple but flexible tools to make exactly what the customer asks for – one item at a time. <span class="loc-q21">A present day example of this method is the customised production of a few exotic sports cars.</span> The concept of craft production remains very popular, but the problem with it is obvious. Goods produced by the craft method – as cars once exclusively were – cost too much for most of us to afford. So at the beginning of the twentieth century, mass production was developed as an alternative method. The mass producer uses narrowly skilled professionals to design products which are then made by unskilled or semi-skilled workers, using expensive, single-purpose machines. These churn out standardised products in very high volumes. Because the machinery costs so much, and is so intolerant of disruption, the mass producer keeps standard designs in production for as long as possible. The result is that the customer gets lower costs, but at the expense of variety, and by means of work methods which most employees find boring and dispiriting. By contrast, the lean production system combines the advantages of craft and mass production, while avoiding the high cost of the former and the rigidity of the latter. Towards this end, companies appoint teams of multi-skilled workers to all levels of the organisation , and use highly flexible and increasingly automated machines to produce goods in enormous volume and variety.</p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 16:</span>
+          <span class="heading-dropzone" id="hdz-2-16" data-q="16"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="16">&#128269;</button>
+        </div>
+        <p><span class="loc-q23"><span class="loc-q22"><span class="loc-q16">Lean production is so called because, compared with mass production, it uses less of everything – half the human effort in the factory, half the manufacturing space, half the</span> It also results in far fewer defects.</span></span></p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 17:</span>
+          <span class="heading-dropzone" id="hdz-2-17" data-q="17"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="17">&#128269;</button>
+        </div>
+        <p><span class="loc-q17">Perhaps the most striking contrast between mass and lean production systems lies in their production standards.</span> Mass producers set a limited goal for themselves: 'good enough', which translates into an acceptable number of defects, a maximum acceptable number of inventories,</p>
+        <p>and a narrow range of standardised products. Lean producers, on the other hand, are unwilling to compromise standards in any of these areas.</p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 18:</span>
+          <span class="heading-dropzone" id="hdz-2-18" data-q="18"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="18">&#128269;</button>
+        </div>
+        <p><span class="loc-q18">Although cost reduction is the primary objective of the lean production system, it must meet three other intermediate objectives in order to achieve this: quantity control</span> Firstly, the system must be able to adapt to daily and monthly fluctuations in demand. Secondly, each separate process must supply only good units to the subsequent process. Thirdly, in as far as the system uses human resources to attain its cost objectives, respect for human needs must be cultivated. It should be emphasised that none of these three objectives can be achieved separately.</p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 19:</span>
+          <span class="heading-dropzone" id="hdz-2-19" data-q="19"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="19">&#128269;</button>
+        </div>
+        <p><span class="loc-q25"><span class="loc-q19">The continuous flow of lean manufacturing production relies on two practical mechanisms: just-in-time and autonamation.</span> Just-in-time means, for example, that in the process of assembling the parts to build a car, components from the preceding process should arrive at the next part of the line at exactly the right time and in the correct quantities. <span class="loc-q24">If just-in-time is fully realised throughout the company, then superfluous inventories are completely eliminated from the factory, making stores or warehouses unnecessary.</span> However, relying solely on a central planning approach to control schedules for all stages of the production process simultaneously is very difficult in the case of cars, which consist of thousands of parts. So the lean system looks at the production flow in reverse; in other words, employees go to the preceding process to withdraw the necessary quantity of units at the appropriate time. The preceding process must produce only sufficient quantities of units to replace those that have been withdrawn, and in turn withdraws the requisite number of components from the process that precedes it.</span></p>
+        <div class="para-heading-row">
+          <span style="font-weight:700;font-size:0.85rem;color:#374151;">Para 20:</span>
+          <span class="heading-dropzone" id="hdz-2-20" data-q="20"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">&#10005;</span></span>
+          <button class="locate-btn" data-q="20">&#128269;</button>
+        </div>
+        <p><span class="loc-q20">Autonamation is the automatic checking for abnormalities in the production process.</span> In order to realise just-in-time perfectly, only units which are in perfect condition must be allowed to flow to the next process, and this flow must be regular and uninterrupted. In other words, quality control must coexist with just-in-time procedures throughout the system. Autonamation involves building in a mechanism to prevent the multiplication of defects in machines or product lines. For example, in Toyota factories almost all the machines have been fitted with stopping devices, and the concept of autonamation has been extended to manual production lines. <span class="loc-q26">If something abnormal happens there, the worker pushes a button to stop the whole line, and lights, which are hung so high in the factory that they are visible to everyone, indicate the position of the problem.</span></p>
+      </div>
+    </div>
+    <div class="passage-panel" id="passage-content-2">
+      <div class="passage-title">HOW DOES WATCHING SPORT INFLUENCE THE BRAIN?</div>
+      <div class="passage-subtitle"></div>
+      <div class="passage-text">
+        <p>How Does Watching Sport Influence the Brain?</p>
+        <p><span class="para-label">A</span> <span class="loc-q36">During the epoch when the poet Homer unveiled his grand epic, the ancient Greeks initiated a festival where men contended in a race of roughly 200 metres.</span> The victor would be rewarded with a symbolic olive branch. This event, known as the Olympics, has transcended its humble origins to embody the human quest for progress. The captivating nature of these games raises an intriguing question: what exactly draws us in as spectators? Is it the thrill of competition, the beauty of human movement, or something happening within our brains?</p>
+        <p><span class="para-label">B</span> In 1996, three Italian neuroscientists—Giacomo Rizzolatti, Leonardo Fogassi, and Vittorio Gallese conducted research on the premotor cortex of monkeys and made a groundbreaking discovery. They revealed a cluster of cells that act as a repository for motor actions, similar to 'grammar of movement'. These cellular networks represent the 'sentences' of full-body motions that our brains meticulously retain and refine. Take the art of swinging a golf club as an example. For those who only watch the Masters Tournament on television, playing golf may appear deceptively effortless. However, for novices, smoothly manoeuvring the asymmetrical metal club presents a nearly impossible challenge. <span class="loc-q28">This is because novices rely on conscious effort, utilising brain regions adjacent to the premotor cortex.</span> <span class="loc-q33">Experts, by contrast, instinctively execute perfectly balanced movements, as their actions are deeply ingrained and intertwined with neurons in the premotor cortex.</span> Their swing occurs with the serenity of a refined autopilot, requiring no conscious control. This neural distinction between novices and experts provides insight into how long-term training can physically reshape the brain.</p>
+        <p><span class="para-label">C</span> These neurons in the premotor cortex not only help explain why some athletes seem to have exceptional skills, but they also exhibit a wondrous characteristic that prompted Rizzolatti, Fogassi, and Gallese to bestow upon them the exalted label of 'mirror neuron'. They point out that mirror neurons are activated <span class="loc-q30">when a primate performs a particular action, such as grasping or holding an object, or when it witnesses another individual performing a comparable action.</span> Humans possess an even more intricate mitor neuron system that reflects the external world in our brains, enabling us to internalise the behaviours of others. Nonetheless, these cells necessitate what scientists refer to as 'goal-orientated movements' to activate. <span class="loc-q39">If we stare at a photograph, a static image of a runner striding ahead, our mirror neurons remain utterly silent.</span> It is solely when the runner is in action, be it in running, moving, or sprinting, that they are ignited. Movement, not stillness, is what speaks to our brains.</p>
+        <p><span class="para-label">D</span> Electrophysiological studies have shown that when we observe a golfer or a runner in action, our own premotor cortex mirror neurons respond as if we were participating in the activity. This neural mirroring was initially identified in 1954 by French physiologists Gastaut and Bert, who noticed specific alpha and mu brain wave patterns in humans.</p>
+        <p>The mu signal plays a role in neural mirroring, <span class="loc-q40">remaining active during periods of bodily stillness but dissipating when we undertake active pursuits like playing a sport or changing TV channels.</span> Notably, the mu signal also remains subdued while we observe someone else in action,</p>
+        <p>such as on television, which alludes to the influence of mirror neurons. This suggests that our brains do not simply passively register what we see, but actively simulate it, engaging systems normally reserved for action.</p>
+        <p><span class="para-label">E</span> Rizzolatti, Fogassi, and Gallese have coined the term 'direct matching hypothesis' to delineate the concept of mirror neurons. <span class="loc-q31">They asserted that to comprehend the movements of sports stars, we need to align the visual representation of the observed action with our own motor representation of the same action.</span> According to this theory, watching an Olympic athlete can evoke a resonance in the observer's motor system. The observer's 'motor knowledge' is harnessed to decipher the observed action. However, mirror neurons extend beyond being merely neural foundations for our sporting inclinations. They also enable observers to enhance their athletic abilities through the process of observation. <span class="loc-q34"><span class="loc-q38">It turns out that watching a remarkable golfer improves our own golfing skills, and witnessing a skilled sprinter actually bolsters our running speed.</span></span></p>
+        <p>This ability to learn through observation is a vital skill. From language acquisition in infancy to understanding facial expressions, mimicking plays a fundamental role in our consciousness. <span class="loc-q29">The most accomplished athletes possess a premotor cortex capable of envisioning victorious movements, supplemented by the physical attributes required to translate those movements into reality.</span> In this way, action and imagination coalesce to drive performance.</p>
+        <p><span class="para-label">F</span> However, how many among us watch sport in order to enhance our athletic abilities? <span class="loc-q35">Most spectators tune in for the emotional roller coaster, the human drama it encompasses.</span> <span class="loc-q27">This emotional connection finds its roots in mirror neurons, which allow spectators to perceive athletes' victorious movements and to share in the emotion of their triumphs.</span></p>
+        <p><span class="loc-q32">This is because they are directly associated with the amygdala, a key area of the brain responsible for emotional processing.</span> During the Olympics, mirror neurons in individuals around the world resonate in unison, and watching sport unifies people. The majority of us may never run a mile in under four minutes or hit a home run. Yet, as we gather around our televisions, we all briefly get a taste of the feeling of executing something flawlessly. In those fleeting moments, sport becomes more than entertainment — it becomes a shared human experience.</p>
+      </div>
+    </div>
+  </div><!-- /left-pane -->
+  <div id="resize-handle"></div>
+  <div id="right-pane">
+
+    <!-- PASSAGE 1 Qs -->
+    <div class="q-panel active" id="qpanel-0">
+      <div class="q-section">
+        <div class="q-section-title">Questions 1&ndash;7</div>
+        <div class="q-instruction">Complete the table below. Write <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</div>
+        <table style="width:100%;border-collapse:collapse;font-size:0.78rem;margin-bottom:12px;">
+          <thead><tr style="background:#1a1a1a;color:#fff;">
+            <th style="padding:6px 8px;text-align:left;">Name</th>
+            <th style="padding:6px 8px;text-align:left;">Date</th>
+            <th style="padding:6px 8px;text-align:left;">Country</th>
+            <th style="padding:6px 8px;text-align:left;">Properties</th>
+            <th style="padding:6px 8px;text-align:left;">Common Uses</th>
+          </tr></thead>
+          <tbody>
+            <tr style="border:1px solid #e5e7eb;">
+              <td style="padding:6px 8px;font-weight:600;">Celluloid</td>
+              <td style="padding:6px 8px;">1860s</td>
+              <td style="padding:6px 8px;">USA</td>
+              <td style="padding:6px 8px;">Can be softened and reshaped by heat</td>
+              <td style="padding:6px 8px;">Billiard balls; cutlery; clothing; <span id="q-target-1"><input class="blank-input" id="blank-q1" data-q="1" placeholder="1" style="width:140px"></span><button class="locate-btn" data-q="1">&#128269;</button></td>
+            </tr>
+            <tr style="border:1px solid #e5e7eb;background:#f9fafb;">
+              <td style="padding:6px 8px;font-weight:600;"><span id="q-target-2"><input class="blank-input" id="blank-q2" data-q="2" placeholder="2" style="width:90px"></span><button class="locate-btn" data-q="2">&#128269;</button></td>
+              <td style="padding:6px 8px;">1907</td>
+              <td style="padding:6px 8px;">USA</td>
+              <td style="padding:6px 8px;">Can&rsquo;t be softened after setting; good insulator; resistant to water and acid</td>
+              <td style="padding:6px 8px;"><span id="q-target-3"><input class="blank-input" id="blank-q3" data-q="3" placeholder="3" style="width:150px"></span><button class="locate-btn" data-q="3">&#128269;</button>; household objects</td>
+            </tr>
+            <tr style="border:1px solid #e5e7eb;">
+              <td style="padding:6px 8px;font-weight:600;">Polythene</td>
+              <td style="padding:6px 8px;">1930s</td>
+              <td style="padding:6px 8px;"><span id="q-target-4"><input class="blank-input" id="blank-q4" data-q="4" placeholder="4" style="width:80px"></span><button class="locate-btn" data-q="4">&#128269;</button></td>
+              <td style="padding:6px 8px;">Thermoplastic</td>
+              <td style="padding:6px 8px;">Bottles; pipes; plastic bags</td>
+            </tr>
+            <tr style="border:1px solid #e5e7eb;background:#f9fafb;">
+              <td style="padding:6px 8px;font-weight:600;">Polypropylene</td>
+              <td style="padding:6px 8px;">1950s</td>
+              <td style="padding:6px 8px;">&ndash;</td>
+              <td style="padding:6px 8px;">Thermoplastic</td>
+              <td style="padding:6px 8px;">Bottles; pipes; plastic bags</td>
+            </tr>
+            <tr style="border:1px solid #e5e7eb;">
+              <td style="padding:6px 8px;font-weight:600;">Rigid PVC</td>
+              <td style="padding:6px 8px;">&ndash;</td>
+              <td style="padding:6px 8px;">&ndash;</td>
+              <td style="padding:6px 8px;"><span id="q-target-5"><input class="blank-input" id="blank-q5" data-q="5" placeholder="5" style="width:100px"></span><button class="locate-btn" data-q="5">&#128269;</button></td>
+              <td style="padding:6px 8px;">External piping</td>
+            </tr>
+            <tr style="border:1px solid #e5e7eb;background:#f9fafb;">
+              <td style="padding:6px 8px;font-weight:600;">Soft PVC</td>
+              <td style="padding:6px 8px;">&ndash;</td>
+              <td style="padding:6px 8px;">&ndash;</td>
+              <td style="padding:6px 8px;">Flexible</td>
+              <td style="padding:6px 8px;">Outdoor clothing</td>
+            </tr>
+            <tr style="border:1px solid #e5e7eb;">
+              <td style="padding:6px 8px;font-weight:600;">Polystyrene</td>
+              <td style="padding:6px 8px;">1930s</td>
+              <td style="padding:6px 8px;">Germany</td>
+              <td style="padding:6px 8px;">Resembles <span id="q-target-6"><input class="blank-input" id="blank-q6" data-q="6" placeholder="6" style="width:80px"></span><button class="locate-btn" data-q="6">&#128269;</button></td>
+              <td style="padding:6px 8px;">Food containers; toys</td>
+            </tr>
+            <tr style="border:1px solid #e5e7eb;background:#f9fafb;">
+              <td style="padding:6px 8px;font-weight:600;">Polyurethane</td>
+              <td style="padding:6px 8px;">&ndash;</td>
+              <td style="padding:6px 8px;">Germany</td>
+              <td style="padding:6px 8px;">Usually manufactured as a <span id="q-target-7"><input class="blank-input" id="blank-q7" data-q="7" placeholder="7" style="width:80px"></span><button class="locate-btn" data-q="7">&#128269;</button></td>
+              <td style="padding:6px 8px;">Insulation</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="q-section">
+        <div class="q-section-title">Questions 14&ndash;20</div>
+        <div class="q-instruction">Reading Passage 2 has seven paragraphs. Choose the correct heading for each paragraph from the list of headings below. Drag each heading chip to the correct paragraph in the passage on the left.</div>
+        <div class="headings-list">
+          <div><strong>i</strong> Global resistance to lean manufacturing</div>
+          <div><strong>ii</strong> The historical context</div>
+          <div><strong>iii</strong> Procedures for controlling quality</div>
+          <div><strong>iv</strong> The pros and cons of different production systems</div>
+          <div><strong>v</strong> The impact on profits</div>
+          <div><strong>vi</strong> Procedures for controlling supply</div>
+          <div><strong>vii</strong> The origin of the term</div>
+          <div><strong>viii</strong> A crucial difference in levels of quality</div>
+          <div><strong>ix</strong> Working conditions</div>
+          <div><strong>x</strong> Interdependent strategies for controlling expenditure</div>
+        </div>
+        <div class="heading-chip-pool" id="heading-chip-pool-2">
+          <div class="heading-chip" draggable="true" data-heading="i" id="hchip-2-i"><strong>i.</strong>&nbsp;Global resistance</div>
+          <div class="heading-chip" draggable="true" data-heading="ii" id="hchip-2-ii"><strong>ii.</strong>&nbsp;Historical context</div>
+          <div class="heading-chip" draggable="true" data-heading="iii" id="hchip-2-iii"><strong>iii.</strong>&nbsp;Controlling quality</div>
+          <div class="heading-chip" draggable="true" data-heading="iv" id="hchip-2-iv"><strong>iv.</strong>&nbsp;Pros and cons</div>
+          <div class="heading-chip" draggable="true" data-heading="v" id="hchip-2-v"><strong>v.</strong>&nbsp;Impact on profits</div>
+          <div class="heading-chip" draggable="true" data-heading="vi" id="hchip-2-vi"><strong>vi.</strong>&nbsp;Controlling supply</div>
+          <div class="heading-chip" draggable="true" data-heading="vii" id="hchip-2-vii"><strong>vii.</strong>&nbsp;Origin of the term</div>
+          <div class="heading-chip" draggable="true" data-heading="viii" id="hchip-2-viii"><strong>viii.</strong>&nbsp;Difference in quality</div>
+          <div class="heading-chip" draggable="true" data-heading="ix" id="hchip-2-ix"><strong>ix.</strong>&nbsp;Working conditions</div>
+          <div class="heading-chip" draggable="true" data-heading="x" id="hchip-2-x"><strong>x.</strong>&nbsp;Interdependent strategies</div>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 21&ndash;26</div>
+        <div class="q-instruction">Complete the sentences below. Write NO MORE THAN THREE WORDS from the passage for each answer.</div>
+        <div class="notes-box">
+          <p>A small number of unusual cars are still produced by the <span id="q-target-21"><input class="blank-input" id="blank-q21" data-q="21" placeholder="21" style="width:150px"></span><button class="locate-btn" data-q="21">&#128269;</button> method.</p>
+          <p>Lean production requires staff who are <span id="q-target-22"><input class="blank-input" id="blank-q22" data-q="22" placeholder="22" style="width:130px"></span><button class="locate-btn" data-q="22">&#128269;</button>.</p>
+          <p>Lean production employs fewer people, and uses less <span id="q-target-23"><input class="blank-input" id="blank-q23" data-q="23" placeholder="23" style="width:160px"></span><button class="locate-btn" data-q="23">&#128269;</button>, equipment and time.</p>
+          <p>Storage facilities are not needed if a procedure known as <span id="q-target-24"><input class="blank-input" id="blank-q24" data-q="24" placeholder="24" style="width:130px"></span><button class="locate-btn" data-q="24">&#128269;</button> is implemented in the lean production method.</p>
+          <p>Autonamation is a procedure for spotting any <span id="q-target-25"><input class="blank-input" id="blank-q25" data-q="25" placeholder="25" style="width:130px"></span><button class="locate-btn" data-q="25">&#128269;</button> in the products on a production line.</p>
+          <p>At Toyota factories, <span id="q-target-26"><input class="blank-input" id="blank-q26" data-q="26" placeholder="26" style="width:80px"></span><button class="locate-btn" data-q="26">&#128269;</button> are suspended above manual production lines in order to show where production has to be halted.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3 Qs -->
+    <div class="q-panel" id="qpanel-2">
+      <div class="q-section">
+        <div class="q-section-title">Questions 27&ndash;32</div>
+        <div class="q-instruction">Reading Passage 3 has six paragraphs, A&ndash;F. Which paragraph contains the following information? You may use any letter more than once.</div>
+        <table class="radio-grid-table" id="rgt-27-32">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Information</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th>
+            <th class="rgt-opt">D</th><th class="rgt-opt">E</th><th class="rgt-opt">F</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-27"><td class="rgt-num">27</td><td class="rgt-stmt">reasons why watching sport can bring emotional satisfaction</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="27" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="27">&#128269;</button></td></tr>
+            <tr id="q-target-28"><td class="rgt-num">28</td><td class="rgt-stmt">an explanation of why beginners struggle with sports tasks</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="28" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="28">&#128269;</button></td></tr>
+            <tr id="q-target-29"><td class="rgt-num">29</td><td class="rgt-stmt">a factor that can work alongside mirroring in sports competitions to maintain peak performance</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="29" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="29">&#128269;</button></td></tr>
+            <tr id="q-target-30"><td class="rgt-num">30</td><td class="rgt-stmt">a comparison between the mirror neurons of human beings and primates</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="30" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="30">&#128269;</button></td></tr>
+            <tr id="q-target-31"><td class="rgt-num">31</td><td class="rgt-stmt">mention of integrating visual and motor processes to understand athletic movements</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="31" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="31">&#128269;</button></td></tr>
+            <tr id="q-target-32"><td class="rgt-num">32</td><td class="rgt-stmt">reference to the first discovery of brain activity associated with mirror neurons</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="32" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="32">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 33&ndash;35</div>
+        <div class="q-instruction">Choose the correct answer.</div>
+        <div class="q-item" id="q-target-33">
+          <div class="q-label"><span class="q-num">33</span><span>What point does the writer make about professional athletes in Paragraph B?</span><button class="locate-btn" data-q="33">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="33" data-val="A"><span class="radio-circle"></span>A They meticulously plan each phase of their movements.</button>
+          <button class="mc-opt-btn" data-q="33" data-val="B"><span class="radio-circle"></span>B They engage in regular practice to retain and refine their skills.</button>
+          <button class="mc-opt-btn" data-q="33" data-val="C"><span class="radio-circle"></span>C They actively consider and analyse the actions of their peers.</button>
+          <button class="mc-opt-btn" data-q="33" data-val="D"><span class="radio-circle"></span>D They perform their actions without conscious contemplation.</button>
+        </div>
+        <div class="q-item" id="q-target-34">
+          <div class="q-label"><span class="q-num">34</span><span>In this passage, the writer mentions the example of a remarkable golfer to illustrate</span><button class="locate-btn" data-q="34">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="34" data-val="A"><span class="radio-circle"></span>A the critical role of imitation in the formation of consciousness.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="B"><span class="radio-circle"></span>B the improvement of sporting ability through watching sport.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="C"><span class="radio-circle"></span>C the stimulation of a resonance in the observer&rsquo;s motor system.</button>
+          <button class="mc-opt-btn" data-q="34" data-val="D"><span class="radio-circle"></span>D the motivation of the observer&rsquo;s interest and love for golf.</button>
+        </div>
+        <div class="q-item" id="q-target-35">
+          <div class="q-label"><span class="q-num">35</span><span>The principal motivation for watching sport mentioned by the writer is</span><button class="locate-btn" data-q="35">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="35" data-val="A"><span class="radio-circle"></span>A to improve our physical ability by analyzing the athletes&rsquo; technical strategies.</button>
+          <button class="mc-opt-btn" data-q="35" data-val="B"><span class="radio-circle"></span>B to unite viewers from different nations.</button>
+          <button class="mc-opt-btn" data-q="35" data-val="C"><span class="radio-circle"></span>C to experience intense positive emotions by immersing oneself in sport.</button>
+          <button class="mc-opt-btn" data-q="35" data-val="D"><span class="radio-circle"></span>D to become a sports professional.</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 36&ndash;40</div>
+        <div class="q-instruction">Choose YES, NO, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-36">
+          <div class="q-label"><span class="q-num">36</span><span>The emergence of Homer&rsquo;s epic poetry occurred in the same historical period as the beginning of the Olympic Games.</span><button class="locate-btn" data-q="36">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="36" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="36" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="36" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-37">
+          <div class="q-label"><span class="q-num">37</span><span>The Italian scientists concluded that the motor actions encoded within the premotor cortex have no discernible link to unrelated collections of neurons.</span><button class="locate-btn" data-q="37">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="37" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="37" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="37" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-38">
+          <div class="q-label"><span class="q-num">38</span><span>Spectators can achieve flawless golf swings merely by watching the Masters Tournament without physical practice.</span><button class="locate-btn" data-q="38">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="38" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="38" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="38" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-39">
+          <div class="q-label"><span class="q-num">39</span><span>Some neuroscientists believe that certain types of still images might activate mirror neurons.</span><button class="locate-btn" data-q="39">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="39" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="39" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="39" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-40">
+          <div class="q-label"><span class="q-num">40</span><span>The writer believes that the experience of watching sport is essentially the same as participating in it.</span><button class="locate-btn" data-q="40">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="40" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="40" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="40" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /right-pane -->
+</div><!-- /split -->
+
+<div id="footer-nav">
+  <span class="nav-label">Q:</span>
+  <div id="nav-grid"></div>
+  <div id="font-controls">
+    <span>Font:</span>
+    <button id="btn-font-up">A+</button>
+    <button id="btn-font-dn">A&minus;</button>
+  </div>
+</div>
+</div><!-- /app -->
+
+<div id="highlight-menu">
+  <button style="background:#fef08a" onclick="applyHighlight('highlight-yellow')"></button>
+  <button style="background:#bbf7d0" onclick="applyHighlight('highlight-green')"></button>
+  <button style="background:#fbcfe8" onclick="applyHighlight('highlight-pink')"></button>
+  <button class="erase-btn" onclick="applyHighlight('erase')">&#10005;</button>
+</div>
+
+<div id="result-modal">
+  <div id="result-box">
+    <h2>Your Result</h2>
+    <div id="result-score">0/40</div>
+    <div id="result-band">Band: &ndash;</div>
+    <div id="result-breakdown"></div>
+    <button id="btn-close-modal">Review Answers</button>
+  </div>
+</div>
+
+<script>
+const ANSWERS={1:'photographic film',2:'Bakelite',3:'electrical switches',4:'Britain',5:'fireproof',6:'glass',7:'foam',8:'FALSE',9:'NOT GIVEN',10:'FALSE',11:'TRUE',12:'FALSE',13:'TRUE',14:'ii',15:'iv',16:'vii',17:'viii',18:'x',19:'vi',20:'iii',21:'craft / craft production',22:'multi-skilled',23:'manufacturing space',24:'just-in-time',25:'abnormalities',26:'lights',27:'F',28:'B',29:'E',30:'C',31:'E',32:'D',33:'D',34:'B',35:'C',36:'YES',37:'NOT GIVEN',38:'NO',39:'NOT GIVEN',40:'YES'};
+const Q_PASSAGE={1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0,11:0,12:0,13:0,14:1,15:1,16:1,17:1,18:1,19:1,20:1,21:1,22:1,23:1,24:1,25:1,26:1,27:2,28:2,29:2,30:2,31:2,32:2,33:2,34:2,35:2,36:2,37:2,38:2,39:2,40:2};
+
+let userAnswers={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+function normalizeAnswer(s){
+  return s.trim().toLowerCase().replace(/[\u2018\u2019]/g,"'").replace(/[\u2013\u2014]/g,'-').replace(/\s+/g,' ');
+}
+function checkAnswer(user,correct){
+  const u=normalizeAnswer(user),c=normalizeAnswer(correct);
+  if(u===c)return true;
+  if(u.replace(/-/g,' ')===c.replace(/-/g,' '))return true;
+  if(c.includes(' / ')){const parts=c.split(' / ');for(const p of parts){if(u===normalizeAnswer(p))return true;}}
+  return false;
+}
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{p.style.display=i===t?'block':'none';p.classList.toggle('active',i===t);});
+  });
+});
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i;btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+document.querySelectorAll('.mc-opt-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+btn.dataset.q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();updateNav(q);
+  });
+});
+// Heading DnD
+let dragHeadingData=null;
+document.querySelectorAll('.heading-chip').forEach(chip=>{
+  chip.addEventListener('dragstart',e=>{
+    if(submitted)return;
+    dragHeadingData={heading:chip.dataset.heading,chipId:chip.id};
+    chip.classList.add('dragging');e.dataTransfer.effectAllowed='move';
+  });
+  chip.addEventListener('dragend',()=>chip.classList.remove('dragging'));
+});
+document.querySelectorAll('.heading-dropzone').forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag-over');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
+  zone.addEventListener('drop',e=>{
+    e.preventDefault();zone.classList.remove('drag-over');
+    if(submitted||!dragHeadingData)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById(prev);if(pc)pc.classList.remove('used');}
+    const chip=document.getElementById(dragHeadingData.chipId);
+    if(chip)chip.classList.add('used');
+    zone.dataset.filled=dragHeadingData.chipId;
+    zone.dataset.heading=dragHeadingData.heading;
+    zone.classList.add('filled');
+    const chipTxt=chip?chip.textContent.replace(/^[ivxlcdm]+\.\s*/i,'').trim():dragHeadingData.heading;
+    zone.querySelector('.hdz-text').textContent=dragHeadingData.heading+'. '+chipTxt;
+    const q=parseInt(zone.dataset.q);userAnswers[q]=dragHeadingData.heading;updateNav(q);dragHeadingData=null;
+  });
+  zone.querySelector('.hdz-remove').addEventListener('click',e=>{
+    e.stopPropagation();if(submitted)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById(prev);if(pc)pc.classList.remove('used');}
+    zone.dataset.filled='';zone.dataset.heading='';zone.classList.remove('filled');
+    zone.querySelector('.hdz-text').textContent='Drop heading here';
+    const q=parseInt(zone.dataset.q);delete userAnswers[q];updateNav(q);
+  });
+});
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+function submitExam(){
+  if(submitted)return;
+  submitted=true;clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=checkAnswer(user,ans);
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        const lbl=document.createElement('span');lbl.className='blank-correct-label';
+        lbl.textContent='\u2713 '+ans;lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+        inp.insertAdjacentElement('afterend',lbl);
+      }
+    }
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    const rgtRow=document.getElementById('q-target-'+q);
+    if(rgtRow&&rgtRow.tagName==='TR')rgtRow.classList.add(ok?'row-correct':'row-wrong');
+    const hdz=document.querySelector('.heading-dropzone[data-q="'+q+'"]');
+    if(hdz){
+      hdz.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        const lbl=document.createElement('span');lbl.className='hdz-correct-label';
+        lbl.textContent='\u2713 '+ans;lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+        hdz.insertAdjacentElement('afterend',lbl);
+      }
+    }
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    if(!ok)document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+  }
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1\u201313)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14\u201326)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27\u201340)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>document.getElementById('result-modal').classList.remove('show'));
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      const locEls=document.querySelectorAll('.loc-q'+q);
+      if(locEls.length===0)return;
+      let best=locEls[0];
+      locEls.forEach(el=>{if(el.textContent.trim().length<best.textContent.trim().length)best=el;});
+      if(best.textContent.trim().length>200){
+        const children=best.querySelectorAll('span');
+        children.forEach(child=>{const t=child.textContent.trim();if(t.length>=15&&t.length<best.textContent.trim().length)best=child;});
+      }
+      if(best.textContent.trim().length>200){
+        const answerKey=ANSWERS[q]?ANSWERS[q].toLowerCase():'';
+        const sentences=best.textContent.split(/(?<=[.!?])\s+/);
+        let bestSentence=null,bestLen=9999;
+        sentences.forEach(s=>{const st=s.trim();if(st.length>=20&&st.length<200){if(answerKey&&st.toLowerCase().includes(answerKey)){if(st.length<bestLen){bestSentence=st;bestLen=st.length;}}else if(!bestSentence&&st.length<bestLen){bestSentence=st;bestLen=st.length;}}});
+        if(bestSentence){
+          const walker=document.createTreeWalker(best,NodeFilter.SHOW_TEXT,null);
+          let node;const searchStr=bestSentence.substring(0,30);
+          while((node=walker.nextNode())){const idx=node.textContent.indexOf(searchStr);if(idx>=0){try{const range=document.createRange();range.setStart(node,idx);range.setEnd(node,Math.min(idx+bestSentence.length,node.textContent.length));const mark=document.createElement('span');mark.className='loc-highlight';mark.dataset.temp='1';range.surroundContents(mark);mark.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>{const parent=mark.parentNode;if(parent){while(mark.firstChild)parent.insertBefore(mark.firstChild,mark);parent.removeChild(mark);}},4000);return;}catch(e){}}}
+        }
+      }
+      best.classList.add('loc-highlight');
+      best.scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(()=>best.classList.remove('loc-highlight'),4000);
+    },150);
+  });
+});
+document.getElementById('btn-font-up').addEventListener('click',()=>{baseFontSize=Math.min(20,baseFontSize+1);document.getElementById('left-pane').style.fontSize=baseFontSize+'px';document.getElementById('right-pane').style.fontSize=baseFontSize+'px';});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{baseFontSize=Math.max(11,baseFontSize-1);document.getElementById('left-pane').style.fontSize=baseFontSize+'px';document.getElementById('right-pane').style.fontSize=baseFontSize+'px';});
+let highlightMenu=document.getElementById('highlight-menu'),savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const lp=document.getElementById('left-pane'),rp=document.getElementById('right-pane');
+    if(lp.contains(range.commonAncestorContainer)||rp.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){window.getSelection().removeAllRanges();window.getSelection().addRange(savedRange);document.execCommand('removeFormat');savedRange=null;return;}
+  const span=document.createElement('span');span.className=cls;
+  try{savedRange.surroundContents(span);}catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();savedRange=null;
+}
+const handle=document.getElementById('resize-handle'),leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const split=document.getElementById('split');const rect=split.getBoundingClientRect();leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+startTimer();
+</script>
+</body>
+</html>

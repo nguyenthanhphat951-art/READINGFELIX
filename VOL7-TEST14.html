@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IELTS Reading – VOL 7 TEST 14</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-pause:hover{background:#4b5563;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam:hover{background:#1e40af;}
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#resize-handle:hover{background:#9ca3af;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button:hover{background:#f3f4f6;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+#font-controls button:hover{background:#f3f4f6;}
+.passage-panel{display:none;}.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+.q-panel{display:none;}.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.blank-input{border:none;border-bottom:2px solid #1a1a1a;background:transparent;font-size:0.88rem;padding:2px 4px;min-width:110px;outline:none;font-family:'Lexend',sans-serif;}
+.blank-input:focus{border-bottom-color:#1d4ed8;}
+.blank-input.correct{border-bottom-color:#16a34a;background:#dcfce7;}
+.blank-input.wrong{border-bottom-color:#dc2626;background:#fee2e2;}
+.heading-chip-pool{display:flex;flex-wrap:wrap;gap:4px;padding:10px 12px;background:#f9fafb;border:1.5px dashed #9ca3af;border-radius:8px;margin-bottom:14px;min-height:44px;}
+.heading-chip{display:inline-flex;align-items:center;padding:5px 12px;background:#1a1a1a;color:#fff;border-radius:20px;cursor:grab;font-size:0.78rem;font-family:'Lexend',sans-serif;user-select:none;margin:3px;border:2px solid transparent;line-height:1.4;}
+.heading-chip:active{cursor:grabbing;}
+.heading-chip.dragging{opacity:0.4;}
+.heading-chip.used{background:#6b7280;cursor:default;}
+.heading-dropzone{display:inline-flex;align-items:center;justify-content:center;min-width:180px;height:28px;border:2px dashed #9ca3af;border-radius:14px;padding:0 10px;font-size:0.76rem;color:#9ca3af;vertical-align:middle;margin:3px 0;transition:border-color 0.15s,background 0.15s;position:relative;}
+.heading-dropzone.drag-over{border-color:#1d4ed8;background:#eff6ff;}
+.heading-dropzone.filled{border-style:solid;border-color:#1a1a1a;background:#1a1a1a;color:#fff;font-weight:600;}
+.heading-dropzone.correct{border-color:#16a34a!important;background:#dcfce7!important;color:#16a34a!important;}
+.heading-dropzone.wrong{border-color:#dc2626!important;background:#fee2e2!important;color:#dc2626!important;}
+.heading-dropzone .hdz-remove{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:#fff;color:#1a1a1a;font-size:0.6rem;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;line-height:1;}
+.heading-dropzone.filled .hdz-remove{display:flex;}
+.heading-dropzone:not(.filled) .hdz-remove{display:none;}
+.para-heading-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.headings-list{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:10px 14px;font-size:0.82rem;margin-bottom:14px;}
+.headings-list div{padding:3px 0;border-bottom:1px solid #f3f4f6;}
+.headings-list div:last-child{border-bottom:none;}
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr:hover:not(.row-correct):not(.row-wrong) td{background:#f0f9ff;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:36px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-radio:hover:not(:disabled){background:#f3f4f6;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+.notes-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.notes-box h4{font-size:0.88rem;font-weight:700;margin:0 0 8px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+.notes-box ul{margin:6px 0 6px 20px;padding:0;}
+.notes-box li{margin-bottom:4px;}
+.people-legend{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 14px;font-size:0.82rem;margin-bottom:12px;}
+.summary-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:14px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.word-bank-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 14px;font-size:0.82rem;margin-bottom:12px;display:flex;flex-wrap:wrap;gap:6px;}
+.word-bank-box span{font-weight:600;}
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn:hover{background:#fde68a;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+.blank-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+.hdz-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+
+.word-bank-pool{display:flex;flex-wrap:wrap;gap:6px;padding:10px 12px;background:#f9fafb;border:1.5px dashed #9ca3af;border-radius:8px;margin-bottom:14px;min-height:44px;}
+.draggable-card{padding:5px 12px;background:#1a1a1a;color:#fff;border-radius:20px;cursor:grab;font-size:0.78rem;font-family:'Lexend',sans-serif;user-select:none;border:2px solid transparent;line-height:1.4;}
+.draggable-card:active{cursor:grabbing;}
+.draggable-card.dragging{opacity:0.4;}
+.draggable-card.used{background:#6b7280;cursor:default;}
+.drop-zone{display:inline-flex;align-items:center;justify-content:center;min-width:50px;height:28px;border:2px dashed #9ca3af;border-radius:14px;padding:0 10px;font-size:0.8rem;color:#9ca3af;vertical-align:middle;margin:0 3px;transition:border-color 0.15s,background 0.15s;position:relative;}
+.drop-zone.drag-over{border-color:#1d4ed8;background:#eff6ff;}
+.drop-zone.filled{border-style:solid;border-color:#1a1a1a;background:#1a1a1a;color:#fff;font-weight:700;}
+.drop-zone.correct{border-color:#16a34a!important;background:#dcfce7!important;color:#16a34a!important;}
+.drop-zone.wrong{border-color:#dc2626!important;background:#fee2e2!important;color:#dc2626!important;}
+.drop-zone .remove-chip{position:absolute;right:3px;top:50%;transform:translateY(-50%);width:13px;height:13px;border-radius:50%;background:#fff;color:#1a1a1a;font-size:0.55rem;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;line-height:1;}
+.drop-zone.filled .remove-chip{display:flex;}
+.drop-zone:not(.filled) .remove-chip{display:none;}
+.dnd-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="header">
+<h1>IELTS READING – VOL 7 TEST 14</h1>
+<div id="timer-wrap">
+<span id="timer">60:00</span>
+<button id="btn-pause">⏸ Pause</button>
+<button id="btn-submit-exam">Submit</button>
+</div>
+</div>
+<div id="tab-bar">
+<button class="tab-btn active" data-target="0">PASSAGE 1</button>
+<button class="tab-btn" data-target="1">PASSAGE 2</button>
+<button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+<div id="split">
+<div id="left-pane">
+<!-- PASSAGE 1: The Oldest Leather Shoe -->
+<div class="passage-panel active" id="passage-content-0">
+<div class="passage-title">THE OLDEST LEATHER SHOE</div>
+<div class="passage-subtitle"></div>
+<div class="passage-text">
+<p>Archeologists discovered in 2010 what is said to be the world’s oldest known leather shoe. The 5,500-year-old shoe, some 1,000 years older than the Egyptian pyramids, was found by scientists excavating a huge cave, designated Areni-1, in Armenia near the border of Turkey and Iran. The shoe was part of a treasure trove of artefacts that experts say provide unprecedented information about an important and sparsely documented era: the Chalcolithic period or Copper Age, when humans are believed to have invented the wheel, as well as domesticating horses and producing other important <span class="loc-q1">innovations.</span></p>
+<p>Along with the shoe, the cave yielded horns and bones of wild goats and red deer, as well as broken pottery and evidence of what may be the oldest known intentionally dried fruits: apricots, grapes and plums. The cave, first discovered in 1997, appears to have been used primarily by powerful people of high status for keeping this Chalcolithic community’s ritual objects, as well as their <span class="loc-q2">harvest</span> during the winter months each year. But other people, probably acting as guards, seem to have lived in the front portion of the cave.</p>
+<p>One of the lead scientists excavating Areni-1, Dr Gregory Areshian of the University of California, Los Angeles, in the USA, said that the cave was also used by later civilizations, most recently by 14th-century Mongols, so he had assumed the shoe would be 600 to 700 years old. When separate laboratories at the University of Oxford in the UK and at the University of California at Irvine in the USA carbon-dated the leather to 3653 to 3627 BC, he said, ‘We couldn’t believe that a shoe could be so ancient.’</p>
+<p>Perfectly preserved under a layer of sheep dung and thus sealed in a stable, cool, dry environment, the shoe, 24.5 cm long, was made of a single piece of cowhide. This was cut into two layers and vegetable <span class="loc-q3">oil</span> was applied, which was probably quite a new technology at the time. The pieces of leather comprising the shoe were joined using leather <span class="loc-q4">cords</span> which ran along front and back, and these were threaded through numerous holes in the body of the shoe. Although shoes made at this time were probably not specifically designed for the right or left foot as are modern ones, the Areni-1 shoe was worn on the right foot. ‘You can see the imprint of the big toe,’ said another team leader, Ron Pinhasi of University College Cork in Ireland. ‘As the person was wearing it and lacing it, some of the eyelets had been torn and replaced.’ The shoe had been deliberately placed in the pit where the archeologists found it. Its bed had been carefully lined with yellow clay. The shoe had been stuffed with <span class="loc-q5">grass</span> either to hold its shape or perhaps for warmth for the wearer.</p>
+<p>Protecting the foot was probably one of the main reasons people started wearing shoes, and this certainly seems the case for the Armenian leather shoe. According to Dr Areshian, the terrain around Areni-1 is very rugged and would have been difficult to walk on. Furthermore, shoes like this would have enabled people to cope with the extremes of <span class="loc-q6">temperature</span> in the region – up to 45°C in summer and –10°C in winter – and to travel further. ‘These people were walking long distances. We have found <span class="loc-q7">stones</span> in the cave, which came from at least 120 kilometers away,’ explained Dr Areshian.</p>
+<p>Manolo Blahnik, an expert on shoe design, says that ‘The (Armenian) shoe’s function was obviously to protect the foot, but I am in no doubt that a certain appearance of a shoe meant belonging to a certain <span class="loc-q8">tribe.</span>’ He adds that it was probably part of the clothing which the wearer used to distinguish their identity.</p>
+<p><span class="loc-q9">Previously, the oldest known remains of a closed-toe leather shoe was one which belonged to Otzi the Iceman, a mummy found in the early 1990s in the Alps, near the Italian-Austrian border. That shoe, about 300 years younger than the Armenian shoe, had bearskin soles, deerskin sides and contained grass socks.</span></p>
+<p><span class="loc-q10 loc-q11">Footwear even older than the leather shoes includes examples of sandals made of plant fibers which have been found in Missouri and Oregon in the USA. The wearing of some type of footwear, though, is almost certainly far older than the oldest shoes so far discovered. For example, an analysis of toe bones found in 40,000-year-old fossils in China indicates that people had been wearing some type of shoe at that date.</span> Drs Pinhasi and Areshian think it is plausible that shoes as we know them today originated somewhere in the Near East, around Armenia. ‘Many other inventions, such as wheel-thrown pottery, cuneiform writing and sheep-wool production evolved in the ancient Near East,’ Pinhasi says. ‘And so it is quite plausible that Armenia may give us the earliest clue to a “prototype” shoe, which later spread to other parts of the world.’</p>
+<p><span class="loc-q12 loc-q13">Interestingly, the Armenian leather shoe found in Areni-1 is very similar to the ‘pampooties’ worn on the Aran Islands in the west of Ireland up to the 1950s. ‘In fact, enormous similarities exist between the manufacturing technique and style of the Armenian shoe and those found across Europe at subsequent periods, suggesting that this type of shoe was worn for thousands of years across a large and environmentally diverse region,’ said Dr Pinhasi.</span></p>
+</div>
+</div>
+<!-- PASSAGE 2: Pantomime -->
+<div class="passage-panel" id="passage-content-1">
+<div class="passage-title">PANTOMIME</div>
+<div class="passage-subtitle"></div>
+<div class="passage-text">
+<div class="para-heading-row">
+<span style="font-weight:700;font-size:0.85rem;color:#374151;">Para A:</span>
+<span class="heading-dropzone" data-q="14" id="hdz-14"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">✕</span></span>
+<button class="locate-btn" data-q="14">🔍</button>
+</div>
+<p id="q-target-14"><span class="loc-q14">A pantomime performance is a unique blend of eccentricity and absurdity, a wild mixture of songs, jokes, outrageous costumes and slapstick physical humour. For many British children, their first family trip to see a pantomime in the Christmas holiday season is their introduction to the magic of the theatre.</span> But what has become a quintessentially British form of entertainment is more than just simple fun. As an art form, pantomime presents a tale of good and evil, where hope finally triumphs after danger and virtual despair.</p>
+<div class="para-heading-row">
+<span style="font-weight:700;font-size:0.85rem;color:#374151;">Para B:</span>
+<span class="heading-dropzone" data-q="15" id="hdz-15"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">✕</span></span>
+<button class="locate-btn" data-q="15">🔍</button>
+</div>
+<p id="q-target-15"><span class="loc-q15">The story of pantomime begins with the commedia dell’arte tradition in 16th-century Italy. These improvised shows took place in streets and marketplaces in Italy and eventually throughout Europe. Distinctive <span class="loc-q21">masks</span> enabled audiences to recognise the people in these stories immediately; they also allowed actors to be rude or disrespectful without fear of being recognised.</span> The key roles in the cast were invariably rich old men, usually portrayed as cowardly and disreputable; young lovers whose parents refuse to let them marry; and ingenious and quick-witted servants. Many commedia plots show the latter, whose lives are a constant struggle to find food and money, outwitting the old men or overthrowing their masters. This theme of the victory of the underdog is still an essential feature of pantomime today.</p>
+<div class="para-heading-row">
+<span style="font-weight:700;font-size:0.85rem;color:#374151;">Para C:</span>
+<span class="heading-dropzone" data-q="16" id="hdz-16"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">✕</span></span>
+<button class="locate-btn" data-q="16">🔍</button>
+</div>
+<p id="q-target-16"><span class="loc-q16">By the mid-18th century, many thousands of people were going to theatres across Britain every night. Among the most popular performances were harlequinades, a new kind of entertainment which interwove Ovid’s first-century Latin <span class="loc-q22">poem</span> Metamorphoses with aspects of the Italian commedia. Created by actor John Rich, these early pantomimes cleverly mixed spectacle, music, ballet and myth, and were tremendously enjoyable to watch.</span> Amazing transformations happened at the touch of a magic wand, with mechanical serpents and flying vehicles. They also showed that even early pantomime was fascinated by the crossing of boundaries: the ambiguity of men dressed as women, and the fun of animal characters played by human beings.</p>
+<div class="para-heading-row">
+<span style="font-weight:700;font-size:0.85rem;color:#374151;">Para D:</span>
+<span class="heading-dropzone" data-q="17" id="hdz-17"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">✕</span></span>
+<button class="locate-btn" data-q="17">🔍</button>
+</div>
+<p id="q-target-17"><span class="loc-q17">Despite their popularity, Rich’s spectacular performances attracted huge controversy. Critics bitterly attacked pantomimes, complaining that they would bring about the downfall of Shakespeare and the death of serious theatre. David Garrick, the great 18th-century actor-manager, was quick to join these criticisms, while also realising the commercial opportunities of this new art form. But how could Garrick take advantage of the craze and still maintain his position as the defender of ‘legitimate’ theatre? His tactic was to set about changing pantomime’s cultural identity, partly by confining shows to his theatre’s Christmas season.</span> Pantomimes became associated with the frivolity of the holiday season rather than being denounced as a threat. In doing so, Garrick created a convention which has survived to this day.</p>
+<div class="para-heading-row">
+<span style="font-weight:700;font-size:0.85rem;color:#374151;">Para E:</span>
+<span class="heading-dropzone" data-q="18" id="hdz-18"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">✕</span></span>
+<button class="locate-btn" data-q="18">🔍</button>
+</div>
+<p id="q-target-18"><span class="loc-q18">At the end of the 18th century, popular theatre saw the arrival of the white-faced Clown, in the form of actor Joseph Grimaldi. By the early 19th century, Britain was at war with France; there was intense civil unrest and violent confrontations between the government and the people. Grimaldi’s hilarious antics embodied the freedom and liberty of British culture by contrast with the country’s supposedly dull, humourless enemies. His anarchic activities included chasing and imprisoning <span class="loc-q23">policemen</span> and stealing gigantic quantities of sausages.</span> But the Clown was never caught or sent to jail. Audiences were thrilled by his mischief and his endless eating precisely because he created on stage the fantasy of a different world: a world without hunger, a world of comic revenge against a highly repressive government. Grimaldi became one of the great satirists of his age, a character who offered ludicrous commentaries on everything from the ruling classes to fashion, technology and new forms of transport.</p>
+<div class="para-heading-row">
+<span style="font-weight:700;font-size:0.85rem;color:#374151;">Para F:</span>
+<span class="heading-dropzone" data-q="19" id="hdz-19"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">✕</span></span>
+<button class="locate-btn" data-q="19">🔍</button>
+</div>
+<p id="q-target-19"><span class="loc-q19">By the late 19th century, photography had arrived, the telegraph had been invented and the first motor cars were starting to appear on British streets. Meanwhile, the spotlight on the comic stage shifted away from the Clown and towards an unexpected star, the pantomime ‘Dame’: a tired housewife – always played by a man – struggling to cope in an unfriendly world. Dan Leno was the celebrated performer who created and played this talkative and eccentric working-class woman, a mother facing the difficulties of poverty, which he and his audiences knew all too well.</span> In the Dame, Leno developed a persona whose theatrical power comes from the locking together of compassion and laughter. At the same time, artists such as Leno began to infuse pantomime with the plots and dilemmas of working people’s culture.</p>
+<div class="para-heading-row">
+<span style="font-weight:700;font-size:0.85rem;color:#374151;">Para G:</span>
+<span class="heading-dropzone" data-q="20" id="hdz-20"><span class="hdz-text">Drop heading here</span><span class="hdz-remove">✕</span></span>
+<button class="locate-btn" data-q="20">🔍</button>
+</div>
+<p id="q-target-20"><span class="loc-q20">Pantomimes are as popular today as they have ever been. Our delight in this form comes from a complex mixture of emotions and relationships. Pantomime offers us the anarchic excitements of a topsy-turvy world only to give up the assurance of harmony restored. The engaging character of the Dame exemplifies pantomime’s self-proclaimed absurdity.</span> Her comical conversations with the audience cut across the boundaries between performers and spectators, drawing us into her chaotic world. While she presides over the anarchy which Grimaldi once visited on policemen, the Dame also embodies the collective ties which bind us together as families, as neighbours, and as members of society.</p>
+</div>
+</div>
+<!-- PASSAGE 3: The Tuatara -->
+<div class="passage-panel" id="passage-content-2">
+<div class="passage-title">THE TUATARA – PAST AND FUTURE</div>
+<div class="passage-subtitle"></div>
+<div class="passage-text">
+<p><span class="para-label">A</span> The New Zealand species of lizard, the tuatara, is firmly embedded in the national psyche: an icon for today which dates from the age of dinosaurs; an ancient reptile commemorated on the back of the five cent coin. New Zealanders feel an affinity with the tuatara, and accept that active conservation management is required to ensure it will be among the legacies left to future generations.</p>
+<p><span class="para-label">B</span> <span class="loc-q27">When European explorers reached New Zealand in 1769 they found two large islands, which together they called the ‘mainland’, and many tiny offshore islands around the coast. The naturalists who came with the explorers disregarded the tuatara, though it is improbable none were seen.</span> Only several decades later did a tuatara specimen reach the British Museum, where it was eventually classified as just another type of lizard.</p>
+<p><span class="para-label">C</span> <span class="loc-q28">One of the first scientists who realised that aspects of tuatara anatomy were odd – unchanged for tens of thousands of years – was Albert Gunther in 1876. Gunther believed the tuatara was one of the most valuable objects in zoological anatomical collections, and also noted, in passing, the reptile was likely to become extinct. From today’s perspective, it is striking that Gunther expressed no concern about the probable demise of the tuatara. He and his contemporaries were products of their age, strongly influenced by Charles Darwin’s theory, which had only recently been published.</span> Their views were something like this: ‘Extinction is a natural process. It is sad that species disappear, but that is part of nature.’</p>
+<p><span class="para-label">D</span> There is a second important aspect of Gunther’s work. He recorded, correctly, that some of the mammals introduced by Europeans were predators of the tuatara, particularly rats. But what he did not realise was that New Zealand has two species of rat, both introduced, both with an appetite for tuatara: the ship’s rat came with European explorers and settlers; but the kiore rat had already been in the country for hundreds of years, brought by Polynesians from the Pacific Islands. <span class="loc-q29">Gunther failed to recognise the distinction, believing all rats to be a relatively recent introduction.</span></p>
+<p><span class="para-label">E</span> Little further research was conducted until Ian Crook of the NZ Wildlife Service published his findings in 1973, which can be summarised as follows. Tuatara thrive on offshore islands with no rats. Tuatara never survived on islands with ship’s rats. On a few islands, small and declining populations of tuatara occur with the kiore. This should not be seen, however, as evidence that tuatara and kiore can coexist. Rather, Crook proposed, kiore probably only arrived recently on such islands, and thus the small populations represent extinctions in progress. <span class="loc-q30">Crook proposed that kiore probably only arrived recently on such islands, and thus the small populations represent extinctions in progress.</span></p>
+<p><span class="para-label">F</span> Throughout the 1990s, Richard Holdaway and his colleagues at Victoria University in Wellington documented the surprising discovery that kiores probably arrived about 1800 years ago, although the human population of New Zealand is thought to be no older than 800 years. How is this possible? Presumably, Holdaway argued, the kiore were brought by Polynesian explorers who visited the country but did not settle. Thereafter, the rats were agents of ecological warfare, exterminating perhaps 1000–3000 species. <span class="loc-q31">Thus, tuatara and many other species were already rare or extinct when permanent human inhabitants – the Maori – arrived around 1300.</span> <span class="loc-q32">This hypothesis is still being debated, but the evidence continues to accumulate in its favour.</span></p>
+<p><span class="para-label">G</span> <span class="loc-q33">Conservation practice has changed dramatically since Crook’s findings were published in 1973. Eradication of rats from any given environment was believed to be virtually impossible until about 1980, but since then it has become routine.</span> Enormous conservation benefits are accruing as newly rat-free offshore islands are providing sanctuaries for the country’s rarest species. In 1995, for example, Nicola Nelson of the Department of Conservation established 68 tuatara on Titi Island. Since then, four more populations of tuatara have been established elsewhere under similar conditions. <span class="loc-q35">Today, numbers of tuatara are still a fraction of what they once were, but for the first time in 1800 years the decline has been reversed.</span></p>
+<p><span class="para-label">H</span> While the recovery of rare species is itself a good thing, the truly significant outcome of this research is that it liberates the imagination. If we can remove predatory introduced mammals from islands, why not from the mainland too? Perhaps the questions we ask should demonstrate even more visionary ambition. Can non-mammalian pests also be removed from the mainland? Our rivers, for example, are full of surrogate rats, in the form of introduced species of fish called <span class="loc-q37">trout.</span> Some day more people will understand that trout have replaced a whole <span class="loc-q38">native fauna</span> in our waterways, just as rats replaced tuatara on the mainland. Will such knowledge lead to the creation of mainland ‘aquatic islands’ where we can once again establish those species of indigenous fish that used to live in our rivers? Similarly, can bellbirds and tuis replace birds like starlings and mynahs?</p>
+<p><span class="para-label">I</span> The answers to such questions are uncertain, and opposing sides will doubtless be fiercely debated. But the role of scientific knowledge in illuminating the past will be crucial. Just as we now no longer tolerate extinction, in the future we may no longer accept a mainland devoid of the biological wonders of our past such as tuatara. <span class="loc-q39">Conservation is thus not primarily about the past but about imagining and then creating the future we wish for our children and ourselves.</span> For 80 million years until humans arrived, tuatara occurred throughout New Zealand – might they do so again?</p>
+<p><span class="loc-q36">The most important result of the tuatara research is that it liberates the imagination – our creative thought.</span></p>
+<p><span class="loc-q40">Just as we now no longer tolerate extinction, in the future we may no longer accept a mainland devoid of the biological wonders of our past.</span></p>
+<p><span class="loc-q34">Crook was the first to document the potential of offshore islands as sanctuaries.</span></p>
+</div>
+</div>
+</div><!-- /left-pane -->
+<div id="resize-handle"></div>
+<div id="right-pane">
+<!-- PASSAGE 1 Qs -->
+<div class="q-panel active" id="qpanel-0">
+<div class="q-section">
+<div class="q-section-title">Questions 1–8</div>
+<div class="q-instruction">Complete the notes below. Write ONE WORD ONLY from the passage for each answer.</div>
+<div class="notes-box">
+<h4>The discovery of the Areni-1 shoe</h4>
+<p><strong>The Areni-1 cave:</strong></p>
+<ul>
+<li>contains artefacts dating from the Copper Age when various <span id="q-target-1"><input class="blank-input" data-q="1" id="blank-q1" placeholder="1" style="width:120px"/></span><button class="locate-btn" data-q="1">🔍</button> such as horse domestication, were introduced</li>
+<li>used for storage of the annual <span id="q-target-2"><input class="blank-input" data-q="2" id="blank-q2" placeholder="2" style="width:90px"/></span><button class="locate-btn" data-q="2">🔍</button> as well as ceremonial items</li>
+</ul>
+<p><strong>The Areni-1 shoe:</strong></p>
+<ul>
+<li>made of leather treated with <span id="q-target-3"><input class="blank-input" data-q="3" id="blank-q3" placeholder="3" style="width:70px"/></span><button class="locate-btn" data-q="3">🔍</button> from plants</li>
+<li>held together by <span id="q-target-4"><input class="blank-input" data-q="4" id="blank-q4" placeholder="4" style="width:80px"/></span><button class="locate-btn" data-q="4">🔍</button> also made of leather</li>
+<li>filled with <span id="q-target-5"><input class="blank-input" data-q="5" id="blank-q5" placeholder="5" style="width:80px"/></span><button class="locate-btn" data-q="5">🔍</button> possibly to keep out the cold</li>
+</ul>
+<p><strong>Uses of the Areni-1 shoe:</strong></p>
+<ul>
+<li>to protect the foot because the area was exposed to a great variation in <span id="q-target-6"><input class="blank-input" data-q="6" id="blank-q6" placeholder="6" style="width:120px"/></span><button class="locate-btn" data-q="6">🔍</button></li>
+<li>people travelled widely – as indicated by <span id="q-target-7"><input class="blank-input" data-q="7" id="blank-q7" placeholder="7" style="width:90px"/></span><button class="locate-btn" data-q="7">🔍</button> which were discovered in the cave</li>
+<li>to signify membership of a <span id="q-target-8"><input class="blank-input" data-q="8" id="blank-q8" placeholder="8" style="width:80px"/></span><button class="locate-btn" data-q="8">🔍</button></li>
+</ul>
+</div>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 9–13</div>
+<div class="q-instruction">Choose TRUE, FALSE, or NOT GIVEN.</div>
+<div class="q-item" id="q-target-9">
+<div class="q-label"><span class="q-num">9</span><span>The Otzi shoe was made of leather from more than one animal.</span><button class="locate-btn" data-q="9">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="9" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="9" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="9" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-10">
+<div class="q-label"><span class="q-num">10</span><span>The sandals discovered in Missouri and Oregon are examples of very early leather footwear.</span><button class="locate-btn" data-q="10">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="10" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="10" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="10" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-11">
+<div class="q-label"><span class="q-num">11</span><span>The very early use of footwear is evident in human fossil remains.</span><button class="locate-btn" data-q="11">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="11" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="11" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="11" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-12">
+<div class="q-label"><span class="q-num">12</span><span>Inhabitants of the Irish Aran Islands travelled to the Near East to trade leather goods.</span><button class="locate-btn" data-q="12">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="12" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="12" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="12" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-13">
+<div class="q-label"><span class="q-num">13</span><span>The design of the Areni-1 shoe made it suitable for one specific area of Europe.</span><button class="locate-btn" data-q="13">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="13" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+<button class="mc-opt-btn" data-q="13" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+<button class="mc-opt-btn" data-q="13" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+</div>
+</div>
+<!-- PASSAGE 2 Qs -->
+<div class="q-panel" id="qpanel-1">
+<div class="q-section">
+<div class="q-section-title">Questions 14–20</div>
+<div class="q-instruction">Reading Passage 2 has seven paragraphs. Choose the correct heading for each paragraph from the list of headings below. Drag each heading chip to the correct paragraph in the passage on the left.</div>
+<div class="headings-list">
+<div><strong>i.</strong> A character who provoked sympathy and amusement</div>
+<div><strong>ii.</strong> Outdoor performances with a standard set of characters</div>
+<div><strong>iii.</strong> Pantomime as a means of focusing on political issues</div>
+<div><strong>iv.</strong> Discovering pantomime at a young age</div>
+<div><strong>v.</strong> A way of dealing with a negative attitude toward pantomime</div>
+<div><strong>vi.</strong> The enduring appeal of pantomime</div>
+<div><strong>vii.</strong> Debate about the origins of pantomime</div>
+<div><strong>viii.</strong> A successful merging of artistic sources</div>
+</div>
+<div class="heading-chip-pool" id="heading-chip-pool">
+<div class="heading-chip" data-heading="i" draggable="true" id="hchip-i"><strong>i.</strong> Sympathy &amp; amusement</div>
+<div class="heading-chip" data-heading="ii" draggable="true" id="hchip-ii"><strong>ii.</strong> Outdoor performances</div>
+<div class="heading-chip" data-heading="iii" draggable="true" id="hchip-iii"><strong>iii.</strong> Political issues</div>
+<div class="heading-chip" data-heading="iv" draggable="true" id="hchip-iv"><strong>iv.</strong> Discovering at young age</div>
+<div class="heading-chip" data-heading="v" draggable="true" id="hchip-v"><strong>v.</strong> Negative attitude</div>
+<div class="heading-chip" data-heading="vi" draggable="true" id="hchip-vi"><strong>vi.</strong> Enduring appeal</div>
+<div class="heading-chip" data-heading="vii" draggable="true" id="hchip-vii"><strong>vii.</strong> Origins debate</div>
+<div class="heading-chip" data-heading="viii" draggable="true" id="hchip-viii"><strong>viii.</strong> Merging artistic sources</div>
+</div>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 21–23</div>
+<div class="q-instruction">Complete the sentences below. Write ONE WORD ONLY from the passage for each answer.</div>
+<div class="notes-box">
+<p>Commedia dell’arte actors used <span id="q-target-21"><input class="blank-input" data-q="21" id="blank-q21" placeholder="21" style="width:90px"/></span><button class="locate-btn" data-q="21">🔍</button> to disguise their real identities.</p>
+<p>Harlequinades combined elements of a 16th-century art form with a <span id="q-target-22"><input class="blank-input" data-q="22" id="blank-q22" placeholder="22" style="width:80px"/></span><button class="locate-btn" data-q="22">🔍</button> written many centuries earlier.</p>
+<p>In early 19th-century pantomimes, <span id="q-target-23"><input class="blank-input" data-q="23" id="blank-q23" placeholder="23" style="width:110px"/></span><button class="locate-btn" data-q="23">🔍</button> were often victims of the Clown’s activities.</p>
+</div>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 24–26</div>
+<div class="q-instruction">Match each statement with the correct person, A, B, C or D.</div>
+<div class="people-legend">
+<strong>A</strong> John Rich    <strong>B</strong> David Garrick    <strong>C</strong> Joseph Grimaldi    <strong>D</strong> Dan Leno
+        </div>
+<table class="radio-grid-table">
+<thead><tr>
+<th class="rgt-num">#</th><th class="rgt-stmt">Statement</th>
+<th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+<th class="rgt-loc"></th>
+</tr></thead>
+<tbody>
+<tr id="q-target-24"><td class="rgt-num">24</td><td class="rgt-stmt">His performances focused on the situation of the less wealthy sections of society.</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="24" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="24">🔍</button></td></tr>
+<tr id="q-target-25"><td class="rgt-num">25</td><td class="rgt-stmt">He introduced elements of the supernatural to the pantomime genre.</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="25" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="25">🔍</button></td></tr>
+<tr id="q-target-26"><td class="rgt-num">26</td><td class="rgt-stmt">His pantomime character was never seen to be punished for his on-stage crimes.</td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="A"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="B"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="C"><span class="rgt-dot"></span></button></td>
+<td class="rgt-opt"><button class="rgt-radio" data-q="26" data-val="D"><span class="rgt-dot"></span></button></td>
+<td class="rgt-loc"><button class="locate-btn" data-q="26">🔍</button></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- PASSAGE 3 Qs -->
+<div class="q-panel" id="qpanel-2">
+<div class="q-section">
+<div class="q-section-title">Questions 27–31</div>
+<div class="q-instruction">Choose the correct answer.</div>
+<div class="q-item" id="q-target-27">
+<div class="q-label"><span class="q-num">27</span><span>What are we told about the Europeans who arrived in 1769?</span><button class="locate-btn" data-q="27">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="27" data-val="A"><span class="radio-circle"></span>A. They thought there was only one large island.</button>
+<button class="mc-opt-btn" data-q="27" data-val="B"><span class="radio-circle"></span>B. They had not come to study natural history.</button>
+<button class="mc-opt-btn" data-q="27" data-val="C"><span class="radio-circle"></span>C. They had no interest in the tuatara.</button>
+<button class="mc-opt-btn" data-q="27" data-val="D"><span class="radio-circle"></span>D. They sent a tuatara to the British Museum.</button>
+</div>
+<div class="q-item" id="q-target-28">
+<div class="q-label"><span class="q-num">28</span><span>What does the writer say about Albert Gunther in paragraph 3?</span><button class="locate-btn" data-q="28">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="28" data-val="A"><span class="radio-circle"></span>A. He believed the tuatara could fetch a high price.</button>
+<button class="mc-opt-btn" data-q="28" data-val="B"><span class="radio-circle"></span>B. He was typical of his generation of scientists.</button>
+<button class="mc-opt-btn" data-q="28" data-val="C"><span class="radio-circle"></span>C. He disagreed with Charles Darwin’s theory.</button>
+<button class="mc-opt-btn" data-q="28" data-val="D"><span class="radio-circle"></span>D. He wanted to stop the tuatara from becoming extinct.</button>
+</div>
+<div class="q-item" id="q-target-29">
+<div class="q-label"><span class="q-num">29</span><span>What did Albert Gunther think about the rats in New Zealand?</span><button class="locate-btn" data-q="29">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="29" data-val="A"><span class="radio-circle"></span>A. They did not eat the tuatara.</button>
+<button class="mc-opt-btn" data-q="29" data-val="B"><span class="radio-circle"></span>B. There was one species of rat.</button>
+<button class="mc-opt-btn" data-q="29" data-val="C"><span class="radio-circle"></span>C. There had always been rats in New Zealand.</button>
+<button class="mc-opt-btn" data-q="29" data-val="D"><span class="radio-circle"></span>D. They were killed by Polynesians.</button>
+</div>
+<div class="q-item" id="q-target-30">
+<div class="q-label"><span class="q-num">30</span><span>What did Ian Crook conclude from his research?</span><button class="locate-btn" data-q="30">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="30" data-val="A"><span class="radio-circle"></span>A. Tuatara are safe on small islands.</button>
+<button class="mc-opt-btn" data-q="30" data-val="B"><span class="radio-circle"></span>B. Ship’s rats kill more tuatara than kiore.</button>
+<button class="mc-opt-btn" data-q="30" data-val="C"><span class="radio-circle"></span>C. Kiore cannot swim to offshore islands.</button>
+<button class="mc-opt-btn" data-q="30" data-val="D"><span class="radio-circle"></span>D. Rats and tuatara cannot live together.</button>
+</div>
+<div class="q-item" id="q-target-31">
+<div class="q-label"><span class="q-num">31</span><span>What were the findings of Richard Holdaway’s research?</span><button class="locate-btn" data-q="31">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="31" data-val="A"><span class="radio-circle"></span>A. Maori settled more recently than previously thought.</button>
+<button class="mc-opt-btn" data-q="31" data-val="B"><span class="radio-circle"></span>B. The first Polynesian explorers formed permanent settlements.</button>
+<button class="mc-opt-btn" data-q="31" data-val="C"><span class="radio-circle"></span>C. Ship’s rats are the oldest rat species in the country.</button>
+<button class="mc-opt-btn" data-q="31" data-val="D"><span class="radio-circle"></span>D. Rats caused extinctions before any humans settled.</button>
+</div>
+</div>
+<div class="q-section">
+<div class="q-section-title">Questions 32–35</div>
+<div class="q-instruction">Choose YES, NO, or NOT GIVEN.</div>
+<div class="q-item" id="q-target-32">
+<div class="q-label"><span class="q-num">32</span><span>The available research supports Holdaway’s theory but it has not been proved.</span><button class="locate-btn" data-q="32">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="32" data-val="YES"><span class="radio-circle"></span>YES</button>
+<button class="mc-opt-btn" data-q="32" data-val="NO"><span class="radio-circle"></span>NO</button>
+<button class="mc-opt-btn" data-q="32" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-33">
+<div class="q-label"><span class="q-num">33</span><span>Nowadays, it is possible to totally destroy a population of rats on a small island.</span><button class="locate-btn" data-q="33">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="33" data-val="YES"><span class="radio-circle"></span>YES</button>
+<button class="mc-opt-btn" data-q="33" data-val="NO"><span class="radio-circle"></span>NO</button>
+<button class="mc-opt-btn" data-q="33" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-34">
+<div class="q-label"><span class="q-num">34</span><span>Crook was the first person to recognise the potential of offshore islands as sanctuaries.</span><button class="locate-btn" data-q="34">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="34" data-val="YES"><span class="radio-circle"></span>YES</button>
+<button class="mc-opt-btn" data-q="34" data-val="NO"><span class="radio-circle"></span>NO</button>
+<button class="mc-opt-btn" data-q="34" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+<div class="q-item" id="q-target-35">
+<div class="q-label"><span class="q-num">35</span><span>Tuatara numbers are continuing to fall.</span><button class="locate-btn" data-q="35">🔍 Locate</button></div>
+<button class="mc-opt-btn" data-q="35" data-val="YES"><span class="radio-circle"></span>YES</button>
+<button class="mc-opt-btn" data-q="35" data-val="NO"><span class="radio-circle"></span>NO</button>
+<button class="mc-opt-btn" data-q="35" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+</div>
+</div>
+<div class="q-section">
+        <div class="q-section-title">Questions 36&ndash;40</div>
+        <div class="q-instruction">Complete the summary using the list of words below. Drag each word to the correct gap.</div>
+        <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:8px 14px;font-size:0.78rem;margin-bottom:10px;"><strong>A</strong> natural evolution &nbsp;&nbsp; <strong>B</strong> creative thought &nbsp;&nbsp; <strong>C</strong> indigenous plants &nbsp;&nbsp; <strong>D</strong> trout &nbsp;&nbsp; <strong>E</strong> pollution &nbsp;&nbsp; <strong>F</strong> restoration &nbsp;&nbsp; <strong>G</strong> native fish &nbsp;&nbsp; <strong>H</strong> extinction</div>
+        <div class="word-bank-pool" id="wbpool-t14">
+          <div class="draggable-card" draggable="true" data-word="A" id="dcard-t14-A"><strong>A</strong> &ndash; natural evolution</div>
+          <div class="draggable-card" draggable="true" data-word="B" id="dcard-t14-B"><strong>B</strong> &ndash; creative thought</div>
+          <div class="draggable-card" draggable="true" data-word="C" id="dcard-t14-C"><strong>C</strong> &ndash; indigenous plants</div>
+          <div class="draggable-card" draggable="true" data-word="D" id="dcard-t14-D"><strong>D</strong> &ndash; trout</div>
+          <div class="draggable-card" draggable="true" data-word="E" id="dcard-t14-E"><strong>E</strong> &ndash; pollution</div>
+          <div class="draggable-card" draggable="true" data-word="F" id="dcard-t14-F"><strong>F</strong> &ndash; restoration</div>
+          <div class="draggable-card" draggable="true" data-word="G" id="dcard-t14-G"><strong>G</strong> &ndash; native fish</div>
+          <div class="draggable-card" draggable="true" data-word="H" id="dcard-t14-H"><strong>H</strong> &ndash; extinction</div>
+        </div>
+        <div class="summary-box"><strong>What conclusions can we draw?</strong><br><br>
+The most important result of the tuatara research is that it frees our <span class="drop-zone" data-q="36"><span class="dz-text">36</span><span class="remove-chip">&#10005;</span></span>. For example, there are many similarities between rats and <span class="drop-zone" data-q="37"><span class="dz-text">37</span><span class="remove-chip">&#10005;</span></span>. Should we now go further and consider reintroducing <span class="drop-zone" data-q="38"><span class="dz-text">38</span><span class="remove-chip">&#10005;</span></span> to our mainland rivers? Perhaps our children will come to believe in the <span class="drop-zone" data-q="39"><span class="dz-text">39</span><span class="remove-chip">&#10005;</span></span> of species, in the same way that our generation refuses to accept <span class="drop-zone" data-q="40"><span class="dz-text">40</span><span class="remove-chip">&#10005;</span></span>.
+        </div>
+      </div>
+    </div>
+  </div><!-- /right-pane -->
+</div><!-- /split -->
+<div id="footer-nav">
+<span class="nav-label">Q:</span>
+<div id="nav-grid"></div>
+<div id="font-controls">
+<span>Font:</span>
+<button id="btn-font-up">A+</button>
+<button id="btn-font-dn">A−</button>
+</div>
+</div>
+</div><!-- /app -->
+<div id="highlight-menu">
+<button onclick="applyHighlight('highlight-yellow')" style="background:#fef08a" title="Yellow"></button>
+<button onclick="applyHighlight('highlight-green')" style="background:#bbf7d0" title="Green"></button>
+<button onclick="applyHighlight('highlight-pink')" style="background:#fbcfe8" title="Pink"></button>
+<button class="erase-btn" onclick="applyHighlight('erase')">✕</button>
+</div>
+<div id="result-modal">
+<div id="result-box">
+<h2>Your Result</h2>
+<div id="result-score">0/40</div>
+<div id="result-band">Band: –</div>
+<div id="result-breakdown"></div>
+<button id="btn-close-modal">Review Answers</button>
+</div>
+</div>
+<script>
+const ANSWERS={
+  1:'innovations',2:'harvest',3:'oil',4:'cords',5:'grass',6:'Temperature',7:'stones',8:'tribe',
+  9:'TRUE',10:'FALSE',11:'TRUE',12:'NOT GIVEN',13:'FALSE',
+  14:'iv',15:'ii',16:'viii',17:'v',18:'iii',19:'i',20:'vi',
+  21:'Masks',22:'Poem',23:'Policemen',
+  24:'D',25:'A',26:'C',
+  27:'C',28:'B',29:'B',30:'D',31:'D',
+  32:'YES',33:'YES',34:'NOT GIVEN',35:'NO',
+  36:'B',37:'D',38:'G',39:'F',40:'H'
+};
+const Q_PASSAGE={};
+for(let i=1;i<=13;i++)Q_PASSAGE[i]=0;
+for(let i=14;i<=26;i++)Q_PASSAGE[i]=1;
+for(let i=27;i<=40;i++)Q_PASSAGE[i]=2;
+
+let userAnswers={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+function normalizeAnswer(s){
+  return s.trim().toLowerCase().replace(/[\u2018\u2019]/g,"'").replace(/[\u2013\u2014]/g,'-').replace(/\s+/g,' ');
+}
+function checkAnswer(user,correct){
+  const u=normalizeAnswer(user),c=normalizeAnswer(correct);
+  if(u===c)return true;
+  if(u.replace(/-/g,' ')===c.replace(/-/g,' '))return true;
+  const cw=c.split(' ');
+  if(cw.length>1){const uw=u.split(' ');if(uw.length===cw.length&&uw.every((w,i)=>w===cw[i]))return true;}
+  return false;
+}
+
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{p.style.display=i===t?'block':'none';p.classList.toggle('active',i===t);});
+  });
+});
+
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i;btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+
+document.querySelectorAll('.mc-opt-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+btn.dataset.q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();updateNav(q);
+  });
+});
+
+// Heading DnD
+let dragHeadingData=null;
+document.querySelectorAll('.heading-chip').forEach(chip=>{
+  chip.addEventListener('dragstart',e=>{
+    if(submitted)return;
+    dragHeadingData={heading:chip.dataset.heading,chipId:chip.id};
+    chip.classList.add('dragging');e.dataTransfer.effectAllowed='move';
+  });
+  chip.addEventListener('dragend',()=>chip.classList.remove('dragging'));
+});
+document.querySelectorAll('.heading-dropzone').forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag-over');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
+  zone.addEventListener('drop',e=>{
+    e.preventDefault();zone.classList.remove('drag-over');
+    if(submitted||!dragHeadingData)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById(prev);if(pc)pc.classList.remove('used');}
+    const chip=document.getElementById(dragHeadingData.chipId);
+    if(chip)chip.classList.add('used');
+    zone.dataset.filled=dragHeadingData.chipId;zone.dataset.heading=dragHeadingData.heading;
+    zone.classList.add('filled');
+    const chipTxt=chip?chip.textContent.replace(/^[ivxlcdm]+\.\s*/i,'').trim():dragHeadingData.heading;
+    zone.querySelector('.hdz-text').textContent=dragHeadingData.heading+'. '+chipTxt;
+    const q=parseInt(zone.dataset.q);userAnswers[q]=dragHeadingData.heading;updateNav(q);dragHeadingData=null;
+  });
+  zone.querySelector('.hdz-remove').addEventListener('click',e=>{
+    e.stopPropagation();if(submitted)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById(prev);if(pc)pc.classList.remove('used');}
+    zone.dataset.filled='';zone.dataset.heading='';zone.classList.remove('filled');
+    zone.querySelector('.hdz-text').textContent='Drop heading here';
+    const q=parseInt(zone.dataset.q);delete userAnswers[q];updateNav(q);
+  });
+});
+
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+
+function submitExam(){
+  if(submitted)return;
+  submitted=true;clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=checkAnswer(user,ans);
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    // Handle drop zones
+    const dz=document.querySelector('.drop-zone[data-q="'+q+'"]');
+    if(dz){dz.classList.add(ok?'correct':'wrong');if(!ok){const lbl=document.createElement('span');lbl.className='dnd-correct-label';lbl.textContent='✓ '+ans;dz.insertAdjacentElement('afterend',lbl);}}
+        const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){const lbl=document.createElement('span');lbl.className='blank-correct-label';lbl.textContent='✓ '+ans;inp.insertAdjacentElement('afterend',lbl);}
+    }
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    const rgtRow=document.getElementById('q-target-'+q);
+    if(rgtRow&&rgtRow.tagName==='TR')rgtRow.classList.add(ok?'row-correct':'row-wrong');
+    const hdz=document.querySelector('.heading-dropzone[data-q="'+q+'"]');
+    if(hdz){
+      hdz.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        const lbl=document.createElement('span');lbl.className='hdz-correct-label';
+        lbl.textContent='✓ '+ans;lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+        hdz.insertAdjacentElement('afterend',lbl);
+      }
+    }
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    if(!ok)document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+  }
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1&ndash;13)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14&ndash;26)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27&ndash;40)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>document.getElementById('result-modal').classList.remove('show'));
+
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      const locEls=document.querySelectorAll('.loc-q'+q);
+      if(locEls.length===0)return;
+      let best=locEls[0];
+      locEls.forEach(el=>{if(el.textContent.trim().length<best.textContent.trim().length)best=el;});
+      if(best.textContent.trim().length>200){
+        const children=best.querySelectorAll('span');
+        children.forEach(child=>{const t=child.textContent.trim();if(t.length>=15&&t.length<best.textContent.trim().length)best=child;});
+      }
+      best.classList.add('loc-highlight');
+      best.scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(()=>best.classList.remove('loc-highlight'),4000);
+    },150);
+  });
+});
+
+document.getElementById('btn-font-up').addEventListener('click',()=>{
+  baseFontSize=Math.min(20,baseFontSize+1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{
+  baseFontSize=Math.max(11,baseFontSize-1);
+  document.getElementById('left-pane').style.fontSize=baseFontSize+'px';
+  document.getElementById('right-pane').style.fontSize=baseFontSize+'px';
+});
+
+let highlightMenu=document.getElementById('highlight-menu'),savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const lp=document.getElementById('left-pane'),rp=document.getElementById('right-pane');
+    if(lp.contains(range.commonAncestorContainer)||rp.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){window.getSelection().removeAllRanges();window.getSelection().addRange(savedRange);document.execCommand('removeFormat');savedRange=null;return;}
+  const span=document.createElement('span');span.className=cls;
+  try{savedRange.surroundContents(span);}catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();savedRange=null;
+}
+
+const handle=document.getElementById('resize-handle'),leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const split=document.getElementById('split');const rect=split.getBoundingClientRect();leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+
+
+// Drag & Drop word bank
+let _dragWord=null;
+document.querySelectorAll('.draggable-card').forEach(card=>{
+  card.addEventListener('dragstart',e=>{
+    if(submitted)return;
+    _dragWord=card.dataset.word;card.classList.add('dragging');e.dataTransfer.effectAllowed='move';
+  });
+  card.addEventListener('dragend',()=>card.classList.remove('dragging'));
+});
+document.querySelectorAll('.drop-zone').forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag-over');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
+  zone.addEventListener('drop',e=>{
+    e.preventDefault();zone.classList.remove('drag-over');
+    if(submitted||!_dragWord)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.querySelector('.draggable-card[data-word="'+prev+'"]');if(pc)pc.classList.remove('used');}
+    const card=document.querySelector('.draggable-card[data-word="'+_dragWord+'"]');
+    if(card)card.classList.add('used');
+    zone.dataset.filled=_dragWord;zone.classList.add('filled');
+    zone.querySelector('.dz-text').textContent=_dragWord;
+    const q=parseInt(zone.dataset.q);userAnswers[q]=_dragWord;updateNav(q);_dragWord=null;
+  });
+  zone.querySelector('.remove-chip').addEventListener('click',e=>{
+    e.stopPropagation();if(submitted)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.querySelector('.draggable-card[data-word="'+prev+'"]');if(pc)pc.classList.remove('used');}
+    zone.dataset.filled='';zone.classList.remove('filled');
+    zone.querySelector('.dz-text').textContent=zone.dataset.q;
+    const q=parseInt(zone.dataset.q);delete userAnswers[q];updateNav(q);
+  });
+});
+
+startTimer();
+</script>
+</body>
+</html>

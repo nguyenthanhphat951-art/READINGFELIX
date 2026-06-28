@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading &ndash; VOL 7 TEST 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Lexend',sans-serif;background:#f5f5f5;font-size:14px;}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#header{background:#1a1a1a;color:#fff;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+#header h1{font-size:0.92rem;font-weight:700;letter-spacing:0.04em;margin:0;}
+#timer-wrap{display:flex;align-items:center;gap:8px;}
+#timer{font-size:1.05rem;font-weight:700;color:#fbbf24;min-width:58px;font-family:'Lexend',monospace;}
+#btn-pause{background:#374151;color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-family:'Lexend',sans-serif;}
+#btn-submit-exam{background:#1d4ed8;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:0.82rem;font-family:'Lexend',sans-serif;}
+#tab-bar{background:#fff;border-bottom:2px solid #e5e7eb;display:flex;flex-shrink:0;}
+.tab-btn{padding:8px 20px;border:none;background:none;cursor:pointer;font-size:0.82rem;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Lexend',sans-serif;}
+.tab-btn.active{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+#split{display:flex;flex:1;overflow:hidden;}
+#left-pane{width:50%;overflow-y:auto;padding:20px 24px;background:#fff;border-right:1px solid #e5e7eb;}
+#resize-handle{width:6px;background:#e5e7eb;cursor:col-resize;flex-shrink:0;}
+#right-pane{flex:1;overflow-y:auto;padding:20px 24px;background:#fafafa;}
+#footer-nav{background:#fff;border-top:2px solid #e5e7eb;padding:7px 14px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.nav-label{font-size:0.7rem;font-weight:600;color:#6b7280;white-space:nowrap;}
+#nav-grid{display:flex;flex-wrap:wrap;gap:3px;flex:1;}
+#nav-grid button{width:28px;height:26px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-size:0.7rem;font-weight:600;font-family:'Lexend',sans-serif;padding:0;line-height:1;}
+#nav-grid button.answered{background:#374151;color:#fff;border-color:#374151;}
+#nav-grid button.flash{background:#fbbf24!important;border-color:#f59e0b!important;color:#1a1a1a!important;}
+#nav-grid button.correct-nav{background:#16a34a;color:#fff;border-color:#16a34a;}
+#nav-grid button.wrong-nav{background:#dc2626;color:#fff;border-color:#dc2626;}
+#font-controls{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+#font-controls span{font-size:0.7rem;font-weight:600;color:#6b7280;}
+#font-controls button{padding:2px 8px;border:1.5px solid #d1d5db;border-radius:4px;background:#fff;cursor:pointer;font-weight:700;font-family:'Lexend',sans-serif;font-size:0.78rem;}
+.passage-panel{display:none;}.passage-panel.active{display:block;}
+.passage-title{font-size:1.1rem;font-weight:700;margin-bottom:4px;}
+.passage-subtitle{font-size:0.83rem;color:#6b7280;font-style:italic;margin-bottom:16px;}
+.passage-text p{margin-bottom:12px;line-height:1.85;}
+.para-label{font-weight:700;margin-right:4px;}
+.q-panel{display:none;}.q-panel.active{display:block;}
+.q-section{margin-bottom:28px;}
+.q-section-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;border-bottom:2px solid #1a1a1a;padding-bottom:4px;}
+.q-instruction{font-size:0.79rem;color:#374151;margin-bottom:12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-label{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.q-num{display:inline-flex;align-items:center;justify-content:center;background:#1a1a1a;color:#fff;border-radius:50%;width:22px;height:22px;font-size:0.73rem;flex-shrink:0;margin-top:1px;}
+.mc-opt-btn{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;cursor:pointer;margin-bottom:5px;font-size:0.82rem;background:#fff;width:100%;text-align:left;font-family:'Lexend',sans-serif;}
+.mc-opt-btn:hover:not(:disabled){border-color:#6b7280;background:#f9fafb;}
+.mc-opt-btn.selected{border-color:#1a1a1a;background:#f3f4f6;font-weight:600;}
+.mc-opt-btn.correct{border-color:#16a34a!important;background:#dcfce7!important;}
+.mc-opt-btn.wrong{border-color:#dc2626!important;background:#fee2e2!important;}
+.mc-opt-btn:disabled{cursor:default;}
+.radio-circle{width:16px;height:16px;border-radius:50%;border:2px solid #9ca3af;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mc-opt-btn.selected .radio-circle{border-color:#1a1a1a;background:#1a1a1a;}
+.mc-opt-btn.selected .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.correct .radio-circle{border-color:#16a34a;background:#16a34a;}
+.mc-opt-btn.correct .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.mc-opt-btn.wrong .radio-circle{border-color:#dc2626;background:#dc2626;}
+.mc-opt-btn.wrong .radio-circle::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.blank-input{border:none;border-bottom:2px solid #1a1a1a;background:transparent;font-size:0.88rem;padding:2px 4px;min-width:110px;outline:none;font-family:'Lexend',sans-serif;}
+.blank-input.correct{border-bottom-color:#16a34a;background:#dcfce7;}
+.blank-input.wrong{border-bottom-color:#dc2626;background:#fee2e2;}
+.radio-grid-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:8px 0 16px;}
+.radio-grid-table th{background:#1a1a1a;color:#fff;padding:7px 8px;text-align:center;font-weight:600;line-height:1.3;}
+.radio-grid-table th.rgt-stmt{text-align:left;min-width:200px;}
+.radio-grid-table td{padding:7px 8px;border:1px solid #e5e7eb;vertical-align:middle;}
+.radio-grid-table tr:nth-child(even) td{background:#f9fafb;}
+.radio-grid-table tr.row-correct td{background:#dcfce7!important;}
+.radio-grid-table tr.row-wrong td{background:#fee2e2!important;}
+.rgt-num{width:28px;text-align:center;font-weight:700;color:#6b7280;font-size:0.8rem;}
+.rgt-stmt{text-align:left;}
+.rgt-opt{text-align:center;width:36px;}
+.rgt-loc{width:40px;text-align:center;}
+.rgt-radio{width:28px;height:28px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto;border-radius:50%;padding:0;}
+.rgt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9ca3af;display:block;transition:all 0.15s;}
+.rgt-radio.selected .rgt-dot{border-color:#1a1a1a;background:#1a1a1a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.correct .rgt-dot{border-color:#16a34a;background:#16a34a;box-shadow:inset 0 0 0 3px #fff;}
+.rgt-radio.wrong .rgt-dot{border-color:#dc2626;background:#fee2e2;}
+/* Heading DnD */
+.heading-chip{display:inline-flex;align-items:center;padding:5px 12px;background:#1a1a1a;color:#fff;border-radius:20px;cursor:grab;font-size:0.78rem;font-family:'Lexend',sans-serif;user-select:none;margin:3px;border:2px solid transparent;line-height:1.4;}
+.heading-chip:active{cursor:grabbing;}
+.heading-chip.dragging{opacity:0.4;}
+.heading-chip.used{background:#6b7280;cursor:default;}
+.heading-chip-pool{display:flex;flex-wrap:wrap;gap:4px;padding:10px 12px;background:#f9fafb;border:1.5px dashed #9ca3af;border-radius:8px;margin-bottom:14px;min-height:44px;}
+.heading-dropzone{display:inline-flex;align-items:center;justify-content:center;min-width:180px;height:28px;border:2px dashed #9ca3af;border-radius:14px;padding:0 10px;font-size:0.76rem;color:#9ca3af;vertical-align:middle;margin:3px 0;transition:border-color 0.15s,background 0.15s;position:relative;}
+.heading-dropzone.drag-over{border-color:#1d4ed8;background:#eff6ff;}
+.heading-dropzone.filled{border-style:solid;border-color:#1a1a1a;background:#1a1a1a;color:#fff;font-weight:600;}
+.heading-dropzone.correct{border-color:#16a34a!important;background:#dcfce7!important;color:#16a34a!important;}
+.heading-dropzone.wrong{border-color:#dc2626!important;background:#fee2e2!important;color:#dc2626!important;}
+.heading-dropzone .hdz-remove{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:#fff;color:#1a1a1a;font-size:0.6rem;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;line-height:1;}
+.heading-dropzone.filled .hdz-remove{display:flex;}
+.heading-dropzone:not(.filled) .hdz-remove{display:none;}
+.para-heading-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.headings-list{background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:10px 14px;font-size:0.82rem;margin-bottom:14px;}
+.headings-list div{padding:3px 0;border-bottom:1px solid #f3f4f6;}
+.headings-list div:last-child{border-bottom:none;}
+.notes-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.2;margin-bottom:12px;}
+.notes-box h4{font-size:0.88rem;font-weight:700;margin:0 0 8px;border-bottom:1px solid #e5e7eb;padding-bottom:6px;}
+.notes-box ul{margin:6px 0 6px 20px;padding:0;}
+.notes-box li{margin-bottom:4px;}
+.summary-box{background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:8px;padding:16px 18px;font-size:0.86rem;line-height:2.4;margin-bottom:12px;}
+/* Table styling */
+.passage-text table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:12px 0;}
+.passage-text table th{background:#374151;color:#fff;padding:7px 10px;text-align:left;font-weight:600;}
+.passage-text table td{padding:7px 10px;border:1px solid #e5e7eb;vertical-align:top;line-height:1.7;}
+.passage-text table tr:nth-child(even) td{background:#f9fafb;}
+.locate-btn{display:none;padding:2px 8px;background:#fef3c7;border:1px solid #f59e0b;border-radius:4px;font-size:0.72rem;cursor:pointer;color:#92400e;font-family:'Lexend',sans-serif;white-space:nowrap;flex-shrink:0;}
+.locate-btn.visible{display:inline-flex;align-items:center;}
+.loc-highlight{background:#fef08a;outline:2px solid #f59e0b;border-radius:2px;}
+.highlight-yellow{background:#fef08a;}
+.highlight-green{background:#bbf7d0;}
+.highlight-pink{background:#fbcfe8;}
+#highlight-menu{position:fixed;background:#1a1a1a;border-radius:6px;padding:6px 8px;display:none;flex-direction:row;gap:6px;z-index:1000;}
+#highlight-menu button{width:22px;height:22px;border-radius:50%;border:2px solid #fff;cursor:pointer;}
+#highlight-menu .erase-btn{background:#fff;color:#1a1a1a;font-size:0.68rem;font-weight:700;width:auto;border-radius:4px;padding:0 6px;font-family:'Lexend',sans-serif;}
+#result-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;}
+#result-modal.show{display:flex;}
+#result-box{background:#fff;border-radius:12px;padding:32px 40px;max-width:420px;width:90%;text-align:center;}
+#result-box h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+#result-score{font-size:3rem;font-weight:700;color:#1a1a1a;}
+#result-band{font-size:1rem;color:#6b7280;margin-bottom:20px;}
+#result-breakdown{text-align:left;font-size:0.82rem;margin-bottom:20px;}
+#result-breakdown div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+#btn-close-modal{background:#1a1a1a;color:#fff;border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-weight:600;font-family:'Lexend',sans-serif;}
+.blank-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+.hdz-correct-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;}
+/* DnD word bank */
+.word-bank-pool{display:flex;flex-wrap:wrap;gap:6px;padding:10px 12px;background:#f9fafb;border:1.5px dashed #9ca3af;border-radius:8px;margin-bottom:14px;min-height:44px;}
+.draggable-card{padding:5px 12px;background:#1a1a1a;color:#fff;border-radius:20px;cursor:grab;font-size:0.8rem;font-family:'Lexend',sans-serif;user-select:none;border:2px solid transparent;}
+.draggable-card:active{cursor:grabbing;}
+.draggable-card.dragging{opacity:0.4;}
+.draggable-card.used{background:#6b7280;cursor:default;}
+.drop-zone{display:inline-flex;align-items:center;justify-content:center;min-width:100px;height:30px;border:2px dashed #9ca3af;border-radius:16px;padding:0 10px;font-size:0.8rem;color:#9ca3af;vertical-align:middle;margin:0 3px;transition:border-color 0.15s,background 0.15s;position:relative;}
+.drop-zone.drag-over{border-color:#1d4ed8;background:#eff6ff;}
+.drop-zone.filled{border-style:solid;border-color:#1a1a1a;background:#1a1a1a;color:#fff;font-weight:600;}
+.drop-zone.correct{border-color:#16a34a!important;background:#dcfce7!important;color:#16a34a!important;}
+.drop-zone.wrong{border-color:#dc2626!important;background:#fee2e2!important;color:#dc2626!important;}
+.drop-zone .remove-chip{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:14px;height:14px;border-radius:50%;background:#fff;color:#1a1a1a;font-size:0.6rem;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;line-height:1;}
+.drop-zone.filled .remove-chip{display:flex;}
+.drop-zone:not(.filled) .remove-chip{display:none;}
+.correct-answer-label{font-size:0.72rem;color:#16a34a;font-weight:600;margin-top:3px;display:block;}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="header">
+  <h1>IELTS READING &ndash; VOL 7 TEST 5</h1>
+  <div id="timer-wrap">
+    <span id="timer">60:00</span>
+    <button id="btn-pause">&#9208; Pause</button>
+    <button id="btn-submit-exam">Submit</button>
+  </div>
+</div>
+<div id="tab-bar">
+  <button class="tab-btn active" data-target="0">PASSAGE 1</button>
+  <button class="tab-btn" data-target="1">PASSAGE 2</button>
+  <button class="tab-btn" data-target="2">PASSAGE 3</button>
+</div>
+<div id="split">
+  <div id="left-pane">
+    <div class="passage-panel active" id="passage-content-0">
+      <div class="passage-title">REEF FISH STUDY</div>
+      <div class="passage-subtitle">Tom Holmes examines the <span class="loc-q7">relationship between size and survival in fish</span> on Australia&rsquo;s Great Barrier Reef</div>
+      <div class="passage-text">
+        <p>It is a widely held belief among those who study animals that larger size conveys some form of advantage throughout life. The idea that certain body characteristics may influence a prey's ability to survive when being attacked by a predator has received considerable attention in the past, and has been applied to a wide range of both animals and habitats. <span class="loc-q4">Body size, weight, growth rate, overall condition, sensory development and escape speed have all been linked to survival.</span> <span class="loc-q1">Of these, body size has received the most attention from researchers, which has subsequently led to the development of a number of theories on how this characteristic may influence the predator-prey relationship.</span> One of the most popular of these is known as the 'bigger is better' hypothesis. <span class="loc-q2">This theory predicts that larger body size should increase an individual's ability to escape from a predator due to the characteristics associated with this, such as overall strength and visual development.</span> Bigger is thought to be better, but is this always the case?</p>
+        <p>Compared with other habitats and ecosystems, not a great deal is known about predator-prey relationships within tropical reef communities. What we do know is largely limited to predator identity and, to some extent, to what these predators eat. But what drives these interactions and how does body size influence the outcome? How would fish populations respond to the removal of certain predators from a reef fish community? It is precisely these questions that have led our research team to Lizard Island, in the northern sector of the Great Barrier Reef. We want to examine the predator-prey relationship during the '<span class="loc-q5">early juvenile' or larval phase of tropical fish</span>, <span class="loc-q3">and determine whether a predator's choice of prey is influenced by factors such as the prey's size, weight and swimming speed, as these characteristics vary from individual to individual at the beginning of the juvenile stage.</span></p>
+        <p>However, studying the interactions between predators and prey during this phase is no easy task. <span class="loc-q8">On the northern Great Barrier Reef, coral reef fish settlement usually occurs within 2-3 days of a new moon during the warmer summer months.</span> <span class="loc-q9">These short windows of opportunity, combined with the difficulties associated with working underwater, transporting fish and adapting them to the laboratory, often make research a daunting task.</span> These obstacles are overcome using a combination of innovative techniques, long working hours and a measure of sheer persistence. <span class="loc-q10">We collect the larval fish immediately prior to settlement using purpose-built traps that use artificial light to attract and contain fish of this life stage only.</span> These fish are subsequently</p>
+        <p><span class="loc-q11">transported to an aquarium, along with predatory fish, before being used in a series of aquarium and field-based trials.</span></p>
+        <p>According to the 'bigger is better' hypothesis, being larger at the time of settlement should result in an increased chance of surviving an attack by a predator during the period immediately following settlement. However, our initial research shows that this is not always true. There may be several reasons for this.</p>
+        <p>Communities of reef-based predators can differ considerably over quite small distances. Species that are abundant in one location may be particularly rare in a similar habitat just 100 metres away. In the same way that different predators prefer different types of prey, so too do they prefer different sizes of prey. <span class="loc-q12">This relationship is driven by physical characteristics of predators, such as mouth size, and behavioural differences between different predator species.</span> As a result, the predator community into which a reef fish settles may very well determine which individuals survive.</p>
+        <p>So why don't larger individuals survive more often than smaller fish over this period? The answer may well lie in an alternative hypothesis known as 'optimal foraging theory'. According to this theory, being either very large or very small in size should assist prey to escape during a predatory encounter. The theory predicts that a predator should prefer those individuals that provide the greatest energy return. This is generally a trade-off between the potential energy intake from eating a fish and the amount of energy required to catch it. Larger prey provide a higher energy return but smaller prey generally require less energy to catch. <span class="loc-q13">This usually results in a preference for medium-sized prey.</span></p>
+        <p><span class="loc-q6">At the time of settlement, juvenile reef fish vary in the characteristics that can help them survive a predatory attack.</span> However, these characteristics are not strongly associated with body size. For example, larger individuals are not necessarily faster. This means that they may be easier to catch than smaller prey. If this is the case then, according to the optimal foraging theory, predators should prefer larger prey because of their greater energy return. Consequently, larger prey individuals may be targeted by some predators at the time of settlement. Our research hopes to show that larger size may, in fact, be a distinct disadvantage during certain life stages.</p>
+      </div>
+    </div>
+    <div class="passage-panel" id="passage-content-1">
+      <div class="passage-title">WILL EATING LESS MAKE YOU LIVE LONGER?</div>
+      <div class="passage-subtitle">The latest in a conflicting series of studies on calorie restriction</div>
+      <div class="passage-text">
+        <p>Will Eating Less Make You Live Longer?</p>
+        <p><span class="para-label">A</span> Calorie restriction, or ‘semi-starvation’ as some refer to it, has been proven to extend lifespan in many living organisms from yeast to mice, but the picture for primates, including humans, is not so clear. Research published by a team at the University of Wisconsin in the United States shows that rhesus monkeys also live longer on a calorie-restricted diet. But those findings disagree with research by the National Institute on Aging (NIA) in Maryland, also in the United States. Rozalyn Anderson, of the Wisconsin team, says the research is not intended as a recommendation of calorie restriction. ‘I find the idea monumentally unattractive!’ she says. <span class="loc-q22">‘We study it because it is so effective at delaying ageing and the onset of age-related disease. It’s a way to tease out what it is that creates increased disease vulnerability as a function of age.’</span></p>
+        <p><span class="para-label">B</span> Both groups started long-term trials on rhesus monkeys in the late 1980s to determine whether calorie restriction would extend the lifespan of primates. In mice, many experiments had come to the same finding: feed them a diet with 30% fewer calories and see a lifespan extension of 40%. <span class="loc-q17"><span class="loc-q18"><span class="loc-q19">The monkey trials were set up in a similar way: researchers took the calorie content of a standard monkey diet, cut it by 30% (while continuing to supply all essential nutrients) and monitored whether those monkeys lived longer, healthier lives than those on the standard diet.</span></span></span></p>
+        <p><span class="para-label">C</span> In 2009, with the monkeys approaching old age, preliminary findings of the two trials started coming in. For the Wisconsin monkeys, calorie restriction seemed to be working. Compared to well-fed control animals, the lean monkeys were living longer and suffering less from the diseases of ageing: diabetes, heart disease and brain diseases. However, in 2012 the NIA results emerged with a dramatically different conclusion: their monkeys were not living any longer than the controls, although they were healthier.</p>
+        <p><span class="para-label">D</span> The Wisconsin group’s latest results confirm that their calorie-restricted monkeys are living longer than the controls. They also offer a possible explanation of why the two groups’ findings don’t agree, and that lies in the treatment of the control group. The Wisconsin study began with monkeys in early adulthood. Initially, all the monkeys were allowed to eat as much as they liked. A few months into the trial, the monkeys were placed into one of two groups: the controls (who continued to be fed as much as they wished) and the calorie-restricted monkeys (who were given an individualised diet of 30% less than they were previously eating).</p>
+        <p><span class="para-label">E</span> The NIA study differed in two ways. First, the control group of monkeys were not allowed to eat as much as they wished. They were given a diet considered to represent a normal calorie count, while the calorie-restricted monkeys were fed 30% less than that. <span class="loc-q16">Second, whereas the Wisconsin monkeys were given highly processed food high in sucrose, making it easy to standardise, the NIA diet was based on whole grains, fish oils, and was very low in sugar.</span> These different settings for the normal control diet may provide an explanation of why the two groups showed different results.</p>
+        <p><span class="para-label">F</span> The Wisconsin group may in effect have studied the effects of ‘overeating’. Their control animals weighed up to 10% more than average for their age and gender. Compared to them, the calorie-restricted animals not only suffered fewer diseases, they lived longer. <span class="loc-q23">Julie Mattison, head of the NIA study, observes that an overweight person who goes to a fast food restaurant every day will obviously benefit if their calories are cut back by 30%.</span></p>
+        <p><span class="para-label">G</span> The NIA study fed their control monkeys what they considered a ‘standard’ caloric intake and saw that longevity for monkeys that were fed 30% less was the same. But in Anderson’s view, the NIA control monkeys were not fed enough; the NIA was calorie restricting both groups of animals. Their older female control monkeys, for example, weighed nearly 20% less than the national average. Indeed, Anderson points out that <span class="loc-q15">several of the NIA control monkeys have lived past the age of 40, far exceeding the 27- year average lifespan</span> for captive rhesus monkeys. ‘That’s the maximum lifespan ever detected for the species, so the idea that their intervention is doing nothing is really at odds with the data,’ says Anderson.</p>
+        <p><span class="para-label">H</span> However, neither group had the right notion of a standard diet according to Leonie Heilbronn, who researches calorie restriction and healthy ageing at the University of Adelaide in Australia. <span class="loc-q21">Heilbronn points out that the NIA controls were a very healthy set of monkeys and leaner than a control monkey should be. On the other hand, she notes, the Wisconsin controls were a little bigger than they had to be.</span> On balance, Heilbronn agrees with the Wisconsin researcher’s argument. <span class="loc-q14">‘I think these studies suggest calorie restriction definitely will increase lifespan,’ she says.</span></p>
+        <p><span class="para-label">I</span> <span class="loc-q24">Both studies agree that cutting calories is beneficial to health — in both cases the calorie-restricted monkeys had fewer diseases related to ageing.</span> <span class="loc-q25">As to the question of whether calorie restriction extends lifespan in primates, Anderson and Mattison are currently working together to compare the two studies’ raw data.</span> They plan to co-publish a joint analysis. <span class="loc-q26">The current data conflict will ultimately provide deeper insights into ageing, Anderson predicts.</span> <span class="loc-q20">‘The fact the two studies were set up differently, asking the same question in different ways — I think we will gain maximally from that.’</span></p>
+      </div>
+    </div>
+    <div class="passage-panel" id="passage-content-2">
+      <div class="passage-title">SAVING THE SKINK</div>
+      <div class="passage-subtitle">What can be done to save the skink, one of New Zealand&rsquo;s most endangered lizards?</div>
+      <div class="passage-text">
+        <p><span class="para-label">A</span> New Zealand's reptiles come in three forms: the tuatara, the geckos and the skinks. <span class="loc-q27">With their gleaming scales, long bodies and often surprisingly short limbs, skinks are instantly recognisable.</span> There are more than 90 species, half of which still await formal description. <span class="loc-q30"><span class="loc-q29">Identification depends on where specimens are found, and such minutiae as the number of scales on their toes.</span></span> Two of the largest species of skink – the grand and the Otago – are found only in Otago, in New Zealand's South Island. <span class="loc-q28">Skinks, being reptiles, need to regulate their temperature, and lie on sunny rocks to absorb heat.</span> However, the grand and Otago are the only kinds that do not hibernate through winter; when snow can fall even in summer in Otago, there is no point in them lying dormant for extended periods. Like all other New Zealand reptiles except tuatara and the egg-laying Suter's skink, they give birth to tiny baby lizards. Today, the Otago and grand skinks are lucky to reach five years of age in the wild, <span class="loc-q31">although in zoos or research centres they can live beyond thirty.</span></p>
+        <p><span class="para-label">B</span> Unfortunately, extinction may loom for these reptiles. With any decline in New Zealand fauna, predation is always suspected, so the efforts of the Department of Conservation (DOC) have focused on controlling specific pests. An example was a six-year project to control the feral cats on the Otago Skink Reserve, launched in the 1990s. <span class="loc-q32">Despite the capture of hundreds of cats, skinks showed no signs of recovery; indeed, there were further declines.</span> The trapping programme also revealed rats and hedgehogs to be predators.</p>
+        <p><span class="para-label">C</span> Parasite infections are also thought to be on the rise. <span class="loc-q33">Although no direct health implications have been detected the trend is a concern, as it may signal a subtle deterioration in the skinks' living environment.</span> Infection with mites is suspected of inhibiting reproduction among captive animals.</p>
+        <p><span class="para-label">D</span> Another potential threat is habitat loss. Eight hundred years ago, Otago was covered in forest. However, extensive burning produced wide open tussock country. The skinks' response to this change isn't known, nor what their habitat was in the earlier environment, with its predominance of shrubs and trees. Furthermore, recent intensive farming has led to poor soil. <span class="loc-q34"><span class="loc-q35">Even if we had the answer to the eradication of predators, we haven't a clue to the habitat we should be recreating for the skinks, or if where they persist is best for conservation.</span></span></p>
+        <p><span class="para-label">E</span> It is also puzzling that grands and Otagos are disappearing more rapidly than other species in the same region. The explanation likely lies in their delayed sexual maturity. Taking five years before you can breed is a handicap, since there is little likelihood of surviving that long. If survivors have only two offspring annually, they do little to remedy the situation. The commoner skinks mature earlier and produce more offspring, thereby doing more to counter predator pressure. Not that there is room for complacency concerning these species. <span class="loc-q36"><span class="loc-q37">As more is learned about the size of skink populations, it becomes clear that even common species may be facing a doubtful future.</span></span></p>
+        <p><span class="para-label">F</span> So far, DOC's efforts to eliminate specific predators have not resulted in a recovery of skink numbers. The prediction that less than six years is all the Otagos and grands have left is supported by data from surveys conducted outside the protected area between 1984 and 2002. These show that more than 50 per cent of sub-populations of both skinks have died out over the past years. Populations in other regions are believed to be smaller, although access issues on some properties limit knowledge. No more than five years remain in which to turn things around – a close call considering it will be at least three before detectable response in the populations can be expected owing to their low breeding rate.</p>
+        <p><span class="para-label">G</span> DOC's recovery - programme team has recently embarked upon an experiment to extend nearly two kilometres of mammal - proof fencing around a population of Otagos and grands in the Macraes Flat reserve. Choosing a site was difficult, as with a limited budget and the high cost of the fencing it had to be small. It also had to include vacant space and resources for a growing population. <span class="loc-q38">An added complication was that grands and Otagos have subtly different environmental preferences, both of which need catering for.</span></p>
+        <p><span class="para-label">H</span> Because of the danger of imminent extinction, the team has also had to develop emergency captive-management techniques. Specially permitted breeders, who have had some success in breeding the Otago in captivity, are now developing techniques to breed grands. <span class="loc-q39">Captive management, however, is a last resort. The priority is to manage and protect skinks in the wild.</span></p>
+        <p><span class="para-label">I</span> Getting the public to understand the plight of these creatures is essential. Without public support, their chances are slim. <span class="loc-q40">Conservation is as much driven by public opinion as it is by political decisions.</span> In New Zealand, the situation is more pressing than just about anywhere else on the planet because many of its native birds and lizards have simply not evolved to defend themselves against species introduced in the last few hundred years. In the once-isolated islands that form New Zealand, ecosystem collapse didn't happen 5000 years ago or even 500 years ago; it's happening now.</p>
+      </div>
+    </div>
+  </div><!-- /left-pane -->
+  <div id="resize-handle"></div>
+  <div id="right-pane">
+
+    <!-- PASSAGE 1 Qs -->
+    <div class="q-panel active" id="qpanel-0">
+      <div class="q-section">
+        <div class="q-section-title">Questions 1&ndash;4</div>
+        <div class="q-instruction">Choose TRUE, FALSE, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-1">
+          <div class="q-label"><span class="q-num">1</span><span>Research to date has concentrated on the importance of escape speed in surviving an attack by a predator.</span><button class="locate-btn" data-q="1">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="1" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="1" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="1" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-2">
+          <div class="q-label"><span class="q-num">2</span><span>According to the &lsquo;bigger is better&rsquo; hypothesis, larger animals have better eyesight.</span><button class="locate-btn" data-q="2">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="2" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="2" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="2" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-3">
+          <div class="q-label"><span class="q-num">3</span><span>Early-juvenile reef fish share similar characteristics.</span><button class="locate-btn" data-q="3">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="3" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="3" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="3" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-4">
+          <div class="q-label"><span class="q-num">4</span><span>Fully developed reef fish have a slower swimming speed than juveniles.</span><button class="locate-btn" data-q="4">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="4" data-val="TRUE"><span class="radio-circle"></span>TRUE</button>
+          <button class="mc-opt-btn" data-q="4" data-val="FALSE"><span class="radio-circle"></span>FALSE</button>
+          <button class="mc-opt-btn" data-q="4" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+      <div class="q-section">
+        <div class="q-section-title">Questions 5&ndash;7</div>
+        <div class="q-instruction">Complete the flow-chart below. Write NO MORE THAN TWO WORDS from the passage for each answer.</div>
+        <div class="notes-box">
+          <h4>Life cycle of fish in the Lizard Island study</h4>
+          <div style="text-align:center;line-height:2.2;">
+            <div style="background:#f3f4f6;border:1.5px solid #d1d5db;border-radius:8px;padding:8px 16px;display:inline-block;min-width:280px;">
+              <strong>Phase 1: Larval stage</strong><br>
+              takes place in the <span id="q-target-5"><input class="blank-input" id="blank-q5" data-q="5" placeholder="5" style="width:110px"></span><button class="locate-btn" data-q="5">&#128269;</button>
+            </div>
+            <div style="font-size:1.5rem;color:#6b7280;">&#8595;</div>
+            <div style="background:#f3f4f6;border:1.5px solid #d1d5db;border-radius:8px;padding:8px 16px;display:inline-block;min-width:280px;">
+              <strong>Phase 2: Juvenile stage</strong><br>
+              takes place close to the <span id="q-target-6"><input class="blank-input" id="blank-q6" data-q="6" placeholder="6" style="width:70px"></span><button class="locate-btn" data-q="6">&#128269;</button><br>
+              the move from one habitat to another is called settlement<br>
+              <span id="q-target-7"><input class="blank-input" id="blank-q7" data-q="7" placeholder="7" style="width:100px"></span><button class="locate-btn" data-q="7">&#128269;</button> rates are high in the early part of this stage
+            </div>
+            <div style="font-size:1.5rem;color:#6b7280;">&#8595;</div>
+            <div style="background:#f3f4f6;border:1.5px solid #d1d5db;border-radius:8px;padding:8px 16px;display:inline-block;min-width:280px;">
+              <strong>Phase 3: Adult stage</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="q-section">
+        <div class="q-section-title">Questions 8&ndash;13</div>
+        <div class="q-instruction">Complete the notes below. Write NO MORE THAN TWO WORDS from the passage for each answer.</div>
+        <div class="notes-box">
+          <h4>Lizard Island study</h4>
+          <p><strong>Aim:</strong> to study the relationship between predator and prey in juvenile reef fish</p>
+          <p><strong>Problems:</strong></p>
+          <ul style="margin:6px 0 6px 20px;padding:0;">
+            <li>time-change of habitat takes place in summer and is linked to the <span id="q-target-8"><input class="blank-input" id="blank-q8" data-q="8" placeholder="8" style="width:100px"></span><button class="locate-btn" data-q="8">&#128269;</button></li>
+            <li>working conditions</li>
+            <li>adaptation &mdash; difficult to move and settle fish into the <span id="q-target-9"><input class="blank-input" id="blank-q9" data-q="9" placeholder="9" style="width:100px"></span><button class="locate-btn" data-q="9">&#128269;</button></li>
+          </ul>
+          <p><strong>Method:</strong></p>
+          <ul style="margin:6px 0 6px 20px;padding:0;">
+            <li>larval fish are drawn into a special trap with the aid of <span id="q-target-10"><input class="blank-input" id="blank-q10" data-q="10" placeholder="10" style="width:130px"></span><button class="locate-btn" data-q="10">&#128269;</button></li>
+            <li><span id="q-target-11"><input class="blank-input" id="blank-q11" data-q="11" placeholder="11" style="width:130px"></span><button class="locate-btn" data-q="11">&#128269;</button> are also collected</li>
+            <li>both undergo trials</li>
+          </ul>
+          <p><strong>Possible reasons why &lsquo;bigger&rsquo; is not always &lsquo;better&rsquo;:</strong></p>
+          <ul style="margin:6px 0 6px 20px;padding:0;">
+            <li>the number and type of predatory fish on the reef can vary from place to place</li>
+            <li>physical features (e.g. <span id="q-target-12"><input class="blank-input" id="blank-q12" data-q="12" placeholder="12" style="width:100px"></span><button class="locate-btn" data-q="12">&#128269;</button>) affect which prey a predator can eat</li>
+            <li>optimal foraging theory suggests that the most common choice of prey should be <span id="q-target-13"><input class="blank-input" id="blank-q13" data-q="13" placeholder="13" style="width:130px"></span><button class="locate-btn" data-q="13">&#128269;</button> in size</li>
+            <li>large juvenile fish may swim slowly and so may be targeted more often</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 2 Qs -->
+    <div class="q-panel" id="qpanel-1">
+      <div class="q-section">
+        <div class="q-section-title">Questions 14&ndash;19</div>
+        <div class="q-instruction">Reading Passage 2 has nine paragraphs, A&ndash;I. Which paragraph contains the following information?</div>
+        <table class="radio-grid-table" id="rgt-14-19">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Information</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th><th class="rgt-opt">D</th>
+            <th class="rgt-opt">E</th><th class="rgt-opt">F</th><th class="rgt-opt">G</th><th class="rgt-opt">H</th><th class="rgt-opt">I</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-14"><td class="rgt-num">14</td><td class="rgt-stmt">a reference to studies based on the same level of calorie reduction with different animals</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="14" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="14">&#128269;</button></td></tr>
+            <tr id="q-target-15"><td class="rgt-num">15</td><td class="rgt-stmt">a comment that some control monkeys in one study reached an older age than normal for animals of their kind</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="15" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="15">&#128269;</button></td></tr>
+            <tr id="q-target-16"><td class="rgt-num">16</td><td class="rgt-stmt">distinctions between the types of food in each study that may have led to a contrast in findings</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="16" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="16">&#128269;</button></td></tr>
+            <tr id="q-target-17"><td class="rgt-num">17</td><td class="rgt-stmt">examples of health problems which monkeys on calorie-restricted diets were less likely to get</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="17" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="17">&#128269;</button></td></tr>
+            <tr id="q-target-18"><td class="rgt-num">18</td><td class="rgt-stmt">a researcher&rsquo;s negative opinion of a calorie-restricted diet</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="18" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="18">&#128269;</button></td></tr>
+            <tr id="q-target-19"><td class="rgt-num">19</td><td class="rgt-stmt">a reference to the stage in the monkeys&rsquo; lives at which research commenced in one study</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="D"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="E"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="F"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="G"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="H"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="19" data-val="I"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="19">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="q-section">
+        <div class="q-section-title">Questions 20&ndash;23</div>
+        <div class="q-instruction">Match each statement with the correct researcher, A&ndash;C. You may use any letter more than once.</div>
+        <div class="notes-box" style="line-height:1.6;">
+          <div><strong>A.</strong> Rozalyn Anderson &nbsp;&nbsp;<strong>B.</strong> Julie Mattison &nbsp;&nbsp;<strong>C.</strong> Leonie Heilbronn</div>
+        </div>
+        <table class="radio-grid-table" id="rgt-20-23">
+          <thead><tr>
+            <th class="rgt-num">#</th><th class="rgt-stmt">Statement</th>
+            <th class="rgt-opt">A</th><th class="rgt-opt">B</th><th class="rgt-opt">C</th>
+            <th class="rgt-loc"></th>
+          </tr></thead>
+          <tbody>
+            <tr id="q-target-20"><td class="rgt-num">20</td><td class="rgt-stmt">It is good that the two studies took dissimilar approaches.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="20" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="20">&#128269;</button></td></tr>
+            <tr id="q-target-21"><td class="rgt-num">21</td><td class="rgt-stmt">Neither study used diets that are typical for monkeys.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="21" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="21">&#128269;</button></td></tr>
+            <tr id="q-target-22"><td class="rgt-num">22</td><td class="rgt-stmt">Calorie restriction is a method of finding out about health issues connected with ageing.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="22" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="22">&#128269;</button></td></tr>
+            <tr id="q-target-23"><td class="rgt-num">23</td><td class="rgt-stmt">Calorie reduction will have a positive effect on people who have unhealthy diets.</td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="A"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="B"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-opt"><button class="rgt-radio" data-q="23" data-val="C"><span class="rgt-dot"></span></button></td>
+              <td class="rgt-loc"><button class="locate-btn" data-q="23">&#128269;</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="q-section">
+        <div class="q-section-title">Questions 24&ndash;26</div>
+        <div class="q-instruction">Complete the summary below. Write ONE WORD ONLY from the passage for each answer.</div>
+        <div class="notes-box">
+          <h4>Agreement between the two studies on calorie restriction in rhesus monkeys</h4>
+          <p>The two studies were in agreement that it is beneficial to cut calories, in terms of health. Monkeys whose calories were restricted suffered fewer diseases that are associated with the <span id="q-target-24"><input class="blank-input" id="blank-q24" data-q="24" placeholder="24" style="width:90px"></span><button class="locate-btn" data-q="24">&#128269;</button> process. Anderson and Mattison have undertaken research to determine if a calorie-restricted diet increases primates&rsquo; <span id="q-target-25"><input class="blank-input" id="blank-q25" data-q="25" placeholder="25" style="width:90px"></span><button class="locate-btn" data-q="25">&#128269;</button>. Although there is a <span id="q-target-26"><input class="blank-input" id="blank-q26" data-q="26" placeholder="26" style="width:90px"></span><button class="locate-btn" data-q="26">&#128269;</button> between the two sets of data, Anderson believes they will help researchers reach a better understanding.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSAGE 3 Qs -->
+    <div class="q-panel" id="qpanel-2">
+      <div class="q-section">
+        <div class="q-section-title">Questions 27&ndash;31</div>
+        <div class="q-instruction">Complete the summary using the list of words A&ndash;K below. Drag each word to the correct gap.</div>
+        <div class="word-bank-pool" id="word-bank-pool">
+          <div class="draggable-card" draggable="true" data-word="A" id="card-A">A &ndash; eggs</div>
+          <div class="draggable-card" draggable="true" data-word="B" id="card-B">B &ndash; location</div>
+          <div class="draggable-card" draggable="true" data-word="C" id="card-C">C &ndash; hooded eyes</div>
+          <div class="draggable-card" draggable="true" data-word="D" id="card-D">D &ndash; the wild</div>
+          <div class="draggable-card" draggable="true" data-word="E" id="card-E">E &ndash; body heat</div>
+          <div class="draggable-card" draggable="true" data-word="F" id="card-F">F &ndash; winter sleep</div>
+          <div class="draggable-card" draggable="true" data-word="G" id="card-G">G &ndash; captivity</div>
+          <div class="draggable-card" draggable="true" data-word="H" id="card-H">H &ndash; live young</div>
+          <div class="draggable-card" draggable="true" data-word="I" id="card-I">I &ndash; digestive process</div>
+          <div class="draggable-card" draggable="true" data-word="J" id="card-J">J &ndash; small legs</div>
+          <div class="draggable-card" draggable="true" data-word="K" id="card-K">K &ndash; warmer areas</div>
+        </div>
+        <div class="summary-box">
+          <strong>Characteristics of New Zealand skinks</strong><br><br>
+          There are three kinds of reptiles in New Zealand: the tuatara, the gecko and the skink. Skinks are easily distinguished from these other natives by their shiny scale and
+          <span class="drop-zone" id="q-target-27" data-q="27"><span class="dz-text">27</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="27">&#128269;</button>.
+          In common with other reptiles, the grand and Otago species of skink have cold blood and therefore
+          <span class="drop-zone" id="q-target-28" data-q="28"><span class="dz-text">28</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="28">&#128269;</button>
+          must be externally controlled. They are unique in that they do not require a long
+          <span class="drop-zone" id="q-target-29" data-q="29"><span class="dz-text">29</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="29">&#128269;</button>.
+          Many species are yet to be identified, and identification depends primarily on their
+          <span class="drop-zone" id="q-target-30" data-q="30"><span class="dz-text">30</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="30">&#128269;</button>
+          and extremely small physical differences. In
+          <span class="drop-zone" id="q-target-31" data-q="31"><span class="dz-text">31</span><span class="remove-chip">&#10005;</span></span><button class="locate-btn" data-q="31">&#128269;</button>,
+          skinks may potentially live for about 30 years.
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 32&ndash;36</div>
+        <div class="q-instruction">Choose YES, NO, or NOT GIVEN.</div>
+        <div class="q-item" id="q-target-32">
+          <div class="q-label"><span class="q-num">32</span><span>The DOC project to remove feral cats helped stop the decline in Otago skink numbers.</span><button class="locate-btn" data-q="32">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="32" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="32" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="32" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-33">
+          <div class="q-label"><span class="q-num">33</span><span>Parasite infections are having a serious effect on the physical condition of wild skinks.</span><button class="locate-btn" data-q="33">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="33" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="33" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="33" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-34">
+          <div class="q-label"><span class="q-num">34</span><span>The best possible habitat for the conservation of skinks is unknown.</span><button class="locate-btn" data-q="34">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="34" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="34" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="34" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-35">
+          <div class="q-label"><span class="q-num">35</span><span>It is possible that skinks used to have larger numbers of young than they do now.</span><button class="locate-btn" data-q="35">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="35" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="35" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="35" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+        <div class="q-item" id="q-target-36">
+          <div class="q-label"><span class="q-num">36</span><span>The survival of the common species of skink may soon be at risk.</span><button class="locate-btn" data-q="36">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="36" data-val="YES"><span class="radio-circle"></span>YES</button>
+          <button class="mc-opt-btn" data-q="36" data-val="NO"><span class="radio-circle"></span>NO</button>
+          <button class="mc-opt-btn" data-q="36" data-val="NOT GIVEN"><span class="radio-circle"></span>NOT GIVEN</button>
+        </div>
+      </div>
+
+      <div class="q-section">
+        <div class="q-section-title">Questions 37&ndash;40</div>
+        <div class="q-instruction">Choose the correct answer.</div>
+        <div class="q-item" id="q-target-37">
+          <div class="q-label"><span class="q-num">37</span><span>According to the sixth paragraph, what is being said about the future of the grand and Otago skinks?</span><button class="locate-btn" data-q="37">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="37" data-val="A"><span class="radio-circle"></span>A More data is necessary in order for DOC to target the right areas.</button>
+          <button class="mc-opt-btn" data-q="37" data-val="B"><span class="radio-circle"></span>B DOC is uncertain how long a new strategy will take to be effective.</button>
+          <button class="mc-opt-btn" data-q="37" data-val="C"><span class="radio-circle"></span>C There is a considerable risk that DOC will not succeed in saving them.</button>
+          <button class="mc-opt-btn" data-q="37" data-val="D"><span class="radio-circle"></span>D The first step in DOC&rsquo;s strategy is to identify their main predator.</button>
+        </div>
+        <div class="q-item" id="q-target-38">
+          <div class="q-label"><span class="q-num">38</span><span>According to the writer, a problem with the DOC&rsquo;s fencing project was that</span><button class="locate-btn" data-q="38">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="38" data-val="A"><span class="radio-circle"></span>A the fence needed to surround various kinds of habitat.</button>
+          <button class="mc-opt-btn" data-q="38" data-val="B"><span class="radio-circle"></span>B the fence was not the preferred choice of some conservationists.</button>
+          <button class="mc-opt-btn" data-q="38" data-val="C"><span class="radio-circle"></span>C the fence had to be constructed near a heavily populated urban area.</button>
+          <button class="mc-opt-btn" data-q="38" data-val="D"><span class="radio-circle"></span>D there was no way of knowing how many skinks were inside the fence.</button>
+        </div>
+        <div class="q-item" id="q-target-39">
+          <div class="q-label"><span class="q-num">39</span><span>The writer uses the phrase &lsquo;a last resort&rsquo; in the eighth paragraph in order to</span><button class="locate-btn" data-q="39">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="39" data-val="A"><span class="radio-circle"></span>A introduce a recent alternative approach to skink conservation.</button>
+          <button class="mc-opt-btn" data-q="39" data-val="B"><span class="radio-circle"></span>B question whether captive breeding has worked in the past.</button>
+          <button class="mc-opt-btn" data-q="39" data-val="C"><span class="radio-circle"></span>C imply that skinks are unlikely to reproduce outside their usual habitat.</button>
+          <button class="mc-opt-btn" data-q="39" data-val="D"><span class="radio-circle"></span>D express a preference for conserving skinks in their natural environment.</button>
+        </div>
+        <div class="q-item" id="q-target-40">
+          <div class="q-label"><span class="q-num">40</span><span>What is the writer doing in the final paragraph?</span><button class="locate-btn" data-q="40">&#128269; Locate</button></div>
+          <button class="mc-opt-btn" data-q="40" data-val="A"><span class="radio-circle"></span>A referring to obstacles in the way of skink conservation</button>
+          <button class="mc-opt-btn" data-q="40" data-val="B"><span class="radio-circle"></span>B appealing to landowners to donate land for conservation purposes</button>
+          <button class="mc-opt-btn" data-q="40" data-val="C"><span class="radio-circle"></span>C describing a conservation scheme that is being set up on farmland</button>
+          <button class="mc-opt-btn" data-q="40" data-val="D"><span class="radio-circle"></span>D showing how commercial profit can be made from ecological ventures</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /right-pane -->
+</div><!-- /split -->
+
+<div id="footer-nav">
+  <span class="nav-label">Q:</span>
+  <div id="nav-grid"></div>
+  <div id="font-controls">
+    <span>Font:</span>
+    <button id="btn-font-up">A+</button>
+    <button id="btn-font-dn">A&minus;</button>
+  </div>
+</div>
+</div><!-- /app -->
+
+<div id="highlight-menu">
+  <button style="background:#fef08a" onclick="applyHighlight('highlight-yellow')"></button>
+  <button style="background:#bbf7d0" onclick="applyHighlight('highlight-green')"></button>
+  <button style="background:#fbcfe8" onclick="applyHighlight('highlight-pink')"></button>
+  <button class="erase-btn" onclick="applyHighlight('erase')">&#10005;</button>
+</div>
+
+<div id="result-modal">
+  <div id="result-box">
+    <h2>Your Result</h2>
+    <div id="result-score">0/40</div>
+    <div id="result-band">Band: &ndash;</div>
+    <div id="result-breakdown"></div>
+    <button id="btn-close-modal">Review Answers</button>
+  </div>
+</div>
+
+<script>
+const ANSWERS={1:'FALSE',2:'TRUE',3:'FALSE',4:'NOT GIVEN',5:'open ocean',6:'reef',7:'mortality',8:'new moon',9:'laboratory',10:'artificial light',11:'predatory fish',12:'mouth size',13:'medium-sized',14:'B',15:'G',16:'E',17:'C',18:'A',19:'D',20:'A',21:'C',22:'A',23:'B',24:'ageing',25:'lifespan',26:'conflict',27:'J',28:'E',29:'F',30:'B',31:'G',32:'NO',33:'NO',34:'YES',35:'NOT GIVEN',36:'YES',37:'C',38:'A',39:'D',40:'C'};
+const Q_PASSAGE={1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0,11:0,12:0,13:0,14:1,15:1,16:1,17:1,18:1,19:1,20:1,21:1,22:1,23:1,24:1,25:1,26:1,27:2,28:2,29:2,30:2,31:2,32:2,33:2,34:2,35:2,36:2,37:2,38:2,39:2,40:2};
+
+let userAnswers={},submitted=false,timerSeconds=3600,timerPaused=false,timerInterval;
+let baseFontSize=14;
+
+function normalizeAnswer(s){
+  return s.trim().toLowerCase().replace(/[\u2018\u2019]/g,"'").replace(/[\u2013\u2014]/g,'-').replace(/\s+/g,' ');
+}
+function checkAnswer(user,correct){
+  const u=normalizeAnswer(user),c=normalizeAnswer(correct);
+  if(u===c)return true;
+  if(u.replace(/-/g,' ')===c.replace(/-/g,' '))return true;
+  if(c.includes(' / ')){const parts=c.split(' / ');for(const p of parts){if(u===normalizeAnswer(p))return true;}}
+  return false;
+}
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function startTimer(){
+  timerInterval=setInterval(()=>{
+    if(!timerPaused){
+      timerSeconds--;
+      document.getElementById('timer').textContent=formatTime(timerSeconds);
+      if(timerSeconds<=0){clearInterval(timerInterval);submitExam();}
+      if(timerSeconds<=300)document.getElementById('timer').style.color='#ef4444';
+    }
+  },1000);
+}
+document.getElementById('btn-pause').addEventListener('click',()=>{
+  timerPaused=!timerPaused;
+  document.getElementById('btn-pause').innerHTML=timerPaused?'&#9654; Resume':'&#9208; Pause';
+});
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const t=parseInt(btn.dataset.target);
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.passage-panel').forEach((p,i)=>p.classList.toggle('active',i===t));
+    document.querySelectorAll('.q-panel').forEach((p,i)=>{p.style.display=i===t?'block':'none';p.classList.toggle('active',i===t);});
+  });
+});
+function buildNav(){
+  const grid=document.getElementById('nav-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=40;i++){
+    const btn=document.createElement('button');
+    btn.textContent=i;btn.id='nav-'+i;
+    if(userAnswers[i]!==undefined&&userAnswers[i]!=='')btn.classList.add('answered');
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn')[Q_PASSAGE[i]].click();
+      setTimeout(()=>{
+        const el=document.getElementById('q-target-'+i);
+        if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+        btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),1500);
+      },120);
+    });
+    grid.appendChild(btn);
+  }
+}
+buildNav();
+function updateNav(q){
+  const btn=document.getElementById('nav-'+q);
+  if(!btn)return;
+  if(userAnswers[q]!==undefined&&userAnswers[q]!=='')btn.classList.add('answered');
+  else btn.classList.remove('answered');
+}
+document.querySelectorAll('.mc-opt-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.mc-opt-btn[data-q="'+btn.dataset.q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.rgt-radio').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(submitted)return;
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');userAnswers[q]=btn.dataset.val;updateNav(q);
+  });
+});
+document.querySelectorAll('.blank-input').forEach(inp=>{
+  inp.addEventListener('input',()=>{
+    if(submitted)return;
+    const q=parseInt(inp.dataset.q);
+    userAnswers[q]=inp.value.trim();updateNav(q);
+  });
+});
+// Heading DnD
+let dragHeadingData=null;
+document.querySelectorAll('.heading-chip').forEach(chip=>{
+  chip.addEventListener('dragstart',e=>{
+    if(submitted)return;
+    dragHeadingData={heading:chip.dataset.heading,chipId:chip.id};
+    chip.classList.add('dragging');e.dataTransfer.effectAllowed='move';
+  });
+  chip.addEventListener('dragend',()=>chip.classList.remove('dragging'));
+});
+document.querySelectorAll('.heading-dropzone').forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag-over');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
+  zone.addEventListener('drop',e=>{
+    e.preventDefault();zone.classList.remove('drag-over');
+    if(submitted||!dragHeadingData)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById(prev);if(pc)pc.classList.remove('used');}
+    const chip=document.getElementById(dragHeadingData.chipId);
+    if(chip)chip.classList.add('used');
+    zone.dataset.filled=dragHeadingData.chipId;
+    zone.dataset.heading=dragHeadingData.heading;
+    zone.classList.add('filled');
+    const chipTxt=chip?chip.textContent.replace(/^[ivxlcdm]+\.\s*/i,'').trim():dragHeadingData.heading;
+    zone.querySelector('.hdz-text').textContent=dragHeadingData.heading+'. '+chipTxt;
+    const q=parseInt(zone.dataset.q);userAnswers[q]=dragHeadingData.heading;updateNav(q);dragHeadingData=null;
+  });
+  zone.querySelector('.hdz-remove').addEventListener('click',e=>{
+    e.stopPropagation();if(submitted)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById(prev);if(pc)pc.classList.remove('used');}
+    zone.dataset.filled='';zone.dataset.heading='';zone.classList.remove('filled');
+    zone.querySelector('.hdz-text').textContent='Drop heading here';
+    const q=parseInt(zone.dataset.q);delete userAnswers[q];updateNav(q);
+  });
+});
+function getBand(s){
+  if(s>=39)return'9.0';if(s>=37)return'8.5';if(s>=35)return'8.0';if(s>=33)return'7.5';
+  if(s>=30)return'7.0';if(s>=27)return'6.5';if(s>=23)return'6.0';if(s>=19)return'5.5';
+  if(s>=15)return'5.0';if(s>=13)return'4.5';if(s>=10)return'4.0';return'3.5';
+}
+function submitExam(){
+  if(submitted)return;
+  submitted=true;clearInterval(timerInterval);
+  let correct=0,p1=0,p2=0,p3=0;
+  for(let q=1;q<=40;q++){
+    const ans=ANSWERS[q];
+    const user=(userAnswers[q]||'').trim();
+    const ok=checkAnswer(user,ans);
+    if(ok){correct++;if(q<=13)p1++;else if(q<=26)p2++;else p3++;}
+    const inp=document.getElementById('blank-q'+q);
+    if(inp&&inp.tagName==='INPUT'){
+      inp.disabled=true;inp.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        const lbl=document.createElement('span');lbl.className='blank-correct-label';
+        lbl.textContent='\u2713 '+ans;lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+        inp.insertAdjacentElement('afterend',lbl);
+      }
+    }
+    document.querySelectorAll('.mc-opt-btn[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    document.querySelectorAll('.rgt-radio[data-q="'+q+'"]').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.val.toLowerCase()===ans.toLowerCase())b.classList.add('correct');
+      else if(b.classList.contains('selected'))b.classList.add('wrong');
+    });
+    const rgtRow=document.getElementById('q-target-'+q);
+    if(rgtRow&&rgtRow.tagName==='TR')rgtRow.classList.add(ok?'row-correct':'row-wrong');
+    const hdz=document.querySelector('.heading-dropzone[data-q="'+q+'"]');
+    if(hdz){
+      hdz.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        const lbl=document.createElement('span');lbl.className='hdz-correct-label';
+        lbl.textContent='\u2713 '+ans;lbl.style.cssText='font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;';
+        hdz.insertAdjacentElement('afterend',lbl);
+      }
+    }
+    // DnD drop zones
+    const dz=document.getElementById('q-target-'+q);
+    if(dz&&dz.classList.contains('drop-zone')){
+      dz.classList.add(ok?'correct':'wrong');
+      if(!ok){
+        const lbl=document.createElement('span');lbl.className='correct-answer-label';
+        lbl.textContent='✓ '+ans+' – '+getWordLabel(ans);
+        dz.insertAdjacentElement('afterend',lbl);
+      }
+    }
+    const nb=document.getElementById('nav-'+q);
+    if(nb){nb.classList.remove('answered');nb.classList.add(ok?'correct-nav':'wrong-nav');}
+    if(!ok)document.querySelectorAll('.locate-btn[data-q="'+q+'"]').forEach(lb=>lb.classList.add('visible'));
+  }
+  document.querySelectorAll('.draggable-card').forEach(c=>c.setAttribute('draggable','false'));
+  document.getElementById('result-score').textContent=correct+'/40';
+  document.getElementById('result-band').textContent='Band Score: '+getBand(correct);
+  document.getElementById('result-breakdown').innerHTML=
+    '<div><span>Passage 1 (Q1\u201313)</span><span>'+p1+'/13</span></div>'+
+    '<div><span>Passage 2 (Q14\u201326)</span><span>'+p2+'/13</span></div>'+
+    '<div><span>Passage 3 (Q27\u201340)</span><span>'+p3+'/14</span></div>';
+  document.getElementById('result-modal').classList.add('show');
+}
+document.getElementById('btn-submit-exam').addEventListener('click',submitExam);
+document.getElementById('btn-close-modal').addEventListener('click',()=>document.getElementById('result-modal').classList.remove('show'));
+document.querySelectorAll('.locate-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const q=parseInt(btn.dataset.q);
+    document.querySelectorAll('.tab-btn')[Q_PASSAGE[q]].click();
+    setTimeout(()=>{
+      document.querySelectorAll('.loc-highlight').forEach(el=>el.classList.remove('loc-highlight'));
+      const locEls=document.querySelectorAll('.loc-q'+q);
+      if(locEls.length===0)return;
+      let best=locEls[0];
+      locEls.forEach(el=>{if(el.textContent.trim().length<best.textContent.trim().length)best=el;});
+      if(best.textContent.trim().length>200){
+        const children=best.querySelectorAll('span');
+        children.forEach(child=>{const t=child.textContent.trim();if(t.length>=15&&t.length<best.textContent.trim().length)best=child;});
+      }
+      if(best.textContent.trim().length>200){
+        const answerKey=ANSWERS[q]?ANSWERS[q].toLowerCase():'';
+        const sentences=best.textContent.split(/(?<=[.!?])\s+/);
+        let bestSentence=null,bestLen=9999;
+        sentences.forEach(s=>{const st=s.trim();if(st.length>=20&&st.length<200){if(answerKey&&st.toLowerCase().includes(answerKey)){if(st.length<bestLen){bestSentence=st;bestLen=st.length;}}else if(!bestSentence&&st.length<bestLen){bestSentence=st;bestLen=st.length;}}});
+        if(bestSentence){
+          const walker=document.createTreeWalker(best,NodeFilter.SHOW_TEXT,null);
+          let node;const searchStr=bestSentence.substring(0,30);
+          while((node=walker.nextNode())){const idx=node.textContent.indexOf(searchStr);if(idx>=0){try{const range=document.createRange();range.setStart(node,idx);range.setEnd(node,Math.min(idx+bestSentence.length,node.textContent.length));const mark=document.createElement('span');mark.className='loc-highlight';mark.dataset.temp='1';range.surroundContents(mark);mark.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>{const parent=mark.parentNode;if(parent){while(mark.firstChild)parent.insertBefore(mark.firstChild,mark);parent.removeChild(mark);}},4000);return;}catch(e){}}}
+        }
+      }
+      best.classList.add('loc-highlight');
+      best.scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(()=>best.classList.remove('loc-highlight'),4000);
+    },150);
+  });
+});
+document.getElementById('btn-font-up').addEventListener('click',()=>{baseFontSize=Math.min(20,baseFontSize+1);document.getElementById('left-pane').style.fontSize=baseFontSize+'px';document.getElementById('right-pane').style.fontSize=baseFontSize+'px';});
+document.getElementById('btn-font-dn').addEventListener('click',()=>{baseFontSize=Math.max(11,baseFontSize-1);document.getElementById('left-pane').style.fontSize=baseFontSize+'px';document.getElementById('right-pane').style.fontSize=baseFontSize+'px';});
+let highlightMenu=document.getElementById('highlight-menu'),savedRange=null;
+document.addEventListener('mouseup',(e)=>{
+  if(highlightMenu.contains(e.target))return;
+  const sel=window.getSelection();
+  if(sel&&sel.toString().trim().length>0){
+    const range=sel.getRangeAt(0);
+    const lp=document.getElementById('left-pane'),rp=document.getElementById('right-pane');
+    if(lp.contains(range.commonAncestorContainer)||rp.contains(range.commonAncestorContainer)){
+      savedRange=range.cloneRange();
+      const rect=range.getBoundingClientRect();
+      highlightMenu.style.display='flex';
+      highlightMenu.style.left=(rect.left+rect.width/2-60)+'px';
+      highlightMenu.style.top=(rect.top-44+window.scrollY)+'px';
+      return;
+    }
+  }
+  highlightMenu.style.display='none';savedRange=null;
+});
+function applyHighlight(cls){
+  highlightMenu.style.display='none';
+  if(!savedRange)return;
+  if(cls==='erase'){window.getSelection().removeAllRanges();window.getSelection().addRange(savedRange);document.execCommand('removeFormat');savedRange=null;return;}
+  const span=document.createElement('span');span.className=cls;
+  try{savedRange.surroundContents(span);}catch(e){const frag=savedRange.extractContents();span.appendChild(frag);savedRange.insertNode(span);}
+  window.getSelection().removeAllRanges();savedRange=null;
+}
+const handle=document.getElementById('resize-handle'),leftPane=document.getElementById('left-pane');
+let isResizing=false;
+handle.addEventListener('mousedown',(e)=>{isResizing=true;e.preventDefault();});
+document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const split=document.getElementById('split');const rect=split.getBoundingClientRect();leftPane.style.width=Math.max(200,Math.min(rect.width-200,e.clientX-rect.left))+'px';});
+document.addEventListener('mouseup',()=>{isResizing=false;});
+
+// DnD word bank Q27-31
+function getWordLabel(w){
+  const map={A:'eggs',B:'location',C:'hooded eyes',D:'the wild',E:'body heat',F:'winter sleep',G:'captivity',H:'live young',I:'digestive process',J:'small legs',K:'warmer areas'};
+  return map[w]||w;
+}
+let dragWord=null;
+document.querySelectorAll('.draggable-card').forEach(card=>{
+  card.addEventListener('dragstart',e=>{
+    if(submitted)return;
+    dragWord=card.dataset.word;card.classList.add('dragging');e.dataTransfer.effectAllowed='move';
+  });
+  card.addEventListener('dragend',()=>card.classList.remove('dragging'));
+});
+document.querySelectorAll('.drop-zone').forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag-over');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));
+  zone.addEventListener('drop',e=>{
+    e.preventDefault();zone.classList.remove('drag-over');
+    if(submitted||!dragWord)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById('card-'+prev);if(pc)pc.classList.remove('used');}
+    const card=document.getElementById('card-'+dragWord);
+    if(card)card.classList.add('used');
+    zone.dataset.filled=dragWord;zone.classList.add('filled');
+    zone.querySelector('.dz-text').textContent=dragWord+' – '+getWordLabel(dragWord);
+    const q=parseInt(zone.dataset.q);userAnswers[q]=dragWord;updateNav(q);dragWord=null;
+  });
+  zone.querySelector('.remove-chip').addEventListener('click',e=>{
+    e.stopPropagation();if(submitted)return;
+    const prev=zone.dataset.filled;
+    if(prev){const pc=document.getElementById('card-'+prev);if(pc)pc.classList.remove('used');}
+    zone.dataset.filled='';zone.classList.remove('filled');
+    zone.querySelector('.dz-text').textContent=zone.dataset.q;
+    const q=parseInt(zone.dataset.q);delete userAnswers[q];updateNav(q);
+  });
+});
+
+startTimer();
+</script>
+</body>
+</html>
